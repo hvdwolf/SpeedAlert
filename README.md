@@ -6,14 +6,14 @@ This app uses your GPS to get exact location and speed and then uses the [Overpa
 This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".
 ### Note: You use this app entirely at your own risk. I am not responsible for incorrect functioning or incorrect use of the app. All responsibility for use, or incorrect use, lies entirely with you! Always follow the specified (temporary) speed limits and drive responsibly.
 
-# App Permissions
+## App Permissions
 \- It needs access to your exact location (during use of the App). Otherwise it can't check your location and if you are overspeeding or not.<br>
 \- It needs access to notifications to push notifications and toasts to your screen.<br>
 \- When using an overlay, it needs the "show over other apps" permission.<br>
 **This app does not collect, store or share any personal information. It is 100% privacy friendly.**
 
-# Partial Screenshots
-*(Note: The screen automatically follows the system day-night mode. Here you see the day mode.)*<br>
+## Screenshots
+*(Note: The screen automatically follows the system day-night mode. Here you see two examples.)*<br>
 **Dark mode, disclaimer expanded**<br>
 ![](./images/screen_expanded_dark.jpg)<br>
 **Day mode, disclaimer collapsed**<br>
@@ -38,14 +38,15 @@ Buttons that might need an explanation:
 
 
 
-# Installation
+## Installation
 Just download it from [Github](https://github.com/hvdwolf/SpeedAlert/releases/latest) and then side-load the application from your file manager.<br>(Note: When Google asks you to scan the app, then do so. My app is signed and should be OK, but we live in dangerous times).<br>
 
-# Releases
+## Releases
 The releases are done via [my github](https://github.com/hvdwolf/SpeedAlert/releases/latest).<br>
-The app should run on Android 8.1 to 14, but I only tested on my DuDu7 running Android 13/SDK33.
+The app should run on Android 8.1 to 14, but I only tested on my DuDu7 running Android 13/SDK33.<br>
+*(Technically it should also run on mtcd/mtce type units, all fyt units and TS10/TS18 units)*
 
-# Translations
+## Translations
 I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, da, de, es, fr, it, nl, pl, pt, ru, uk, vi.<br>
 If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/values/strings.xml), translate it (note the multi-line disclaimer) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to \<language\>:"  and then copy the text behibd it. It saves you a lot of typing. Only some correcting if necessary.<br>
 If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/) and improve the translation. _(I think it did a pretty nice job for my own Dutch language)_
@@ -54,7 +55,7 @@ If you think your language is badly translated, download the strings.xml from yo
 
 Copyleft 2026 Harry van der Wolf (surfer63), MIT License.<br>
 
-#MIT License
+## MIT License
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights

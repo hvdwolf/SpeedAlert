@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_name">SpeedAlert</string>
+
     <!-- First we do the strings inside the xml files which are used for the screen -->
     <!-- Disclaimer -->
     <string name="disclaimer_header">Disclaimer (tap to expand)</string>
@@ -68,5 +70,10 @@
     <string name="notif_running_text">Updating speed limit…</string>
 
     <!-- End of the strings which are created in the kt files -->
+
+    <!-- Start of later added strings. Cleanup later -->
+    <string name="broadcast_switch_label">Broadcast speed to MediaSession</string>
+    <string name="media_no_limit">No limit</string>
+    <string name="media_limit_prefix">Limit:</string>
 
 </resources>

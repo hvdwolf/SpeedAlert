@@ -69,4 +69,9 @@
 
     <!-- End of the strings which are created in the kt files -->
 
+    <!-- Start of later added strings. Cleanup later -->
+    <string name="broadcast_switch_label">Broadcast de snelheid naar de MediaSessie</string>
+    <string name="media_no_limit">Geen limiet</string>
+    <string name="media_limit_prefix">Limiet:</string>
+
 </resources>

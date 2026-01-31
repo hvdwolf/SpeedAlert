@@ -193,6 +193,12 @@ class MainActivity : ComponentActivity() {
             sendOverlayUpdate()
         }
 
+        binding.switchBroadcast.isChecked = settings.isBroadcastEnabled()
+        binding.switchBroadcast.setOnCheckedChangeListener { _, checked ->
+            settings.setBroadcastEnabled(checked)
+            sendOverlayUpdate() // also triggers service to refresh MediaSession
+        }
+
         binding.switchMph.setOnCheckedChangeListener { _, checked ->
             settings.setUseMph(checked)
             sendOverlayUpdate()

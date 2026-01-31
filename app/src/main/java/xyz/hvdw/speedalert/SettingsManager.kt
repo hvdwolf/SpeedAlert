@@ -38,6 +38,14 @@ class SettingsManager(context: Context) {
     fun setSemiTransparent(enabled: Boolean) =
         prefs.edit { putBoolean("semi_transparent", enabled) }
 
+    fun setBroadcastEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean("broadcast_enabled", enabled).apply()
+    }
+
+    fun isBroadcastEnabled(): Boolean {
+        return prefs.getBoolean("broadcast_enabled", false)
+    }
+
     fun setUseMph(enabled: Boolean) {
         prefs.edit().putBoolean("use_mph", enabled).apply()
     }

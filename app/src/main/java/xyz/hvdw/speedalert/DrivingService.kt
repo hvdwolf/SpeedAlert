@@ -23,6 +23,7 @@ class DrivingService : Service() {
 
     private var mediaPlayer: MediaPlayer? = null
     private var speedometer: FloatingSpeedometer? = null
+    private var mediaBroadcast: MediaBroadcastManager? = null
 
     private var lastLimit: Int? = null
     private var lastLimitFetchTime = 0L
@@ -61,6 +62,11 @@ class DrivingService : Service() {
         if (settings.getShowSpeedometer()) {
             speedometer = FloatingSpeedometer(this, settings)
             speedometer?.show()
+        }
+
+        if (settings.isBroadcastEnabled()) {
+            mediaBroadcast = MediaBroadcastManager(this)
+            mediaBroadcast?.start()
         }
 
         initMediaPlayer()
@@ -141,6 +147,16 @@ class DrivingService : Service() {
             return
         }
 
+        if (settings.isBroadcastEnabled()) {
+            mediaBroadcast?.updateMetadata(
+                appName = getString(R.string.app_name),
+                speed = intSpeed,
+                limit = limit,
+                useMph = settings.getUseMph()
+            )
+        }
+
+
         val overshootPercent = settings.getOverspeedPercentage()
         val threshold = limit * (1 + overshootPercent / 100.0)
         val isOverspeed = filteredSpeed > threshold
@@ -180,6 +196,7 @@ class DrivingService : Service() {
         mediaPlayer?.release()
         speedometer?.hide()
         scope.cancel()
+        mediaBroadcast?.stop()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

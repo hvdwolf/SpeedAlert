@@ -69,4 +69,9 @@
 
     <!-- End of the strings which are created in the kt files -->
 
+    <!-- Start of later added strings. Cleanup later -->
+    <string name="broadcast_switch_label">Broadcast speed to MediaSession</string>
+    <string name="media_no_limit">No limit</string>
+    <string name="media_limit_prefix">Limit:</string>
+
 </resources>

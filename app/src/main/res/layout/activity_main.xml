@@ -9,111 +9,257 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtDisclaimerHeader"
+        <!-- Disclaimer Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/disclaimer_header"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="#FF00"
-            android:padding="8dp" />
+            android:layout_marginBottom="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
-        <TextView
-            android:id="@+id/txtDisclaimerBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#FF00"
-            android:text="@string/disclaimer_body"
-            android:padding="8dp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnStart"
-            android:text="@string/btn_start_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnStop"
-            android:text="@string/btn_stop_service"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
-
-        <Switch
-            android:id="@+id/switchSpeedo"
-            android:text="@string/switch_show_speedo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
-
-        <Switch
-            android:id="@+id/switchTransparency"
-            android:text="@string/switch_transparency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Switch
-            android:id="@+id/switchMph"
-            android:text="@string/switch_use_mph"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textOverspeedValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5%"
-            android:textSize="18sp"
-            android:paddingBottom="8dp" />
-
-        <com.google.android.material.slider.Slider
-                android:id="@+id/sliderOverspeed"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:valueFrom="0"
-                android:valueTo="25"
-                android:stepSize="1"
-                android:value="5" />
+                android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnSavePercent"
-            android:text="@string/btn_save_percent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/txtDisclaimerHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/disclaimer_header"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#FF00"
+                    android:padding="8dp" />
 
-        <Button
-            android:id="@+id/btnSelectSound"
-            android:text="@string/btn_select_sound"
+                <TextView
+                    android:id="@+id/txtDisclaimerBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF00"
+                    android:text="@string/disclaimer_body"
+                    android:padding="8dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Service Controls -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginBottom="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
-        <Button
-            android:id="@+id/btnResetSound"
-            android:text="@string/btn_reset_sound"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnStart"
+                    android:text="@string/btn_start_service"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btnStop"
+                    android:text="@string/btn_stop_service"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Speedometer Settings -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginBottom="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
-        <Button
-            android:id="@+id/btnTestSound"
-            android:text="@string/btn_test_sound"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnTestToast"
-            android:text="@string/btn_test_toast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <Switch
+                    android:id="@+id/switchSpeedo"
+                    android:text="@string/switch_show_speedo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
 
-        <Button
-            android:id="@+id/btnTestNotification"
-            android:text="@string/btn_test_notification"
+                <Switch
+                    android:id="@+id/switchTransparency"
+                    android:text="@string/switch_transparency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+
+                <Switch
+                    android:id="@+id/switchMph"
+                    android:text="@string/switch_use_mph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Switch
+                    android:id="@+id/switchBroadcast"
+                    android:text="@string/broadcast_switch_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Overspeed Settings -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textOverspeedValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5%"
+                    android:textSize="18sp"
+                    android:paddingBottom="12dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderOverspeed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:valueFrom="0"
+                        android:valueTo="25"
+                        android:stepSize="1"
+                        android:value="5" />
+
+                    <Button
+                        android:id="@+id/btnSavePercent"
+                        android:text="@string/btn_save_percent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Sound Settings -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnSelectSound"
+                    android:text="@string/btn_select_sound"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btnResetSound"
+                    android:text="@string/btn_reset_sound"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Test Tools -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnTestSound"
+                    android:text="@string/btn_test_sound"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btnTestToast"
+                    android:text="@string/btn_test_toast"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btnTestNotification"
+                    android:text="@string/btn_test_notification"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </ScrollView>
