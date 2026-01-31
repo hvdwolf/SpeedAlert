@@ -25,30 +25,76 @@ class MainActivity : ComponentActivity() {
     private val REQ_LOCATION = 1
     private val REQ_NOTIFICATION = 2
 
-    // Overlay permission launcher
+    // ---------------------------------------------------------
+    // CHINESE HEAD UNIT DETECTOR
+    // ---------------------------------------------------------
+    private fun isChineseHeadUnit(): Boolean {
+        val manufacturer = Build.MANUFACTURER.lowercase()
+        val brand = Build.BRAND.lowercase()
+        val model = Build.MODEL.lowercase()
+
+        return manufacturer.contains("mtcd") ||
+               manufacturer.contains("mtce") ||
+               brand.contains("fyt") ||
+               brand.contains("joying") ||
+               brand.contains("dasaita") ||
+               brand.contains("hct") ||
+               model.contains("px5") ||
+               model.contains("px6") ||
+               model.contains("px30") ||
+               model.contains("ts10") ||
+               model.contains("ts18")
+    }
+
+    // ---------------------------------------------------------
+    // OVERLAY PERMISSION HANDLING
+    // ---------------------------------------------------------
     private val overlayPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (hasOverlayPermission()) {
-                Toast.makeText(
-                    this,
-                    getString(R.string.overlay_permission_granted),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, getString(R.string.overlay_permission_granted), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(
-                    this,
-                    getString(R.string.overlay_permission_missing),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, getString(R.string.overlay_permission_missing), Toast.LENGTH_LONG).show()
             }
         }
 
-    // Custom sound picker
+    private fun hasOverlayPermission(): Boolean {
+        // Chinese head units often lie about overlay permission
+        if (isChineseHeadUnit()) return true
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(this)
+        } else true
+    }
+
+    private fun requestOverlayPermission() {
+        if (isChineseHeadUnit()) {
+            Toast.makeText(this, "Overlay permission assumed granted on this device", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            !Settings.canDrawOverlays(this)
+        ) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName")
+            )
+            overlayPermissionLauncher.launch(intent)
+        }
+    }
+
+    // ---------------------------------------------------------
+    // SOUND PICKER
+    // ---------------------------------------------------------
     private val pickSound =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             if (uri != null) settings.setCustomSound(uri)
         }
 
+    // ---------------------------------------------------------
+    // ACTIVITY LIFECYCLE
+    // ---------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,7 +112,7 @@ class MainActivity : ComponentActivity() {
     // ---------------------------------------------------------
     private fun setupUI() {
 
-        // Show the disclaimer
+        // Disclaimer toggle
         binding.txtDisclaimerHeader.setOnClickListener {
             val body = binding.txtDisclaimerBody
             if (body.visibility == View.VISIBLE) {
@@ -80,6 +126,7 @@ class MainActivity : ComponentActivity() {
 
         // Start service
         binding.btnStart.setOnClickListener {
+
             if (!hasOverlayPermission()) {
                 requestOverlayPermission()
                 return@setOnClickListener
@@ -103,14 +150,10 @@ class MainActivity : ComponentActivity() {
             pickSound.launch(getString(R.string.mime_audio))
         }
 
-        // Reset custom sound back to default "beep-beep-beep"
+        // Reset custom sound
         binding.btnResetSound.setOnClickListener {
             settings.resetCustomSound()
-            Toast.makeText(
-                this,
-                getString(R.string.sound_reset_default),
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, getString(R.string.sound_reset_default), Toast.LENGTH_SHORT).show()
             sendOverlayUpdate()
         }
 
@@ -122,7 +165,6 @@ class MainActivity : ComponentActivity() {
         binding.sliderOverspeed.addOnSliderTouchListener(
             object : Slider.OnSliderTouchListener {
                 override fun onStartTrackingTouch(slider: Slider) {}
-
                 override fun onStopTrackingTouch(slider: Slider) {
                     settings.setOverspeedPercentage(slider.value.toInt())
                 }
@@ -132,14 +174,11 @@ class MainActivity : ComponentActivity() {
         binding.sliderOverspeed.addOnChangeListener { _, value, fromUser ->
             val v = value.toInt()
             binding.textOverspeedValue.text = "$v%"
-
-            if (fromUser) {
-                settings.setOverspeedPercentage(v)
-            }
+            if (fromUser) settings.setOverspeedPercentage(v)
         }
         // ---------------------------------------------------
 
-        // Overlay toggles
+        // Switches
         binding.switchSpeedo.isChecked = settings.getShowSpeedometer()
         binding.switchTransparency.isChecked = settings.getSemiTransparent()
         binding.switchMph.isChecked = settings.getUseMph()
@@ -162,13 +201,8 @@ class MainActivity : ComponentActivity() {
         // Test sound
         binding.btnTestSound.setOnClickListener {
             val custom = settings.getCustomSound()
-
-            val mp = if (custom != null) {
-                MediaPlayer.create(this, custom)
-            } else {
-                MediaPlayer.create(this, R.raw.beep)
-            }
-
+            val mp = if (custom != null) MediaPlayer.create(this, custom)
+                     else MediaPlayer.create(this, R.raw.beep)
             mp?.setOnCompletionListener { player -> player.release() }
             mp?.start()
         }
@@ -200,25 +234,6 @@ class MainActivity : ComponentActivity() {
     // ---------------------------------------------------------
     // PERMISSIONS
     // ---------------------------------------------------------
-
-    private fun hasOverlayPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(this)
-        } else true
-    }
-
-    private fun requestOverlayPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-            !Settings.canDrawOverlays(this)
-        ) {
-            val intent = Intent(
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:$packageName")
-            )
-            overlayPermissionLauncher.launch(intent)
-        }
-    }
-
     private fun hasAllPermissions(): Boolean {
         val locationGranted =
             ContextCompat.checkSelfPermission(
@@ -282,14 +297,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // Only send overlay updates if the service is running
+    // ---------------------------------------------------------
+    // OVERLAY UPDATE
+    // ---------------------------------------------------------
     private fun isServiceRunning(): Boolean {
         return DrivingService.isRunning
     }
 
-    // ---------------------------------------------------------
-    // OVERLAY UPDATE
-    // ---------------------------------------------------------
     private fun sendOverlayUpdate() {
         if (!isServiceRunning()) return
 

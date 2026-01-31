@@ -23,16 +23,16 @@ class DrivingService : Service() {
 
     private var mediaPlayer: MediaPlayer? = null
     private var speedometer: FloatingSpeedometer? = null
-    private var lastLimit: Int? = null
-    private val kalman = KalmanFilter()
 
+    private var lastLimit: Int? = null
+    private var lastLimitFetchTime = 0L
+    private val kalman = KalmanFilter()
 
     companion object {
         const val ACTION_UPDATE_OVERLAY = "xyz.hvdw.speedalert.UPDATE_OVERLAY"
         private const val NOTIF_ID = 1
         var isRunning = false
     }
-
 
     override fun onCreate() {
         super.onCreate()
@@ -68,14 +68,15 @@ class DrivingService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_UPDATE_OVERLAY -> {
-                speedometer?.updateStyle(settings)
-            }
+        if (intent?.action == ACTION_UPDATE_OVERLAY) {
+            speedometer?.updateStyle(settings)
         }
         return START_STICKY
     }
 
+    // ---------------------------------------------------------
+    // MEDIA PLAYER
+    // ---------------------------------------------------------
     private fun initMediaPlayer() {
         val custom = settings.getCustomSound()
         mediaPlayer = if (custom != null) {
@@ -85,12 +86,15 @@ class DrivingService : Service() {
         }
     }
 
+    // ---------------------------------------------------------
+    // LOCATION UPDATES
+    // ---------------------------------------------------------
     private fun startLocationUpdates() {
         val req = LocationRequest.Builder(
             Priority.PRIORITY_HIGH_ACCURACY,
-            1000L   // 1000 ms = 1 seconds
+            1000L
         )
-            .setMinUpdateDistanceMeters(2f)  // minimum distance 2 meters
+            .setMinUpdateDistanceMeters(2f)
             .build()
 
         if (ContextCompat.checkSelfPermission(
@@ -112,46 +116,66 @@ class DrivingService : Service() {
         }
     }
 
+    // ---------------------------------------------------------
+    // LOCATION HANDLING
+    // ---------------------------------------------------------
     private suspend fun handleLocation(loc: Location) {
-        val lat = loc.latitude
-        val lon = loc.longitude
-        //val speedKmh = loc.speed * 3.6
-        //val intSpeed = speedKmh.toInt()
         val rawSpeed = loc.speed * 3.6
         val filteredSpeed = kalman.update(rawSpeed)
         val intSpeed = filteredSpeed.toInt()
 
-        val limit = repo.getSpeedLimit(lat, lon)
+        val lat = loc.latitude
+        val lon = loc.longitude
+
+        // Fetch speed limit only every 10 seconds to avoid API spam
+        val now = System.currentTimeMillis()
+        val limit = if (now - lastLimitFetchTime > 10_000) {
+            lastLimitFetchTime = now
+            repo.getSpeedLimit(lat, lon)?.also { lastLimit = it }
+        } else {
+            lastLimit
+        }
 
         if (limit == null) {
             speedometer?.updateSpeed(intSpeed, null, false)
             return
         }
 
-        lastLimit = limit
-
         val overshootPercent = settings.getOverspeedPercentage()
         val threshold = limit * (1 + overshootPercent / 100.0)
-        val isOverspeed = filteredSpeed> threshold
+        val isOverspeed = filteredSpeed > threshold
 
         speedometer?.updateSpeed(intSpeed, limit, isOverspeed)
 
         if (isOverspeed) {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(
-                    this@DrivingService,
-                    getString(R.string.overspeed_warning, limit),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            mediaPlayer?.let { if (!it.isPlaying) it.start() }
+            playOverspeedWarning(limit)
         }
     }
 
+    // ---------------------------------------------------------
+    // OVERSPEED WARNING
+    // ---------------------------------------------------------
+    private suspend fun playOverspeedWarning(limit: Int) {
+        withContext(Dispatchers.Main) {
+            Toast.makeText(
+                this@DrivingService,
+                getString(R.string.overspeed_warning, limit),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        mediaPlayer?.let {
+            if (!it.isPlaying) it.start()
+        }
+    }
+
+    // ---------------------------------------------------------
+    // CLEANUP
+    // ---------------------------------------------------------
     override fun onDestroy() {
         super.onDestroy()
         isRunning = false
+
         fused.removeLocationUpdates(locationCallback)
         mediaPlayer?.release()
         speedometer?.hide()

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:label="Speed Alert"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" >
+        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" >
 
         <service
             android:name=".DrivingService"

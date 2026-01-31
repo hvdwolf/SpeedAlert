@@ -13,10 +13,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.content.edit
 import xyz.hvdw.speedalert.databinding.ViewSpeedometerBinding
 
-//import android.util.Log
-//import android.provider.Settings
-
-
 class FloatingSpeedometer(
     private val ctx: Context,
     private val settings: SettingsManager
@@ -26,16 +22,19 @@ class FloatingSpeedometer(
     private var view: View? = null
     private var binding: ViewSpeedometerBinding? = null
 
-    // SharedPreferences for saving position + minimized state
+    // Save position + minimized state
     private val prefs = ctx.getSharedPreferences("speedometer_prefs", Context.MODE_PRIVATE)
     private var isMinimized = prefs.getBoolean("minimized", false)
 
+    // Window layout params (optimized for head units)
     private val layoutParams = WindowManager.LayoutParams(
         WindowManager.LayoutParams.WRAP_CONTENT,
         WindowManager.LayoutParams.WRAP_CONTENT,
         WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
         PixelFormat.TRANSLUCENT
     ).apply {
         gravity = Gravity.TOP or Gravity.START
@@ -43,12 +42,12 @@ class FloatingSpeedometer(
         y = prefs.getInt("pos_y", 100)
     }
 
-    // Detect dark mode
+    // Theme detection
     private val isDarkMode: Boolean
         get() = (ctx.resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
-    // Theme‑aware colors
+    // Colors
     private val colorNormal: Int
         get() = if (isDarkMode) Color.WHITE else Color.BLACK
 
@@ -62,10 +61,10 @@ class FloatingSpeedometer(
     private var pulseAnimator: AnimatorSet? = null
     private var isPulsing = false
 
+    // ---------------------------------------------------------
+    // SHOW / HIDE
+    // ---------------------------------------------------------
     fun show() {
-        //Log.e("DEBUG", "Overlay permission inside service = ${Settings.canDrawOverlays(ctx)}")
-        //Log.e("SPEEDO", "Overlay permission = ${Settings.canDrawOverlays(ctx)}")
-
         if (view != null) return
 
         binding = ViewSpeedometerBinding.inflate(LayoutInflater.from(ctx))
@@ -74,20 +73,31 @@ class FloatingSpeedometer(
         applyTheme()
         applyTransparency()
         applyMinimizedState()
-        setupDrag()
         setupTapToggle()
+        setupDrag()
 
-        wm.addView(view, layoutParams)
+        try {
+            wm.addView(view, layoutParams)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun hide() {
         stopPulse()
-        view?.let { wm.removeView(it) }
+        view?.let {
+            try {
+                wm.removeView(it)
+            } catch (_: Exception) {}
+        }
         view = null
         binding = null
     }
 
-    fun updateStyle(_settings: SettingsManager) {
+    // ---------------------------------------------------------
+    // STYLE UPDATE
+    // ---------------------------------------------------------
+    fun updateStyle(@Suppress("UNUSED_PARAMETER") _settings: SettingsManager) {
         applyTheme()
         applyTransparency()
     }
@@ -125,6 +135,9 @@ class FloatingSpeedometer(
         }
     }
 
+    // ---------------------------------------------------------
+    // SPEED + LIMIT UPDATE
+    // ---------------------------------------------------------
     fun updateSpeed(currentSpeedKmh: Int, limitKmh: Int?, isOverspeed: Boolean) {
         val b = binding ?: return
 
@@ -140,7 +153,6 @@ class FloatingSpeedometer(
         else
             ctx.getString(R.string.unit_kmh)
 
-
         if (isOverspeed) {
             b.textCurrentSpeed.setTextColor(colorOverspeed)
             startPulse()
@@ -150,6 +162,9 @@ class FloatingSpeedometer(
         }
     }
 
+    // ---------------------------------------------------------
+    // PULSE ANIMATION
+    // ---------------------------------------------------------
     private fun startPulse() {
         if (isPulsing || view == null) return
 
@@ -188,6 +203,9 @@ class FloatingSpeedometer(
         isPulsing = false
     }
 
+    // ---------------------------------------------------------
+    // TAP TO MINIMIZE
+    // ---------------------------------------------------------
     private fun setupTapToggle() {
         view?.setOnClickListener {
             isMinimized = !isMinimized
@@ -196,6 +214,9 @@ class FloatingSpeedometer(
         }
     }
 
+    // ---------------------------------------------------------
+    // DRAG TO MOVE
+    // ---------------------------------------------------------
     private fun setupDrag() {
         view?.setOnTouchListener(object : View.OnTouchListener {
             var initialX = 0
@@ -205,6 +226,7 @@ class FloatingSpeedometer(
 
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 when (event.action) {
+
                     MotionEvent.ACTION_DOWN -> {
                         initialX = layoutParams.x
                         initialY = layoutParams.y
@@ -216,7 +238,11 @@ class FloatingSpeedometer(
                     MotionEvent.ACTION_MOVE -> {
                         layoutParams.x = initialX + (event.rawX - touchX).toInt()
                         layoutParams.y = initialY + (event.rawY - touchY).toInt()
-                        wm.updateViewLayout(view, layoutParams)
+
+                        try {
+                            view?.let { wm.updateViewLayout(it, layoutParams) }
+                        } catch (_: Exception) {}
+
                         return true
                     }
 
