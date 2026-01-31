@@ -14,10 +14,16 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".
 
 # Partial Screenshots
 *(Note: The screen automatically follows the system day-night mode. Here you see the day mode.)*<br>
+**Dark mode, disclaimer expanded**<br>
+![](./images/screen_expanded_dark.jpg)<br>
+**Day mode, disclaimer collapsed**<br>
+![](./images/screen_collapsed_light.jpg)<br>
+
+<!--
  Collapsed Disclaimer    | Expanded Disclaimer  
 :------------------------|---------------------:
 ![](./images/screen_collapsed_dark.jpg) | ![](./images/screen_expanded_dark.jpg)
-![](./images/screen_collapsed_light.jpg) | ![](./images/screen_expanded_light.jpg)
+![](./images/screen_collapsed_light.jpg) | ![](./images/screen_expanded_light.jpg) -->
 
 <p>The app uses a "foreground service". A foreground service is an Android service that keeps running by showing a persistent notification so the system treats it as important and doesn’t kill it, even when not visible.<br>
 The speed alert service is started automatically. However, you can stop and (re)start it, which you need to do when changing (some of) the settings.<br>
