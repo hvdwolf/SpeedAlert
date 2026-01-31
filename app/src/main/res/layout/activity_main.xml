@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtDisclaimerHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/disclaimer_header"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#FF00"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/txtDisclaimerBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FF00"
+            android:text="@string/disclaimer_body"
+            android:padding="8dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:text="@string/btn_start_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:text="@string/btn_stop_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <Switch
+            android:id="@+id/switchSpeedo"
+            android:text="@string/switch_show_speedo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+
+        <Switch
+            android:id="@+id/switchTransparency"
+            android:text="@string/switch_transparency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/switchMph"
+            android:text="@string/switch_use_mph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textOverspeedValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5%"
+            android:textSize="18sp"
+            android:paddingBottom="8dp" />
+
+        <com.google.android.material.slider.Slider
+                android:id="@+id/sliderOverspeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0"
+                android:valueTo="25"
+                android:stepSize="1"
+                android:value="5" />
+
+        <Button
+            android:id="@+id/btnSavePercent"
+            android:text="@string/btn_save_percent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnSelectSound"
+            android:text="@string/btn_select_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnResetSound"
+            android:text="@string/btn_reset_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnTestSound"
+            android:text="@string/btn_test_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnTestToast"
+            android:text="@string/btn_test_toast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnTestNotification"
+            android:text="@string/btn_test_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

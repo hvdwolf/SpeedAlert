@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/speedometerRoot"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="16dp">
+
+    <TextView
+        android:id="@+id/textCurrentSpeed"
+        android:text="@string/speed_initial"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textUnit"
+        android:text="@string/speed_unit_kmh"
+        android:textSize="14sp"
+        android:textColor="#AAAAAA"
+        android:layout_marginTop="2dp"/>
+
+    <TextView
+        android:id="@+id/textLimit"
+        android:text="@string/speed_limit_placeholder"
+        android:textSize="16sp"
+        android:textColor="#FFD700"
+        android:layout_marginTop="4dp" />
+
+</LinearLayout>

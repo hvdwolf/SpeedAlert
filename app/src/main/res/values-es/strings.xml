@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- First we do the strings inside the xml files which are used for the screen -->
+    <!-- Disclaimer -->
+    <string name="disclaimer_header">Aviso legal (toca para expandir)</string>
+    <string name="disclaimer_body">
+        No soy responsable del mal funcionamiento ni del uso incorrecto de esta aplicación.
+        Esta aplicación proporciona alertas de velocidad basadas en datos GPS. La precisión puede variar según el dispositivo, el entorno y la recepción GPS.
+        Sigue siempre los límites de velocidad (incluidos los temporales) y conduce de manera responsable.
+    </string>
+
+    <!-- Buttons -->
+    <string name="btn_start_service">Iniciar servicio</string>
+    <string name="btn_stop_service">Detener servicio</string>
+    <string name="btn_save_percent">Guardar % de exceso</string>
+    <string name="btn_select_sound">Seleccionar sonido personalizado</string>
+    <string name="btn_reset_sound">Restablecer sonido predeterminado</string>
+    <string name="btn_test_sound">Probar sonido</string>
+    <string name="btn_test_toast">Probar mensaje emergente</string>
+    <string name="btn_test_notification">Probar notificación</string>
+
+    <!-- Switches -->
+    <string name="switch_show_speedo">Mostrar superposición del velocímetro</string>
+    <string name="switch_transparency">Superposición semitransparente</string>
+    <string name="switch_use_mph">Usar mph en lugar de km/h</string>
+
+    <!-- EditText -->
+    <string name="hint_overspeed_percent" formatted="false">% de exceso (predeterminado 5%)</string>
+
+    <!-- Speedometer overlay -->
+    <string name="speed_initial">0</string>
+    <string name="speed_unit_kmh">km/h</string>
+    <string name="speed_limit_placeholder">-</string>
+
+    <!-- End of the strings inside the xml files which are used for the screen -->
+
+    <!-- Start of the strings which are created in the kt files -->
+    <!-- DrivingService.kt -->
+    <string name="overspeed_warning">¡Exceso de velocidad! Límite %1$d km/h</string>
+
+    <!-- FloatingSpeedometer.kt -->
+    <string name="unit_mph">mph</string>
+    <string name="unit_kmh">km/h</string>
+    <string name="no_speed_limit">-</string>
+
+    <!-- MainActivity.kt -->
+    <string name="overlay_permission_granted">Permiso de superposición concedido</string>
+    <string name="overlay_permission_missing">Falta el permiso de superposición</string>
+
+    <string name="disclaimer_expand">Aviso legal (toca para expandir)</string>
+    <string name="disclaimer_collapse">Aviso legal (toca para contraer)</string>
+
+    <string name="mime_audio">audio/*</string>
+
+    <string name="sound_reset_default">Sonido restablecido al predeterminado</string>
+
+    <string name="test_toast">Este es un mensaje de prueba</string>
+
+    <string name="test_notification_title">Notificación de prueba</string>
+    <string name="test_notification_text">Esta es una notificación de prueba de SpeedAlert.</string>
+
+    <!-- ServiceNotification.kt -->
+    <string name="channel_name">Monitor de velocidad</string>
+    <string name="channel_description">Muestra tu velocidad actual y el límite durante la conducción</string>
+
+    <string name="notif_running_title">Monitor de velocidad activo</string>
+    <string name="notif_running_text">Actualizando límite de velocidad…</string>
+
+    <!-- End of the strings which are created in the kt files -->
+
+</resources>

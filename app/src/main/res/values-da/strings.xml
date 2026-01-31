@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- First we do the strings inside the xml files which are used for the screen -->
+    <!-- Disclaimer -->
+    <string name="disclaimer_header">Ansvarsfraskrivelse (tryk for at udvide)</string>
+    <string name="disclaimer_body">
+        Jeg er ikke ansvarlig for forkert funktion eller forkert brug af denne app.
+        Appen giver hastighedsadvarsler baseret på GPS-data. Nøjagtigheden kan variere afhængigt af enhed, omgivelser og GPS-signal.
+        Følg altid de angivne (midlertidige) hastighedsgrænser og kør ansvarligt.
+    </string>
+
+    <!-- Buttons -->
+    <string name="btn_start_service">Start tjeneste</string>
+    <string name="btn_stop_service">Stop tjeneste</string>
+    <string name="btn_save_percent">Gem overskridelses-%</string>
+    <string name="btn_select_sound">Vælg brugerdefineret lyd</string>
+    <string name="btn_reset_sound">Nulstil til standardlyd</string>
+    <string name="btn_test_sound">Test lyd</string>
+    <string name="btn_test_toast">Test toast</string>
+    <string name="btn_test_notification">Test notifikation</string>
+
+    <!-- Switches -->
+    <string name="switch_show_speedo">Vis speedometer-overlay</string>
+    <string name="switch_transparency">Halvgennemsigtigt overlay</string>
+    <string name="switch_use_mph">Brug mph i stedet for km/t</string>
+
+    <!-- EditText -->
+    <string name="hint_overspeed_percent" formatted="false">Overskridelses-% (standard 5%)</string>
+
+    <!-- Speedometer overlay -->
+    <string name="speed_initial">0</string>
+    <string name="speed_unit_kmh">km/t</string>
+    <string name="speed_limit_placeholder">-</string>
+
+    <!-- End of the strings inside the xml files which are used for the screen -->
+
+    <!-- Start of the strings which are created in the kt files -->
+    <!-- DrivingService.kt -->
+    <string name="overspeed_warning">Hastighedsoverskridelse! Grænse %1$d km/t</string>
+
+    <!-- FloatingSpeedometer.kt -->
+    <string name="unit_mph">mph</string>
+    <string name="unit_kmh">km/t</string>
+    <string name="no_speed_limit">-</string>
+
+    <!-- MainActivity.kt -->
+    <string name="overlay_permission_granted">Overlay-tilladelse givet</string>
+    <string name="overlay_permission_missing">Overlay-tilladelse mangler stadig</string>
+
+    <string name="disclaimer_expand">Ansvarsfraskrivelse (tryk for at udvide)</string>
+    <string name="disclaimer_collapse">Ansvarsfraskrivelse (tryk for at skjule)</string>
+
+    <string name="mime_audio">audio/*</string>
+
+    <string name="sound_reset_default">Lyd nulstillet til standard</string>
+
+    <string name="test_toast">Dette er en test-toast</string>
+
+    <string name="test_notification_title">Testnotifikation</string>
+    <string name="test_notification_text">Dette er en testnotifikation fra SpeedAlert.</string>
+
+    <!-- ServiceNotification.kt -->
+    <string name="channel_name">Hastighedsmonitor</string>
+    <string name="channel_description">Viser din aktuelle hastighed og hastighedsgrænse under kørsel</string>
+
+    <string name="notif_running_title">Hastighedsmonitor aktiv</string>
+    <string name="notif_running_text">Opdaterer hastighedsgrænse…</string>
+
+    <!-- End of the strings which are created in the kt files -->
+
+</resources>

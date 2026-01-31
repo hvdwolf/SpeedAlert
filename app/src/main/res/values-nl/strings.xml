@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- First we do the strings inside the xml files which are used for the screen -->
+    <!-- Disclaimer -->
+    <string name="disclaimer_header">Disclaimer (tik om uit te klappen)</string>
+    <string name="disclaimer_body">
+        Ik ben niet verantwoordelijk voor het onjuist functioneren of verkeerd gebruik van deze app.
+        Deze app geeft snelheidswaarschuwingen op basis van GPS-gegevens. De nauwkeurigheid kan variëren afhankelijk van apparaat, omgeving en GPS-ontvangst.
+        Volg altijd de aangegeven (tijdelijke) snelheidslimieten en rijd verantwoord.
+    </string>
+
+    <!-- Buttons -->
+    <string name="btn_start_service">Service starten</string>
+    <string name="btn_stop_service">Service stoppen</string>
+    <string name="btn_save_percent">Overschrijdingspercentage opslaan</string>
+    <string name="btn_select_sound">Aangepast geluid selecteren</string>
+    <string name="btn_reset_sound">Geluid terugzetten naar standaard</string>
+    <string name="btn_test_sound">Geluid testen</string>
+    <string name="btn_test_toast">Testmelding</string>
+    <string name="btn_test_notification">Testnotificatie</string>
+
+    <!-- Switches -->
+    <string name="switch_show_speedo">Snelheidsmeter-overlay tonen</string>
+    <string name="switch_transparency">Halftransparante overlay</string>
+    <string name="switch_use_mph">Gebruik mph in plaats van km/h</string>
+
+    <!-- EditText -->
+    <string name="hint_overspeed_percent" formatted="false">Overschrijdingspercentage (standaard 5%)</string>
+
+    <!-- Speedometer overlay -->
+    <string name="speed_initial">0</string>
+    <string name="speed_unit_kmh">km/h</string>
+    <string name="speed_limit_placeholder">-</string>
+
+    <!-- End of the strings inside the xml files which are used for the screen -->
+
+    <!-- Start of the strings which are created in the kt files -->
+    <!-- DrivingService.kt -->
+    <string name="overspeed_warning">Snelheidsoverschrijding! Limiet %1$d km/h</string>
+
+    <!-- FloatingSpeedometer.kt -->
+    <string name="unit_mph">mph</string>
+    <string name="unit_kmh">km/h</string>
+    <string name="no_speed_limit">-</string>
+
+    <!-- MainActivity.kt -->
+    <string name="overlay_permission_granted">Overlay-machtiging verleend</string>
+    <string name="overlay_permission_missing">Overlay-machtiging ontbreekt nog</string>
+
+    <string name="disclaimer_expand">Disclaimer (tik om uit te klappen)</string>
+    <string name="disclaimer_collapse">Disclaimer (tik om in te klappen)</string>
+
+    <string name="mime_audio">audio/*</string>
+
+    <string name="sound_reset_default">Geluid teruggezet naar standaard</string>
+
+    <string name="test_toast">Dit is een testmelding</string>
+
+    <string name="test_notification_title">Testnotificatie</string>
+    <string name="test_notification_text">Dit is een testnotificatie van SpeedAlert.</string>
+
+    <!-- ServiceNotification.kt -->
+    <string name="channel_name">Snelheidsmonitor</string>
+    <string name="channel_description">Toont je huidige snelheid en snelheidslimiet tijdens het rijden</string>
+
+    <string name="notif_running_title">Snelheidsmonitor actief</string>
+    <string name="notif_running_text">Snelheidslimiet wordt bijgewerkt…</string>
+
+    <!-- End of the strings which are created in the kt files -->
+
+</resources>
