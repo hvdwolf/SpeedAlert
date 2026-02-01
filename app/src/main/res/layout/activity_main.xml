@@ -40,6 +40,14 @@
                 app:iconPadding="12dp" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textDebug"
+            android:text="Service: stopped"
+            android:textSize="16sp"
+            android:paddingTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
 
         <!-- SETTINGS HEADER -->
         <com.google.android.material.button.MaterialButton
@@ -104,7 +112,7 @@
                 android:stepSize="1"
                 android:value="5" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSavePercent"
                 android:text="@string/btn_save_percent"
                 android:layout_width="match_parent"
@@ -117,7 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSelectSound"
                     android:text="@string/btn_select_sound"
                     android:layout_width="0dp"
@@ -125,7 +133,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnResetSound"
                     android:text="@string/btn_reset_sound"
                     android:layout_width="0dp"
@@ -165,7 +173,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnTestSound"
                             android:text="@string/btn_test_sound"
                             android:layout_width="0dp"
@@ -173,7 +181,7 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnTestToast"
                             android:text="@string/btn_test_toast"
                             android:layout_width="0dp"
@@ -181,7 +189,7 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnTestNotification"
                             android:text="@string/btn_test_notification"
                             android:layout_width="0dp"
@@ -189,6 +197,20 @@
                             android:layout_weight="1" />
 
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/textCurrentSpeed"
+                        android:text="Speed: -- km/h"
+                        android:textSize="18sp"
+                        android:paddingTop="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/textSpeedLimit"
+                        android:text="Limit: -- km/h"
+                        android:textSize="18sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
         </LinearLayout>
 

@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
     private val REQ_LOCATION = 1
     private val REQ_NOTIFICATION = 2
 
-    // SpeedReceiver to update values in test section
+    // ---------------------------------------------------------
+    // BROADCAST RECEIVERS
+    // ---------------------------------------------------------
     private val speedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val speed = intent?.getIntExtra("speed", 0) ?: 0
@@ -41,15 +43,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // Receiver to indicate the status of the service
     private val serviceStatusReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val status = intent?.getStringExtra("status") ?: "unknown"
             binding.textDebug.text = "Service: $status"
         }
     }
-
-
 
     // ---------------------------------------------------------
     // CHINESE HEAD UNIT DETECTOR
@@ -78,29 +77,21 @@ class MainActivity : ComponentActivity() {
     private val overlayPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (hasOverlayPermission()) {
-                Toast.makeText(this, getString(R.string.overlay_permission_granted), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Overlay permission granted", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, getString(R.string.overlay_permission_missing), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Overlay permission missing", Toast.LENGTH_LONG).show()
             }
         }
 
     private fun hasOverlayPermission(): Boolean {
         if (isChineseHeadUnit()) return true
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(this)
-        } else true
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)
     }
 
     private fun requestOverlayPermission() {
-        if (isChineseHeadUnit()) {
-            Toast.makeText(this, "Overlay permission assumed granted on this device", Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (isChineseHeadUnit()) return
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-            !Settings.canDrawOverlays(this)
-        ) {
+        if (!hasOverlayPermission()) {
             val intent = Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:$packageName")
@@ -128,8 +119,6 @@ class MainActivity : ComponentActivity() {
         settings = SettingsManager(this)
 
         setupUI()
-        requestLocationPermission()
-        requestNotificationPermissionIfNeeded()
     }
 
     override fun onResume() {
@@ -144,187 +133,117 @@ class MainActivity : ComponentActivity() {
         unregisterReceiver(serviceStatusReceiver)
     }
 
-
-
-    // ---------------------------------------------------------
-    // EXPAND / COLLAPSE ANIMATION
-    // ---------------------------------------------------------
-    private fun toggleSection(
-        headerIcon: View,
-        contentLayout: View
-    ) {
-        val isExpanding = contentLayout.visibility == View.GONE
-
-        // Rotate arrow
-        headerIcon.animate()
-            .rotation(if (isExpanding) 180f else 0f)
-            .setDuration(200)
-            .start()
-
-        if (isExpanding) {
-            // EXPAND
-            contentLayout.measure(
-                View.MeasureSpec.makeMeasureSpec((contentLayout.parent as View).width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            )
-            val targetHeight = contentLayout.measuredHeight
-
-            contentLayout.layoutParams.height = 0
-            contentLayout.visibility = View.VISIBLE
-
-            contentLayout.animate()
-                .setDuration(200)
-                .alpha(1f)
-                .withEndAction {
-                    contentLayout.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-                .start()
-
-        } else {
-            // COLLAPSE — THIS WAS THE BUG
-            val initialHeight = contentLayout.height
-
-            contentLayout.animate()
-                .setDuration(200)
-                .alpha(0f)
-                .withEndAction {
-                    contentLayout.visibility = View.GONE
-                    contentLayout.alpha = 1f
-                    contentLayout.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT   // ← FIX
-                }
-                .start()
-        }
-    }
-
     // ---------------------------------------------------------
     // UI SETUP
     // ---------------------------------------------------------
     private fun setupUI() {
 
-        // Expandable sections
+        // Expandable headers
         binding.headerSettings.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
         binding.headerTools.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
         binding.headerDisclaimer.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
 
-        // SETTINGS
         binding.headerSettings.setOnClickListener {
-            val isVisible = binding.layoutSettingsContent.visibility == View.VISIBLE
-
-            binding.layoutSettingsContent.visibility =
-                if (isVisible) View.GONE else View.VISIBLE
-
-            binding.headerSettings.icon =
-                ContextCompat.getDrawable(this,
-                    if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
-                )
+            toggleSection(binding.headerSettings, binding.layoutSettingsContent)
         }
-
-        // TEST TOOLS
         binding.headerTools.setOnClickListener {
-            val isVisible = binding.layoutToolsContent.visibility == View.VISIBLE
-
-            binding.layoutToolsContent.visibility =
-                if (isVisible) View.GONE else View.VISIBLE
-
-            binding.headerTools.icon =
-                ContextCompat.getDrawable(this,
-                    if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
-                )
+            toggleSection(binding.headerTools, binding.layoutToolsContent)
         }
-
-        // DISCLAIMER
         binding.headerDisclaimer.setOnClickListener {
-            val isVisible = binding.layoutDisclaimerContent.visibility == View.VISIBLE
-
-            binding.layoutDisclaimerContent.visibility =
-                if (isVisible) View.GONE else View.VISIBLE
-
-            binding.headerDisclaimer.icon =
-                ContextCompat.getDrawable(this,
-                    if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
-                )
+            toggleSection(binding.headerDisclaimer, binding.layoutDisclaimerContent)
         }
 
-        // Start service
+        // ---------------------------------------------------------
+        // START SERVICE BUTTON
+        // ---------------------------------------------------------
         binding.btnStart.setOnClickListener {
             binding.textDebug.text = "Service: starting..."
 
-            // 1) Notification permission (Android 13+)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 100)
-                    return@setOnClickListener
-                }
-            }
-
-            // 2) Overlay permission (if you use the floating speedometer)
-            if (settings.getShowSpeedometer() && !Settings.canDrawOverlays(this)) {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:$packageName")
-                )
-                startActivity(intent)
-                return@setOnClickListener
-            }
-
-            // 3) Location permission (if not already handled elsewhere)
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
+            // 1) Notification permission
+            if (Build.VERSION.SDK_INT >= 33 &&
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    REQ_NOTIFICATION
+                )
                 return@setOnClickListener
             }
 
-            // 4) Start the service only when everything is OK
-            val serviceIntent = Intent(this, DrivingService::class.java)
-            ContextCompat.startForegroundService(this, serviceIntent)
+            // 2) Location permission
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQ_LOCATION
+                )
+                return@setOnClickListener
+            }
+
+            // 3) Overlay permission
+            if (settings.getShowSpeedometer() && !hasOverlayPermission()) {
+                requestOverlayPermission()
+                return@setOnClickListener
+            }
+
+            // 4) Start service
+            val intent = Intent(this, DrivingService::class.java)
+            ContextCompat.startForegroundService(this, intent)
 
             binding.textDebug.text = "Service: running"
         }
 
-
-        // Stop service
+        // ---------------------------------------------------------
+        // STOP SERVICE BUTTON
+        // ---------------------------------------------------------
         binding.btnStop.setOnClickListener {
             stopService(Intent(this, DrivingService::class.java))
             binding.textDebug.text = "Service: stopped"
         }
 
-        // Pick custom sound
-        binding.btnSelectSound.setOnClickListener {
-            pickSound.launch(getString(R.string.mime_audio))
+        // ---------------------------------------------------------
+        // TEST BUTTONS
+        // ---------------------------------------------------------
+        binding.btnTestSound.setOnClickListener {
+            val custom = settings.getCustomSound()
+            val mp = if (custom != null) MediaPlayer.create(this, custom)
+            else MediaPlayer.create(this, R.raw.beep)
+            mp?.setOnCompletionListener { it.release() }
+            mp?.start()
         }
 
-        // Reset custom sound
-        binding.btnResetSound.setOnClickListener {
-            settings.resetCustomSound()
-            Toast.makeText(this, getString(R.string.sound_reset_default), Toast.LENGTH_SHORT).show()
-            sendOverlayUpdate()
+        binding.btnTestToast.setOnClickListener {
+            Toast.makeText(this, "Test toast", Toast.LENGTH_SHORT).show()
         }
 
-        // ----------------- OVERSPEED SLIDER -----------------
-        val saved = settings.getOverspeedPercentage()
-        binding.sliderOverspeed.value = saved.toFloat()
-        binding.textOverspeedValue.text = "$saved%"
+        binding.btnTestNotification.setOnClickListener {
+            val sn = ServiceNotification(this)
+            sn.createChannel()
 
-        binding.sliderOverspeed.addOnSliderTouchListener(
-            object : Slider.OnSliderTouchListener {
-                override fun onStartTrackingTouch(slider: Slider) {}
-                override fun onStopTrackingTouch(slider: Slider) {
-                    settings.setOverspeedPercentage(slider.value.toInt())
-                }
-            }
-        )
+            val notification = androidx.core.app.NotificationCompat.Builder(
+                this,
+                ServiceNotification.CHANNEL_ID
+            )
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle("Test notification")
+                .setContentText("This is a test")
+                .build()
 
-        binding.sliderOverspeed.addOnChangeListener { _, value, fromUser ->
-            val v = value.toInt()
-            binding.textOverspeedValue.text = "$v%"
-            if (fromUser) settings.setOverspeedPercentage(v)
+            androidx.core.app.NotificationManagerCompat.from(this)
+                .notify(999, notification)
         }
-        // ---------------------------------------------------
 
-        // Switches
+        // ---------------------------------------------------------
+        // SETTINGS SWITCHES
+        // ---------------------------------------------------------
         binding.switchSpeedo.isChecked = settings.getShowSpeedometer()
         binding.switchTransparency.isChecked = settings.getSemiTransparent()
         binding.switchMph.isChecked = settings.getUseMph()
@@ -350,88 +269,23 @@ class MainActivity : ComponentActivity() {
             sendOverlayUpdate()
         }
 
-        // Test sound
-        binding.btnTestSound.setOnClickListener {
-            val custom = settings.getCustomSound()
-            val mp = if (custom != null) MediaPlayer.create(this, custom)
-            else MediaPlayer.create(this, R.raw.beep)
-            mp?.setOnCompletionListener { player -> player.release() }
-            mp?.start()
-        }
+        // ---------------------------------------------------------
+        // OVERSPEED SLIDER
+        // ---------------------------------------------------------
+        val saved = settings.getOverspeedPercentage()
+        binding.sliderOverspeed.value = saved.toFloat()
+        binding.textOverspeedValue.text = "$saved%"
 
-        // Test toast
-        binding.btnTestToast.setOnClickListener {
-            Toast.makeText(this, getString(R.string.test_toast), Toast.LENGTH_SHORT).show()
-        }
-
-        // Test notification
-        binding.btnTestNotification.setOnClickListener {
-            val sn = ServiceNotification(this)
-            sn.createChannel()
-
-            val notification = androidx.core.app.NotificationCompat.Builder(
-                this,
-                ServiceNotification.CHANNEL_ID
-            )
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle(getString(R.string.test_notification_title))
-                .setContentText(getString(R.string.test_notification_text))
-                .build()
-
-            androidx.core.app.NotificationManagerCompat.from(this)
-                .notify(999, notification)
+        binding.sliderOverspeed.addOnChangeListener { _, value, fromUser ->
+            val v = value.toInt()
+            binding.textOverspeedValue.text = "$v%"
+            if (fromUser) settings.setOverspeedPercentage(v)
         }
     }
 
     // ---------------------------------------------------------
-    // PERMISSIONS
+    // PERMISSION CALLBACK
     // ---------------------------------------------------------
-    private fun hasAllPermissions(): Boolean {
-        val locationGranted =
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-
-        val notificationGranted =
-            Build.VERSION.SDK_INT < 33 ||
-                    ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) == PackageManager.PERMISSION_GRANTED
-
-        return locationGranted && notificationGranted
-    }
-
-    private fun requestLocationPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQ_LOCATION
-            )
-        }
-    }
-
-    private fun requestNotificationPermissionIfNeeded() {
-        if (Build.VERSION.SDK_INT >= 33 &&
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                REQ_NOTIFICATION
-            )
-        }
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -439,22 +293,18 @@ class MainActivity : ComponentActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == REQ_NOTIFICATION &&
-            grantResults.isNotEmpty() &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) {
-            if (hasAllPermissions() && hasOverlayPermission()) {
-                startForegroundService(Intent(this, DrivingService::class.java))
-            }
+        if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            binding.textDebug.text = "Permission denied"
+            return
         }
+
+        binding.textDebug.text = "Permission granted"
     }
 
     // ---------------------------------------------------------
     // OVERLAY UPDATE
     // ---------------------------------------------------------
-    private fun isServiceRunning(): Boolean {
-        return DrivingService.isRunning
-    }
+    private fun isServiceRunning(): Boolean = DrivingService.isRunning
 
     private fun sendOverlayUpdate() {
         if (!isServiceRunning()) return
@@ -463,5 +313,21 @@ class MainActivity : ComponentActivity() {
             action = DrivingService.ACTION_UPDATE_OVERLAY
         }
         startForegroundService(intent)
+    }
+
+    // ---------------------------------------------------------
+    // EXPAND / COLLAPSE
+    // ---------------------------------------------------------
+    private fun toggleSection(header: View, content: View) {
+        val isVisible = content.visibility == View.VISIBLE
+
+        content.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+        val icon = if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
+        (header as? ViewGroup)?.let {
+            // header is a MaterialButton, so .icon exists
+            (header as com.google.android.material.button.MaterialButton).icon =
+                ContextCompat.getDrawable(this, icon)
+        }
     }
 }
