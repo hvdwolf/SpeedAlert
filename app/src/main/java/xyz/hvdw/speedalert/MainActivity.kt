@@ -1,7 +1,10 @@
 package xyz.hvdw.speedalert
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -25,6 +28,28 @@ class MainActivity : ComponentActivity() {
 
     private val REQ_LOCATION = 1
     private val REQ_NOTIFICATION = 2
+
+    // SpeedReceiver to update values in test section
+    private val speedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val speed = intent?.getIntExtra("speed", 0) ?: 0
+            val limit = intent?.getIntExtra("limit", 0) ?: 0
+
+            binding.textCurrentSpeed.text = "Speed: $speed km/h"
+            binding.textSpeedLimit.text = "Limit: $limit km/h"
+            binding.textDebug.text = "Service: running (speed: $speed, limit: $limit)"
+        }
+    }
+
+    // Receiver to indicate the status of the service
+    private val serviceStatusReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val status = intent?.getStringExtra("status") ?: "unknown"
+            binding.textDebug.text = "Service: $status"
+        }
+    }
+
+
 
     // ---------------------------------------------------------
     // CHINESE HEAD UNIT DETECTOR
@@ -106,6 +131,20 @@ class MainActivity : ComponentActivity() {
         requestLocationPermission()
         requestNotificationPermissionIfNeeded()
     }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(speedReceiver, IntentFilter("SPEED_UPDATE"))
+        registerReceiver(serviceStatusReceiver, IntentFilter("SERVICE_STATUS"))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(speedReceiver)
+        unregisterReceiver(serviceStatusReceiver)
+    }
+
+
 
     // ---------------------------------------------------------
     // EXPAND / COLLAPSE ANIMATION
@@ -208,23 +247,48 @@ class MainActivity : ComponentActivity() {
 
         // Start service
         binding.btnStart.setOnClickListener {
+            binding.textDebug.text = "Service: starting..."
 
-            if (!hasOverlayPermission()) {
-                requestOverlayPermission()
+            // 1) Notification permission (Android 13+)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 100)
+                    return@setOnClickListener
+                }
+            }
+
+            // 2) Overlay permission (if you use the floating speedometer)
+            if (settings.getShowSpeedometer() && !Settings.canDrawOverlays(this)) {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName")
+                )
+                startActivity(intent)
                 return@setOnClickListener
             }
 
-            if (hasAllPermissions()) {
-                startForegroundService(Intent(this, DrivingService::class.java))
-            } else {
-                requestLocationPermission()
-                requestNotificationPermissionIfNeeded()
+            // 3) Location permission (if not already handled elsewhere)
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
+                return@setOnClickListener
             }
+
+            // 4) Start the service only when everything is OK
+            val serviceIntent = Intent(this, DrivingService::class.java)
+            ContextCompat.startForegroundService(this, serviceIntent)
+
+            binding.textDebug.text = "Service: running"
         }
+
 
         // Stop service
         binding.btnStop.setOnClickListener {
             stopService(Intent(this, DrivingService::class.java))
+            binding.textDebug.text = "Service: stopped"
         }
 
         // Pick custom sound
