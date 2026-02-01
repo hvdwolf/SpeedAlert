@@ -74,4 +74,8 @@
     <string name="media_no_limit">No limit</string>
     <string name="media_limit_prefix">Limit:</string>
 
+    <string name="section_settings">Settings</string>
+    <string name="section_test_tools">Test Tools</string>
+    <string name="section_disclaimer">Disclaimer</string>
+
 </resources>

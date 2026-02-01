@@ -15,7 +15,7 @@
     <!-- Buttons -->
     <string name="btn_start_service">Start Service</string>
     <string name="btn_stop_service">Stop Service</string>
-    <string name="btn_save_percent">Save Overspeed %</string>
+    <string name="btn_save_percent">Save Overspeed threshold %</string>
     <string name="btn_select_sound">Select Custom Sound</string>
     <string name="btn_reset_sound">Reset to Default Sound</string>
     <string name="btn_test_sound">Test Sound</string>
@@ -60,7 +60,11 @@
     <string name="test_toast">This is a test toast</string>
 
     <string name="test_notification_title">Test Notification</string>
-    <string name="test_notification_text">This is a test notification from SpeedAlert.</string>
+    <string name="test_notification_text">This is a test notifica
+    <string name="section_settings">Settings</string>
+    <string name="section_test_tools">Test Tools</string>
+    <string name="section_disclaimer">Disclaimer</string>
+tion from SpeedAlert.</string>
 
     <!-- ServiceNotification.kt -->
     <string name="channel_name">Driving speed monitor</string>
@@ -75,5 +79,9 @@
     <string name="broadcast_switch_label">Broadcast speed to MediaSession</string>
     <string name="media_no_limit">No limit</string>
     <string name="media_limit_prefix">Limit:</string>
+
+    <string name="section_settings">Settings</string>
+    <string name="section_test_tools">Test Tools</string>
+    <string name="section_disclaimer">Disclaimer</string>
 
 </resources>

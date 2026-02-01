@@ -1,14 +1,6 @@
-<!-- AndroidManifest.xml -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- Needed to show a TYPE_APPLICATION_OVERLAY window -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="xyz.hvdw.speedalert">
 
     <application
         android:allowBackup="true"
@@ -16,24 +8,24 @@
         android:supportsRtl="true"
         android:label="Speed Alert"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" >
+        android:theme="@style/Theme.SpeedAlert">
 
         <service
             android:name=".DrivingService"
             android:foregroundServiceType="location"
             android:exported="false" />
 
-        <!-- Launcher activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!-- (Optional for TV-like launchers)
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER" /> -->
             </intent-filter>
+
         </activity>
 
     </application>
+
 </manifest>

@@ -74,4 +74,8 @@
     <string name="media_no_limit">Geen limiet</string>
     <string name="media_limit_prefix">Limiet:</string>
 
+    <string name="section_settings">Instellingen</string>
+    <string name="section_test_tools">Test Opties</string>
+    <string name="section_disclaimer">Disclaimer</string>
+
 </resources>

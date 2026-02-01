@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,16 +35,16 @@ class MainActivity : ComponentActivity() {
         val model = Build.MODEL.lowercase()
 
         return manufacturer.contains("mtcd") ||
-               manufacturer.contains("mtce") ||
-               brand.contains("fyt") ||
-               brand.contains("joying") ||
-               brand.contains("dasaita") ||
-               brand.contains("hct") ||
-               model.contains("px5") ||
-               model.contains("px6") ||
-               model.contains("px30") ||
-               model.contains("ts10") ||
-               model.contains("ts18")
+                manufacturer.contains("mtce") ||
+                brand.contains("fyt") ||
+                brand.contains("joying") ||
+                brand.contains("dasaita") ||
+                brand.contains("hct") ||
+                model.contains("px5") ||
+                model.contains("px6") ||
+                model.contains("px30") ||
+                model.contains("ts10") ||
+                model.contains("ts18")
     }
 
     // ---------------------------------------------------------
@@ -59,7 +60,6 @@ class MainActivity : ComponentActivity() {
         }
 
     private fun hasOverlayPermission(): Boolean {
-        // Chinese head units often lie about overlay permission
         if (isChineseHeadUnit()) return true
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -108,20 +108,102 @@ class MainActivity : ComponentActivity() {
     }
 
     // ---------------------------------------------------------
+    // EXPAND / COLLAPSE ANIMATION
+    // ---------------------------------------------------------
+    private fun toggleSection(
+        headerIcon: View,
+        contentLayout: View
+    ) {
+        val isExpanding = contentLayout.visibility == View.GONE
+
+        // Rotate arrow
+        headerIcon.animate()
+            .rotation(if (isExpanding) 180f else 0f)
+            .setDuration(200)
+            .start()
+
+        if (isExpanding) {
+            // EXPAND
+            contentLayout.measure(
+                View.MeasureSpec.makeMeasureSpec((contentLayout.parent as View).width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            val targetHeight = contentLayout.measuredHeight
+
+            contentLayout.layoutParams.height = 0
+            contentLayout.visibility = View.VISIBLE
+
+            contentLayout.animate()
+                .setDuration(200)
+                .alpha(1f)
+                .withEndAction {
+                    contentLayout.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                }
+                .start()
+
+        } else {
+            // COLLAPSE — THIS WAS THE BUG
+            val initialHeight = contentLayout.height
+
+            contentLayout.animate()
+                .setDuration(200)
+                .alpha(0f)
+                .withEndAction {
+                    contentLayout.visibility = View.GONE
+                    contentLayout.alpha = 1f
+                    contentLayout.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT   // ← FIX
+                }
+                .start()
+        }
+    }
+
+    // ---------------------------------------------------------
     // UI SETUP
     // ---------------------------------------------------------
     private fun setupUI() {
 
-        // Disclaimer toggle
-        binding.txtDisclaimerHeader.setOnClickListener {
-            val body = binding.txtDisclaimerBody
-            if (body.visibility == View.VISIBLE) {
-                body.visibility = View.GONE
-                binding.txtDisclaimerHeader.text = getString(R.string.disclaimer_expand)
-            } else {
-                body.visibility = View.VISIBLE
-                binding.txtDisclaimerHeader.text = getString(R.string.disclaimer_collapse)
-            }
+        // Expandable sections
+        binding.headerSettings.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
+        binding.headerTools.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
+        binding.headerDisclaimer.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
+
+        // SETTINGS
+        binding.headerSettings.setOnClickListener {
+            val isVisible = binding.layoutSettingsContent.visibility == View.VISIBLE
+
+            binding.layoutSettingsContent.visibility =
+                if (isVisible) View.GONE else View.VISIBLE
+
+            binding.headerSettings.icon =
+                ContextCompat.getDrawable(this,
+                    if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
+                )
+        }
+
+        // TEST TOOLS
+        binding.headerTools.setOnClickListener {
+            val isVisible = binding.layoutToolsContent.visibility == View.VISIBLE
+
+            binding.layoutToolsContent.visibility =
+                if (isVisible) View.GONE else View.VISIBLE
+
+            binding.headerTools.icon =
+                ContextCompat.getDrawable(this,
+                    if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
+                )
+        }
+
+        // DISCLAIMER
+        binding.headerDisclaimer.setOnClickListener {
+            val isVisible = binding.layoutDisclaimerContent.visibility == View.VISIBLE
+
+            binding.layoutDisclaimerContent.visibility =
+                if (isVisible) View.GONE else View.VISIBLE
+
+            binding.headerDisclaimer.icon =
+                ContextCompat.getDrawable(this,
+                    if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
+                )
         }
 
         // Start service
@@ -182,6 +264,7 @@ class MainActivity : ComponentActivity() {
         binding.switchSpeedo.isChecked = settings.getShowSpeedometer()
         binding.switchTransparency.isChecked = settings.getSemiTransparent()
         binding.switchMph.isChecked = settings.getUseMph()
+        binding.switchBroadcast.isChecked = settings.isBroadcastEnabled()
 
         binding.switchSpeedo.setOnCheckedChangeListener { _, checked ->
             settings.setShowSpeedometer(checked)
@@ -193,10 +276,9 @@ class MainActivity : ComponentActivity() {
             sendOverlayUpdate()
         }
 
-        binding.switchBroadcast.isChecked = settings.isBroadcastEnabled()
         binding.switchBroadcast.setOnCheckedChangeListener { _, checked ->
             settings.setBroadcastEnabled(checked)
-            sendOverlayUpdate() // also triggers service to refresh MediaSession
+            sendOverlayUpdate()
         }
 
         binding.switchMph.setOnCheckedChangeListener { _, checked ->
@@ -208,7 +290,7 @@ class MainActivity : ComponentActivity() {
         binding.btnTestSound.setOnClickListener {
             val custom = settings.getCustomSound()
             val mp = if (custom != null) MediaPlayer.create(this, custom)
-                     else MediaPlayer.create(this, R.raw.beep)
+            else MediaPlayer.create(this, R.raw.beep)
             mp?.setOnCompletionListener { player -> player.release() }
             mp?.start()
         }
@@ -249,10 +331,10 @@ class MainActivity : ComponentActivity() {
 
         val notificationGranted =
             Build.VERSION.SDK_INT < 33 ||
-                ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
+                    ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
 
         return locationGranted && notificationGranted
     }
