@@ -14,10 +14,11 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".
 
 ## Screenshots
 *(Note: The screen automatically follows the system day-night mode. Here you see two examples.)*<br>
-**Dark mode, disclaimer expanded**<br>
+![](./images/app_screen_light.gif)<br>
+<!-- **Dark mode, disclaimer expanded**<br>
 ![](./images/screen_expanded_dark.jpg)<br>
 **Day mode, disclaimer collapsed**<br>
-![](./images/screen_collapsed_light.jpg)<br>
+![](./images/screen_collapsed_light.jpg)<br> -->
 
 <!--
  Collapsed Disclaimer    | Expanded Disclaimer  
