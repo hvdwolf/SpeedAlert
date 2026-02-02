@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:icon="@drawable/ic_start"
+                app:icon="@drawable/ic_start"
                 app:iconGravity="textStart"
                 app:iconPadding="12dp" />
 
@@ -35,18 +35,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:icon="@drawable/ic_stop"
+                app:icon="@drawable/ic_stop"
                 app:iconGravity="textStart"
                 app:iconPadding="12dp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textDebug"
-            android:text="Service: stopped"
-            android:textSize="16sp"
-            android:paddingTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
 
         <!-- SETTINGS HEADER -->
@@ -57,7 +49,7 @@
             android:text="@string/section_settings"
             android:textSize="18sp"
             android:padding="12dp"
-            android:icon="@drawable/ic_settings"
+            app:icon="@drawable/ic_settings"
             app:iconGravity="textStart"
             app:iconPadding="12dp"
             android:layout_marginBottom="8dp" />
@@ -152,7 +144,7 @@
             android:text="@string/section_test_tools"
             android:textSize="18sp"
             android:padding="12dp"
-            android:icon="@drawable/ic_tools"
+            app:icon="@drawable/ic_tools"
             app:iconGravity="textStart"
             app:iconPadding="12dp"
             android:layout_marginTop="20dp"
@@ -197,20 +189,76 @@
                             android:layout_weight="1" />
 
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/textCurrentSpeed"
-                        android:text="Speed: -- km/h"
-                        android:textSize="18sp"
-                        android:paddingTop="12dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:id="@+id/textSpeedLimit"
-                        android:text="Limit: -- km/h"
-                        android:textSize="18sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- DEBUG HEADER -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/debugheader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/section_debug"
+            android:textSize="18sp"
+            android:padding="12dp"
+            app:icon="@drawable/ic_debug"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- DEBUG CONTENT -->
+        <LinearLayout
+            android:id="@+id/debugContent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textCurrentSpeed"
+                android:text="Speed: -- km/h"
+                android:textSize="18sp"
+                android:paddingTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textSpeedLimit"
+                android:text="Limit: -- km/h"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textDebug"
+                android:text="Service: stopped"
+                android:textSize="16sp"
+                android:paddingTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textDebugService"
+                android:text="Service: unknown"
+                android:textSize="16sp"
+                android:paddingTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textDebugPermissions"
+                android:text="Permissions: checking..."
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textDebugGps"
+                android:text="GPS: waiting..."
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -223,7 +271,7 @@
             android:text="@string/section_disclaimer"
             android:textSize="18sp"
             android:padding="12dp"
-            android:icon="@drawable/ic_info"
+            app:icon="@drawable/ic_info"
             app:iconGravity="textStart"
             app:iconPadding="12dp"
             android:layout_marginTop="20dp" />

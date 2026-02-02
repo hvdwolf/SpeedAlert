@@ -81,7 +81,7 @@ tion from SpeedAlert.</string>
     <string name="media_limit_prefix">Limit:</string>
 
     <string name="section_settings">Settings</string>
-    <string name="section_test_tools">Test Tools</string>
+    <string name="section_test_tools">Test Options</string>
+    <string name="section_debug">Debug Options</string>
     <string name="section_disclaimer">Disclaimer</string>
-
 </resources>

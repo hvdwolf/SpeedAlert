@@ -36,69 +36,87 @@ class MainActivity : ComponentActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val speed = intent?.getIntExtra("speed", 0) ?: 0
             val limit = intent?.getIntExtra("limit", 0) ?: 0
+            val ts = intent?.getLongExtra("timestamp", 0L) ?: 0L
 
+            // Update speed + limit
             binding.textCurrentSpeed.text = "Speed: $speed km/h"
             binding.textSpeedLimit.text = "Limit: $limit km/h"
-            binding.textDebug.text = "Service: running (speed: $speed, limit: $limit)"
+
+            // GPS timestamp
+            if (ts > 0) {
+                val secondsAgo = (System.currentTimeMillis() - ts) / 1000
+                binding.textDebugGps.text = "GPS: fix $secondsAgo sec ago"
+            } else {
+                binding.textDebugGps.text = "GPS: no fix"
+            }
+
+            // Service running
+            binding.textDebugService.text = "Service: running"
         }
     }
+
 
     private val serviceStatusReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val status = intent?.getStringExtra("status") ?: "unknown"
-            binding.textDebug.text = "Service: $status"
+
+            when (status) {
+                "running" -> binding.textDebugService.text = "Service: running"
+                "gps_lost" -> binding.textDebugGps.text = "GPS: LOST"
+                "no_gps_permission" -> binding.textDebugGps.text = "GPS: permission missing"
+                "stopped" -> binding.textDebugService.text = "Service: stopped"
+                else -> binding.textDebugService.text = "Service: $status"
+            }
         }
     }
 
-    // ---------------------------------------------------------
-    // CHINESE HEAD UNIT DETECTOR
-    // ---------------------------------------------------------
-    private fun isChineseHeadUnit(): Boolean {
-        val manufacturer = Build.MANUFACTURER.lowercase()
-        val brand = Build.BRAND.lowercase()
-        val model = Build.MODEL.lowercase()
 
-        return manufacturer.contains("mtcd") ||
-                manufacturer.contains("mtce") ||
-                brand.contains("fyt") ||
-                brand.contains("joying") ||
-                brand.contains("dasaita") ||
-                brand.contains("hct") ||
-                model.contains("px5") ||
-                model.contains("px6") ||
-                model.contains("px30") ||
-                model.contains("ts10") ||
-                model.contains("ts18")
+    private fun updatePermissionDebug() {
+        val gps = if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) "GPS OK" else "GPS MISSING"
+
+        val notif = if (Build.VERSION.SDK_INT < 33 ||
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) "Notifications OK" else "Notifications MISSING"
+
+        val overlay = if (Settings.canDrawOverlays(this)) "Overlay OK" else "Overlay MISSING"
+
+        binding.textDebugPermissions.text = "Permissions: $gps | $notif | $overlay"
     }
+
+
 
     // ---------------------------------------------------------
     // OVERLAY PERMISSION HANDLING
     // ---------------------------------------------------------
-    private val overlayPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (hasOverlayPermission()) {
-                Toast.makeText(this, "Overlay permission granted", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Overlay permission missing", Toast.LENGTH_LONG).show()
-            }
-        }
-
-    private fun hasOverlayPermission(): Boolean {
-        if (isChineseHeadUnit()) return true
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)
-    }
 
     private fun requestOverlayPermission() {
-        if (isChineseHeadUnit()) return
-
-        if (!hasOverlayPermission()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            !Settings.canDrawOverlays(this)
+        ) {
             val intent = Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:$packageName")
-            )
-            overlayPermissionLauncher.launch(intent)
+            ).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+            }
+
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Unable to open overlay settings", Toast.LENGTH_LONG).show()
+            }
         }
     }
+
 
     // ---------------------------------------------------------
     // SOUND PICKER
@@ -118,6 +136,7 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
         settings = SettingsManager(this)
 
+        updatePermissionDebug()
         setupUI()
     }
 
@@ -125,6 +144,8 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         registerReceiver(speedReceiver, IntentFilter("SPEED_UPDATE"))
         registerReceiver(serviceStatusReceiver, IntentFilter("SERVICE_STATUS"))
+        updatePermissionDebug()
+        binding.textDebugGps.text = "GPS: waiting..."
     }
 
     override fun onPause() {
@@ -141,6 +162,7 @@ class MainActivity : ComponentActivity() {
         // Expandable headers
         binding.headerSettings.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
         binding.headerTools.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
+        binding.debugheader.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
         binding.headerDisclaimer.icon = ContextCompat.getDrawable(this, R.drawable.ic_expand_more)
 
         binding.headerSettings.setOnClickListener {
@@ -148,6 +170,9 @@ class MainActivity : ComponentActivity() {
         }
         binding.headerTools.setOnClickListener {
             toggleSection(binding.headerTools, binding.layoutToolsContent)
+        }
+        binding.debugheader.setOnClickListener {
+            toggleSection(binding.debugheader, binding.debugContent)
         }
         binding.headerDisclaimer.setOnClickListener {
             toggleSection(binding.headerDisclaimer, binding.layoutDisclaimerContent)
@@ -173,6 +198,7 @@ class MainActivity : ComponentActivity() {
                 )
                 return@setOnClickListener
             }
+            updatePermissionDebug()
 
             // 2) Location permission
             if (ContextCompat.checkSelfPermission(
@@ -187,18 +213,21 @@ class MainActivity : ComponentActivity() {
                 )
                 return@setOnClickListener
             }
+            updatePermissionDebug()
 
             // 3) Overlay permission
-            if (settings.getShowSpeedometer() && !hasOverlayPermission()) {
+            if (settings.getShowSpeedometer() && !Settings.canDrawOverlays(this)) {
                 requestOverlayPermission()
                 return@setOnClickListener
             }
+            updatePermissionDebug()
 
             // 4) Start service
             val intent = Intent(this, DrivingService::class.java)
             ContextCompat.startForegroundService(this, intent)
 
             binding.textDebug.text = "Service: running"
+            updatePermissionDebug()
         }
 
         // ---------------------------------------------------------

@@ -76,6 +76,7 @@
 
     <string name="section_settings">Instellingen</string>
     <string name="section_test_tools">Test Opties</string>
+    <string name="section_debug">Debug Opties</string>
     <string name="section_disclaimer">Disclaimer</string>
 
 </resources>
