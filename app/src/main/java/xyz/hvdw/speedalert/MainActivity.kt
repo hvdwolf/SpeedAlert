@@ -18,7 +18,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.slider.Slider
+import androidx.core.net.toUri
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.NotificationCompat
 import xyz.hvdw.speedalert.databinding.ActivityMainBinding
 
 class MainActivity : ComponentActivity() {
@@ -37,10 +39,12 @@ class MainActivity : ComponentActivity() {
             val speed = intent?.getIntExtra("speed", 0) ?: 0
             val limit = intent?.getIntExtra("limit", 0) ?: 0
             val ts = intent?.getLongExtra("timestamp", 0L) ?: 0L
+            val acc = intent?.getFloatExtra("accuracy", -1f) ?: -1f
+            val uptime = intent?.getLongExtra("uptime", 0L) ?: 0L
 
-            // Update speed + limit
-            binding.textCurrentSpeed.text = "Speed: $speed km/h"
-            binding.textSpeedLimit.text = "Limit: $limit km/h"
+            // Speed + limit
+            binding.textDebugSpeed.text = "Speed: $speed"
+            binding.textDebugLimit.text = "Limit: $limit"
 
             // GPS timestamp
             if (ts > 0) {
@@ -50,27 +54,42 @@ class MainActivity : ComponentActivity() {
                 binding.textDebugGps.text = "GPS: no fix"
             }
 
-            // Service running
+            // Accuracy
+            if (acc >= 0) {
+                binding.textDebugAccuracy.text = "Acc: ${acc.toInt()} m"
+            } else {
+                binding.textDebugAccuracy.text = "Acc: unknown"
+            }
+
+            // Uptime
+            binding.textDebugUptime.text = "Up: ${uptime}s"
+
+            // Service is running
             binding.textDebugService.text = "Service: running"
         }
     }
 
-
     private val serviceStatusReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val status = intent?.getStringExtra("status") ?: "unknown"
+            val uptime = intent?.getLongExtra("uptime", 0L) ?: 0L
 
             when (status) {
                 "running" -> binding.textDebugService.text = "Service: running"
                 "gps_lost" -> binding.textDebugGps.text = "GPS: LOST"
                 "no_gps_permission" -> binding.textDebugGps.text = "GPS: permission missing"
+                "overlay_failed" -> binding.textDebugOverlay.text = "Overlay: FAILED"
                 "stopped" -> binding.textDebugService.text = "Service: stopped"
                 else -> binding.textDebugService.text = "Service: $status"
             }
+
+            binding.textDebugUptime.text = "Up: ${uptime}s"
         }
     }
 
-
+    // ---------------------------------------------------------
+    // PERMISSION DEBUG PANEL
+    // ---------------------------------------------------------
     private fun updatePermissionDebug() {
         val gps = if (ContextCompat.checkSelfPermission(
                 this,
@@ -90,16 +109,11 @@ class MainActivity : ComponentActivity() {
         binding.textDebugPermissions.text = "Permissions: $gps | $notif | $overlay"
     }
 
-
-
     // ---------------------------------------------------------
-    // OVERLAY PERMISSION HANDLING
+    // OVERLAY PERMISSION
     // ---------------------------------------------------------
-
-    private fun requestOverlayPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-            !Settings.canDrawOverlays(this)
-        ) {
+    /* private fun requestOverlayPermission() {
+        if (!Settings.canDrawOverlays(this)) {
             val intent = Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:$packageName")
@@ -114,6 +128,20 @@ class MainActivity : ComponentActivity() {
             } catch (e: Exception) {
                 Toast.makeText(this, "Unable to open overlay settings", Toast.LENGTH_LONG).show()
             }
+        }
+    } */
+
+    /* Vasily91 Display-Media-titles */
+    private fun requestOverlayPermission() {
+        // Draw over other apps permission
+        if (!Settings.canDrawOverlays(this)) {
+            val intentOverlays = Intent()
+            intentOverlays.setAction(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            intentOverlays.setData("package:$packageName".toUri())
+            intentOverlays.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intentOverlays.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            intentOverlays.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+            startActivity(intentOverlays)
         }
     }
 
@@ -182,9 +210,9 @@ class MainActivity : ComponentActivity() {
         // START SERVICE BUTTON
         // ---------------------------------------------------------
         binding.btnStart.setOnClickListener {
-            binding.textDebug.text = "Service: starting..."
+            binding.textDebugService.text = "Service: starting..."
 
-            // 1) Notification permission
+            // Notification permission (Android 13+)
             if (Build.VERSION.SDK_INT >= 33 &&
                 ContextCompat.checkSelfPermission(
                     this,
@@ -198,9 +226,8 @@ class MainActivity : ComponentActivity() {
                 )
                 return@setOnClickListener
             }
-            updatePermissionDebug()
 
-            // 2) Location permission
+            // Location permission
             if (ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -213,21 +240,20 @@ class MainActivity : ComponentActivity() {
                 )
                 return@setOnClickListener
             }
-            updatePermissionDebug()
 
-            // 3) Overlay permission
+            // Overlay permission
             if (settings.getShowSpeedometer() && !Settings.canDrawOverlays(this)) {
                 requestOverlayPermission()
                 return@setOnClickListener
             }
+
             updatePermissionDebug()
 
-            // 4) Start service
+            // Start service
             val intent = Intent(this, DrivingService::class.java)
             ContextCompat.startForegroundService(this, intent)
 
-            binding.textDebug.text = "Service: running"
-            updatePermissionDebug()
+            binding.textDebugService.text = "Service: running"
         }
 
         // ---------------------------------------------------------
@@ -235,7 +261,7 @@ class MainActivity : ComponentActivity() {
         // ---------------------------------------------------------
         binding.btnStop.setOnClickListener {
             stopService(Intent(this, DrivingService::class.java))
-            binding.textDebug.text = "Service: stopped"
+            binding.textDebugService.text = "Service: stopped"
         }
 
         // ---------------------------------------------------------
@@ -257,7 +283,7 @@ class MainActivity : ComponentActivity() {
             val sn = ServiceNotification(this)
             sn.createChannel()
 
-            val notification = androidx.core.app.NotificationCompat.Builder(
+            val notification = NotificationCompat.Builder(
                 this,
                 ServiceNotification.CHANNEL_ID
             )
@@ -266,8 +292,7 @@ class MainActivity : ComponentActivity() {
                 .setContentText("This is a test")
                 .build()
 
-            androidx.core.app.NotificationManagerCompat.from(this)
-                .notify(999, notification)
+            NotificationManagerCompat.from(this).notify(999, notification)
         }
 
         // ---------------------------------------------------------
@@ -323,11 +348,12 @@ class MainActivity : ComponentActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-            binding.textDebug.text = "Permission denied"
+            binding.textDebugPermissions.text = "Permissions: DENIED"
             return
         }
 
-        binding.textDebug.text = "Permission granted"
+        binding.textDebugPermissions.text = "Permissions: GRANTED"
+        updatePermissionDebug()
     }
 
     // ---------------------------------------------------------
@@ -354,7 +380,6 @@ class MainActivity : ComponentActivity() {
 
         val icon = if (isVisible) R.drawable.ic_expand_more else R.drawable.ic_expand_less
         (header as? ViewGroup)?.let {
-            // header is a MaterialButton, so .icon exists
             (header as com.google.android.material.button.MaterialButton).icon =
                 ContextCompat.getDrawable(this, icon)
         }

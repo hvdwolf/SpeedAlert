@@ -2,23 +2,29 @@ package xyz.hvdw.speedalert
 
 import android.Manifest
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import kotlinx.coroutines.*
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DrivingService : Service() {
 
     private lateinit var fused: FusedLocationProviderClient
+    private lateinit var locationManager: LocationManager
     private lateinit var settings: SettingsManager
-    private val repo = SpeedLimitRepository()
+    private val repo = MultiProviderSpeedLimitRepository()
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -31,6 +37,10 @@ class DrivingService : Service() {
     private val kalman = KalmanFilter()
 
     private var lastGpsFixTime = 0L
+    private var fusedWorking = false
+
+    private var serviceStartTime = 0L
+    private lateinit var logFile: File
 
     companion object {
         const val ACTION_UPDATE_OVERLAY = "xyz.hvdw.speedalert.UPDATE_OVERLAY"
@@ -41,9 +51,14 @@ class DrivingService : Service() {
     override fun onCreate() {
         super.onCreate()
         isRunning = true
+        serviceStartTime = System.currentTimeMillis()
 
         settings = SettingsManager(this)
         fused = LocationServices.getFusedLocationProviderClient(this)
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        logFile = File(filesDir, "driving_service.log")
+        logLine("Service created")
 
         // Foreground notification
         val notif = ServiceNotification(this)
@@ -52,10 +67,16 @@ class DrivingService : Service() {
 
         sendStatus("running")
 
-        // Overlay (safe)
+        // Overlay
         if (settings.getShowSpeedometer() && Settings.canDrawOverlays(this)) {
-            speedometer = FloatingSpeedometer(this, settings)
-            speedometer?.show()
+            try {
+                speedometer = FloatingSpeedometer(this, settings)
+                speedometer?.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                logLine("Overlay failed: ${e.message}")
+                sendStatus("overlay_failed")
+            }
         }
 
         // Media broadcast
@@ -89,44 +110,73 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // LOCATION UPDATES
+    // LOCATION UPDATES (Android 10+)
     // ---------------------------------------------------------
     private fun startLocationUpdates() {
-        val req = LocationRequest.Builder(
-            Priority.PRIORITY_HIGH_ACCURACY,
-            1000L
-        )
-            .setMinUpdateDistanceMeters(2f)
-            .build()
-
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             sendStatus("no_gps_permission")
+            logLine("No GPS permission, stopping service")
             stopSelf()
             return
         }
 
-        fused.requestLocationUpdates(req, locationCallback, mainLooper)
+        // Fused provider
+        try {
+            val req = LocationRequest.Builder(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                1000L
+            )
+                .setMinUpdateDistanceMeters(2f)
+                .build()
+
+            fused.requestLocationUpdates(req, locationCallback, mainLooper)
+            fusedWorking = true
+            logLine("Fused location updates requested")
+        } catch (e: Exception) {
+            fusedWorking = false
+            logLine("Fused location failed: ${e.message}")
+        }
+
+        // Fallback LocationManager
+        try {
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000L,
+                2f,
+                gpsListener
+            )
+            logLine("LocationManager GPS_PROVIDER updates requested")
+        } catch (e: Exception) {
+            logLine("LocationManager request failed: ${e.message}")
+        }
     }
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(res: LocationResult) {
-            val loc = res.lastLocation
-            if (loc == null) {
-                sendGpsLost()
-                return
-            }
-
+            val loc = res.lastLocation ?: return
+            fusedWorking = true
             lastGpsFixTime = System.currentTimeMillis()
+            logLine("Fused location: ${loc.latitude}, ${loc.longitude}, acc=${loc.accuracy}")
             scope.launch { handleLocation(loc) }
         }
     }
 
+    private val gpsListener = object : LocationListener {
+        override fun onLocationChanged(loc: Location) {
+            if (!fusedWorking) {
+                lastGpsFixTime = System.currentTimeMillis()
+                logLine("Fallback location: ${loc.latitude}, ${loc.longitude}, acc=${loc.accuracy}")
+                scope.launch { handleLocation(loc) }
+            }
+        }
+    }
+
     // ---------------------------------------------------------
-    // GPS WATCHDOG (detects GPS loss)
+    // GPS WATCHDOG
     // ---------------------------------------------------------
     private fun startGpsWatchdog() {
         scope.launch {
@@ -135,6 +185,7 @@ class DrivingService : Service() {
 
                 val now = System.currentTimeMillis()
                 if (lastGpsFixTime != 0L && now - lastGpsFixTime > 10_000) {
+                    logLine("GPS lost (no fix for >10s)")
                     sendGpsLost()
                 }
             }
@@ -146,6 +197,8 @@ class DrivingService : Service() {
         intent.putExtra("speed", -1)
         intent.putExtra("limit", -1)
         intent.putExtra("timestamp", System.currentTimeMillis())
+        intent.putExtra("accuracy", -1f)
+        intent.putExtra("uptime", getServiceUptimeSeconds())
         sendBroadcast(intent)
 
         sendStatus("gps_lost")
@@ -161,12 +214,16 @@ class DrivingService : Service() {
 
         val lat = loc.latitude
         val lon = loc.longitude
+        val accuracy = loc.accuracy
+        val now = System.currentTimeMillis()
 
         // Fetch speed limit every 10 seconds
-        val now = System.currentTimeMillis()
         val limit = if (now - lastLimitFetchTime > 10_000) {
             lastLimitFetchTime = now
-            repo.getSpeedLimit(lat, lon)?.also { lastLimit = it }
+            val fetched = repo.getSpeedLimit(lat, lon)
+            lastLimit = fetched
+            logLine("Speed limit fetched: $fetched at $lat,$lon")
+            fetched
         } else lastLimit
 
         // Update overlay
@@ -177,6 +234,8 @@ class DrivingService : Service() {
         updateIntent.putExtra("speed", intSpeed)
         updateIntent.putExtra("limit", limit ?: -1)
         updateIntent.putExtra("timestamp", now)
+        updateIntent.putExtra("accuracy", accuracy)
+        updateIntent.putExtra("uptime", getServiceUptimeSeconds())
         sendBroadcast(updateIntent)
 
         // Media broadcast
@@ -197,7 +256,10 @@ class DrivingService : Service() {
 
             speedometer?.updateSpeed(intSpeed, limit, isOverspeed)
 
-            if (isOverspeed) playOverspeedWarning(limit)
+            if (isOverspeed) {
+                logLine("Overspeed: speed=$intSpeed, limit=$limit")
+                playOverspeedWarning(limit)
+            }
         }
     }
 
@@ -224,7 +286,27 @@ class DrivingService : Service() {
     private fun sendStatus(status: String) {
         val intent = Intent("SERVICE_STATUS")
         intent.putExtra("status", status)
+        intent.putExtra("uptime", getServiceUptimeSeconds())
         sendBroadcast(intent)
+        logLine("Status: $status, uptime=${getServiceUptimeSeconds()}s")
+    }
+
+    // ---------------------------------------------------------
+    // UPTIME
+    // ---------------------------------------------------------
+    private fun getServiceUptimeSeconds(): Long {
+        return (System.currentTimeMillis() - serviceStartTime) / 1000
+    }
+
+    // ---------------------------------------------------------
+    // LOGGING
+    // ---------------------------------------------------------
+    private fun logLine(msg: String) {
+        try {
+            val ts = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US)
+                .format(System.currentTimeMillis())
+            logFile.appendText("[$ts] $msg\n")
+        } catch (_: Exception) {}
     }
 
     // ---------------------------------------------------------
@@ -234,13 +316,16 @@ class DrivingService : Service() {
         super.onDestroy()
         isRunning = false
 
-        fused.removeLocationUpdates(locationCallback)
+        try { fused.removeLocationUpdates(locationCallback) } catch (_: Exception) {}
+        try { locationManager.removeUpdates(gpsListener) } catch (_: Exception) {}
+
         mediaPlayer?.release()
         speedometer?.hide()
         scope.cancel()
         mediaBroadcast?.stop()
 
         sendStatus("stopped")
+        logLine("Service destroyed")
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

@@ -13,16 +13,12 @@ class ServiceNotification(private val ctx: Context) {
         const val CHANNEL_ID = "driving_service"
     }
 
-    private val channelName: String
-        get() = ctx.getString(R.string.channel_name)
-
-    private val channelDesc: String
-        get() = ctx.getString(R.string.channel_description)
+    private val channelName get() = ctx.getString(R.string.channel_name)
+    private val channelDesc get() = ctx.getString(R.string.channel_description)
 
     fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            // Android 13+ requires a visible channel for POST_NOTIFICATIONS permission
             val importance =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                     NotificationManager.IMPORTANCE_DEFAULT
@@ -36,8 +32,8 @@ class ServiceNotification(private val ctx: Context) {
             ).apply {
                 description = channelDesc
                 setShowBadge(false)
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             }
-
 
             val mgr = ctx.getSystemService(NotificationManager::class.java)
             mgr.createNotificationChannel(channel)
@@ -50,7 +46,10 @@ class ServiceNotification(private val ctx: Context) {
             .setContentText(ctx.getString(R.string.notif_running_text))
             .setSmallIcon(android.R.drawable.ic_menu_mylocation)
             .setOngoing(true)
-            .setPriority(NotificationCompat.PRIORITY_LOW) // for pre-Oreo
+            .setOnlyAlertOnce(true)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
             .apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     setForegroundServiceBehavior(

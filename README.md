@@ -7,9 +7,10 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".
 ### Note: You use this app entirely at your own risk. I am not responsible for incorrect functioning or incorrect use of the app. All responsibility for use, or incorrect use, lies entirely with you! Always follow the specified (temporary) speed limits and drive responsibly.
 
 ## App Permissions
-\- It needs access to your exact location (during use of the App). Otherwise it can't check your location and if you are overspeeding or not.<br>
-\- It needs access to notifications to push notifications and toasts to your screen.<br>
-\- When using an overlay, it needs the "show over other apps" permission.<br>
+\- It needs ACCESS_FINE_LOCATION to get access to your exact location (during use of the App). Otherwise it can't check your location and if you are overspeeding or not.<br>
+\- It needs POST_NOTIFICATIONS to be able to push notifications and toasts to your screen.<br>
+\- Needs ACTION_MANAGE_OVERLAY_PERMISSION when using an overlay.<br>
+\- Request IGNORE_BATTERY_OPTIMIZATIONS. This as Android might kill long-running apps not really in the foreground.<br>
 **This app does not collect, store or share any personal information. It is 100% privacy friendly.**
 
 ## Screenshots

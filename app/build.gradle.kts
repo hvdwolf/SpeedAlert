@@ -7,32 +7,58 @@ android {
     namespace = "xyz.hvdw.speedalert"
     compileSdk = 34
 
+    defaultConfig {
+        applicationId = "xyz.hvdw.speedalert"
+        minSdk = 29
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        // Only include the ABIs you want in the final APK
+        ndk {
+            abiFilters += listOf("arm64-v8a", "x86_64")
+        }
+    }
+
+    // Enable shrinking + minification
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+
+            //proguardFiles(
+            //    getDefaultProguardFile("proguard-android-optimize.txt"),
+            //    "proguard-rules.pro"
+            //)
+        }
+
+        getByName("debug") {
+            // Keep debug builds fast
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
+    }
+
+    // Remove unwanted native libs if any dependency tries to include them
+    packaging {
+        jniLibs {
+            excludes += listOf(
+                "**/armeabi/**",
+                "**/armeabi-v7a/**",
+                "**/x86/**"
+            )
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    defaultConfig {
-        applicationId = "xyz.hvdw.speedalert"
-        minSdk = 27
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     buildFeatures {
         viewBinding = true
     }
 }
-
 
 kotlin {
     jvmToolchain(17)
@@ -41,7 +67,9 @@ kotlin {
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.gms:play-services-location:21.0.1")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // OkHttp (1 MB) — optional to remove later, but best and fastest
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }

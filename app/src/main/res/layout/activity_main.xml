@@ -209,56 +209,91 @@
         <!-- DEBUG CONTENT -->
         <LinearLayout
             android:id="@+id/debugContent"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:padding="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-            <TextView
-                android:id="@+id/textCurrentSpeed"
-                android:text="Speed: -- km/h"
-                android:textSize="18sp"
-                android:paddingTop="12dp"
+            <!-- Row 1: Speed + Limit -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/textSpeedLimit"
-                android:text="Limit: -- km/h"
-                android:textSize="18sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/textDebugSpeed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Speed: 0" />
 
-            <TextView
-                android:id="@+id/textDebug"
-                android:text="Service: stopped"
-                android:textSize="16sp"
-                android:paddingTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/textDebugLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Limit: -" />
+            </LinearLayout>
 
+            <!-- Row 2: Overlay -->
             <TextView
-                android:id="@+id/textDebugService"
-                android:text="Service: unknown"
-                android:textSize="16sp"
-                android:paddingTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:id="@+id/textDebugOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:text="Overlay: off" />
 
-            <TextView
-                android:id="@+id/textDebugPermissions"
-                android:text="Permissions: checking..."
-                android:textSize="14sp"
+            <!-- Row 3: Service + Permissions -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="6dp">
 
-            <TextView
-                android:id="@+id/textDebugGps"
-                android:text="GPS: waiting..."
-                android:textSize="14sp"
+                <TextView
+                    android:id="@+id/textDebugService"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Service: stopped" />
+
+                <TextView
+                    android:id="@+id/textDebugPermissions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Permissions: OK" />
+            </LinearLayout>
+
+            <!-- Row 4: GPS + Accuracy + Uptime -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="6dp">
+
+                <TextView
+                    android:id="@+id/textDebugGps"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="GPS: no fix" />
+
+                <TextView
+                    android:id="@+id/textDebugAccuracy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:text="Accuracy: -" />
+
+                <TextView
+                    android:id="@+id/textDebugUptime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:text="Up: 0s" />
+            </LinearLayout>
 
         </LinearLayout>
 

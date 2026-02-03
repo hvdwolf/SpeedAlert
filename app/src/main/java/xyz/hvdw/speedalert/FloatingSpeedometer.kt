@@ -8,6 +8,7 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.content.edit
@@ -22,15 +23,24 @@ class FloatingSpeedometer(
     private var view: View? = null
     private var binding: ViewSpeedometerBinding? = null
 
-    // Save position + minimized state
     private val prefs = ctx.getSharedPreferences("speedometer_prefs", Context.MODE_PRIVATE)
     private var isMinimized = prefs.getBoolean("minimized", false)
 
-    // Window layout params (optimized for head units)
+    // ---------------------------------------------------------
+    // WINDOW TYPE (Android 10+ only)
+    // ---------------------------------------------------------
+    private fun chooseWindowType(): Int {
+        return try {
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        } catch (_: Exception) {
+            WindowManager.LayoutParams.TYPE_APPLICATION_PANEL
+        }
+    }
+
     private val layoutParams = WindowManager.LayoutParams(
         WindowManager.LayoutParams.WRAP_CONTENT,
         WindowManager.LayoutParams.WRAP_CONTENT,
-        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+        chooseWindowType(),
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
@@ -42,22 +52,14 @@ class FloatingSpeedometer(
         y = prefs.getInt("pos_y", 100)
     }
 
-    // Theme detection
     private val isDarkMode: Boolean
         get() = (ctx.resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
-    // Colors
-    private val colorNormal: Int
-        get() = if (isDarkMode) Color.WHITE else Color.BLACK
+    private val colorNormal get() = if (isDarkMode) Color.WHITE else Color.BLACK
+    private val colorOverspeed get() = if (isDarkMode) Color.parseColor("#FF453A") else Color.parseColor("#FF3B30")
+    private val backgroundColor get() = if (isDarkMode) Color.parseColor("#222222") else Color.parseColor("#FFFFFF")
 
-    private val colorOverspeed: Int
-        get() = if (isDarkMode) Color.parseColor("#FF453A") else Color.parseColor("#FF3B30")
-
-    private val backgroundColor: Int
-        get() = if (isDarkMode) Color.parseColor("#222222") else Color.parseColor("#FFFFFF")
-
-    // Pulse animation
     private var pulseAnimator: AnimatorSet? = null
     private var isPulsing = false
 
@@ -80,22 +82,30 @@ class FloatingSpeedometer(
             wm.addView(view, layoutParams)
         } catch (e: Exception) {
             e.printStackTrace()
+
+            // Fallback for broken Android 13 ROMs
+            try {
+                layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL
+                wm.addView(view, layoutParams)
+            } catch (e2: Exception) {
+                e2.printStackTrace()
+                view = null
+                binding = null
+            }
         }
     }
 
     fun hide() {
         stopPulse()
         view?.let {
-            try {
-                wm.removeView(it)
-            } catch (_: Exception) {}
+            try { wm.removeView(it) } catch (_: Exception) {}
         }
         view = null
         binding = null
     }
 
     // ---------------------------------------------------------
-    // STYLE UPDATE
+    // STYLE
     // ---------------------------------------------------------
     fun updateStyle(@Suppress("UNUSED_PARAMETER") _settings: SettingsManager) {
         applyTheme()
@@ -136,22 +146,18 @@ class FloatingSpeedometer(
     }
 
     // ---------------------------------------------------------
-    // SPEED + LIMIT UPDATE
+    // SPEED UPDATE
     // ---------------------------------------------------------
     fun updateSpeed(currentSpeedKmh: Int, limitKmh: Int?, isOverspeed: Boolean) {
         val b = binding ?: return
 
         val useMph = settings.getUseMph()
-
         val speed = if (useMph) (currentSpeedKmh * 0.621371).toInt() else currentSpeedKmh
         val limit = if (useMph) limitKmh?.let { (it * 0.621371).toInt() } else limitKmh
 
         b.textCurrentSpeed.text = speed.toString()
         b.textLimit.text = limit?.toString() ?: ctx.getString(R.string.no_speed_limit)
-        b.textUnit.text = if (useMph)
-            ctx.getString(R.string.unit_mph)
-        else
-            ctx.getString(R.string.unit_kmh)
+        b.textUnit.text = if (useMph) ctx.getString(R.string.unit_mph) else ctx.getString(R.string.unit_kmh)
 
         if (isOverspeed) {
             b.textCurrentSpeed.setTextColor(colorOverspeed)
@@ -239,9 +245,8 @@ class FloatingSpeedometer(
                         layoutParams.x = initialX + (event.rawX - touchX).toInt()
                         layoutParams.y = initialY + (event.rawY - touchY).toInt()
 
-                        try {
-                            view?.let { wm.updateViewLayout(it, layoutParams) }
-                        } catch (_: Exception) {}
+                        try { view?.let { wm.updateViewLayout(it, layoutParams) } }
+                        catch (_: Exception) {}
 
                         return true
                     }

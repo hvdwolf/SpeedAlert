@@ -48,6 +48,8 @@ class MediaBroadcastManager(private val ctx: Context) {
     fun updateMetadata(appName: String, speed: Int, limit: Int?, useMph: Boolean) {
         val s = session ?: return
 
+        if (session?.isActive != true) start()
+
         // Unit from resources
         val unit = if (useMph)
             ctx.getString(R.string.unit_mph)
@@ -63,8 +65,11 @@ class MediaBroadcastManager(private val ctx: Context) {
             .putString(MediaMetadata.METADATA_KEY_ALBUM, appName)
             .putString(MediaMetadata.METADATA_KEY_TITLE, "$speed $unit")
             .putString(MediaMetadata.METADATA_KEY_ARTIST, limitText)
+            .putLong(MediaMetadata.METADATA_KEY_DURATION, System.currentTimeMillis())
             .build()
 
-        s.setMetadata(metadata)
+        try {
+            s.setMetadata(metadata)
+        } catch (_: Exception) { }
     }
 }
