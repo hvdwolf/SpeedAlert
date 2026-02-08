@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- SPEED + LIMIT + STATUS -->
         <TextView
             android:id="@+id/txtSpeed"
             android:text="@string/speed_value_placeholder"
@@ -34,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <!-- SWITCHES -->
         <Switch
             android:id="@+id/swShowOverlay"
             android:text="@string/show_overlay"
@@ -48,6 +50,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <!-- OVERSPEED SLIDER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/txtOverspeedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Overspeed tolerance: 5%"
+                android:textSize="18sp"
+                android:layout_marginEnd="12dp" />
+
+            <SeekBar
+                android:id="@+id/seekOverspeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="30"
+                android:progress="5" />
+        </LinearLayout>
+
+        <!-- START / STOP -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -72,34 +100,22 @@
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 
+        <!-- CHECK OVERLAY -->
         <Button
             android:id="@+id/btnCheckOverlay"
             android:text="Check Overlay Permission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:text="@string/debug_log"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ScrollView
-            android:id="@+id/scrollDebug"
+        <!-- DEBUG SCREEN BUTTON -->
+        <Button
+            android:id="@+id/btnDebugScreen"
             android:layout_width="match_parent"
-            android:layout_height="160dp">
+            android:layout_height="wrap_content"
+            android:text="Debug Screen"
+            android:layout_marginTop="12dp" />
 
-            <TextView
-                android:id="@+id/txtDebug"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#444444"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:padding="8dp" />
-        </ScrollView>
-
+        <!-- TEST LOOKUP -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,39 +149,7 @@
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="8dp">
-
-            <Button
-                android:id="@+id/btnCopyLog"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Copy Log" />
-
-            <Button
-                android:id="@+id/btnShareLog"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="Share Log" />
-
-            <Button
-                android:id="@+id/btnEmptyLog"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="Empty Log" />
-
-        </LinearLayout>
-
-
+        <!-- DIAGNOSTICS -->
         <Button
             android:id="@+id/btnDiagnostics"
             android:layout_width="match_parent"

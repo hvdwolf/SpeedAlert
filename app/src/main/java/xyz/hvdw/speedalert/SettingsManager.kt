@@ -14,6 +14,13 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("show_speedometer", v).apply()
     }
 
+    fun getOverspeedTolerance(): Int =
+        prefs.getInt("overspeed_tolerance", 5)
+
+    fun setOverspeedTolerance(value: Int) {
+        prefs.edit().putInt("overspeed_tolerance", value).apply()
+    }
+
     fun isBroadcastEnabled(): Boolean =
         prefs.getBoolean("broadcast_enabled", true)
 

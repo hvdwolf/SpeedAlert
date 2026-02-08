@@ -6,22 +6,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ScrollView
-import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -33,19 +25,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtSpeed: TextView
     private lateinit var txtLimit: TextView
     private lateinit var txtStatus: TextView
-    private lateinit var txtDebug: TextView
     private lateinit var btnStart: Button
     private lateinit var btnStop: Button
     private lateinit var swShowOverlay: Switch
     private lateinit var swBroadcast: Switch
     private lateinit var edtLat: EditText
     private lateinit var edtLon: EditText
-    private lateinit var scrollDebug: ScrollView
+    private lateinit var seekOverspeed: SeekBar
+    private lateinit var txtOverspeedLabel: TextView
 
     private val LOCATION_REQUEST = 1001
     private var defaultTextColor: Int = 0
 
-    //private lateinit var locationManager: LocationManager
     private lateinit var settings: SettingsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,17 +48,41 @@ class MainActivity : AppCompatActivity() {
         txtSpeed = findViewById(R.id.txtSpeed)
         txtLimit = findViewById(R.id.txtLimit)
         txtStatus = findViewById(R.id.txtStatus)
-        txtDebug = findViewById(R.id.txtDebug)
-        scrollDebug = findViewById(R.id.scrollDebug)
         btnStart = findViewById(R.id.btnStart)
         btnStop = findViewById(R.id.btnStop)
         swShowOverlay = findViewById(R.id.swShowOverlay)
         swBroadcast = findViewById(R.id.swBroadcast)
         edtLat = findViewById(R.id.edtLat)
         edtLon = findViewById(R.id.edtLon)
+        seekOverspeed = findViewById(R.id.seekOverspeed)
+        txtOverspeedLabel = findViewById(R.id.txtOverspeedLabel)
 
         defaultTextColor = txtSpeed.currentTextColor
 
+        // -----------------------------
+        // OVERSPEED SLIDER
+        // -----------------------------
+        val savedTolerance = settings.getOverspeedTolerance()
+        seekOverspeed.progress = savedTolerance
+        txtOverspeedLabel.text = "Overspeed tolerance: $savedTolerance%"
+
+        seekOverspeed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, value: Int, fromUser: Boolean) {
+                txtOverspeedLabel.text = "Overspeed tolerance: $value%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                val value = seekOverspeed.progress
+                settings.setOverspeedTolerance(value)
+                Toast.makeText(this@MainActivity, "Saved overspeed percentage: $value%", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        // -----------------------------
+        // BUTTONS
+        // -----------------------------
         findViewById<Button>(R.id.btnCheckOverlay).setOnClickListener {
             if (Settings.canDrawOverlays(this)) {
                 Toast.makeText(this, "Overlay permission OK", Toast.LENGTH_SHORT).show()
@@ -76,18 +91,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnCopyLog).setOnClickListener {
-            copyLogfile()
+        findViewById<Button>(R.id.btnDebugScreen).setOnClickListener {
+            startActivity(Intent(this, DebugActivity::class.java))
         }
-
-        findViewById<Button>(R.id.btnShareLog).setOnClickListener {
-            shareLogfile()
-        }
-
-        findViewById<Button>(R.id.btnEmptyLog).setOnClickListener {
-            emptyLogfile()
-        }
-
 
         findViewById<Button>(R.id.btnTestLookup).setOnClickListener {
             val lat = edtLat.text.toString().toDoubleOrNull()
@@ -104,9 +110,8 @@ class MainActivity : AppCompatActivity() {
                 val result = repo.getSpeedLimit(lat, lon)
                 runOnUiThread {
                     val msg = "Test lookup: $result at $lat,$lon"
-                    txtDebug.append(msg + "\n")
-                    logToFile(msg)
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                    logToFile(msg)
                 }
             }.start()
         }
@@ -115,8 +120,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, DiagnosticsActivity::class.java))
         }
 
-        checkLocationPermission()
-
+        // -----------------------------
+        // SWITCHES
+        // -----------------------------
         swShowOverlay.isChecked = settings.getShowSpeedometer()
         swBroadcast.isChecked = settings.isBroadcastEnabled()
 
@@ -128,17 +134,23 @@ class MainActivity : AppCompatActivity() {
             settings.setBroadcastEnabled(checked)
         }
 
+        // -----------------------------
+        // SERVICE START/STOP
+        // -----------------------------
         btnStart.setOnClickListener {
             startService(Intent(this, DrivingService::class.java))
         }
 
         btnStop.setOnClickListener {
-            val intent = Intent(this, DrivingService::class.java)
-            stopService(intent)
+            stopService(Intent(this, DrivingService::class.java))
         }
 
+        // -----------------------------
+        // PERMISSIONS + RECEIVERS
+        // -----------------------------
+        checkLocationPermission()
+
         registerReceiver(speedReceiver, IntentFilter("xyz.hvdw.speedalert.SPEED_UPDATE"))
-        registerReceiver(debugReceiver, IntentFilter("speedalert.debug"))
     }
 
     override fun onResume() {
@@ -153,11 +165,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(speedReceiver)
-        unregisterReceiver(debugReceiver)
     }
 
     // ---------------------------------------------------------
-    // RECEIVERS
+    // SPEED RECEIVER
     // ---------------------------------------------------------
     private val speedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -166,25 +177,11 @@ class MainActivity : AppCompatActivity() {
             val overspeed = intent?.getBooleanExtra("overspeed", false) ?: false
             val acc = intent?.getFloatExtra("accuracy", -1f) ?: -1f
 
-            //val primaryColor = ContextCompat.getColor(this@MainActivity, R.color.primary)
-
             logToFile("Receiver: speed=$speed, limit=$limit, acc=$acc")
 
-            txtSpeed.text = if (speed >= 0) {
-                getString(R.string.speed_value, speed)
-            } else {
-                "--"
-            }
-            txtLimit.text = if (limit > 0) {
-                getString(R.string.limit_value, limit)
-            } else {
-                "--"
-            }
-            txtStatus.text = if (acc >= 0) {
-                "GPS accuracy: ${acc.toInt()} m"
-            } else {
-                "Waiting for GPS…"
-            }
+            txtSpeed.text = if (speed >= 0) getString(R.string.speed_value, speed) else "--"
+            txtLimit.text = if (limit > 0) getString(R.string.limit_value, limit) else "--"
+            txtStatus.text = if (acc >= 0) "GPS accuracy: ${acc.toInt()} m" else "Waiting for GPS…"
 
             if (overspeed) {
                 txtSpeed.setTextColor(Color.RED)
@@ -193,23 +190,6 @@ class MainActivity : AppCompatActivity() {
                 txtSpeed.setTextColor(defaultTextColor)
                 txtLimit.setTextColor(defaultTextColor)
             }
-        }
-    }
-
-    private val debugReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val msg = intent?.getStringExtra("msg") ?: return
-            if (txtDebug.text.length > 50000) {   // 50k chars
-                txtDebug.text = txtDebug.text.takeLast(20000)
-            }
-
-            txtDebug.append(msg + "\n")
-
-            scrollDebug.post {
-                scrollDebug.fullScroll(View.FOCUS_DOWN)
-            }
-
-            logToFile(msg)
         }
     }
 
@@ -246,12 +226,12 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Overlay Permission (FYT)")
             .setMessage(
                 "Your FYT head unit hides the overlay permission screen.\n\n" +
-                "To enable overlays:\n" +
-                "1. Go to Factory Settings\n" +
-                "2. Enter password: 3368 or 8888\n" +
-                "3. Find 'App permissions' or 'Overlay apps'\n" +
-                "4. Enable overlay for SpeedAlert\n\n" +
-                "If overlays still fail, reboot the unit."
+                        "To enable overlays:\n" +
+                        "1. Go to Factory Settings\n" +
+                        "2. Enter password: 3368 or 8888\n" +
+                        "3. Find 'App permissions' or 'Overlay apps'\n" +
+                        "4. Enable overlay for SpeedAlert\n\n" +
+                        "If overlays still fail, reboot the unit."
             )
             .setPositiveButton("OK", null)
             .show()
@@ -270,80 +250,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ---------------------------------------------------------
-    // LOGFILE COPY + SHARE
+    // PERMISSIONS
     // ---------------------------------------------------------
-    private fun copyLogfile() {
-        try {
-            val src = File(filesDir, "speedalert.log")
-            if (!src.exists()) {
-                Toast.makeText(this, "Logfile does not exist yet", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val destDir = File("/sdcard/SpeedAlert")
-            if (!destDir.exists()) destDir.mkdirs()
-
-            val dest = File(destDir, "speedalert.log")
-
-            FileInputStream(src).use { input ->
-                FileOutputStream(dest).use { output ->
-                    input.copyTo(output)
-                }
-            }
-
-            Toast.makeText(this, "Copied to /sdcard/SpeedAlert/speedalert.log", Toast.LENGTH_LONG).show()
-            logToFile("Logfile copied to shared storage")
-
-        } catch (e: Exception) {
-            Toast.makeText(this, "Copy failed: ${e.message}", Toast.LENGTH_LONG).show()
-            logToFile("Copy failed: ${e.message}")
-        }
-    }
-
-    private fun shareLogfile() {
-        try {
-            val file = File(filesDir, "speedalert.log")
-            if (!file.exists()) {
-                Toast.makeText(this, "Logfile does not exist yet", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val uri = FileProvider.getUriForFile(
-                this,
-                "$packageName.fileprovider",
-                file
-            )
-
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_STREAM, uri)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-
-            startActivity(Intent.createChooser(intent, "Share logfile"))
-
-        } catch (e: Exception) {
-            Toast.makeText(this, "Share failed: ${e.message}", Toast.LENGTH_LONG).show()
-            logToFile("Share failed: ${e.message}")
-        }
-    }
-
-    private fun emptyLogfile() {    
-        try {
-            val file = File(filesDir, "speedalert.log")
-            if (file.exists()) {
-                file.writeText("")   // clear file
-                Toast.makeText(this, "Logfile emptied", Toast.LENGTH_SHORT).show()
-                logToFile("Logfile emptied by user")
-            } else {
-                Toast.makeText(this, "Logfile does not exist yet", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Failed to empty log: ${e.message}", Toast.LENGTH_LONG).show()
-            logToFile("Failed to empty log: ${e.message}")
-        }
-    }
-
     private fun checkLocationPermission() {
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
@@ -370,28 +278,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-    /* private fun startGps() {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                500,
-                0f
-            ) { loc ->
-                sendLocationToService(loc)
-            }
-        }
-    } */
-
-    /* private fun sendLocationToService(loc: Location) {
-        val intent = Intent(this, DrivingService::class.java)
-        intent.putExtra("location", loc)
-        startService(intent)
-    } */
-
 }
