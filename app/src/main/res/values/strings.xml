@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
+    <string name="app_name">SpeedAlert</string>
+
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">Disclaimer (tap to expand)</string>
+    <string name="disclaimer_body">
+        I am not responsible for the incorrect functioning or incorrect use of this app.
+        This app provides speed alerts based on GPS data. Accuracy may vary depending on device, environment, and GPS reception.
+        Always follow the specified (temporary) speed limits and drive responsibly.
+    </string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="btn_start_service">Start Service</string>
+    <string name="btn_stop_service">Stop Service</string>
+    <string name="btn_enter_pip">Enter PiP</string>
+    <string name="pip_requires_service">First start the service before entering PiP mode</string>
+    <string name="btn_save_percent" formatted="false">Save Overspeed threshold %</string>
+    <string name="btn_select_sound">Select Custom Sound</string>
+    <string name="btn_reset_sound">Reset to Default Sound</string>
+    <string name="btn_test_sound">Test Sound</string>
+    <string name="btn_test_toast">Test Toast</string>
+    <string name="btn_test_notification">Test Notification</string>
+
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
+    <string name="switch_show_speedo">Show Speedometer Overlay</string>
+    <string name="switch_transparency">Semi-transparent Overlay</string>
+    <string name="switch_use_mph">Use mph instead of km/h</string>
+    <string name="switch_use_pip">Use PiP instead of overlay</string>
+    <string name="broadcast_switch_label">Broadcast speed to MediaSession</string>
+
+    <!-- ========================================================= -->
+    <!-- EditText -->
+    <!-- ========================================================= -->
+    <string name="hint_overspeed_percent" formatted="false">Overspeed % (default 5%)</string>
+
+    <!-- ========================================================= -->
+    <!-- Speedometer overlay -->
+    <!-- ========================================================= -->
+    <string name="speed_initial">0</string>
+    <string name="speed_unit_kmh">km/h</string>
+    <string name="speed_limit_placeholder">-</string>
+
+    <!-- ========================================================= -->
+    <!-- DrivingService -->
+    <!-- ========================================================= -->
+    <string name="overspeed_warning">Overspeed! Limit %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- FloatingSpeedometer -->
+    <!-- ========================================================= -->
+    <string name="unit_mph">mph</string>
+    <string name="unit_kmh">km/h</string>
+    <string name="no_speed_limit">-</string>
+
+    <!-- ========================================================= -->
+    <!-- MainActivity -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">Overlay permission granted</string>
+    <string name="overlay_permission_missing">Overlay permission still missing</string>
+    <string name="overlay_settings_error">Unable to open overlay settings</string>
+
+    <string name="disclaimer_expand">Disclaimer (tap to expand)</string>
+    <string name="disclaimer_collapse">Disclaimer (tap to collapse)</string>
+
+    <string name="mime_audio">audio/*</string>
+    <string name="sound_reset_default">Sound reset to default</string>
+
+    <string name="test_toast">This is a test toast</string>
+
+    <string name="test_notification_title">Test Notification</string>
+    <string name="test_notification_text">This is a test notification from SpeedAlert.</string>
+
+    <!-- Debug panel -->
+    <string name="debug_service_running">Service: running</string>
+    <string name="debug_service_starting">Service: starting…</string>
+    <string name="debug_service_stopped">Service: stopped</string>
+    <string name="debug_service_unknown">Service: unknown</string>
+
+    <string name="debug_gps_waiting">GPS: waiting…</string>
+    <string name="debug_gps_lost">GPS: LOST</string>
+    <string name="debug_gps_no_fix">GPS: no fix</string>
+    <string name="debug_gps_permission_missing">GPS: permission missing</string>
+
+    <string name="debug_overlay_failed">Overlay: FAILED</string>
+    <string name="debug_overlay_on">Overlay: on</string>
+    <string name="debug_overlay_off">Overlay: off</string>
+
+    <string name="debug_permissions_prefix">Permissions:</string>
+    <string name="debug_speed_prefix">Speed:</string>
+    <string name="debug_limit_prefix">Limit:</string>
+    <string name="debug_accuracy_prefix">Accuracy:</string>
+    <string name="debug_uptime_prefix">Up:</string>
+
+    <!-- ========================================================= -->
+    <!-- Section headers -->
+    <!-- ========================================================= -->
+    <string name="section_settings">Settings</string>
+    <string name="section_test_tools">Test Options</string>
+    <string name="section_debug">Debug Options</string>
+    <string name="section_disclaimer">Disclaimer</string>
+
+    <!-- ========================================================= -->
+    <!-- Media broadcast -->
+    <!-- ========================================================= -->
+    <string name="media_no_limit">No limit</string>
+    <string name="media_limit_prefix">Limit:</string>
+
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Driving speed monitor</string>
+    <string name="channel_description">Shows your current speed and speed limit while driving</string>
+
+    <string name="notif_running_title">Speed monitor running</string>
+    <string name="notif_running_text">Updating speed limit…</string>
+
+
+
+    <string name="speed_value">Speed: %1$d km/h</string>
+    <string name="limit_value">Limit: %1$d km/h</string>
+    <string name="speed_value_placeholder">Speed: --</string>
+    <string name="limit_value_placeholder">Limit: --</string>
+
+    <string name="status_value">Status: %1$s</string>
+    <string name="status_value_placeholder">Status: --</string>
+
+    <string name="show_overlay">Show overlay speedometer</string>
+    <string name="enable_broadcast">Enable media broadcast</string>
+
+    <string name="start_service">Start service</string>
+    <string name="stop_service">Stop service</string>
+
+    <string name="debug_log">Debug log</string>
+
+</resources>

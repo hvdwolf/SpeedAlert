@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#2962FF</color>
+    <color name="primary_variant">#0039CB</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <color name="secondary">#00C853</color>
+    <color name="secondary_variant">#009624</color>
+    <color name="on_secondary">#000000</color>
+
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#000000</color>
+
+    <color name="background">#FFFFFF</color>
+    <color name="on_background">#000000</color>
+
+    <color name="overlay_bg">#AA4444FF</color>
+    <color name="overspeed_bg">#AAFF4444</color>
+
+    <color name="normalColor">#333333</color>
+
+</resources>

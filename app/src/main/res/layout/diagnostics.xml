@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnDiagRawOverpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test RAW Overpass" />
+
+    <Button
+        android:id="@+id/btnDiagWebOverpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test WebView Overpass"
+        android:layout_marginTop="6dp" />
+
+    <Button
+        android:id="@+id/btnDiagRawNominatim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test RAW Nominatim"
+        android:layout_marginTop="6dp" />
+
+    <Button
+        android:id="@+id/btnDiagWebNominatim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test WebView Nominatim"
+        android:layout_marginTop="6dp" />
+
+    <Button
+        android:id="@+id/btnDiagShowRawOverpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Raw Overpass Response"
+        android:layout_marginTop="6dp" />
+
+    <!-- <Button
+        android:id="@+id/btnDiagNetwork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Network Type"
+        android:layout_marginTop="6dp" /> -->
+
+    <Button
+        android:id="@+id/btnDiagLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Last Location"
+        android:layout_marginTop="6dp" />
+
+    <ScrollView
+        android:id="@+id/scrollDiag"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#222222"
+        android:padding="8dp"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/txtDiag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </ScrollView>
+
+</LinearLayout>

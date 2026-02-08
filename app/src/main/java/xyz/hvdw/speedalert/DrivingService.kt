@@ -1,0 +1,304 @@
+package xyz.hvdw.speedalert
+
+import android.app.Service
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.media.MediaPlayer
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class DrivingService : Service() {
+
+    private val scope = CoroutineScope(Dispatchers.Default + Job())
+    private val mainHandler = Handler(Looper.getMainLooper())
+
+    private lateinit var settings: SettingsManager
+    private lateinit var repo: SpeedLimitRepository
+    private lateinit var notifier: ServiceNotification
+    private lateinit var locationManager: LocationManager
+
+    private var speedometer: FloatingSpeedometer? = null
+
+    private var lastLimitFetchTime = 0L
+    private var lastLimit = SpeedLimitResult(-1, -1, "none")
+
+    private var running = true
+
+    private var lastSpeed = 0
+    private var lastLocation: Location? = null
+    private var lastGpsFixTime = 0L
+    private var lastAccuracy = -1f
+
+    private var beepPlayer: MediaPlayer? = null
+    private val kalman = KalmanFilter()
+
+    // single, shared GPS listener
+    private val gpsListener = LocationListener { loc ->
+        updateLocation(loc)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        settings = SettingsManager(this)
+        repo = SpeedLimitRepository(this)
+        notifier = ServiceNotification(this)
+        notifier.createChannel()
+        beepPlayer = MediaPlayer.create(this, R.raw.beep)
+
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
+        // register GPS listener once
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+
+            try {
+                val provider = findGpsProvider()
+                if (provider == null) {
+                    log("No usable GPS provider found!")
+                } else {
+                    try {
+                        locationManager.requestLocationUpdates(
+                            provider,
+                            500,
+                            0f,
+                            gpsListener
+                        )
+                        log("Using GPS provider: $provider")
+                    } catch (e: Exception) {
+                        log("GPS requestLocationUpdates failed: ${e.message}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                log("GPS requestLocationUpdates failed: ${e.message}")
+            }
+        } else {
+            log("GPS permission not granted in service")
+        }
+
+        log("Service: created")
+
+        startForeground(1, notifier.createNotification())
+
+        scope.launch {
+            mainLoop()
+        }
+    }
+
+    override fun onDestroy() {
+        running = false
+        try {
+            locationManager.removeUpdates(gpsListener)
+        } catch (_: Exception) {}
+
+        speedometer?.hide()
+        beepPlayer?.release()
+        beepPlayer = null
+
+        stopForeground(true)
+        scope.cancel()
+
+        log("Service: destroyed")
+        super.onDestroy()
+    }
+
+    override fun onBind(intent: Intent?): IBinder? = null
+
+    // ---------------------------------------------------------
+    // MAIN LOOP
+    // ---------------------------------------------------------
+    private suspend fun mainLoop() {
+        while (running) {
+            try {
+                updateSpeedLimit()
+                updateLocationAndSpeed()
+                restartGpsIfNeeded()
+
+
+                mainHandler.post {
+                    try {
+                        updateOverlay()
+                    } catch (e: Exception) {
+                        log("Overlay error: ${e.message}")
+                    }
+                }
+
+            } catch (e: Exception) {
+                log("mainLoop error: ${e.message}")
+            }
+
+            delay(1000)
+        }
+    }
+
+    // ---------------------------------------------------------
+    // LOCATION + SPEED
+    // ---------------------------------------------------------
+    fun updateLocation(loc: Location) {
+        lastLocation = loc
+        lastGpsFixTime = System.currentTimeMillis()
+        lastAccuracy = loc.accuracy
+        log("GPS fix: lat=${loc.latitude}, lon=${loc.longitude}, acc=${loc.accuracy}m")
+    }
+
+    private fun updateLocationAndSpeed() {
+        val loc = lastLocation ?: return
+
+        val rawSpeed = (loc.speed * 3.6).toInt()
+        val filtered = kalman.update(rawSpeed.toDouble()).toInt()
+
+        lastSpeed = filtered
+        sendSpeedBroadcast(filtered, lastLimit.limitKmh)
+    }
+
+    private fun hasGpsFix(): Boolean {
+        val age = System.currentTimeMillis() - lastGpsFixTime
+        return age < 5000   // 5 seconds without updates = no fix
+    }
+
+    private fun restartGpsIfNeeded() {
+        val age = System.currentTimeMillis() - lastGpsFixTime
+
+        if (age > 15000) {
+            mainHandler.post {
+                val provider = findGpsProvider()
+                log("GPS watchdog: restarting using provider=$provider")
+
+                try {
+                    locationManager.removeUpdates(gpsListener)
+                } catch (_: Exception) {}
+
+                if (provider != null) {
+                    try {
+                        locationManager.requestLocationUpdates(
+                            provider,
+                            500,
+                            0f,
+                            gpsListener
+                        )
+                    } catch (e: Exception) {
+                        log("GPS re-request failed: ${e.message}")
+                    }
+                }
+            }
+
+            lastGpsFixTime = System.currentTimeMillis()
+        }
+    }
+
+
+
+    private fun findGpsProvider(): String? {
+        val providers = locationManager.allProviders
+        log("Available providers: $providers")
+
+        return when {
+            providers.contains(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
+            providers.contains("fused") -> "fused"
+            providers.contains("gps0") -> "gps0"
+            providers.contains("bd_gps") -> "bd_gps"
+            providers.contains("nmea") -> "nmea"
+            providers.contains(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
+            else -> null
+        }
+    }
+
+
+    // ---------------------------------------------------------
+    // SPEED LIMIT FETCHING
+    // ---------------------------------------------------------
+    private fun updateSpeedLimit() {
+        val loc = lastLocation ?: return
+        val lat = loc.latitude
+        val lon = loc.longitude
+        val now = System.currentTimeMillis()
+
+        val result = if (now - lastLimitFetchTime > 10_000) {
+            lastLimitFetchTime = now
+
+            log("Service: calling repo for $lat,$lon")
+            val fetched = repo.getSpeedLimit(lat, lon)
+            log("Service: repo returned $fetched")
+
+            lastLimit = fetched
+            fetched
+        } else {
+            lastLimit
+        }
+
+        if (result.limitKmh <= 0) {
+            log("Service: no valid speed limit (source=${result.source}) — keeping previous limit")
+            return
+        }
+    }
+
+    // ---------------------------------------------------------
+    // OVERLAY
+    // ---------------------------------------------------------
+    private fun updateOverlay() {
+        if (!settings.getShowSpeedometer()) {
+            speedometer?.hide()
+            speedometer = null
+            return
+        }
+
+        if (speedometer == null) {
+            speedometer = FloatingSpeedometer(this, settings)
+            speedometer?.show()
+            log("Service: overlay shown")
+        }
+
+        if (!hasGpsFix()) {
+            speedometer?.showNoGps()
+            return
+        }
+
+        val limit = lastLimit.limitKmh
+        val overspeed = (limit > 0 && lastSpeed > limit)
+
+        if (overspeed) {
+            if (beepPlayer?.isPlaying == false) {
+                beepPlayer?.start()
+            }
+        }
+
+        speedometer?.updateSpeed(lastSpeed, limit, overspeed)
+    }
+
+    // ---------------------------------------------------------
+    // BROADCAST HELPERS
+    // ---------------------------------------------------------
+    private fun sendSpeedBroadcast(speed: Int, limit: Int) {
+        //if (!settings.isBroadcastEnabled()) return
+
+        val cleanLimit = if (limit > 0) limit else -1
+        val overspeed = (cleanLimit > 0 && speed > cleanLimit)
+
+        val intent = Intent("xyz.hvdw.speedalert.SPEED_UPDATE").apply {
+            setPackage(packageName) 
+            putExtra("speed", speed)
+            putExtra("limit", cleanLimit)
+            putExtra("overspeed", overspeed)
+            putExtra("accuracy", lastAccuracy)
+        }
+        sendBroadcast(intent)
+    }
+
+    private fun log(msg: String) {
+        val intent = Intent("speedalert.debug").apply {
+            putExtra("msg", msg)
+        }
+        sendBroadcast(intent)
+    }
+}
