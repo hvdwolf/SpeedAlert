@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnStop: Button
     private lateinit var swShowOverlay: Switch
     private lateinit var swBroadcast: Switch
+    private lateinit var swUseMph: Switch
     private lateinit var edtLat: EditText
     private lateinit var edtLon: EditText
     private lateinit var seekOverspeed: SeekBar
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         btnStop = findViewById(R.id.btnStop)
         swShowOverlay = findViewById(R.id.swShowOverlay)
         swBroadcast = findViewById(R.id.swBroadcast)
+        swUseMph = findViewById(R.id.swUseMph)
         edtLat = findViewById(R.id.edtLat)
         edtLon = findViewById(R.id.edtLon)
         seekOverspeed = findViewById(R.id.seekOverspeed)
@@ -125,6 +127,7 @@ class MainActivity : AppCompatActivity() {
         // -----------------------------
         swShowOverlay.isChecked = settings.getShowSpeedometer()
         swBroadcast.isChecked = settings.isBroadcastEnabled()
+        swUseMph.isChecked = settings.isMphEnabled()
 
         swShowOverlay.setOnCheckedChangeListener { _, checked ->
             settings.setShowSpeedometer(checked)
@@ -132,6 +135,10 @@ class MainActivity : AppCompatActivity() {
 
         swBroadcast.setOnCheckedChangeListener { _, checked ->
             settings.setBroadcastEnabled(checked)
+        }
+
+        swUseMph.setOnCheckedChangeListener { _, checked ->
+            settings.setMphEnabled(checked)
         }
 
         // -----------------------------
@@ -179,8 +186,24 @@ class MainActivity : AppCompatActivity() {
 
             logToFile("Receiver: speed=$speed, limit=$limit, acc=$acc")
 
-            txtSpeed.text = if (speed >= 0) getString(R.string.speed_value, speed) else "--"
-            txtLimit.text = if (limit > 0) getString(R.string.limit_value, limit) else "--"
+            if (speed >= 0) {
+                val useMph = settings.isMphEnabled()
+                val displaySpeed = if (useMph) (speed * 0.621371).toInt() else speed
+                val unit = if (useMph) "mph" else "km/h"
+                txtSpeed.text = "$displaySpeed $unit"
+            } else {
+                txtSpeed.text = "--"
+            }
+
+            if (limit > 0) {
+                val useMph = settings.isMphEnabled()
+                val displayLimit = if (useMph) (limit * 0.621371).toInt() else limit
+                val unit = if (useMph) "mph" else "km/h"
+                txtLimit.text = "$displayLimit $unit"
+            } else {
+                txtLimit.text = "--"
+            }
+
             txtStatus.text = if (acc >= 0) "GPS accuracy: ${acc.toInt()} m" else "Waiting for GPS…"
 
             if (overspeed) {

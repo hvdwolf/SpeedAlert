@@ -35,6 +35,13 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("use_mph", v).apply()
     }
 
+    fun isMphEnabled(): Boolean =
+        prefs.getBoolean("use_mph", false)
+
+    fun setMphEnabled(value: Boolean) {
+        prefs.edit().putBoolean("use_mph", value).apply()
+    }
+
     fun getOverspeedPercentage(): Int =
         prefs.getInt("overspeed_pct", 10)
 

@@ -55,8 +55,14 @@ class FloatingSpeedometer(
     }
 
     fun updateSpeed(speed: Int, limit: Int, overspeed: Boolean) {
-        txtSpeed?.text = speed.toString()
-        txtLimit?.text = if (limit > 0) "Limit: $limit" else "-"
+        val useMph = settings.isMphEnabled()
+
+        val displaySpeed = if (useMph) (speed * 0.621371).toInt() else speed
+        val displayLimit = if (useMph && limit > 0) (limit * 0.621371).toInt() else limit
+        val unit = if (useMph) "mph" else "km/h"
+
+        txtSpeed?.text = "$displaySpeed $unit"
+        txtLimit?.text = if (limit > 0) "Limit: $displayLimit $unit" else "-"
 
         if (overspeed) {
             txtSpeed?.setTextColor(0xFFFF4444.toInt()) // red
@@ -68,10 +74,10 @@ class FloatingSpeedometer(
     }
 
     fun showNoGps() {
-        txtSpeed?.text = "--"
+        val unit = if (settings.isMphEnabled()) "mph" else "km/h"
+        txtSpeed?.text = "-- $unit"
         txtLimit?.text = "No GPS"
         txtSpeed?.setTextColor(0xFFFFAA00.toInt()) // orange
         txtLimit?.setTextColor(0xFFFFAA00.toInt())
     }
-
 }

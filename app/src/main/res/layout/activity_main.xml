@@ -50,6 +50,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Switch
+            android:id="@+id/swUseMph"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use MPH (default is KMH)"
+            android:layout_marginBottom="16dp" />
+
         <!-- OVERSPEED SLIDER -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,6 +107,13 @@
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#888888"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp" />
+
         <!-- CHECK OVERLAY -->
         <Button
             android:id="@+id/btnCheckOverlay"
@@ -129,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Latitude"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal|numberSigned" />
 
             <EditText
                 android:id="@+id/edtLon"
@@ -137,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Longitude"
-                android:inputType="numberDecimal"
+                android:inputType="numberDecimal|numberSigned"
                 android:layout_marginStart="8dp" />
 
             <Button

@@ -56,10 +56,10 @@ If you think your language is badly translated, download the strings.xml from yo
 
 
 ## ToDo's
-<!-- \- Build an "overspeed tolerance percentage slider": Currently it beeps if you even drive 1 kmh above the max speed. You might want some 5% (or other value) as tolerance before the beep start.<br> -->
-\- Make the "beep-beep-beep" optional. Currently it beeps every 15 seconds (or so(. You might want to "silence" it completely.<br>
-\- Add option for km/h to mp/h.<br>
 \- Translate it ???<br>
+\- Make the "beep-beep-beep" optional. Currently it beeps every 15 seconds (or so(. You might want to "silence" it completely.<br>
+<!-- \- Build an "overspeed tolerance percentage slider": Currently it beeps if you even drive 1 kmh above the max speed. You might want some 5% (or other value) as tolerance before the beep start.<br> -->
+<!-- \- Add option for km/h to mp/h.<br> -->
 <HR>
 
 Copyleft 2026 Harry van der Wolf (surfer63), MIT License.<br>
