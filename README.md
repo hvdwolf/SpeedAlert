@@ -14,12 +14,13 @@ Working GPS and working netwrok connection to retrieve the online speed limit da
 ## App Permissions
 <ul><li>It needs ACCESS_FINE_LOCATION and ACCESS_COARSE_LOCATION to get access to your exact location (during use of the App). Otherwise it can't check your location and if you are overspeeding or not.</li>
 <li>It needs ACTION_MANAGE_OVERLAY_PERMISSION when using an overlay.</li>
-</ul>
+</ul><br>
 **This app does not collect, store or share any personal information. It is 100% privacy friendly.**
 
 ## Screenshots
 *(Note: The screen automatically follows the system day-night mode. Here you see day light mode.)*<br>
-In the below animated gif (resized to 50%) you see: 1) main screen; 2) main screen with service started (top right); 3) Driving 72 km/h on an 80 km/h road; 4) Overspeeding on an 80 km/h road; 5) A road without assigned speed limit.<br>
+In the below animated gif (resized to 50%) you see: 1) main screen; 2) main screen with service started (top right); 3) Driving 72 km/h on an 80 km/h road; 4) Overspeeding on an 80 km/h road; 5) A road without assigned speed limit.<br>*Off course yo do not hear the "beep-beep-beep" in the "overspeeding" screenshot*  ;)
+<hr>
 ![](./images/example-001.gif)<br>
 
 
@@ -54,10 +55,10 @@ If you think your language is badly translated, download the strings.xml from yo
 
 
 ## ToDo's
-/- Build an "overspeed tolerance percentage slider": Currently it beeps if you even drive 1 kmh above the max speed. You might want some 5% (or other value) as tolerance before the beep start.<br>
-/- Make the "beep-beep-beep" optional. Currently it beeps every 15 seconds (or so(. You might want to "silence" it completely.<br>
-/- Add option for km/h to mp/h.<br>
-/- Translate it ???<br>
+\- Build an "overspeed tolerance percentage slider": Currently it beeps if you even drive 1 kmh above the max speed. You might want some 5% (or other value) as tolerance before the beep start.<br>
+\- Make the "beep-beep-beep" optional. Currently it beeps every 15 seconds (or so(. You might want to "silence" it completely.<br>
+\- Add option for km/h to mp/h.<br>
+\- Translate it ???<br>
 <HR>
 
 Copyleft 2026 Harry van der Wolf (surfer63), MIT License.<br>
