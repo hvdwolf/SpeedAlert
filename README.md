@@ -21,7 +21,7 @@ Working GPS and working netwrok connection to retrieve the online speed limit da
 ## Screenshots
 *(Note: The screen automatically follows the system day-night mode. Here you see day light mode.)*<br>
 In the below animated gif (resized to 50%) you see: 1) main screen; 2) main screen with service started (top right); 3) Driving 72 km/h on an 80 km/h road; 4) Overspeeding on an 80 km/h road; 5) A road without assigned speed limit.<br>*Off course yo do not hear the "beep-beep-beep" in the "overspeeding" screenshot*  ;)
-<hr><br>
+<br><br>
 ![](./images/example-001.gif)<br>
 
 
