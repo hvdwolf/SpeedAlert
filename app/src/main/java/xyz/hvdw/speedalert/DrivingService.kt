@@ -224,7 +224,7 @@ class DrivingService : Service() {
         val lon = loc.longitude
         val now = System.currentTimeMillis()
 
-        val result = if (now - lastLimitFetchTime > 5_000) {
+        val result = if (now - lastLimitFetchTime > 4_000) {
             lastLimitFetchTime = now
 
             log("Service: calling repo for $lat,$lon")
