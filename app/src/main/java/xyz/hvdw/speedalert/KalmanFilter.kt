@@ -3,7 +3,7 @@ package xyz.hvdw.speedalert
 class KalmanFilter {
 
     private var estimate = 0.0
-    /* Faster reaction on error and process noise, and less smoothing */
+    /* Faster reaction on error and process noise, and less smoothing
     private var error = 0.8
     private val processNoise = 0.6
     private val measurementNoise = 2.0 */
