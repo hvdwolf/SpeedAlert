@@ -13,10 +13,20 @@ class KalmanFilter {
     private val processNoise = 0.125
     private val measurementNoise = 4.0 */
 
-    /* Sport mode, almost raw GPS */
+    /* Sport mode, almost raw GPS
     private var error = 0.5
     private val processNoise = 1.0
-    private val measurementNoise = 1.5
+    private val measurementNoise = 1.5 */
+
+    /* Almost Google Maps style
+    private var error = 0.1
+    private val processNoise = 3.0   // or 2.0
+    private val measurementNoise = 0.5   // or 0.7 */
+
+    /* Extreme mode, almost raw GPS, pure Google maps */
+    private var error = 0.05   // 0.02
+    private val processNoise = 5.0   // 8.0
+    private val measurementNoise = 0.3 //  0.2
 
 
     fun update(measurement: Double): Double {

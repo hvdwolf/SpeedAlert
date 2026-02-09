@@ -70,7 +70,7 @@ class DrivingService : Service() {
                     try {
                         locationManager.requestLocationUpdates(
                             provider,
-                            500,
+                            200,
                             0f,
                             gpsListener
                         )
@@ -182,7 +182,7 @@ class DrivingService : Service() {
                     try {
                         locationManager.requestLocationUpdates(
                             provider,
-                            500,
+                            200,
                             0f,
                             gpsListener
                         )
