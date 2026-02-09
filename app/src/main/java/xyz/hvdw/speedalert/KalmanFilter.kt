@@ -6,17 +6,17 @@ class KalmanFilter {
     /* Faster reaction on error and process noise, and less smoothing */
     private var error = 0.8
     private val processNoise = 0.6
-    private val measurementNoise = 2.0
+    private val measurementNoise = 2.0 */
 
     /* Very smooth and conservative
     private var error = 1.0
     private val processNoise = 0.125
     private val measurementNoise = 4.0 */
 
-    /* Sport mode, almost raw GPS 
+    /* Sport mode, almost raw GPS */
     private var error = 0.5
     private val processNoise = 1.0
-    private val measurementNoise = 1.5 */
+    private val measurementNoise = 1.5
 
 
     fun update(measurement: Double): Double {
