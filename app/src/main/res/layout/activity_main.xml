@@ -54,7 +54,7 @@
             android:id="@+id/swUseMph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Use MPH (default is KMH)"
+            android:text="@string/switch_use_mph"
             android:layout_marginBottom="16dp" />
 
         <!-- OVERSPEED SLIDER -->
@@ -117,7 +117,7 @@
         <!-- CHECK OVERLAY -->
         <Button
             android:id="@+id/btnCheckOverlay"
-            android:text="Check Overlay Permission"
+            android:text="@string/btn_check_overlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -126,7 +126,7 @@
             android:id="@+id/btnDebugScreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Debug Screen"
+            android:text="@string/btn_debug_screen"
             android:layout_marginTop="12dp" />
 
         <!-- TEST LOOKUP -->
@@ -142,7 +142,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Latitude"
+                android:hint="@string/hint_latitude"
                 android:inputType="numberDecimal|numberSigned" />
 
             <EditText
@@ -150,7 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Longitude"
+                android:hint="@string/hint_longitude"
                 android:inputType="numberDecimal|numberSigned"
                 android:layout_marginStart="8dp" />
 
@@ -159,7 +159,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Test Speed‑Limit Lookup"
+                android:text="@string/btn_test_lookup"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
@@ -168,7 +168,7 @@
             android:id="@+id/btnDiagnostics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Diagnostics"
+            android:text="@string/btn_diagnostics"
             android:layout_marginTop="12dp" />
 
     </LinearLayout>

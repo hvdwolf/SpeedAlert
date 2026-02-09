@@ -12,16 +12,15 @@ import androidx.core.app.NotificationCompat
 class ServiceNotification(private val context: Context) {
 
     private val channelId = "speedalert_channel"
-    private val channelName = "SpeedAlert Service"
 
     fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                channelName,
+                context.getString(R.string.notif_channel_name),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "Keeps SpeedAlert running while driving"
+                description = context.getString(R.string.notif_channel_description)
                 setShowBadge(false)
             }
 
@@ -40,8 +39,8 @@ class ServiceNotification(private val context: Context) {
         )
 
         return NotificationCompat.Builder(context, channelId)
-            .setContentTitle("SpeedAlert running")
-            .setContentText("Monitoring speed and limits…")
+            .setContentTitle(context.getString(R.string.notif_service_running_title))
+            .setContentText(context.getString(R.string.notif_service_running_text))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pending)
             .setOngoing(true)

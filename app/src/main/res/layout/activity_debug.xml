@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Copy Log" />
+            android:text="@string/btn_copy_log" />
 
         <Button
             android:id="@+id/btnShareLogFull"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Share Log" />
+            android:text="@string/btn_share_log" />
 
         <Button
             android:id="@+id/btnEmptyLogFull"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="Empty Log" />
+            android:text="@string/btn_empty_log" />
     </LinearLayout>
 
 </LinearLayout>

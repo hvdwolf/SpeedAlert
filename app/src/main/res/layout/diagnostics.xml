@@ -9,48 +9,41 @@
         android:id="@+id/btnDiagRawOverpass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test RAW Overpass" />
+        android:text="@string/diag_test_raw_overpass" />
 
     <Button
         android:id="@+id/btnDiagWebOverpass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test WebView Overpass"
+        android:text="@string/diag_test_web_overpass"
         android:layout_marginTop="6dp" />
 
     <Button
         android:id="@+id/btnDiagRawNominatim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test RAW Nominatim"
+        android:text="@string/diag_test_raw_nominatim"
         android:layout_marginTop="6dp" />
 
     <Button
         android:id="@+id/btnDiagWebNominatim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test WebView Nominatim"
+        android:text="@string/diag_test_web_nominatim"
         android:layout_marginTop="6dp" />
 
     <Button
         android:id="@+id/btnDiagShowRawOverpass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show Raw Overpass Response"
+        android:text="@string/diag_show_raw_overpass"
         android:layout_marginTop="6dp" />
-
-    <!-- <Button
-        android:id="@+id/btnDiagNetwork"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show Network Type"
-        android:layout_marginTop="6dp" /> -->
 
     <Button
         android:id="@+id/btnDiagLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show Last Location"
+        android:text="@string/diag_show_last_location"
         android:layout_marginTop="6dp" />
 
     <ScrollView

@@ -15,7 +15,7 @@ class SpeedAlertApp : Application() {
         try {
             val src = File(context.filesDir, "speedalert.log")
             if (!src.exists()) {
-                Toast.makeText(context, "Logfile does not exist yet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.logfile_not_exist), Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -30,10 +30,10 @@ class SpeedAlertApp : Application() {
                 }
             }
 
-            Toast.makeText(context, "Copied to /sdcard/SpeedAlert/speedalert.log", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.logfile_copied), Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
-            Toast.makeText(context, "Copy failed: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.logfile_copy_failed, e.message), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -41,7 +41,7 @@ class SpeedAlertApp : Application() {
         try {
             val file = File(context.filesDir, "speedalert.log")
             if (!file.exists()) {
-                Toast.makeText(context, "Logfile does not exist yet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.logfile_not_exist), Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -57,10 +57,10 @@ class SpeedAlertApp : Application() {
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
 
-            context.startActivity(Intent.createChooser(intent, "Share logfile"))
+            context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_logfile_title)))
 
         } catch (e: Exception) {
-            Toast.makeText(context, "Share failed: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.logfile_share_failed, e.message), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -69,13 +69,12 @@ class SpeedAlertApp : Application() {
             val file = File(context.filesDir, "speedalert.log")
             if (file.exists()) {
                 file.writeText("")
-                Toast.makeText(context, "Logfile emptied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.logfile_emptied), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Logfile does not exist yet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.logfile_not_exist), Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "Failed to empty log: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.logfile_empty_failed, e.message), Toast.LENGTH_LONG).show()
         }
     }
 }
-

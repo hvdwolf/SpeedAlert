@@ -66,11 +66,11 @@ class MainActivity : AppCompatActivity() {
         // -----------------------------
         val savedTolerance = settings.getOverspeedTolerance()
         seekOverspeed.progress = savedTolerance
-        txtOverspeedLabel.text = "Overspeed tolerance: $savedTolerance%"
+        txtOverspeedLabel.text = getString(R.string.overspeed_label, savedTolerance)
 
         seekOverspeed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, value: Int, fromUser: Boolean) {
-                txtOverspeedLabel.text = "Overspeed tolerance: $value%"
+                txtOverspeedLabel.text = getString(R.string.overspeed_label, value)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -78,7 +78,8 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 val value = seekOverspeed.progress
                 settings.setOverspeedTolerance(value)
-                Toast.makeText(this@MainActivity, "Saved overspeed percentage: $value%", Toast.LENGTH_SHORT).show()
+                val ovMsg: CharSequence = getString(R.string.overspeed_saved, value)
+                Toast.makeText(this@MainActivity, ovMsg, Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         // -----------------------------
         findViewById<Button>(R.id.btnCheckOverlay).setOnClickListener {
             if (Settings.canDrawOverlays(this)) {
-                Toast.makeText(this, "Overlay permission OK", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.overlay_permission_ok), Toast.LENGTH_SHORT).show()
             } else {
                 requestOverlayPermission()
             }
@@ -102,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             val lon = edtLon.text.toString().toDoubleOrNull()
 
             if (lat == null || lon == null) {
-                Toast.makeText(this, "Enter valid latitude and longitude", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.enter_valid_latlon), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -111,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             Thread {
                 val result = repo.getSpeedLimit(lat, lon)
                 runOnUiThread {
-                    val msg = "Test lookup: $result at $lat,$lon"
+                    val msg = getString(R.string.test_lookup_result, result.toString(), lat, lon)
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                     logToFile(msg)
                 }
@@ -164,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         if (!Settings.canDrawOverlays(this)) {
-            txtStatus.text = "Overlay permission missing"
+            txtStatus.text = getString(R.string.overlay_permission_missing)
             requestOverlayPermission()
         }
     }
@@ -204,7 +205,11 @@ class MainActivity : AppCompatActivity() {
                 txtLimit.text = "--"
             }
 
-            txtStatus.text = if (acc >= 0) "GPS accuracy: ${acc.toInt()} m" else "Waiting for GPS…"
+            if (acc >= 0) {
+                txtStatus.text = getString(R.string.gps_accuracy, acc.toInt())
+            } else {
+                txtStatus.text = getString(R.string.gps_waiting)
+            }
 
             if (overspeed) {
                 txtSpeed.setTextColor(Color.RED)
@@ -223,12 +228,10 @@ class MainActivity : AppCompatActivity() {
         if (Settings.canDrawOverlays(this)) return
 
         AlertDialog.Builder(this)
-            .setTitle("Overlay Permission Required")
-            .setMessage("SpeedAlert needs permission to display the floating speedometer.")
-            .setPositiveButton("Grant") { _, _ ->
-                openOverlaySettings()
-            }
-            .setNegativeButton("Cancel", null)
+            .setTitle(getString(R.string.dialog_overlay_title))
+            .setMessage(getString(R.string.dialog_overlay_message))
+            .setPositiveButton(getString(R.string.dialog_grant)) { _, _ -> openOverlaySettings() }
+            .setNegativeButton(getString(R.string.dialog_cancel), null)
             .show()
     }
 
@@ -295,9 +298,9 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == LOCATION_REQUEST) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "GPS permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.gps_permission_granted), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "GPS permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.gps_permission_denied), Toast.LENGTH_SHORT).show()
             }
         }
     }

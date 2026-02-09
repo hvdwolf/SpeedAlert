@@ -20,7 +20,8 @@ Working GPS and working netwrok connection to retrieve the online speed limit da
 
 ## Screenshots
 *(Note: The screen automatically follows the system day-night mode. Here you see day light mode.)*<br>
-In the below animated gif (resized to 50%) you see: 1) main screen; 2) main screen with service started (top right); 3) Driving 72 km/h on an 80 km/h road; 4) Overspeeding on an 80 km/h road; 5) A road without assigned speed limit.<br>*Off course yo do not hear the "beep-beep-beep" in the "overspeeding" screenshot*  ;)
+In the below animated gif (resized to 50%) you see: 1) main screen; 2) main screen with service started (top right); 3) Driving 72 km/h on an 80 km/h road; 4) Overspeeding on an 80 km/h road; 5) A road without assigned speed limit.<br>*Off course yo do not hear the "beep-beep-beep" in the "overspeeding" screenshot*  ;)<br>
+**Note: The main screen has already changed (first 2 images). The other screens are still the same.**
 <br><br>
 ![](./images/example-001.gif)<br>
 
@@ -49,10 +50,9 @@ The app should run on Android 10 to 14, but I only tested on my DuDu7 running An
 *(Technically it should also run on mtcd/mtce type units, all fyt units and TS10/TS18 units)*
 
 ## Translations
-None at this moment. It is purely in (US) English. But translations can be added easily as there are not that many text lines, but I am not going to put many effort into translations if nobody is interested.
-<!-- I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, da, de, es, fr, it, nl, pl, pt, ru, uk, vi.<br>
-If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/values/strings.xml), translate it (note the multi-line disclaimer) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to \<language\>:"  and then copy the text behibd it. It saves you a lot of typing. Only some correcting if necessary.<br>
-If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/) and improve the translation. _(I think it did a pretty nice job for my own Dutch language)_ -->
+I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, de, es, fr, it, nl, pl, ru, uk.<br>
+If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/values/strings.xml), translate it (note the multi-line disclaimer and the dialog_fyt_message) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to *my language*"  and then copy the text behind it. It saves you a lot of typing. Only some correcting if necessary.<br>
+If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/) and improve the translation, and in case of unclear translations, also download the US English version to compare. _(I think it did a pretty nice job for my own Dutch language. I only needed to change 1 string)_
 
 
 ## ToDo's

@@ -17,104 +17,46 @@
     </string>
 
     <!-- ========================================================= -->
-    <!-- Buttons -->
+    <!-- Main UI Labels -->
     <!-- ========================================================= -->
-    <string name="btn_start_service">Start Service</string>
-    <string name="btn_stop_service">Stop Service</string>
-    <string name="btn_enter_pip">Enter PiP</string>
-    <string name="pip_requires_service">First start the service before entering PiP mode</string>
-    <string name="btn_save_percent" formatted="false">Save Overspeed threshold %</string>
-    <string name="btn_select_sound">Select Custom Sound</string>
-    <string name="btn_reset_sound">Reset to Default Sound</string>
-    <string name="btn_test_sound">Test Sound</string>
-    <string name="btn_test_toast">Test Toast</string>
-    <string name="btn_test_notification">Test Notification</string>
+    <string name="speed_value_placeholder">Speed: --</string>
+    <string name="limit_value_placeholder">Limit: --</string>
+    <string name="status_value_placeholder">Status: --</string>
+
+    <string name="speed_value">Speed: %1$d km/h</string>
+    <string name="limit_value">Limit: %1$d km/h</string>
+    <string name="status_value">Status: %1$s</string>
 
     <!-- ========================================================= -->
     <!-- Switches -->
     <!-- ========================================================= -->
-    <string name="switch_show_speedo">Show Speedometer Overlay</string>
-    <string name="switch_transparency">Semi-transparent Overlay</string>
+    <string name="show_overlay">Show overlay speedometer</string>
+    <string name="enable_broadcast">Enable media broadcast</string>
     <string name="switch_use_mph">Use mph instead of km/h</string>
-    <string name="switch_use_pip">Use PiP instead of overlay</string>
-    <string name="broadcast_switch_label">Broadcast speed to MediaSession</string>
 
     <!-- ========================================================= -->
-    <!-- EditText -->
+    <!-- Buttons -->
     <!-- ========================================================= -->
-    <string name="hint_overspeed_percent" formatted="false">Overspeed % (default 5%)</string>
+    <string name="start_service">Start service</string>
+    <string name="stop_service">Stop service</string>
+    <string name="btn_check_overlay">Check Overlay Permission</string>
+    <string name="btn_debug_screen">Debug Screen</string>
+    <string name="btn_diagnostics">Diagnostics</string>
+    <string name="btn_test_lookup">Test Speed‑Limit Lookup</string>
 
     <!-- ========================================================= -->
-    <!-- Speedometer overlay -->
+    <!-- EditText hints -->
     <!-- ========================================================= -->
-    <string name="speed_initial">0</string>
-    <string name="speed_unit_kmh">km/h</string>
-    <string name="speed_limit_placeholder">-</string>
+    <string name="hint_latitude">Latitude</string>
+    <string name="hint_longitude">Longitude</string>
 
     <!-- ========================================================= -->
-    <!-- DrivingService -->
+    <!-- Overlay -->
     <!-- ========================================================= -->
-    <string name="overspeed_warning">Overspeed! Limit %1$d km/h</string>
-
-    <!-- ========================================================= -->
-    <!-- FloatingSpeedometer -->
-    <!-- ========================================================= -->
-    <string name="unit_mph">mph</string>
     <string name="unit_kmh">km/h</string>
-    <string name="no_speed_limit">-</string>
-
-    <!-- ========================================================= -->
-    <!-- MainActivity -->
-    <!-- ========================================================= -->
-    <string name="overlay_permission_granted">Overlay permission granted</string>
-    <string name="overlay_permission_missing">Overlay permission still missing</string>
-    <string name="overlay_settings_error">Unable to open overlay settings</string>
-
-    <string name="disclaimer_expand">Disclaimer (tap to expand)</string>
-    <string name="disclaimer_collapse">Disclaimer (tap to collapse)</string>
-
-    <string name="mime_audio">audio/*</string>
-    <string name="sound_reset_default">Sound reset to default</string>
-
-    <string name="test_toast">This is a test toast</string>
-
-    <string name="test_notification_title">Test Notification</string>
-    <string name="test_notification_text">This is a test notification from SpeedAlert.</string>
-
-    <!-- Debug panel -->
-    <string name="debug_service_running">Service: running</string>
-    <string name="debug_service_starting">Service: starting…</string>
-    <string name="debug_service_stopped">Service: stopped</string>
-    <string name="debug_service_unknown">Service: unknown</string>
-
-    <string name="debug_gps_waiting">GPS: waiting…</string>
-    <string name="debug_gps_lost">GPS: LOST</string>
-    <string name="debug_gps_no_fix">GPS: no fix</string>
-    <string name="debug_gps_permission_missing">GPS: permission missing</string>
-
-    <string name="debug_overlay_failed">Overlay: FAILED</string>
-    <string name="debug_overlay_on">Overlay: on</string>
-    <string name="debug_overlay_off">Overlay: off</string>
-
-    <string name="debug_permissions_prefix">Permissions:</string>
-    <string name="debug_speed_prefix">Speed:</string>
-    <string name="debug_limit_prefix">Limit:</string>
-    <string name="debug_accuracy_prefix">Accuracy:</string>
-    <string name="debug_uptime_prefix">Up:</string>
-
-    <!-- ========================================================= -->
-    <!-- Section headers -->
-    <!-- ========================================================= -->
-    <string name="section_settings">Settings</string>
-    <string name="section_test_tools">Test Options</string>
-    <string name="section_debug">Debug Options</string>
-    <string name="section_disclaimer">Disclaimer</string>
-
-    <!-- ========================================================= -->
-    <!-- Media broadcast -->
-    <!-- ========================================================= -->
-    <string name="media_no_limit">No limit</string>
-    <string name="media_limit_prefix">Limit:</string>
+    <string name="unit_mph">mph</string>
+    <string name="overlay_limit_prefix">Limit:</string>
+    <string name="overlay_no_gps">No GPS</string>
 
     <!-- ========================================================= -->
     <!-- Notifications -->
@@ -125,22 +67,98 @@
     <string name="notif_running_title">Speed monitor running</string>
     <string name="notif_running_text">Updating speed limit…</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">Overlay permission granted</string>
+    <string name="overlay_permission_missing">Overlay permission missing</string>
 
+    <!-- ========================================================= -->
+    <!-- MainActivity -->
+    <!-- ========================================================= -->
+    <!-- Overspeed slider -->
+    <string name="overspeed_label">Overspeed tolerance: %1$d%%</string>
+    <string name="overspeed_saved">Saved overspeed percentage: %1$d%%</string>
 
-    <string name="speed_value">Speed: %1$d km/h</string>
-    <string name="limit_value">Limit: %1$d km/h</string>
-    <string name="speed_value_placeholder">Speed: --</string>
-    <string name="limit_value_placeholder">Limit: --</string>
+    <!-- Overlay permission -->
+    <string name="overlay_permission_ok">Overlay permission OK</string>
 
-    <string name="status_value">Status: %1$s</string>
-    <string name="status_value_placeholder">Status: --</string>
+    <!-- Test lookup -->
+    <string name="enter_valid_latlon">Enter valid latitude and longitude</string>
+    <string name="test_lookup_result">Test lookup: %1$s at %2$f,%3$f</string>
 
-    <string name="show_overlay">Show overlay speedometer</string>
-    <string name="enable_broadcast">Enable media broadcast</string>
+    <!-- GPS status -->
+    <string name="gps_accuracy">GPS accuracy: %1$d m</string>
+    <string name="gps_waiting">Waiting for GPS…</string>
 
-    <string name="start_service">Start service</string>
-    <string name="stop_service">Stop service</string>
+    <!-- Overlay permission dialog -->
+    <string name="dialog_overlay_title">Overlay Permission Required</string>
+    <string name="dialog_overlay_message">SpeedAlert needs permission to display the floating speedometer.</string>
+    <string name="dialog_grant">Grant</string>
+    <string name="dialog_cancel">Cancel</string>
 
-    <string name="debug_log">Debug log</string>
+    <!-- FYT help dialog -->
+    <string name="dialog_fyt_title">Overlay Permission (FYT)</string>
+    <string name="dialog_fyt_message"><![CDATA[
+    Your FYT head unit hides the overlay permission screen.
+
+    To enable overlays:
+    1. Go to Factory Settings
+    2. Enter password: 3368 or 8888
+    3. Find \'App permissions\' or \'Overlay apps\'
+    4. Enable overlay for SpeedAlert
+
+    If overlays still fail, reboot the unit.
+    ]]></string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- GPS permission -->
+    <string name="gps_permission_granted">GPS permission granted</string>
+    <string name="gps_permission_denied">GPS permission denied</string>
+
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
+    <string name="btn_copy_log">Copy Log</string>
+    <string name="btn_share_log">Share Log</string>
+    <string name="btn_empty_log">Empty Log</string>
+
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">Test RAW Overpass</string>
+    <string name="diag_test_web_overpass">Test WebView Overpass</string>
+    <string name="diag_test_raw_nominatim">Test RAW Nominatim</string>
+    <string name="diag_test_web_nominatim">Test WebView Nominatim</string>
+    <string name="diag_show_raw_overpass">Show Raw Overpass Response</string>
+    <string name="diag_show_last_location">Show Last Location</string>
+    <string name="diag_show_network_type">Show Network Type</string>
+
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
+    <string name="logfile_not_exist">Logfile does not exist yet</string>
+    <string name="logfile_copied">Copied to /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copy_failed">Copy failed: %1$s</string>
+
+    <string name="share_logfile_title">Share logfile</string>
+    <string name="logfile_share_failed">Share failed: %1$s</string>
+
+    <string name="logfile_emptied">Logfile emptied</string>
+    <string name="logfile_empty_failed">Failed to empty log: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">SpeedAlert Service</string>
+    <string name="notif_channel_description">Keeps SpeedAlert running while driving</string>
+
+    <string name="notif_service_running_title">SpeedAlert running</string>
+    <string name="notif_service_running_text">Monitoring speed and limits…</string>
+
+    <!-- ========================================================= -->
+    <!-- Floating speedometer -->
+    <!-- ========================================================= -->
+    <string name="overlay_no_limit">-</string>
 
 </resources>
