@@ -1,13 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
     <string name="app_name">SpeedAlert</string>
 
-    <string name="disclaimer_header">Avertissement (appuyez pour développer)</string>
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">Avertissement</string>
     <string name="disclaimer_body">
-        Je ne suis pas responsable du mauvais fonctionnement ou de l’utilisation incorrecte de cette application.
+        Je ne suis pas responsable d’un mauvais fonctionnement ou d’une mauvaise utilisation de cette application.
         Cette application fournit des alertes de vitesse basées sur les données GPS. La précision peut varier selon l’appareil, l’environnement et la réception GPS.
         Respectez toujours les limitations de vitesse (y compris temporaires) et conduisez de manière responsable.
     </string>
 
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
     <string name="speed_value_placeholder">Vitesse : --</string>
     <string name="limit_value_placeholder">Limite : --</string>
     <string name="status_value_placeholder">Statut : --</string>
@@ -16,72 +27,123 @@
     <string name="limit_value">Limite : %1$d km/h</string>
     <string name="status_value">Statut : %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
     <string name="show_overlay">Afficher le compteur flottant</string>
     <string name="enable_broadcast">Activer la diffusion multimédia</string>
     <string name="switch_use_mph">Utiliser mph au lieu de km/h</string>
 
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Utiliser une tolérance en pourcentage</string>
+    <string name="overspeed_mode_fixed">Utiliser une tolérance fixe (km/h)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
     <string name="start_service">Démarrer le service</string>
     <string name="stop_service">Arrêter le service</string>
-    <string name="btn_check_overlay">Vérifier l’autorisation d’overlay</string>
+    <string name="btn_check_overlay">Vérifier l’autorisation Overlay</string>
     <string name="btn_debug_screen">Écran de débogage</string>
-    <string name="btn_diagnostics">Diagnostics</string>
-    <string name="btn_test_lookup">Tester la recherche de limitation</string>
+    <string name="btn_diagnostics">Diagnostic</string>
+    <string name="btn_test_lookup">Tester la recherche de limite</string>
 
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
     <string name="hint_latitude">Latitude</string>
     <string name="hint_longitude">Longitude</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
     <string name="unit_kmh">km/h</string>
     <string name="unit_mph">mph</string>
     <string name="overlay_limit_prefix">Limite :</string>
     <string name="overlay_no_gps">Pas de GPS</string>
+    <string name="overlay_no_limit">-</string>
 
-    <string name="channel_name">Surveillance de vitesse</string>
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Moniteur de vitesse</string>
     <string name="channel_description">Affiche votre vitesse actuelle et la limitation pendant la conduite</string>
 
-    <string name="notif_running_title">Surveillance de vitesse active</string>
+    <string name="notif_running_title">Moniteur de vitesse actif</string>
     <string name="notif_running_text">Mise à jour de la limitation…</string>
 
-    <string name="overlay_permission_granted">Autorisation d’overlay accordée</string>
-    <string name="overlay_permission_missing">Autorisation d’overlay manquante</string>
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">Autorisation Overlay accordée</string>
+    <string name="overlay_permission_missing">Autorisation Overlay manquante</string>
+    <string name="overlay_permission_ok">Autorisation Overlay OK</string>
 
-    <string name="overspeed_label">Tolérance de dépassement : %1$d%%</string>
-    <string name="overspeed_saved">Tolérance enregistrée : %1$d%%</string>
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
 
-    <string name="overlay_permission_ok">Autorisation d’overlay OK</string>
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Tolérance de dépassement : %1$d%%</string>
+    <string name="overspeed_saved_percent">Tolérance en pourcentage enregistrée : %1$d%%</string>
 
-    <string name="enter_valid_latlon">Veuillez entrer une latitude et une longitude valides</string>
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Dépassement : %1$d km/h</string>
+    <string name="overspeed_saved_fixed">Dépassement enregistré : %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">Entrez une latitude et une longitude valides</string>
     <string name="test_lookup_result">Résultat du test : %1$s à %2$f,%3$f</string>
 
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
     <string name="gps_accuracy">Précision GPS : %1$d m</string>
     <string name="gps_waiting">En attente du GPS…</string>
 
-    <string name="dialog_overlay_title">Autorisation d’overlay requise</string>
-    <string name="dialog_overlay_message">SpeedAlert nécessite l’autorisation d’afficher le compteur flottant.</string>
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">Autorisation Overlay requise</string>
+    <string name="dialog_overlay_message">SpeedAlert a besoin de l’autorisation pour afficher le compteur flottant.</string>
     <string name="dialog_grant">Autoriser</string>
     <string name="dialog_cancel">Annuler</string>
 
-    <string name="dialog_fyt_title">Autorisation d’overlay (FYT)</string>
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">Autorisation Overlay (FYT)</string>
     <string name="dialog_fyt_message"><![CDATA[
-Votre unité FYT masque l’écran d’autorisation d’overlay.
+    Votre unité FYT masque l’écran des autorisations Overlay.
 
-Pour activer les overlays :
-1. Accédez aux paramètres usine
-2. Entrez le mot de passe : 3368 ou 8888
-3. Recherchez « Autorisations d’application » ou « Applications overlay »
-4. Activez l’overlay pour SpeedAlert
+    Pour activer les overlays :
+    1. Accédez aux paramètres d’usine
+    2. Entrez le mot de passe "3368" ou "8888"
+    3. Recherchez "Autorisations d’applications" ou "Applications Overlay"
+    4. Activez l’overlay pour SpeedAlert
 
-Si les overlays ne fonctionnent toujours pas, redémarrez l’unité.
-]]></string>
-
+    Si les overlays ne fonctionnent toujours pas, redémarrez l’unité.
+    ]]></string>
     <string name="dialog_ok">OK</string>
 
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
     <string name="gps_permission_granted">Autorisation GPS accordée</string>
     <string name="gps_permission_denied">Autorisation GPS refusée</string>
 
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
     <string name="btn_copy_log">Copier le journal</string>
     <string name="btn_share_log">Partager le journal</string>
     <string name="btn_empty_log">Vider le journal</string>
 
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
     <string name="diag_test_raw_overpass">Tester RAW Overpass</string>
     <string name="diag_test_web_overpass">Tester WebView Overpass</string>
     <string name="diag_test_raw_nominatim">Tester RAW Nominatim</string>
@@ -90,6 +152,9 @@ Si les overlays ne fonctionnent toujours pas, redémarrez l’unité.
     <string name="diag_show_last_location">Afficher la dernière position</string>
     <string name="diag_show_network_type">Afficher le type de réseau</string>
 
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
     <string name="logfile_not_exist">Le fichier journal n’existe pas encore</string>
     <string name="logfile_copied">Copié vers /sdcard/SpeedAlert/speedalert.log</string>
     <string name="logfile_copy_failed">Échec de la copie : %1$s</string>
@@ -100,11 +165,13 @@ Si les overlays ne fonctionnent toujours pas, redémarrez l’unité.
     <string name="logfile_emptied">Fichier journal vidé</string>
     <string name="logfile_empty_failed">Échec du vidage : %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
     <string name="notif_channel_name">Service SpeedAlert</string>
     <string name="notif_channel_description">Maintient SpeedAlert actif pendant la conduite</string>
 
     <string name="notif_service_running_title">SpeedAlert en cours d’exécution</string>
     <string name="notif_service_running_text">Surveillance de la vitesse et des limites…</string>
 
-    <string name="overlay_no_limit">-</string>
 </resources>

@@ -125,7 +125,6 @@ class DrivingService : Service() {
                 updateLocationAndSpeed()
                 restartGpsIfNeeded()
 
-
                 mainHandler.post {
                     try {
                         updateOverlay()
@@ -197,8 +196,6 @@ class DrivingService : Service() {
         }
     }
 
-
-
     private fun findGpsProvider(): String? {
         val providers = locationManager.allProviders
         log("Available providers: $providers")
@@ -213,7 +210,6 @@ class DrivingService : Service() {
             else -> null
         }
     }
-
 
     // ---------------------------------------------------------
     // SPEED LIMIT FETCHING
@@ -244,6 +240,23 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
+    // OVERSPEED CALCULATION
+    // ---------------------------------------------------------
+    private fun calculateOverspeed(limit: Int, speed: Int): Boolean {
+        if (limit <= 0) return false
+
+        return if (settings.isOverspeedModePercentage()) {
+            val pct = settings.getOverspeedPercentage()
+            val allowed = limit + (limit * pct / 100)
+            speed > allowed
+        } else {
+            val fixed = settings.getOverspeedFixedKmh()
+            val allowed = limit + fixed
+            speed > allowed
+        }
+    }
+
+    // ---------------------------------------------------------
     // OVERLAY
     // ---------------------------------------------------------
     private fun updateOverlay() {
@@ -265,7 +278,7 @@ class DrivingService : Service() {
         }
 
         val limit = lastLimit.limitKmh
-        val overspeed = (limit > 0 && lastSpeed > limit)
+        val overspeed = calculateOverspeed(limit, lastSpeed)
 
         if (overspeed) {
             if (beepPlayer?.isPlaying == false) {
@@ -280,13 +293,11 @@ class DrivingService : Service() {
     // BROADCAST HELPERS
     // ---------------------------------------------------------
     private fun sendSpeedBroadcast(speed: Int, limit: Int) {
-        //if (!settings.isBroadcastEnabled()) return
-
         val cleanLimit = if (limit > 0) limit else -1
-        val overspeed = (cleanLimit > 0 && speed > cleanLimit)
+        val overspeed = calculateOverspeed(cleanLimit, speed)
 
         val intent = Intent("xyz.hvdw.speedalert.SPEED_UPDATE").apply {
-            setPackage(packageName) 
+            setPackage(packageName)
             putExtra("speed", speed)
             putExtra("limit", cleanLimit)
             putExtra("overspeed", overspeed)

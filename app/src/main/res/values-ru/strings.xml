@@ -1,13 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
     <string name="app_name">SpeedAlert</string>
 
-    <string name="disclaimer_header">Отказ от ответственности (нажмите, чтобы развернуть)</string>
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">Отказ от ответственности</string>
     <string name="disclaimer_body">
         Я не несу ответственности за неправильную работу или неправильное использование этого приложения.
-        Приложение предоставляет предупреждения о скорости на основе данных GPS. Точность может зависеть от устройства, окружающей среды и качества GPS‑сигнала.
+        Приложение предоставляет предупреждения о скорости на основе данных GPS. Точность может варьироваться в зависимости от устройства, окружающей среды и качества GPS‑сигнала.
         Всегда соблюдайте установленные (включая временные) ограничения скорости и водите ответственно.
     </string>
 
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
     <string name="speed_value_placeholder">Скорость: --</string>
     <string name="limit_value_placeholder">Лимит: --</string>
     <string name="status_value_placeholder">Статус: --</string>
@@ -16,95 +27,151 @@
     <string name="limit_value">Лимит: %1$d км/ч</string>
     <string name="status_value">Статус: %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
     <string name="show_overlay">Показывать плавающий спидометр</string>
     <string name="enable_broadcast">Включить медиатрансляцию</string>
     <string name="switch_use_mph">Использовать mph вместо км/ч</string>
 
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Использовать превышение в процентах</string>
+    <string name="overspeed_mode_fixed">Использовать фиксированное превышение (км/ч)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
     <string name="start_service">Запустить сервис</string>
     <string name="stop_service">Остановить сервис</string>
     <string name="btn_check_overlay">Проверить разрешение Overlay</string>
     <string name="btn_debug_screen">Экран отладки</string>
     <string name="btn_diagnostics">Диагностика</string>
-    <string name="btn_test_lookup">Тест запроса ограничения скорости</string>
+    <string name="btn_test_lookup">Тестировать поиск лимита</string>
 
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
     <string name="hint_latitude">Широта</string>
     <string name="hint_longitude">Долгота</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
     <string name="unit_kmh">км/ч</string>
     <string name="unit_mph">mph</string>
     <string name="overlay_limit_prefix">Лимит:</string>
     <string name="overlay_no_gps">Нет GPS</string>
+    <string name="overlay_no_limit">-</string>
 
-    <string name="channel_name">Мониторинг скорости</string>
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Монитор скорости</string>
     <string name="channel_description">Показывает текущую скорость и ограничение скорости во время движения</string>
 
-    <string name="notif_running_title">Мониторинг скорости активен</string>
-    <string name="notif_running_text">Обновление ограничения скорости…</string>
+    <string name="notif_running_title">Монитор скорости активен</string>
+    <string name="notif_running_text">Обновление лимита скорости…</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
     <string name="overlay_permission_granted">Разрешение Overlay предоставлено</string>
     <string name="overlay_permission_missing">Разрешение Overlay отсутствует</string>
-
-    <string name="overspeed_label">Допуск превышения: %1$d%%</string>
-    <string name="overspeed_saved">Сохранённый допуск превышения: %1$d%%</string>
-
     <string name="overlay_permission_ok">Разрешение Overlay OK</string>
 
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Допуск превышения: %1$d%%</string>
+    <string name="overspeed_saved_percent">Процент превышения сохранён: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Превышение: %1$d км/ч</string>
+    <string name="overspeed_saved_fixed">Превышение сохранено: %1$d км/ч</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
     <string name="enter_valid_latlon">Введите корректные широту и долготу</string>
     <string name="test_lookup_result">Результат теста: %1$s при %2$f,%3$f</string>
 
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
     <string name="gps_accuracy">Точность GPS: %1$d м</string>
     <string name="gps_waiting">Ожидание GPS…</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_overlay_title">Требуется разрешение Overlay</string>
     <string name="dialog_overlay_message">SpeedAlert требует разрешение для отображения плавающего спидометра.</string>
     <string name="dialog_grant">Разрешить</string>
     <string name="dialog_cancel">Отмена</string>
 
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_fyt_title">Разрешение Overlay (FYT)</string>
     <string name="dialog_fyt_message"><![CDATA[
-Ваш головной блок FYT скрывает экран разрешений Overlay.
+    Ваше устройство FYT скрывает экран разрешений Overlay.
 
-Чтобы включить Overlay:
-1. Перейдите в заводские настройки
-2. Введите пароль: 3368 или 8888
-3. Найдите «Разрешения приложений» или «Overlay‑приложения»
-4. Включите Overlay для SpeedAlert
+    Чтобы включить наложения:
+    1. Перейдите в заводские настройки
+    2. Введите пароль "3368" или "8888"
+    3. Найдите "Разрешения приложений" или "Overlay‑приложения"
+    4. Включите Overlay для SpeedAlert
 
-Если Overlay всё ещё не работает, перезагрузите устройство.
-]]></string>
-
+    Если наложения всё ещё не работают, перезагрузите устройство.
+    ]]></string>
     <string name="dialog_ok">OK</string>
 
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
     <string name="gps_permission_granted">Разрешение GPS предоставлено</string>
     <string name="gps_permission_denied">Разрешение GPS отклонено</string>
 
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
     <string name="btn_copy_log">Копировать лог</string>
     <string name="btn_share_log">Поделиться логом</string>
     <string name="btn_empty_log">Очистить лог</string>
 
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
     <string name="diag_test_raw_overpass">Тест RAW Overpass</string>
     <string name="diag_test_web_overpass">Тест WebView Overpass</string>
     <string name="diag_test_raw_nominatim">Тест RAW Nominatim</string>
     <string name="diag_test_web_nominatim">Тест WebView Nominatim</string>
     <string name="diag_show_raw_overpass">Показать RAW‑ответ Overpass</string>
-    <string name="diag_show_last_location">Показать последнее местоположение</string>
+    <string name="diag_show_last_location">Показать последнюю локацию</string>
     <string name="diag_show_network_type">Показать тип сети</string>
 
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
     <string name="logfile_not_exist">Файл журнала ещё не существует</string>
     <string name="logfile_copied">Скопировано в /sdcard/SpeedAlert/speedalert.log</string>
     <string name="logfile_copy_failed">Ошибка копирования: %1$s</string>
 
     <string name="share_logfile_title">Поделиться файлом журнала</string>
-    <string name="logfile_share_failed">Ошибка отправки: %1$s</string>
+    <string name="logfile_share_failed">Ошибка при отправке: %1$s</string>
 
     <string name="logfile_emptied">Файл журнала очищен</string>
     <string name="logfile_empty_failed">Ошибка очистки: %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
     <string name="notif_channel_name">Сервис SpeedAlert</string>
     <string name="notif_channel_description">Поддерживает работу SpeedAlert во время движения</string>
 
     <string name="notif_service_running_title">SpeedAlert работает</string>
     <string name="notif_service_running_text">Мониторинг скорости и ограничений…</string>
 
-    <string name="overlay_no_limit">-</string>
 </resources>

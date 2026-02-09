@@ -1,13 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
     <string name="app_name">SpeedAlert</string>
 
-    <string name="disclaimer_header">Haftungsausschluss (zum Ausklappen tippen)</string>
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">Haftungsausschluss</string>
     <string name="disclaimer_body">
-        Ich übernehme keine Verantwortung für fehlerhafte Funktion oder falsche Nutzung dieser App.
+        Ich übernehme keine Verantwortung für fehlerhafte Funktion oder unsachgemäße Nutzung dieser App.
         Diese App liefert Geschwindigkeitswarnungen basierend auf GPS-Daten. Die Genauigkeit kann je nach Gerät, Umgebung und GPS-Empfang variieren.
-        Halten Sie sich stets an die angegebenen (temporären) Geschwindigkeitsbegrenzungen und fahren Sie verantwortungsbewusst.
+        Halte dich stets an die angegebenen (auch temporären) Geschwindigkeitsbegrenzungen und fahre verantwortungsbewusst.
     </string>
 
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
     <string name="speed_value_placeholder">Geschwindigkeit: --</string>
     <string name="limit_value_placeholder">Limit: --</string>
     <string name="status_value_placeholder">Status: --</string>
@@ -16,80 +27,134 @@
     <string name="limit_value">Limit: %1$d km/h</string>
     <string name="status_value">Status: %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
     <string name="show_overlay">Schwebenden Tacho anzeigen</string>
-    <string name="enable_broadcast">Medien‑Broadcast aktivieren</string>
+    <string name="enable_broadcast">Medien-Broadcast aktivieren</string>
     <string name="switch_use_mph">mph statt km/h verwenden</string>
 
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Prozentuale Toleranz verwenden</string>
+    <string name="overspeed_mode_fixed">Feste Toleranz verwenden (km/h)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
     <string name="start_service">Dienst starten</string>
     <string name="stop_service">Dienst stoppen</string>
-    <string name="btn_check_overlay">Overlay‑Berechtigung prüfen</string>
-    <string name="btn_debug_screen">Debug‑Bildschirm</string>
+    <string name="btn_check_overlay">Overlay-Berechtigung prüfen</string>
+    <string name="btn_debug_screen">Debug-Bildschirm</string>
     <string name="btn_diagnostics">Diagnose</string>
-    <string name="btn_test_lookup">Geschwindigkeitslimit‑Testabfrage</string>
+    <string name="btn_test_lookup">Geschwindigkeitslimit testen</string>
 
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
     <string name="hint_latitude">Breitengrad</string>
     <string name="hint_longitude">Längengrad</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
     <string name="unit_kmh">km/h</string>
     <string name="unit_mph">mph</string>
     <string name="overlay_limit_prefix">Limit:</string>
     <string name="overlay_no_gps">Kein GPS</string>
+    <string name="overlay_no_limit">-</string>
 
-    <string name="channel_name">Geschwindigkeitsüberwachung</string>
-    <string name="channel_description">Zeigt Ihre aktuelle Geschwindigkeit und das Tempolimit während der Fahrt an</string>
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Geschwindigkeitsmonitor</string>
+    <string name="channel_description">Zeigt aktuelle Geschwindigkeit und Tempolimit während der Fahrt an</string>
 
-    <string name="notif_running_title">Geschwindigkeitsüberwachung aktiv</string>
+    <string name="notif_running_title">Geschwindigkeitsmonitor aktiv</string>
     <string name="notif_running_text">Aktualisiere Tempolimit…</string>
 
-    <string name="overlay_permission_granted">Overlay‑Berechtigung erteilt</string>
-    <string name="overlay_permission_missing">Overlay‑Berechtigung fehlt</string>
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">Overlay-Berechtigung erteilt</string>
+    <string name="overlay_permission_missing">Overlay-Berechtigung fehlt</string>
+    <string name="overlay_permission_ok">Overlay-Berechtigung OK</string>
 
-    <string name="overspeed_label">Überschreitungstoleranz: %1$d%%</string>
-    <string name="overspeed_saved">Gespeicherte Überschreitung: %1$d%%</string>
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
 
-    <string name="overlay_permission_ok">Overlay‑Berechtigung OK</string>
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Überschreitungstoleranz: %1$d%%</string>
+    <string name="overspeed_saved_percent">Prozentuale Toleranz gespeichert: %1$d%%</string>
 
-    <string name="enter_valid_latlon">Bitte gültigen Breiten‑ und Längengrad eingeben</string>
-    <string name="test_lookup_result">Testabfrage: %1$s bei %2$f,%3$f</string>
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Überschreitung: %1$d km/h</string>
+    <string name="overspeed_saved_fixed">Überschreitung gespeichert: %1$d km/h</string>
 
-    <string name="gps_accuracy">GPS‑Genauigkeit: %1$d m</string>
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">Bitte gültigen Breiten- und Längengrad eingeben</string>
+    <string name="test_lookup_result">Testergebnis: %1$s bei %2$f,%3$f</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
+    <string name="gps_accuracy">GPS-Genauigkeit: %1$d m</string>
     <string name="gps_waiting">Warte auf GPS…</string>
 
-    <string name="dialog_overlay_title">Overlay‑Berechtigung erforderlich</string>
-    <string name="dialog_overlay_message">SpeedAlert benötigt die Berechtigung, den schwebenden Tacho anzuzeigen.</string>
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">Overlay-Berechtigung erforderlich</string>
+    <string name="dialog_overlay_message">SpeedAlert benötigt die Berechtigung, um den schwebenden Tacho anzuzeigen.</string>
     <string name="dialog_grant">Erlauben</string>
     <string name="dialog_cancel">Abbrechen</string>
 
-    <string name="dialog_fyt_title">Overlay‑Berechtigung (FYT)</string>
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">Overlay-Berechtigung (FYT)</string>
     <string name="dialog_fyt_message"><![CDATA[
-Ihre FYT‑Headunit versteckt den Bildschirm für Overlay‑Berechtigungen.
+    Dein FYT-Headunit versteckt den Bildschirm für Overlay-Berechtigungen.
 
-So aktivieren Sie Overlays:
-1. Öffnen Sie die Werkseinstellungen
-2. Geben Sie das Passwort 3368 oder 8888 ein
-3. Suchen Sie „App‑Berechtigungen“ oder „Overlay‑Apps“
-4. Aktivieren Sie Overlay für SpeedAlert
+    So aktivierst du Overlays:
+    1. Öffne die Werkseinstellungen
+    2. Gib das Passwort "3368" oder "8888" ein
+    3. Suche nach "App-Berechtigungen" oder "Overlay-Apps"
+    4. Aktiviere Overlay für SpeedAlert
 
-Falls Overlays weiterhin nicht funktionieren, starten Sie das Gerät neu.
-]]></string>
-
+    Wenn Overlays weiterhin nicht funktionieren, starte das Gerät neu.
+    ]]></string>
     <string name="dialog_ok">OK</string>
 
-    <string name="gps_permission_granted">GPS‑Berechtigung erteilt</string>
-    <string name="gps_permission_denied">GPS‑Berechtigung verweigert</string>
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
+    <string name="gps_permission_granted">GPS-Berechtigung erteilt</string>
+    <string name="gps_permission_denied">GPS-Berechtigung verweigert</string>
 
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
     <string name="btn_copy_log">Log kopieren</string>
     <string name="btn_share_log">Log teilen</string>
     <string name="btn_empty_log">Log leeren</string>
 
-    <string name="diag_test_raw_overpass">RAW‑Overpass testen</string>
-    <string name="diag_test_web_overpass">WebView‑Overpass testen</string>
-    <string name="diag_test_raw_nominatim">RAW‑Nominatim testen</string>
-    <string name="diag_test_web_nominatim">WebView‑Nominatim testen</string>
-    <string name="diag_show_raw_overpass">RAW‑Overpass‑Antwort anzeigen</string>
-    <string name="diag_show_last_location">Letzten Standort anzeigen</string>
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">RAW-Overpass testen</string>
+    <string name="diag_test_web_overpass">WebView-Overpass testen</string>
+    <string name="diag_test_raw_nominatim">RAW-Nominatim testen</string>
+    <string name="diag_test_web_nominatim">WebView-Nominatim testen</string>
+    <string name="diag_show_raw_overpass">RAW-Overpass-Antwort anzeigen</string>
+    <string name="diag_show_last_location">Letzte Position anzeigen</string>
     <string name="diag_show_network_type">Netzwerktyp anzeigen</string>
 
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
     <string name="logfile_not_exist">Logdatei existiert noch nicht</string>
     <string name="logfile_copied">Kopiert nach /sdcard/SpeedAlert/speedalert.log</string>
     <string name="logfile_copy_failed">Kopieren fehlgeschlagen: %1$s</string>
@@ -100,11 +165,13 @@ Falls Overlays weiterhin nicht funktionieren, starten Sie das Gerät neu.
     <string name="logfile_emptied">Logdatei geleert</string>
     <string name="logfile_empty_failed">Leeren fehlgeschlagen: %1$s</string>
 
-    <string name="notif_channel_name">SpeedAlert‑Dienst</string>
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">SpeedAlert-Dienst</string>
     <string name="notif_channel_description">Hält SpeedAlert während der Fahrt aktiv</string>
 
     <string name="notif_service_running_title">SpeedAlert aktiv</string>
     <string name="notif_service_running_text">Überwache Geschwindigkeit und Limits…</string>
 
-    <string name="overlay_no_limit">-</string>
 </resources>

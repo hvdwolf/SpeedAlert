@@ -1,13 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
     <string name="app_name">SpeedAlert</string>
 
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
     <string name="disclaimer_header">Disclaimer</string>
     <string name="disclaimer_body">
-        Ik ben niet verantwoordelijk voor het onjuist functioneren of verkeerd gebruik van deze app.
-        Deze app geeft snelheidswaarschuwingen op basis van GPS-gegevens. De nauwkeurigheid kan variëren afhankelijk van apparaat, omgeving en GPS-ontvangst.
-        Volg altijd de aangegeven (tijdelijke) snelheidslimieten en rij verantwoord.
+        Ik ben niet verantwoordelijk voor verkeerd functioneren of verkeerd gebruik van deze app.
+        Deze app geeft snelheidswaarschuwingen op basis van GPS‑gegevens. De nauwkeurigheid kan variëren afhankelijk van apparaat, omgeving en GPS‑ontvangst.
+        Houd altijd de aangegeven (tijdelijke) snelheidslimieten aan en rijd verantwoord.
     </string>
 
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
     <string name="speed_value_placeholder">Snelheid: --</string>
     <string name="limit_value_placeholder">Limiet: --</string>
     <string name="status_value_placeholder">Status: --</string>
@@ -16,72 +27,123 @@
     <string name="limit_value">Limiet: %1$d km/u</string>
     <string name="status_value">Status: %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
     <string name="show_overlay">Toon zwevende snelheidsmeter</string>
     <string name="enable_broadcast">Media‑broadcast inschakelen</string>
     <string name="switch_use_mph">Gebruik mph in plaats van km/u</string>
 
-    <string name="start_service">Service starten</string>
-    <string name="stop_service">Service stoppen</string>
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Gebruik overschrijding in procenten</string>
+    <string name="overspeed_mode_fixed">Gebruik vaste overschrijding (km/u)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="start_service">Start service</string>
+    <string name="stop_service">Stop service</string>
     <string name="btn_check_overlay">Controleer overlay‑toestemming</string>
     <string name="btn_debug_screen">Debugscherm</string>
     <string name="btn_diagnostics">Diagnostiek</string>
-    <string name="btn_test_lookup">Test snelheidslimiet‑opvraag routine</string>
+    <string name="btn_test_lookup">Test snelheidslimiet‑lookup</string>
 
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
     <string name="hint_latitude">Breedtegraad</string>
     <string name="hint_longitude">Lengtegraad</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
     <string name="unit_kmh">km/u</string>
     <string name="unit_mph">mph</string>
     <string name="overlay_limit_prefix">Limiet:</string>
     <string name="overlay_no_gps">Geen GPS</string>
+    <string name="overlay_no_limit">-</string>
 
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
     <string name="channel_name">Snelheidsmonitor</string>
     <string name="channel_description">Toont je huidige snelheid en snelheidslimiet tijdens het rijden</string>
 
     <string name="notif_running_title">Snelheidsmonitor actief</string>
     <string name="notif_running_text">Snelheidslimiet wordt bijgewerkt…</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
     <string name="overlay_permission_granted">Overlay‑toestemming verleend</string>
     <string name="overlay_permission_missing">Overlay‑toestemming ontbreekt</string>
-
-    <string name="overspeed_label">Overspeed‑tolerantie: %1$d%%</string>
-    <string name="overspeed_saved">Opgeslagen overspeed‑percentage: %1$d%%</string>
-
     <string name="overlay_permission_ok">Overlay‑toestemming OK</string>
 
-    <string name="enter_valid_latlon">Voer een geldige breedte‑ en lengtegraad in</string>
-    <string name="test_lookup_result">Testopvraag: %1$s bij %2$f,%3$f</string>
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
 
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Overschrijdingstolerantie: %1$d%%</string>
+    <string name="overspeed_saved_percent">Overschrijding in procenten opgeslagen: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Overschrijding: %1$d km/u</string>
+    <string name="overspeed_saved_fixed">Overschrijding opgeslagen: %1$d km/u</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">Voer een geldige breedte‑ en lengtegraad in</string>
+    <string name="test_lookup_result">Testresultaat: %1$s op %2$f,%3$f</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
     <string name="gps_accuracy">GPS‑nauwkeurigheid: %1$d m</string>
     <string name="gps_waiting">Wachten op GPS…</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_overlay_title">Overlay‑toestemming vereist</string>
     <string name="dialog_overlay_message">SpeedAlert heeft toestemming nodig om de zwevende snelheidsmeter weer te geven.</string>
     <string name="dialog_grant">Toestaan</string>
     <string name="dialog_cancel">Annuleren</string>
 
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_fyt_title">Overlay‑toestemming (FYT)</string>
     <string name="dialog_fyt_message"><![CDATA[
-    Your FYT head unit hides the overlay permission screen.
+    Je FYT‑headunit verbergt het overlay‑toestemmingsscherm.
 
-    To enable overlays:
-    1. Go to Factory Settings
-    2. Enter password: 3368 or 8888
-    3. Find \'App permissions\' or \'Overlay apps\'
-    4. Enable overlay for SpeedAlert
+    Om overlays in te schakelen:
+    1. Ga naar Fabrieksinstellingen
+    2. Voer wachtwoord 3368 of 8888 in
+    3. Zoek naar "App‑toestemmingen" of "Overlay‑apps"
+    4. Schakel overlay in voor SpeedAlert
 
-    If overlays still fail, reboot the unit.
+    Als overlays nog steeds niet werken, herstart de unit.
     ]]></string>
-
     <string name="dialog_ok">OK</string>
 
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
     <string name="gps_permission_granted">GPS‑toestemming verleend</string>
     <string name="gps_permission_denied">GPS‑toestemming geweigerd</string>
 
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
     <string name="btn_copy_log">Log kopiëren</string>
     <string name="btn_share_log">Log delen</string>
     <string name="btn_empty_log">Log leegmaken</string>
 
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
     <string name="diag_test_raw_overpass">Test RAW Overpass</string>
     <string name="diag_test_web_overpass">Test WebView Overpass</string>
     <string name="diag_test_raw_nominatim">Test RAW Nominatim</string>
@@ -90,6 +152,9 @@
     <string name="diag_show_last_location">Toon laatste locatie</string>
     <string name="diag_show_network_type">Toon netwerktype</string>
 
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
     <string name="logfile_not_exist">Logbestand bestaat nog niet</string>
     <string name="logfile_copied">Gekopieerd naar /sdcard/SpeedAlert/speedalert.log</string>
     <string name="logfile_copy_failed">Kopiëren mislukt: %1$s</string>
@@ -100,11 +165,13 @@
     <string name="logfile_emptied">Logbestand geleegd</string>
     <string name="logfile_empty_failed">Leegmaken mislukt: %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
     <string name="notif_channel_name">SpeedAlert‑service</string>
     <string name="notif_channel_description">Houdt SpeedAlert actief tijdens het rijden</string>
 
     <string name="notif_service_running_title">SpeedAlert actief</string>
     <string name="notif_service_running_text">Snelheid en limieten worden bewaakt…</string>
 
-    <string name="overlay_no_limit">-</string>
 </resources>

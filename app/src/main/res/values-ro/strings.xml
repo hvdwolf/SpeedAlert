@@ -1,13 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
     <string name="app_name">SpeedAlert</string>
 
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
     <string name="disclaimer_header">Declinare de responsabilitate (atinge pentru a extinde)</string>
     <string name="disclaimer_body">
         Nu sunt responsabil pentru funcționarea incorectă sau utilizarea necorespunzătoare a acestei aplicații.
         Această aplicație oferă alerte de viteză pe baza datelor GPS. Acuratețea poate varia în funcție de dispozitiv, mediu și recepția GPS.
-        Respectați întotdeauna limitele de viteză (inclusiv cele temporare) și conduceți responsabil.
+        Respectă întotdeauna limitele de viteză (inclusiv cele temporare) și condu responsabil.
     </string>
 
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
     <string name="speed_value_placeholder">Viteză: --</string>
     <string name="limit_value_placeholder">Limită: --</string>
     <string name="status_value_placeholder">Stare: --</string>
@@ -16,80 +27,134 @@
     <string name="limit_value">Limită: %1$d km/h</string>
     <string name="status_value">Stare: %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
     <string name="show_overlay">Afișează vitezometrul plutitor</string>
-    <string name="enable_broadcast">Activează difuzarea media</string>
+    <string name="enable_broadcast">Activează transmiterea media</string>
     <string name="switch_use_mph">Folosește mph în loc de km/h</string>
 
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Folosește toleranță procentuală</string>
+    <string name="overspeed_mode_fixed">Folosește toleranță fixă (km/h)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
     <string name="start_service">Pornește serviciul</string>
     <string name="stop_service">Oprește serviciul</string>
     <string name="btn_check_overlay">Verifică permisiunea Overlay</string>
     <string name="btn_debug_screen">Ecran de depanare</string>
-    <string name="btn_diagnostics">Diagnosticare</string>
-    <string name="btn_test_lookup">Testează căutarea limitei de viteză</string>
+    <string name="btn_diagnostics">Diagnostic</string>
+    <string name="btn_test_lookup">Testează căutarea limitei</string>
 
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
     <string name="hint_latitude">Latitudine</string>
     <string name="hint_longitude">Longitudine</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
     <string name="unit_kmh">km/h</string>
     <string name="unit_mph">mph</string>
     <string name="overlay_limit_prefix">Limită:</string>
     <string name="overlay_no_gps">Fără GPS</string>
+    <string name="overlay_no_limit">-</string>
 
-    <string name="channel_name">Monitorizare viteză</string>
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Monitor de viteză</string>
     <string name="channel_description">Afișează viteza curentă și limita de viteză în timpul condusului</string>
 
-    <string name="notif_running_title">Monitorizare viteză activă</string>
+    <string name="notif_running_title">Monitor de viteză activ</string>
     <string name="notif_running_text">Actualizare limită de viteză…</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
     <string name="overlay_permission_granted">Permisiune Overlay acordată</string>
     <string name="overlay_permission_missing">Permisiune Overlay lipsă</string>
-
-    <string name="overspeed_label">Toleranță depășire: %1$d%%</string>
-    <string name="overspeed_saved">Toleranță salvată: %1$d%%</string>
-
     <string name="overlay_permission_ok">Permisiune Overlay OK</string>
 
-    <string name="enter_valid_latlon">Introduceți o latitudine și o longitudine valide</string>
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Toleranță depășire: %1$d%%</string>
+    <string name="overspeed_saved_percent">Toleranță procentuală salvată: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Depășire: %1$d km/h</string>
+    <string name="overspeed_saved_fixed">Depășire salvată: %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">Introduceți o latitudine și longitudine valide</string>
     <string name="test_lookup_result">Rezultat test: %1$s la %2$f,%3$f</string>
 
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
     <string name="gps_accuracy">Acuratețe GPS: %1$d m</string>
-    <string name="gps_waiting">Se așteaptă GPS…</string>
+    <string name="gps_waiting">Aștept GPS…</string>
 
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_overlay_title">Permisiune Overlay necesară</string>
     <string name="dialog_overlay_message">SpeedAlert are nevoie de permisiune pentru a afișa vitezometrul plutitor.</string>
     <string name="dialog_grant">Permite</string>
     <string name="dialog_cancel">Anulează</string>
 
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_fyt_title">Permisiune Overlay (FYT)</string>
     <string name="dialog_fyt_message"><![CDATA[
-Unitatea dvs. FYT ascunde ecranul de permisiuni Overlay.
+    Unitatea ta FYT ascunde ecranul pentru permisiunile Overlay.
 
-Pentru a activa overlay‑urile:
-1. Accesați Setările din fabrică
-2. Introduceți parola: 3368 sau 8888
-3. Căutați „Permisiuni aplicații” sau „Aplicații Overlay”
-4. Activați overlay pentru SpeedAlert
+    Pentru a activa suprapunerile:
+    1. Accesează Setările din fabrică
+    2. Introdu parola "3368" sau "8888"
+    3. Caută "Permisiuni aplicații" sau "Aplicații Overlay"
+    4. Activează overlay pentru SpeedAlert
 
-Dacă overlay‑urile tot nu funcționează, reporniți unitatea.
-]]></string>
-
+    Dacă suprapunerile tot nu funcționează, repornește unitatea.
+    ]]></string>
     <string name="dialog_ok">OK</string>
 
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
     <string name="gps_permission_granted">Permisiune GPS acordată</string>
     <string name="gps_permission_denied">Permisiune GPS refuzată</string>
 
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
     <string name="btn_copy_log">Copiază jurnalul</string>
     <string name="btn_share_log">Partajează jurnalul</string>
     <string name="btn_empty_log">Golește jurnalul</string>
 
-    <string name="diag_test_raw_overpass">Test RAW Overpass</string>
-    <string name="diag_test_web_overpass">Test WebView Overpass</string>
-    <string name="diag_test_raw_nominatim">Test RAW Nominatim</string>
-    <string name="diag_test_web_nominatim">Test WebView Nominatim</string>
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">Testează RAW Overpass</string>
+    <string name="diag_test_web_overpass">Testează WebView Overpass</string>
+    <string name="diag_test_raw_nominatim">Testează RAW Nominatim</string>
+    <string name="diag_test_web_nominatim">Testează WebView Nominatim</string>
     <string name="diag_show_raw_overpass">Afișează răspunsul RAW Overpass</string>
     <string name="diag_show_last_location">Afișează ultima locație</string>
     <string name="diag_show_network_type">Afișează tipul rețelei</string>
 
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
     <string name="logfile_not_exist">Fișierul jurnal nu există încă</string>
     <string name="logfile_copied">Copiat în /sdcard/SpeedAlert/speedalert.log</string>
     <string name="logfile_copy_failed">Copiere eșuată: %1$s</string>
@@ -97,14 +162,16 @@ Dacă overlay‑urile tot nu funcționează, reporniți unitatea.
     <string name="share_logfile_title">Partajează fișierul jurnal</string>
     <string name="logfile_share_failed">Partajare eșuată: %1$s</string>
 
-    <string name="logfile_emptied">Fișierul jurnal a fost golit</string>
+    <string name="logfile_emptied">Fișier jurnal golit</string>
     <string name="logfile_empty_failed">Golire eșuată: %1$s</string>
 
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
     <string name="notif_channel_name">Serviciu SpeedAlert</string>
     <string name="notif_channel_description">Menține SpeedAlert activ în timpul condusului</string>
 
     <string name="notif_service_running_title">SpeedAlert rulează</string>
     <string name="notif_service_running_text">Monitorizare viteză și limite…</string>
 
-    <string name="overlay_no_limit">-</string>
 </resources>

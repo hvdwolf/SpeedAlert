@@ -9,7 +9,7 @@
     <!-- ========================================================= -->
     <!-- Disclaimer -->
     <!-- ========================================================= -->
-    <string name="disclaimer_header">Disclaimer (tap to expand)</string>
+    <string name="disclaimer_header">Disclaimer</string>
     <string name="disclaimer_body">
         I am not responsible for the incorrect functioning or incorrect use of this app.
         This app provides speed alerts based on GPS data. Accuracy may vary depending on device, environment, and GPS reception.
@@ -34,6 +34,10 @@
     <string name="enable_broadcast">Enable media broadcast</string>
     <string name="switch_use_mph">Use mph instead of km/h</string>
 
+    <!-- NEW: Overspeed mode switch -->
+    <string name="overspeed_mode_percentage">Use percentage overspeed</string>
+    <string name="overspeed_mode_fixed">Use fixed overspeed (km/h)</string>
+
     <!-- ========================================================= -->
     <!-- Buttons -->
     <!-- ========================================================= -->
@@ -57,6 +61,7 @@
     <string name="unit_mph">mph</string>
     <string name="overlay_limit_prefix">Limit:</string>
     <string name="overlay_no_gps">No GPS</string>
+    <string name="overlay_no_limit">-</string>
 
     <!-- ========================================================= -->
     <!-- Notifications -->
@@ -72,32 +77,43 @@
     <!-- ========================================================= -->
     <string name="overlay_permission_granted">Overlay permission granted</string>
     <string name="overlay_permission_missing">Overlay permission missing</string>
-
-    <!-- ========================================================= -->
-    <!-- MainActivity -->
-    <!-- ========================================================= -->
-    <!-- Overspeed slider -->
-    <string name="overspeed_label">Overspeed tolerance: %1$d%%</string>
-    <string name="overspeed_saved">Saved overspeed percentage: %1$d%%</string>
-
-    <!-- Overlay permission -->
     <string name="overlay_permission_ok">Overlay permission OK</string>
 
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Overspeed tolerance: %1$d%%</string>
+    <string name="overspeed_saved_percent">Saved overspeed percentage: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Overspeed: %1$d km/h</string>
+    <string name="overspeed_saved_fixed">Saved overspeed: %1$d km/h</string>
+
+    <!-- ========================================================= -->
     <!-- Test lookup -->
+    <!-- ========================================================= -->
     <string name="enter_valid_latlon">Enter valid latitude and longitude</string>
     <string name="test_lookup_result">Test lookup: %1$s at %2$f,%3$f</string>
 
+    <!-- ========================================================= -->
     <!-- GPS status -->
+    <!-- ========================================================= -->
     <string name="gps_accuracy">GPS accuracy: %1$d m</string>
     <string name="gps_waiting">Waiting for GPS…</string>
 
+    <!-- ========================================================= -->
     <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_overlay_title">Overlay Permission Required</string>
     <string name="dialog_overlay_message">SpeedAlert needs permission to display the floating speedometer.</string>
     <string name="dialog_grant">Grant</string>
     <string name="dialog_cancel">Cancel</string>
 
+    <!-- ========================================================= -->
     <!-- FYT help dialog -->
+    <!-- ========================================================= -->
     <string name="dialog_fyt_title">Overlay Permission (FYT)</string>
     <string name="dialog_fyt_message"><![CDATA[
     Your FYT head unit hides the overlay permission screen.
@@ -105,14 +121,16 @@
     To enable overlays:
     1. Go to Factory Settings
     2. Enter password: 3368 or 8888
-    3. Find \'App permissions\' or \'Overlay apps\'
+    3. Find "App permissions" or "Overlay apps"
     4. Enable overlay for SpeedAlert
 
     If overlays still fail, reboot the unit.
     ]]></string>
     <string name="dialog_ok">OK</string>
 
+    <!-- ========================================================= -->
     <!-- GPS permission -->
+    <!-- ========================================================= -->
     <string name="gps_permission_granted">GPS permission granted</string>
     <string name="gps_permission_denied">GPS permission denied</string>
 
@@ -155,10 +173,5 @@
 
     <string name="notif_service_running_title">SpeedAlert running</string>
     <string name="notif_service_running_text">Monitoring speed and limits…</string>
-
-    <!-- ========================================================= -->
-    <!-- Floating speedometer -->
-    <!-- ========================================================= -->
-    <string name="overlay_no_limit">-</string>
 
 </resources>

@@ -18,6 +18,8 @@ class FloatingSpeedometer(
 
     private var txtSpeed: TextView? = null
     private var txtLimit: TextView? = null
+    // OPTIONAL: show allowed threshold
+    // private var txtAllowed: TextView? = null
 
     fun show() {
         if (view != null) return
@@ -29,6 +31,7 @@ class FloatingSpeedometer(
 
         txtSpeed = view!!.findViewById(R.id.txtOverlaySpeed)
         txtLimit = view!!.findViewById(R.id.txtOverlayLimit)
+        // txtAllowed = view!!.findViewById(R.id.txtOverlayAllowed)
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -55,7 +58,7 @@ class FloatingSpeedometer(
     }
 
     fun updateSpeed(speed: Int, limit: Int, overspeed: Boolean) {
-        val useMph = settings.isMphEnabled()
+        val useMph = settings.getUseMph()
 
         val displaySpeed = if (useMph) (speed * 0.621371).toInt() else speed
         val displayLimit = if (useMph && limit > 0) (limit * 0.621371).toInt() else limit
@@ -71,6 +74,18 @@ class FloatingSpeedometer(
         txtSpeed?.text = "$displaySpeed $unit"
         txtLimit?.text = if (limit > 0) "$limitPrefix $displayLimit $unit" else noLimit
 
+        // OPTIONAL: show allowed threshold
+        /*
+        val allowed = if (settings.isOverspeedModePercentage()) {
+            val pct = settings.getOverspeedPercentage()
+            limit + (limit * pct / 100)
+        } else {
+            limit + settings.getOverspeedFixedKmh()
+        }
+        val displayAllowed = if (useMph) (allowed * 0.621371).toInt() else allowed
+        txtAllowed?.text = "Allowed: $displayAllowed $unit"
+        */
+
         if (overspeed) {
             txtSpeed?.setTextColor(0xFFFF4444.toInt()) // red
             txtLimit?.setTextColor(0xFFFF4444.toInt()) // red
@@ -81,7 +96,7 @@ class FloatingSpeedometer(
     }
 
     fun showNoGps() {
-        val unit = if (settings.isMphEnabled())
+        val unit = if (settings.getUseMph())
             context.getString(R.string.unit_mph)
         else
             context.getString(R.string.unit_kmh)

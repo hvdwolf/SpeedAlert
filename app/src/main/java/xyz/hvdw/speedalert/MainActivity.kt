@@ -9,14 +9,10 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -30,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var swShowOverlay: Switch
     private lateinit var swBroadcast: Switch
     private lateinit var swUseMph: Switch
+    private lateinit var swOverspeedMode: Switch
     private lateinit var edtLat: EditText
     private lateinit var edtLon: EditText
     private lateinit var seekOverspeed: SeekBar
@@ -54,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         swShowOverlay = findViewById(R.id.swShowOverlay)
         swBroadcast = findViewById(R.id.swBroadcast)
         swUseMph = findViewById(R.id.swUseMph)
+        swOverspeedMode = findViewById(R.id.swOverspeedMode)
         edtLat = findViewById(R.id.edtLat)
         edtLon = findViewById(R.id.edtLon)
         seekOverspeed = findViewById(R.id.seekOverspeed)
@@ -61,31 +59,52 @@ class MainActivity : AppCompatActivity() {
 
         defaultTextColor = txtSpeed.currentTextColor
 
-        // -----------------------------
-        // OVERSPEED SLIDER
-        // -----------------------------
-        val savedTolerance = settings.getOverspeedTolerance()
-        seekOverspeed.progress = savedTolerance
-        txtOverspeedLabel.text = getString(R.string.overspeed_label, savedTolerance)
+        // ---------------------------------------------------------
+        // OVERSPEED MODE INITIALIZATION
+        // ---------------------------------------------------------
+        val isPctMode = settings.isOverspeedModePercentage()
+        swOverspeedMode.isChecked = isPctMode
+        updateOverspeedUI(isPctMode)
 
+        swOverspeedMode.setOnCheckedChangeListener { _, checked ->
+            settings.setOverspeedModePercentage(checked)
+            updateOverspeedUI(checked)
+        }
+
+        // ---------------------------------------------------------
+        // OVERSPEED SLIDER LISTENER
+        // ---------------------------------------------------------
         seekOverspeed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, value: Int, fromUser: Boolean) {
-                txtOverspeedLabel.text = getString(R.string.overspeed_label, value)
+            override fun onProgressChanged(sb: SeekBar?, value: Int, fromUser: Boolean) {
+                updateOverspeedLabel(value)
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStartTrackingTouch(sb: SeekBar?) {}
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            override fun onStopTrackingTouch(sb: SeekBar?) {
                 val value = seekOverspeed.progress
-                settings.setOverspeedTolerance(value)
-                val ovMsg: CharSequence = getString(R.string.overspeed_saved, value)
-                Toast.makeText(this@MainActivity, ovMsg, Toast.LENGTH_SHORT).show()
+
+                if (settings.isOverspeedModePercentage()) {
+                    settings.setOverspeedPercentage(value)
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.overspeed_saved_percent, value),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    settings.setOverspeedFixedKmh(value)
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.overspeed_saved_fixed, value),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         })
 
-        // -----------------------------
+        // ---------------------------------------------------------
         // BUTTONS
-        // -----------------------------
+        // ---------------------------------------------------------
         findViewById<Button>(R.id.btnCheckOverlay).setOnClickListener {
             if (Settings.canDrawOverlays(this)) {
                 Toast.makeText(this, getString(R.string.overlay_permission_ok), Toast.LENGTH_SHORT).show()
@@ -123,12 +142,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, DiagnosticsActivity::class.java))
         }
 
-        // -----------------------------
+        // ---------------------------------------------------------
         // SWITCHES
-        // -----------------------------
+        // ---------------------------------------------------------
         swShowOverlay.isChecked = settings.getShowSpeedometer()
         swBroadcast.isChecked = settings.isBroadcastEnabled()
-        swUseMph.isChecked = settings.isMphEnabled()
+        swUseMph.isChecked = settings.getUseMph()
 
         swShowOverlay.setOnCheckedChangeListener { _, checked ->
             settings.setShowSpeedometer(checked)
@@ -139,12 +158,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         swUseMph.setOnCheckedChangeListener { _, checked ->
-            settings.setMphEnabled(checked)
+            settings.setUseMph(checked)
         }
 
-        // -----------------------------
+        // ---------------------------------------------------------
         // SERVICE START/STOP
-        // -----------------------------
+        // ---------------------------------------------------------
         btnStart.setOnClickListener {
             startService(Intent(this, DrivingService::class.java))
         }
@@ -153,11 +172,10 @@ class MainActivity : AppCompatActivity() {
             stopService(Intent(this, DrivingService::class.java))
         }
 
-        // -----------------------------
+        // ---------------------------------------------------------
         // PERMISSIONS + RECEIVERS
-        // -----------------------------
+        // ---------------------------------------------------------
         checkLocationPermission()
-
         registerReceiver(speedReceiver, IntentFilter("xyz.hvdw.speedalert.SPEED_UPDATE"))
     }
 
@@ -176,6 +194,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ---------------------------------------------------------
+    // OVERSPEED UI UPDATE LOGIC
+    // ---------------------------------------------------------
+    private fun updateOverspeedUI(isPctMode: Boolean) {
+        if (isPctMode) {
+            seekOverspeed.max = 30
+            seekOverspeed.progress = settings.getOverspeedPercentage()
+            updateOverspeedLabel(settings.getOverspeedPercentage())
+            swOverspeedMode.text = "Use percentage overspeed"
+        } else {
+            seekOverspeed.max = 20
+            seekOverspeed.progress = settings.getOverspeedFixedKmh()
+            updateOverspeedLabel(settings.getOverspeedFixedKmh())
+            swOverspeedMode.text = "Use fixed overspeed (km/h)"
+        }
+    }
+
+    private fun updateOverspeedLabel(value: Int) {
+        if (settings.isOverspeedModePercentage()) {
+            txtOverspeedLabel.text = getString(R.string.overspeed_label_percent, value)
+        } else {
+            txtOverspeedLabel.text = getString(R.string.overspeed_label_fixed, value)
+        }
+    }
+
+    // ---------------------------------------------------------
     // SPEED RECEIVER
     // ---------------------------------------------------------
     private val speedReceiver = object : BroadcastReceiver() {
@@ -188,7 +231,7 @@ class MainActivity : AppCompatActivity() {
             logToFile("Receiver: speed=$speed, limit=$limit, acc=$acc")
 
             if (speed >= 0) {
-                val useMph = settings.isMphEnabled()
+                val useMph = settings.getUseMph()
                 val displaySpeed = if (useMph) (speed * 0.621371).toInt() else speed
                 val unit = if (useMph) "mph" else "km/h"
                 txtSpeed.text = "$displaySpeed $unit"
@@ -197,7 +240,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (limit > 0) {
-                val useMph = settings.isMphEnabled()
+                val useMph = settings.getUseMph()
                 val displayLimit = if (useMph) (limit * 0.621371).toInt() else limit
                 val unit = if (useMph) "mph" else "km/h"
                 txtLimit.text = "$displayLimit $unit"
