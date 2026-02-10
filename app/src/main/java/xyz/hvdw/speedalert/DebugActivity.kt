@@ -23,6 +23,7 @@ class DebugActivity : AppCompatActivity() {
         val file = File(filesDir, "speedalert.log")
         if (file.exists()) {
             txtDebugFull.text = file.readText()
+            scrollToBottom()
         } else {
             txtDebugFull.text = "Logfile does not exist yet."
         }
@@ -38,6 +39,14 @@ class DebugActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnEmptyLogFull).setOnClickListener {
             (application as SpeedAlertApp).emptyLogfile(this)
             txtDebugFull.text = ""
+            scrollToBottom()
         }
     }
+
+    private fun scrollToBottom() {
+        scrollDebugFull.post {
+            scrollDebugFull.fullScroll(ScrollView.FOCUS_DOWN)
+        }
+    }
+
 }
