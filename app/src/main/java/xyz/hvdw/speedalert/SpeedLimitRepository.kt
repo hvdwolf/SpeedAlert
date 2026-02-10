@@ -64,7 +64,7 @@ class SpeedLimitRepository(private val context: Context) {
     private fun buildOverpassQuery(lat: Double, lon: Double): String {
         val q = """
             [out:json][timeout:5];
-            way(around:25,$lat,$lon)
+            way(around:25,$lat,$lon)   //25
               ["highway"]
               ["maxspeed"]
               [highway!~"^(cycleway|footway|path|track|service|bridleway|steps|living_street)$"];

@@ -159,13 +159,6 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp" />
 
-        <!-- CHECK OVERLAY -->
-        <Button
-            android:id="@+id/btnCheckOverlay"
-            android:text="@string/btn_check_overlay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <!-- DEBUG SCREEN BUTTON -->
         <Button
             android:id="@+id/btnDebugScreen"
@@ -173,40 +166,6 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_debug_screen"
             android:layout_marginTop="12dp" />
-
-        <!-- TEST LOOKUP -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="8dp">
-
-            <EditText
-                android:id="@+id/edtLat"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/hint_latitude"
-                android:inputType="numberDecimal|numberSigned" />
-
-            <EditText
-                android:id="@+id/edtLon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/hint_longitude"
-                android:inputType="numberDecimal|numberSigned"
-                android:layout_marginStart="8dp" />
-
-            <Button
-                android:id="@+id/btnTestLookup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_test_lookup"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
 
         <!-- DIAGNOSTICS -->
         <Button

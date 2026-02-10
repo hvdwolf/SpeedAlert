@@ -178,4 +178,6 @@
     <string name="beep_volume_test">Test</string>
     <string name="beep_volume_prefix">Beep volume:</string>
 
+    <string name="debug_log_title">Debug log</string>
+
 </resources>

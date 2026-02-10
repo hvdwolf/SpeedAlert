@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var swBroadcast: Switch
     private lateinit var swUseMph: Switch
     private lateinit var swOverspeedMode: Switch
-    private lateinit var edtLat: EditText
-    private lateinit var edtLon: EditText
     private lateinit var seekOverspeed: SeekBar
     private lateinit var txtOverspeedLabel: TextView
 
@@ -53,8 +51,6 @@ class MainActivity : AppCompatActivity() {
         swBroadcast = findViewById(R.id.swBroadcast)
         swUseMph = findViewById(R.id.swUseMph)
         swOverspeedMode = findViewById(R.id.swOverspeedMode)
-        edtLat = findViewById(R.id.edtLat)
-        edtLon = findViewById(R.id.edtLon)
         seekOverspeed = findViewById(R.id.seekOverspeed)
         txtOverspeedLabel = findViewById(R.id.txtOverspeedLabel)
 
@@ -106,37 +102,9 @@ class MainActivity : AppCompatActivity() {
         // ---------------------------------------------------------
         // BUTTONS
         // ---------------------------------------------------------
-        findViewById<Button>(R.id.btnCheckOverlay).setOnClickListener {
-            if (Settings.canDrawOverlays(this)) {
-                Toast.makeText(this, getString(R.string.overlay_permission_ok), Toast.LENGTH_SHORT).show()
-            } else {
-                requestOverlayPermission()
-            }
-        }
 
         findViewById<Button>(R.id.btnDebugScreen).setOnClickListener {
             startActivity(Intent(this, DebugActivity::class.java))
-        }
-
-        findViewById<Button>(R.id.btnTestLookup).setOnClickListener {
-            val lat = edtLat.text.toString().toDoubleOrNull()
-            val lon = edtLon.text.toString().toDoubleOrNull()
-
-            if (lat == null || lon == null) {
-                Toast.makeText(this, getString(R.string.enter_valid_latlon), Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val repo = SpeedLimitRepository(this)
-
-            Thread {
-                val result = repo.getSpeedLimit(lat, lon)
-                runOnUiThread {
-                    val msg = getString(R.string.test_lookup_result, result.toString(), lat, lon)
-                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-                    logToFile(msg)
-                }
-            }.start()
         }
 
         findViewById<Button>(R.id.btnDiagnostics).setOnClickListener {
@@ -167,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                 txtBeepVolumeLabel.text = getString(
                     R.string.beep_volume_label,
                     progress
-                )
+)
 
             }
 
@@ -266,7 +234,7 @@ class MainActivity : AppCompatActivity() {
             val overspeed = intent?.getBooleanExtra("overspeed", false) ?: false
             val acc = intent?.getFloatExtra("accuracy", -1f) ?: -1f
 
-            logToFile("Receiver: speed=$speed, limit=$limit, acc=$acc")
+            //logToFile("Receiver: speed=$speed, limit=$limit, acc=$acc")
 
             if (speed >= 0) {
                 val useMph = settings.getUseMph()
@@ -345,18 +313,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ---------------------------------------------------------
-    // LOGGING
-    // ---------------------------------------------------------
-    private fun logToFile(msg: String) {
-        try {
-            val file = File(filesDir, "speedalert.log")
-            val ts = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US)
-                .format(System.currentTimeMillis())
-            file.appendText("[$ts] $msg\n")
-        } catch (_: Exception) {}
-    }
-
-    // ---------------------------------------------------------
     // PERMISSIONS
     // ---------------------------------------------------------
     private fun checkLocationPermission() {
@@ -386,13 +342,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-            private fun playTestBeep() {
-            val vol = settings.getBeepVolume()
+    private fun playTestBeep() {
+        val vol = settings.getBeepVolume()
 
-            val mp = MediaPlayer.create(this, R.raw.beep)
+        val mp = MediaPlayer.create(this, R.raw.beep)
             mp.setVolume(vol, vol)
             mp.setOnCompletionListener { it.release() }
             mp.start()
-        }
+    }
 
 }
