@@ -64,7 +64,7 @@ class SpeedLimitRepository(private val context: Context) {
     private fun buildOverpassQuery(lat: Double, lon: Double): String {
         val q = """
             [out:json][timeout:5];
-            way(around:40,$lat,$lon)
+            way(around:25,$lat,$lon)
               ["highway"]
               ["maxspeed"]
               [highway!~"^(cycleway|footway|path|track|service|bridleway|steps|living_street)$"];
@@ -152,6 +152,12 @@ class SpeedLimitRepository(private val context: Context) {
                     }
                 }
             }
+
+            if (bestDistance > 35) {
+                log("Overpass: closest way is too far (${bestDistance}m) → ignoring")
+                return -1
+            }
+            log("Overpass: bestDistance = $bestDistance m, speed = $bestSpeed")
 
             bestSpeed
         } catch (e: Exception) {

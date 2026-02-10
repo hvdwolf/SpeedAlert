@@ -40,7 +40,9 @@ class DrivingService : Service() {
     private var lastAccuracy = -1f
 
     private var beepPlayer: MediaPlayer? = null
-    private val kalman = KalmanFilter()
+
+    // RAW Kalman profile from AppConfig
+    private val kalman = KalmanFilter(AppConfig.KALMAN_PROFILE)
 
     // single, shared GPS listener
     private val gpsListener = LocationListener { loc ->
@@ -121,17 +123,15 @@ class DrivingService : Service() {
     private suspend fun mainLoop() {
         while (running) {
             try {
-                updateSpeedLimit()
-                updateLocationAndSpeed()
+                val loc = lastLocation
+                if (loc != null) {
+                    scheduleSpeedLimitFetch()
+                    updateLocationAndSpeed()
+                }
+
                 restartGpsIfNeeded()
 
-                mainHandler.post {
-                    try {
-                        updateOverlay()
-                    } catch (e: Exception) {
-                        log("Overlay error: ${e.message}")
-                    }
-                }
+                mainHandler.post { updateOverlay() }
 
             } catch (e: Exception) {
                 log("mainLoop error: ${e.message}")
@@ -163,7 +163,7 @@ class DrivingService : Service() {
 
     private fun hasGpsFix(): Boolean {
         val age = System.currentTimeMillis() - lastGpsFixTime
-        return age < 5000   // 5 seconds without updates = no fix
+        return age < 5000
     }
 
     private fun restartGpsIfNeeded() {
@@ -212,30 +212,34 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // SPEED LIMIT FETCHING
+    // SPEED LIMIT FETCHING (ASYNC)
     // ---------------------------------------------------------
-    private fun updateSpeedLimit() {
+    private var limitJob: Job? = null
+
+    private fun scheduleSpeedLimitFetch() {
         val loc = lastLocation ?: return
         val lat = loc.latitude
         val lon = loc.longitude
         val now = System.currentTimeMillis()
 
-        val result = if (now - lastLimitFetchTime > 4_000) {
-            lastLimitFetchTime = now
+        if (now - lastLimitFetchTime < 4000) return
+        lastLimitFetchTime = now
 
-            log("Service: calling repo for $lat,$lon")
-            val fetched = repo.getSpeedLimit(lat, lon)
-            log("Service: repo returned $fetched")
+        limitJob?.cancel()
+        limitJob = scope.launch(Dispatchers.IO) {
+            try {
+                log("Service: calling repo for $lat,$lon")
+                val fetched = repo.getSpeedLimit(lat, lon)
+                log("Service: repo returned $fetched")
 
-            lastLimit = fetched
-            fetched
-        } else {
-            lastLimit
-        }
-
-        if (result.limitKmh <= 0) {
-            log("Service: no valid speed limit (source=${result.source}) — keeping previous limit")
-            return
+                if (fetched.limitKmh > 0) {
+                    lastLimit = fetched
+                } else {
+                    log("Service: no valid speed limit (source=${fetched.source}) — keeping previous limit")
+                }
+            } catch (e: Exception) {
+                log("SpeedLimit fetch failed: ${e.message}")
+            }
         }
     }
 
