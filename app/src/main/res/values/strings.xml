@@ -34,7 +34,6 @@
     <string name="enable_broadcast">Enable media broadcast</string>
     <string name="switch_use_mph">Use mph instead of km/h</string>
 
-    <!-- NEW: Overspeed mode switch -->
     <string name="overspeed_mode_percentage">Use percentage overspeed</string>
     <string name="overspeed_mode_fixed">Use fixed overspeed (km/h)</string>
 
@@ -173,5 +172,10 @@
 
     <string name="notif_service_running_title">SpeedAlert running</string>
     <string name="notif_service_running_text">Monitoring speed and limits…</string>
+
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">Beep volume: %1$d%%</string>
+    <string name="beep_volume_test">Test</string>
+    <string name="beep_volume_prefix">Beep volume:</string>
 
 </resources>

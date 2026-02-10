@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -140,6 +141,43 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnDiagnostics).setOnClickListener {
             startActivity(Intent(this, DiagnosticsActivity::class.java))
+        }
+
+        // ---------------------------------------------------------
+        // BEEP VOLUME SLIDER AND TEST BUTTON
+        // ---------------------------------------------------------
+        val seekBeepVolume = findViewById<SeekBar>(R.id.seekBeepVolume)
+        val txtBeepVolumeLabel = findViewById<TextView>(R.id.txtBeepVolumeLabel)
+        val btnTestBeep = findViewById<Button>(R.id.btnTestBeep)
+
+        // Load saved volume
+        val savedVol = settings.getBeepVolume()
+        seekBeepVolume.progress = (savedVol * 100).toInt()
+        txtBeepVolumeLabel.text = getString(
+            R.string.beep_volume_label,
+            (savedVol * 100).toInt()
+        )
+
+
+        // Slider listener
+        seekBeepVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val vol = progress / 100f
+                settings.setBeepVolume(vol)
+                txtBeepVolumeLabel.text = getString(
+                    R.string.beep_volume_label,
+                    progress
+                )
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        // Test beep
+        btnTestBeep.setOnClickListener {
+            playTestBeep()
         }
 
         // ---------------------------------------------------------
@@ -347,4 +385,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+            private fun playTestBeep() {
+            val vol = settings.getBeepVolume()
+
+            val mp = MediaPlayer.create(this, R.raw.beep)
+            mp.setVolume(vol, vol)
+            mp.setOnCompletionListener { it.release() }
+            mp.start()
+        }
+
 }

@@ -174,4 +174,9 @@
     <string name="notif_service_running_title">SpeedAlert aktiv</string>
     <string name="notif_service_running_text">Überwache Geschwindigkeit und Limits…</string>
 
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">Beep volume: %1$d%%</string>
+    <string name="beep_volume_test">Test</string>
+    <string name="beep_volume_prefix">Beep volume:</string>
+
 </resources>

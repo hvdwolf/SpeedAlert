@@ -69,6 +69,16 @@ class SettingsManager(context: Context) {
     }
 
     // ---------------------------------------------------------
+    // SOUND VOLUME
+    // ---------------------------------------------------------
+    fun getBeepVolume(): Float =
+        prefs.getFloat("beep_volume", 1.0f)   // default: full volume
+
+    fun setBeepVolume(v: Float) {
+        prefs.edit().putFloat("beep_volume", v).apply()
+    }
+
+    // ---------------------------------------------------------
     // CUSTOM SOUND
     // ---------------------------------------------------------
     fun getCustomSound(): Uri? {
