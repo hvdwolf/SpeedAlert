@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import kotlin.math.max
 
 class FloatingSpeedometer(
     private val context: Context,
@@ -16,10 +18,16 @@ class FloatingSpeedometer(
     private var windowManager: WindowManager? = null
     private var view: View? = null
 
+    private lateinit var params: WindowManager.LayoutParams
+
     private var txtSpeed: TextView? = null
     private var txtLimit: TextView? = null
-    // OPTIONAL: show allowed threshold
-    // private var txtAllowed: TextView? = null
+
+    // Drag helpers
+    private var initialX = 0
+    private var initialY = 0
+    private var initialTouchX = 0f
+    private var initialTouchY = 0f
 
     fun show() {
         if (view != null) return
@@ -31,21 +39,25 @@ class FloatingSpeedometer(
 
         txtSpeed = view!!.findViewById(R.id.txtOverlaySpeed)
         txtLimit = view!!.findViewById(R.id.txtOverlayLimit)
-        // txtAllowed = view!!.findViewById(R.id.txtOverlayAllowed)
 
-        val params = WindowManager.LayoutParams(
+        params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT
         )
 
         params.gravity = Gravity.TOP or Gravity.START
-        params.x = settings.getOverlayX()
-        params.y = settings.getOverlayY()
+
+        // Restore saved position (clamped to avoid off-screen)
+        params.x = max(0, settings.getOverlayX())
+        params.y = max(0, settings.getOverlayY())
+
+        addDragSupport(view!!)
 
         windowManager?.addView(view, params)
     }
@@ -54,6 +66,37 @@ class FloatingSpeedometer(
         if (view != null) {
             windowManager?.removeView(view)
             view = null
+        }
+    }
+
+    private fun addDragSupport(v: View) {
+        v.setOnTouchListener { _, event ->
+            when (event.action) {
+
+                MotionEvent.ACTION_DOWN -> {
+                    initialX = params.x
+                    initialY = params.y
+                    initialTouchX = event.rawX
+                    initialTouchY = event.rawY
+                    false   // important for FYT units
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    params.x = initialX + (event.rawX - initialTouchX).toInt()
+                    params.y = initialY + (event.rawY - initialTouchY).toInt()
+                    windowManager?.updateViewLayout(view, params)
+                    true
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    // Save final position
+                    settings.setOverlayX(params.x)
+                    settings.setOverlayY(params.y)
+                    true
+                }
+
+                else -> false
+            }
         }
     }
 
@@ -73,18 +116,6 @@ class FloatingSpeedometer(
 
         txtSpeed?.text = "$displaySpeed $unit"
         txtLimit?.text = if (limit > 0) "$limitPrefix $displayLimit $unit" else noLimit
-
-        // OPTIONAL: show allowed threshold
-        /*
-        val allowed = if (settings.isOverspeedModePercentage()) {
-            val pct = settings.getOverspeedPercentage()
-            limit + (limit * pct / 100)
-        } else {
-            limit + settings.getOverspeedFixedKmh()
-        }
-        val displayAllowed = if (useMph) (allowed * 0.621371).toInt() else allowed
-        txtAllowed?.text = "Allowed: $displayAllowed $unit"
-        */
 
         if (overspeed) {
             txtSpeed?.setTextColor(0xFFFF4444.toInt()) // red
