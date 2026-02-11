@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="speed_text_day">#FFFFFFFF</color>
+    <color name="speed_text_night">#FFAAAAAA</color>    <!-- even dimmer -->
+
+</resources>

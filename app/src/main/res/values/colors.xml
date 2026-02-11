@@ -20,4 +20,7 @@
 
     <color name="normalColor">#333333</color>
 
+    <color name="speed_text_day">#FFFFFFFF</color>      <!-- pure white -->
+    <color name="speed_text_night">#FFCCCCCC</color>    <!-- soft grey -->
+
 </resources>

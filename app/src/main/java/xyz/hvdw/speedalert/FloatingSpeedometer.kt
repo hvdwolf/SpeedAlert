@@ -1,6 +1,7 @@
 package xyz.hvdw.speedalert
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -117,12 +118,17 @@ class FloatingSpeedometer(
         txtSpeed?.text = "$displaySpeed $unit"
         txtLimit?.text = if (limit > 0) "$limitPrefix $displayLimit $unit" else noLimit
 
+        val normalColor = context.getColor(R.color.speed_text_day)
+        val nightColor = context.getColor(R.color.speed_text_night)
+
+        val baseColor = if (isNightMode()) nightColor else normalColor
+
         if (overspeed) {
             txtSpeed?.setTextColor(0xFFFF4444.toInt()) // red
             txtLimit?.setTextColor(0xFFFF4444.toInt()) // red
         } else {
-            txtSpeed?.setTextColor(0xFFFFFFFF.toInt()) // white
-            txtLimit?.setTextColor(0xFFFFFFFF.toInt()) // white
+            txtSpeed?.setTextColor(baseColor)
+            txtLimit?.setTextColor(baseColor)
         }
     }
 
@@ -140,4 +146,10 @@ class FloatingSpeedometer(
         txtSpeed?.setTextColor(0xFFFFAA00.toInt()) // orange
         txtLimit?.setTextColor(0xFFFFAA00.toInt())
     }
+
+    private fun isNightMode(): Boolean {
+        val uiMode = context.resources.configuration.uiMode
+        return (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    }
+
 }
