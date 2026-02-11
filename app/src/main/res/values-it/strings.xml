@@ -174,11 +174,17 @@
     <string name="notif_service_running_title">SpeedAlert in esecuzione</string>
     <string name="notif_service_running_text">Monitoraggio velocità e limiti…</string>
 
+
+    <!-- ========================================================= -->
+    <!-- Strings added after 1.0 -->
+    <!-- ========================================================= -->
+
     <!-- Beep volume label, slider and test button -->
     <string name="beep_volume_label">Beep volume: %1$d%%</string>
     <string name="beep_volume_test">Test</string>
     <string name="beep_volume_prefix">Beep volume:</string>
 
     <string name="debug_log_title">Debug log</string>
+    <string name="overlay_text_brightness">Overlay text brightness</string>
 
 </resources>

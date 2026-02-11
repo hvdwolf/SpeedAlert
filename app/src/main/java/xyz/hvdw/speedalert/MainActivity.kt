@@ -29,12 +29,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var swUseMph: Switch
     private lateinit var swOverspeedMode: Switch
     private lateinit var seekOverspeed: SeekBar
+    private lateinit var seekBrightness: SeekBar
     private lateinit var txtOverspeedLabel: TextView
 
     private val LOCATION_REQUEST = 1001
     private var defaultTextColor: Int = 0
 
     private lateinit var settings: SettingsManager
+    private lateinit var floatingSpeedometer: FloatingSpeedometer
+
+    private val prefs by lazy {
+        getSharedPreferences("settings", Context.MODE_PRIVATE)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +59,12 @@ class MainActivity : AppCompatActivity() {
         swUseMph = findViewById(R.id.swUseMph)
         swOverspeedMode = findViewById(R.id.swOverspeedMode)
         seekOverspeed = findViewById(R.id.seekOverspeed)
+        seekBrightness = findViewById(R.id.seekBrightness)
         txtOverspeedLabel = findViewById(R.id.txtOverspeedLabel)
 
         defaultTextColor = txtSpeed.currentTextColor
+
+        floatingSpeedometer = FloatingSpeedometer(this, settings)
 
         // ---------------------------------------------------------
         // OVERSPEED MODE INITIALIZATION
@@ -100,9 +110,24 @@ class MainActivity : AppCompatActivity() {
         })
 
         // ---------------------------------------------------------
+        // BRIGHTNESS SLIDER LISTENER
+        // ---------------------------------------------------------
+        seekBrightness.progress = prefs.getInt("speedo_brightness", 100)
+
+        seekBrightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, value: Int, fromUser: Boolean) {
+                prefs.edit().putInt("speedo_brightness", value).apply()
+                updateFloatingSpeedometerBrightness()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+
+        // ---------------------------------------------------------
         // BUTTONS
         // ---------------------------------------------------------
-
         findViewById<Button>(R.id.btnDebugScreen).setOnClickListener {
             startActivity(Intent(this, DebugActivity::class.java))
         }
@@ -349,6 +374,10 @@ class MainActivity : AppCompatActivity() {
             mp.setVolume(vol, vol)
             mp.setOnCompletionListener { it.release() }
             mp.start()
+    }
+
+    private fun updateFloatingSpeedometerBrightness() {
+        floatingSpeedometer.updateBrightness()
     }
 
 }

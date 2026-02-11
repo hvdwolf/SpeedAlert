@@ -2,6 +2,7 @@ package xyz.hvdw.speedalert
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,10 +17,19 @@ class FloatingSpeedometer(
     private val settings: SettingsManager
 ) {
 
+    private var lastSpeed = 0
+    private var lastLimit = 0
+    private var lastOverspeed = false
+
     private var windowManager: WindowManager? = null
     private var view: View? = null
 
     private lateinit var params: WindowManager.LayoutParams
+
+    private val prefs by lazy {
+        context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+    }
+
 
     private var txtSpeed: TextView? = null
     private var txtLimit: TextView? = null
@@ -102,6 +112,10 @@ class FloatingSpeedometer(
     }
 
     fun updateSpeed(speed: Int, limit: Int, overspeed: Boolean) {
+        lastSpeed = speed
+        lastLimit = limit
+        lastOverspeed = overspeed
+
         val useMph = settings.getUseMph()
 
         val displaySpeed = if (useMph) (speed * 0.621371).toInt() else speed
@@ -123,13 +137,17 @@ class FloatingSpeedometer(
 
         val baseColor = if (isNightMode()) nightColor else normalColor
 
+        val brightness = prefs.getInt("speedo_brightness", 100)
+        val finalColor = applyBrightness(baseColor, brightness)
+
         if (overspeed) {
             txtSpeed?.setTextColor(0xFFFF4444.toInt()) // red
             txtLimit?.setTextColor(0xFFFF4444.toInt()) // red
         } else {
-            txtSpeed?.setTextColor(baseColor)
-            txtLimit?.setTextColor(baseColor)
+            txtSpeed?.setTextColor(finalColor)
+            txtLimit?.setTextColor(finalColor)
         }
+
     }
 
     fun showNoGps() {
@@ -150,6 +168,18 @@ class FloatingSpeedometer(
     private fun isNightMode(): Boolean {
         val uiMode = context.resources.configuration.uiMode
         return (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun applyBrightness(baseColor: Int, brightness: Int): Int {
+        val alpha = (brightness / 100f)
+        val r = (Color.red(baseColor) * alpha).toInt()
+        val g = (Color.green(baseColor) * alpha).toInt()
+        val b = (Color.blue(baseColor) * alpha).toInt()
+        return Color.rgb(r, g, b)
+    }
+
+    fun updateBrightness() {
+        updateSpeed(lastSpeed, lastLimit, lastOverspeed)
     }
 
 }
