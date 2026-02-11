@@ -31,6 +31,7 @@ class DrivingService : Service() {
 
     private var lastLimitFetchTime = 0L
     private var lastLimit = SpeedLimitResult(-1, -1, "none")
+    private var lastBeepTime = 0L
 
     private var running = true
 
@@ -56,7 +57,10 @@ class DrivingService : Service() {
         repo = SpeedLimitRepository(this)
         notifier = ServiceNotification(this)
         notifier.createChannel()
+
         beepPlayer = MediaPlayer.create(this, R.raw.beep)
+        val vol = settings.getBeepVolume() // 0.0f – 1.0f
+        beepPlayer?.setVolume(vol, vol)
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
@@ -285,10 +289,25 @@ class DrivingService : Service() {
         val overspeed = calculateOverspeed(limit, lastSpeed)
 
         if (overspeed) {
-            if (beepPlayer?.isPlaying == false) {
-                beepPlayer?.start()
+            val now = System.currentTimeMillis()
+
+            // Play immediately if this is the first beep OR 10 seconds have passed
+            if (now - lastBeepTime >= 10_000) {
+
+                val vol = settings.getBeepVolume()
+                beepPlayer?.setVolume(vol, vol)
+
+                if (beepPlayer?.isPlaying == false) {
+                    beepPlayer?.start()
+                }
+
+                lastBeepTime = now
             }
+        } else {
+            // Reset when no longer overspeeding
+            lastBeepTime = 0L
         }
+
 
         speedometer?.updateSpeed(lastSpeed, limit, overspeed)
     }
