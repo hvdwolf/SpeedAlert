@@ -1,6 +1,9 @@
 package xyz.hvdw.speedalert
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -18,11 +21,21 @@ class DiagnosticsActivity : AppCompatActivity() {
     private lateinit var repo: SpeedLimitRepository
     private var lastLocation: Location? = null
 
+    private val debugReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val msg = intent?.getStringExtra("msg") ?: return
+            append(msg)
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.diagnostics)
 
         repo = SpeedLimitRepository(this)
+
+        registerReceiver(debugReceiver, IntentFilter("speedalert.debug"))
 
         txtDiag = findViewById(R.id.txtDiag)
         scroll = findViewById(R.id.scrollDiag)
@@ -47,14 +60,16 @@ class DiagnosticsActivity : AppCompatActivity() {
             showRawOverpassResponse()
         }
 
-        //findViewById<Button>(R.id.btnDiagNetwork).setOnClickListener {
-        //    showNetworkType()
-        //}
-
         findViewById<Button>(R.id.btnDiagLocation).setOnClickListener {
             showLastLocation()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(debugReceiver)
+    }
+
 
     private fun append(msg: String) {
         txtDiag.append(msg + "\n")
@@ -70,7 +85,8 @@ class DiagnosticsActivity : AppCompatActivity() {
         Thread {
             val lat = 52.48
             val lon = 6.13
-            val result = repo.testRawOverpass(lat, lon)
+            val radius = 20
+            val result = repo.testRawOverpass(lat, lon, radius)
             runOnUiThread { append("RAW Overpass result: $result") }
         }.start()
     }
@@ -80,7 +96,8 @@ class DiagnosticsActivity : AppCompatActivity() {
         Thread {
             val lat = 52.48
             val lon = 6.13
-            val result = repo.testWebOverpass(lat, lon)
+            val radius = 20
+            val result = repo.testWebOverpass(lat, lon, radius)
             runOnUiThread { append("WebView Overpass result: $result") }
         }.start()
     }
@@ -110,7 +127,8 @@ class DiagnosticsActivity : AppCompatActivity() {
         Thread {
             val lat = 52.48
             val lon = 6.13
-            val raw = repo.fetchRawOverpassResponse(lat, lon)
+            val radius = 20
+            val raw = repo.fetchRawOverpassResponse(lat, lon, radius)
             runOnUiThread {
                 append("Raw Overpass response:\n$raw")
             }

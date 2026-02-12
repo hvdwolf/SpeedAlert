@@ -13,9 +13,6 @@ import android.provider.Settings
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnStop: Button
     private lateinit var swShowOverlay: Switch
     private lateinit var swBroadcast: Switch
-    private lateinit var swUseMph: Switch
     private lateinit var swOverspeedMode: Switch
     private lateinit var seekOverspeed: SeekBar
     private lateinit var seekBrightness: SeekBar
@@ -42,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         getSharedPreferences("settings", Context.MODE_PRIVATE)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         btnStop = findViewById(R.id.btnStop)
         swShowOverlay = findViewById(R.id.swShowOverlay)
         swBroadcast = findViewById(R.id.swBroadcast)
-        swUseMph = findViewById(R.id.swUseMph)
         swOverspeedMode = findViewById(R.id.swOverspeedMode)
         seekOverspeed = findViewById(R.id.seekOverspeed)
         seekBrightness = findViewById(R.id.seekBrightness)
@@ -124,16 +118,11 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-
         // ---------------------------------------------------------
         // BUTTONS
         // ---------------------------------------------------------
         findViewById<Button>(R.id.btnDebugScreen).setOnClickListener {
             startActivity(Intent(this, DebugActivity::class.java))
-        }
-
-        findViewById<Button>(R.id.btnDiagnostics).setOnClickListener {
-            startActivity(Intent(this, DiagnosticsActivity::class.java))
         }
 
         // ---------------------------------------------------------
@@ -143,7 +132,6 @@ class MainActivity : AppCompatActivity() {
         val txtBeepVolumeLabel = findViewById<TextView>(R.id.txtBeepVolumeLabel)
         val btnTestBeep = findViewById<Button>(R.id.btnTestBeep)
 
-        // Load saved volume
         val savedVol = settings.getBeepVolume()
         seekBeepVolume.progress = (savedVol * 100).toInt()
         txtBeepVolumeLabel.text = getString(
@@ -151,24 +139,17 @@ class MainActivity : AppCompatActivity() {
             (savedVol * 100).toInt()
         )
 
-
-        // Slider listener
         seekBeepVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val vol = progress / 100f
                 settings.setBeepVolume(vol)
-                txtBeepVolumeLabel.text = getString(
-                    R.string.beep_volume_label,
-                    progress
-)
-
+                txtBeepVolumeLabel.text = getString(R.string.beep_volume_label, progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        // Test beep
         btnTestBeep.setOnClickListener {
             playTestBeep()
         }
@@ -178,7 +159,6 @@ class MainActivity : AppCompatActivity() {
         // ---------------------------------------------------------
         swShowOverlay.isChecked = settings.getShowSpeedometer()
         swBroadcast.isChecked = settings.isBroadcastEnabled()
-        swUseMph.isChecked = settings.getUseMph()
 
         swShowOverlay.setOnCheckedChangeListener { _, checked ->
             settings.setShowSpeedometer(checked)
@@ -186,10 +166,6 @@ class MainActivity : AppCompatActivity() {
 
         swBroadcast.setOnCheckedChangeListener { _, checked ->
             settings.setBroadcastEnabled(checked)
-        }
-
-        swUseMph.setOnCheckedChangeListener { _, checked ->
-            settings.setUseMph(checked)
         }
 
         // ---------------------------------------------------------
@@ -259,22 +235,16 @@ class MainActivity : AppCompatActivity() {
             val overspeed = intent?.getBooleanExtra("overspeed", false) ?: false
             val acc = intent?.getFloatExtra("accuracy", -1f) ?: -1f
 
-            //logToFile("Receiver: speed=$speed, limit=$limit, acc=$acc")
-
             if (speed >= 0) {
-                val useMph = settings.getUseMph()
-                val displaySpeed = if (useMph) (speed * 0.621371).toInt() else speed
-                val unit = if (useMph) "mph" else "km/h"
-                txtSpeed.text = "$displaySpeed $unit"
+                val unit = if (settings.usesMph()) "mph" else "km/h"
+                txtSpeed.text = "$speed $unit"
             } else {
                 txtSpeed.text = "--"
             }
 
             if (limit > 0) {
-                val useMph = settings.getUseMph()
-                val displayLimit = if (useMph) (limit * 0.621371).toInt() else limit
-                val unit = if (useMph) "mph" else "km/h"
-                txtLimit.text = "$displayLimit $unit"
+                val unit = if (settings.usesMph()) "mph" else "km/h"
+                txtLimit.text = "$limit $unit"
             } else {
                 txtLimit.text = "--"
             }
@@ -295,9 +265,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------------------------------------------------
-    // OVERLAY PERMISSION
-    // ---------------------------------------------------------
     private fun requestOverlayPermission() {
         if (Settings.canDrawOverlays(this)) return
 
@@ -337,9 +304,6 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    // ---------------------------------------------------------
-    // PERMISSIONS
-    // ---------------------------------------------------------
     private fun checkLocationPermission() {
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
@@ -371,13 +335,12 @@ class MainActivity : AppCompatActivity() {
         val vol = settings.getBeepVolume()
 
         val mp = MediaPlayer.create(this, R.raw.beep)
-            mp.setVolume(vol, vol)
-            mp.setOnCompletionListener { it.release() }
-            mp.start()
+        mp.setVolume(vol, vol)
+        mp.setOnCompletionListener { it.release() }
+        mp.start()
     }
 
     private fun updateFloatingSpeedometerBrightness() {
         floatingSpeedometer.updateBrightness()
     }
-
 }

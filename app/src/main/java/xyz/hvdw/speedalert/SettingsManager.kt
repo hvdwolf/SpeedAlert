@@ -58,15 +58,6 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("broadcast_enabled", v).apply()
     }
 
-    // ---------------------------------------------------------
-    // MPH / KMH
-    // ---------------------------------------------------------
-    fun getUseMph(): Boolean =
-        prefs.getBoolean("use_mph", false)
-
-    fun setUseMph(v: Boolean) {
-        prefs.edit().putBoolean("use_mph", v).apply()
-    }
 
     // ---------------------------------------------------------
     // SOUND VOLUME
@@ -106,4 +97,34 @@ class SettingsManager(context: Context) {
     fun setOverlayY(y: Int) {
         prefs.edit().putInt("overlay_y", y).apply()
     }
+
+    // ---------------------------------------------------------
+    // COUNTRY IDENTIFICATION
+    // ---------------------------------------------------------
+
+    private val KEY_COUNTRY_CODE = "country_code"
+
+    fun setCountryCode(code: String) {
+        prefs.edit().putString(KEY_COUNTRY_CODE, code).apply()
+    }
+
+    fun getCountryCode(): String? {
+        return prefs.getString(KEY_COUNTRY_CODE, null)
+    }
+
+    private val mphCountries = setOf(
+        "US", // United States
+        "GB", // United Kingdom
+        "LR", // Liberia
+        "MM", // Myanmar
+        "BS", // Bahamas
+        "BZ", // Belize
+        "KY"  // Cayman Islands
+    )
+
+    fun usesMph(): Boolean {
+        val code = getCountryCode()?.uppercase() ?: return false
+        return mphCountries.contains(code)
+    }
+
 }

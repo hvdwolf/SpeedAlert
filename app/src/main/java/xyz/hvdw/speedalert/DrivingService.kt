@@ -232,8 +232,10 @@ class DrivingService : Service() {
         limitJob?.cancel()
         limitJob = scope.launch(Dispatchers.IO) {
             try {
+                val acc = lastAccuracy
+                val radius = dynamicRadius(acc)
                 log("Service: calling repo for $lat,$lon")
-                val fetched = repo.getSpeedLimit(lat, lon)
+                val fetched = repo.getSpeedLimit(lat, lon, radius)
                 log("Service: repo returned $fetched")
 
                 if (fetched.limitKmh > 0) {
@@ -335,4 +337,14 @@ class DrivingService : Service() {
         }
         sendBroadcast(intent)
     }
+
+    private fun dynamicRadius(acc: Float): Int {
+        return when {
+            acc <= 2.5f -> 10
+            acc <= 5f   -> 15
+            acc <= 10f  -> 20
+            else        -> 25
+        }
+    }
+
 }

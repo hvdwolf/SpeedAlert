@@ -116,15 +116,14 @@ class FloatingSpeedometer(
         lastLimit = limit
         lastOverspeed = overspeed
 
-        val useMph = settings.getUseMph()
+        val displaySpeed = speed
+        val displayLimit = limit
 
-        val displaySpeed = if (useMph) (speed * 0.621371).toInt() else speed
-        val displayLimit = if (useMph && limit > 0) (limit * 0.621371).toInt() else limit
-
-        val unit = if (useMph)
+        val unit = if (settings.usesMph())
             context.getString(R.string.unit_mph)
         else
             context.getString(R.string.unit_kmh)
+
 
         val limitPrefix = context.getString(R.string.overlay_limit_prefix)
         val noLimit = context.getString(R.string.overlay_no_limit)
@@ -151,7 +150,7 @@ class FloatingSpeedometer(
     }
 
     fun showNoGps() {
-        val unit = if (settings.getUseMph())
+        val unit = if (settings.usesMph())
             context.getString(R.string.unit_mph)
         else
             context.getString(R.string.unit_kmh)
@@ -164,6 +163,7 @@ class FloatingSpeedometer(
         txtSpeed?.setTextColor(0xFFFFAA00.toInt()) // orange
         txtLimit?.setTextColor(0xFFFFAA00.toInt())
     }
+
 
     private fun isNightMode(): Boolean {
         val uiMode = context.resources.configuration.uiMode

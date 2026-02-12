@@ -60,7 +60,9 @@ class DebugActivity : AppCompatActivity() {
             Thread {
                 try {
                     logToFile("Calling repo.getSpeedLimit($lat, $lon)")
-                    val result = repo.getSpeedLimit(lat, lon)
+                    //val radius = dynamicRadius(acc)
+                    val radius = 20
+                    val result = repo.getSpeedLimit(lat, lon, radius)
                     runOnUiThread {
                         val msg = getString(R.string.test_lookup_result, result.toString(), lat, lon)
                         Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
@@ -122,5 +124,13 @@ class DebugActivity : AppCompatActivity() {
         }
     }
 
+    private fun dynamicRadius(acc: Float): Int {
+        return when {
+            acc <= 2.5f -> 10
+            acc <= 5f   -> 15
+            acc <= 10f  -> 20
+            else        -> 25
+        }
+    }
 
 }

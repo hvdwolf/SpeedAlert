@@ -26,11 +26,11 @@ class SpeedLimitRepository(private val context: Context) {
         "https://overpass.nchc.org.tw/api/interpreter"
     )
 
-    fun getSpeedLimit(lat: Double, lon: Double): SpeedLimitResult {
-        log("Repo: start lookup for $lat,$lon")
+    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
+        log("Repo: start lookup for $lat,$lon (radius=$radius)")
 
         // 1) RAW OVERPASS (multi-server)
-        val rawOverpass = tryRawOverpass(lat, lon)
+        val rawOverpass = tryRawOverpass(lat, lon, radius)
         if (rawOverpass > 0) {
             return SpeedLimitResult(-1, rawOverpass, "raw-overpass")
         }
@@ -42,7 +42,7 @@ class SpeedLimitRepository(private val context: Context) {
         }
 
         // 3) WEBVIEW OVERPASS (multi-server)
-        val webOverpass = tryWebOverpass(lat, lon)
+        val webOverpass = tryWebOverpass(lat, lon, radius)
         if (webOverpass > 0) {
             return SpeedLimitResult(-1, webOverpass, "web-overpass")
         }
@@ -61,10 +61,10 @@ class SpeedLimitRepository(private val context: Context) {
     // ---------------------------------------------------------
     // IMPROVED OVERPASS QUERY
     // ---------------------------------------------------------
-    private fun buildOverpassQuery(lat: Double, lon: Double): String {
+    private fun buildOverpassQuery(lat: Double, lon: Double, radius: Int): String {
         val q = """
             [out:json][timeout:5];
-            way(around:20,$lat,$lon)   //25
+            way(around:$radius,$lat,$lon)
               ["highway"]
               ["maxspeed"]
               [highway!~"^(cycleway|footway|path|track|service|bridleway|steps|living_street)$"];
@@ -76,8 +76,8 @@ class SpeedLimitRepository(private val context: Context) {
     // ---------------------------------------------------------
     // RAW OVERPASS (multi-server)
     // ---------------------------------------------------------
-    private fun tryRawOverpass(lat: Double, lon: Double): Int {
-        val query = buildOverpassQuery(lat, lon)
+    private fun tryRawOverpass(lat: Double, lon: Double, radius: Int): Int {
+        val query = buildOverpassQuery(lat, lon, radius)
 
         for (server in overpassServers) {
             val url = "$server?data=$query"
@@ -96,8 +96,8 @@ class SpeedLimitRepository(private val context: Context) {
     // ---------------------------------------------------------
     // WEBVIEW OVERPASS (multi-server)
     // ---------------------------------------------------------
-    private fun tryWebOverpass(lat: Double, lon: Double): Int {
-        val query = buildOverpassQuery(lat, lon)
+    private fun tryWebOverpass(lat: Double, lon: Double, radius: Int): Int {
+        val query = buildOverpassQuery(lat, lon, radius)
 
         for (server in overpassServers) {
             val url = "$server?data=$query"
@@ -263,8 +263,8 @@ class SpeedLimitRepository(private val context: Context) {
     // DIAGNOSTICS HELPERS
     // ---------------------------------------------------------
 
-    fun testRawOverpass(lat: Double, lon: Double): String {
-        val query = buildOverpassQuery(lat, lon)
+    fun testRawOverpass(lat: Double, lon: Double, radius: Int): String {
+        val query = buildOverpassQuery(lat, lon, radius)
 
         for (server in overpassServers) {
             val url = "$server?data=$query"
@@ -277,8 +277,8 @@ class SpeedLimitRepository(private val context: Context) {
         return "RAW Overpass failed on all servers"
     }
 
-    fun testWebOverpass(lat: Double, lon: Double): String {
-        val query = buildOverpassQuery(lat, lon)
+    fun testWebOverpass(lat: Double, lon: Double, radius: Int): String {
+        val query = buildOverpassQuery(lat, lon, radius)
 
         for (server in overpassServers) {
             val url = "$server?data=$query"
@@ -329,8 +329,8 @@ class SpeedLimitRepository(private val context: Context) {
         return "WebView Nominatim: ${result ?: "failed"}"
     }
 
-    fun fetchRawOverpassResponse(lat: Double, lon: Double): String {
-        val query = buildOverpassQuery(lat, lon)
+    fun fetchRawOverpassResponse(lat: Double, lon: Double, radius: Int): String {
+        val query = buildOverpassQuery(lat, lon, radius)
 
         for (server in overpassServers) {
             val url = "$server?data=$query"
@@ -341,5 +341,4 @@ class SpeedLimitRepository(private val context: Context) {
         }
         return "No Overpass server returned a response"
     }
-
 }
