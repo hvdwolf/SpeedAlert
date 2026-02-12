@@ -1,6 +1,9 @@
 package xyz.hvdw.speedalert
 
+import android.content.Context
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -19,6 +22,13 @@ class DebugActivity : AppCompatActivity() {
     private lateinit var txtDebugFull: TextView
     private lateinit var scrollDebugFull: ScrollView
 
+    private val debugReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val msg = intent?.getStringExtra("msg") ?: return
+            append(msg)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debug)
@@ -28,6 +38,8 @@ class DebugActivity : AppCompatActivity() {
 
         txtDebugFull = findViewById(R.id.txtDebugFull)
         scrollDebugFull = findViewById(R.id.scrollDebugFull)
+
+        registerReceiver(debugReceiver, IntentFilter("speedalert.debug"))
 
         // Load logfile
         val file = File(filesDir, "speedalert.log")
@@ -91,6 +103,17 @@ class DebugActivity : AppCompatActivity() {
             txtDebugFull.text = ""
             scrollToBottom()
         }
+    }
+
+    private fun append(msg: String) {
+        txtDebugFull.append(msg + "\n")
+        scrollDebugFull.post { scrollDebugFull.fullScroll(ScrollView.FOCUS_DOWN) }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(debugReceiver)
     }
 
     private fun requestOverlayPermission() {

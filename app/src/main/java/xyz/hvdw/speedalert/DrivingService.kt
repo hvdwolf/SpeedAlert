@@ -10,6 +10,11 @@ import android.media.MediaPlayer
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -331,11 +336,19 @@ class DrivingService : Service() {
         sendBroadcast(intent)
     }
 
+    private val tsFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
     private fun log(msg: String) {
+        val ts = LocalDateTime.now().format(tsFormat)
+        val msgline = "$ts $msg"
+
         val intent = Intent("speedalert.debug").apply {
-            putExtra("msg", msg)
+            putExtra("msg", msgline)
+            setPackage(packageName)
         }
         sendBroadcast(intent)
+
+        val file = File(filesDir, "speedalert.log")
+        file.appendText(msgline + "\n")
     }
 
     private fun dynamicRadius(acc: Float): Int {

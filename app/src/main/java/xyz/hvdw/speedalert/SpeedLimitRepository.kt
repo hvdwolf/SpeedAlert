@@ -3,10 +3,16 @@ package xyz.hvdw.speedalert
 import android.content.Context
 import android.content.Intent
 import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
+
 
 data class SpeedLimitResult(
     val speedKmh: Int,
@@ -252,11 +258,19 @@ class SpeedLimitRepository(private val context: Context) {
     // ---------------------------------------------------------
     // LOGGING
     // ---------------------------------------------------------
+    private val tsFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
     private fun log(msg: String) {
+        val ts = LocalDateTime.now().format(tsFormat)
+        val msgline = "$ts $msg"
+
         val intent = Intent("speedalert.debug").apply {
-            putExtra("msg", msg)
+            putExtra("msg", msgline)
+            setPackage(context.packageName) 
         }
         context.sendBroadcast(intent)
+
+        val file = File(context.filesDir, "speedalert.log")
+        file.appendText(msgline + "\n")
     }
 
     // ---------------------------------------------------------
