@@ -185,6 +185,13 @@
     <string name="beep_volume_prefix">Beep volume:</string>
 
     <string name="debug_log_title">Debug log</string>
-    <string name="overlay_text_brightness">Overlay text brightness</string>
+    <string name="overlay_text_brightness">Overlay tekst brightness</string>
+
+    <string name="speedo_size_title">Overlay tekst grootte</string>
+    <string name="speedo_size_smallest">Kleinst</string>
+    <string name="speedo_size_smaller">Kleiner</string>
+    <string name="speedo_size_default">Standaard</string>
+    <string name="speedo_size_bigger">Groter</string>
+    <string name="speedo_size_biggest">Grootst</string>
 
 </resources>

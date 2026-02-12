@@ -125,7 +125,7 @@
                 android:text="@string/beep_volume_test" />
         </LinearLayout>
 
-        <!-- BRIGHTNESS SLIDER -->
+        <!-- OVERLAY TEXT BRIGHTNESS SLIDER -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +151,33 @@
                 android:progress="100" />
         </LinearLayout>
 
+        <!-- OVERLAY TEXT SIZE SLIDER -->
+        <LinearLayout
+            android:id="@+id/layoutSpeedoSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
 
+            <TextView
+                android:id="@+id/txtSpeedoSizeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speedo_size_title"
+                android:textSize="18sp" />
+
+            <SeekBar
+                android:id="@+id/seekSpeedoSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/txtSpeedoSizeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speedo_size_default" />
+        </LinearLayout>
 
 
         <!-- START / STOP -->

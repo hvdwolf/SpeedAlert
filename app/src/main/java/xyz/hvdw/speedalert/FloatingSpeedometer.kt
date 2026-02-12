@@ -30,7 +30,6 @@ class FloatingSpeedometer(
         context.getSharedPreferences("settings", Context.MODE_PRIVATE)
     }
 
-
     private var txtSpeed: TextView? = null
     private var txtLimit: TextView? = null
 
@@ -51,6 +50,9 @@ class FloatingSpeedometer(
         txtSpeed = view!!.findViewById(R.id.txtOverlaySpeed)
         txtLimit = view!!.findViewById(R.id.txtOverlayLimit)
 
+        // Apply text scaling
+        applyTextScaling()
+
         params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -64,7 +66,7 @@ class FloatingSpeedometer(
 
         params.gravity = Gravity.TOP or Gravity.START
 
-        // Restore saved position (clamped to avoid off-screen)
+        // Restore saved position
         params.x = max(0, settings.getOverlayX())
         params.y = max(0, settings.getOverlayY())
 
@@ -89,7 +91,7 @@ class FloatingSpeedometer(
                     initialY = params.y
                     initialTouchX = event.rawX
                     initialTouchY = event.rawY
-                    false   // important for FYT units
+                    false
                 }
 
                 MotionEvent.ACTION_MOVE -> {
@@ -100,7 +102,6 @@ class FloatingSpeedometer(
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    // Save final position
                     settings.setOverlayX(params.x)
                     settings.setOverlayY(params.y)
                     true
@@ -116,20 +117,16 @@ class FloatingSpeedometer(
         lastLimit = limit
         lastOverspeed = overspeed
 
-        val displaySpeed = speed
-        val displayLimit = limit
-
         val unit = if (settings.usesMph())
             context.getString(R.string.unit_mph)
         else
             context.getString(R.string.unit_kmh)
 
-
         val limitPrefix = context.getString(R.string.overlay_limit_prefix)
         val noLimit = context.getString(R.string.overlay_no_limit)
 
-        txtSpeed?.text = "$displaySpeed $unit"
-        txtLimit?.text = if (limit > 0) "$limitPrefix $displayLimit $unit" else noLimit
+        txtSpeed?.text = "$speed $unit"
+        txtLimit?.text = if (limit > 0) "$limitPrefix $limit $unit" else noLimit
 
         val normalColor = context.getColor(R.color.speed_text_day)
         val nightColor = context.getColor(R.color.speed_text_night)
@@ -140,13 +137,12 @@ class FloatingSpeedometer(
         val finalColor = applyBrightness(baseColor, brightness)
 
         if (overspeed) {
-            txtSpeed?.setTextColor(0xFFFF4444.toInt()) // red
-            txtLimit?.setTextColor(0xFFFF4444.toInt()) // red
+            txtSpeed?.setTextColor(0xFFFF4444.toInt())
+            txtLimit?.setTextColor(0xFFFF4444.toInt())
         } else {
             txtSpeed?.setTextColor(finalColor)
             txtLimit?.setTextColor(finalColor)
         }
-
     }
 
     fun showNoGps() {
@@ -160,10 +156,9 @@ class FloatingSpeedometer(
         txtSpeed?.text = "-- $unit"
         txtLimit?.text = noGps
 
-        txtSpeed?.setTextColor(0xFFFFAA00.toInt()) // orange
+        txtSpeed?.setTextColor(0xFFFFAA00.toInt())
         txtLimit?.setTextColor(0xFFFFAA00.toInt())
     }
-
 
     private fun isNightMode(): Boolean {
         val uiMode = context.resources.configuration.uiMode
@@ -182,4 +177,17 @@ class FloatingSpeedometer(
         updateSpeed(lastSpeed, lastLimit, lastOverspeed)
     }
 
+    // -----------------------------
+    // TEXT SCALING
+    // -----------------------------
+    private fun applyTextScaling() {
+        val scale = prefs.getFloat("overlay_text_scale", 1.0f)
+
+        // Your default sizes from XML
+        val baseSpeed = 28f
+        val baseLimit = 18f
+
+        txtSpeed?.textSize = baseSpeed * scale
+        txtLimit?.textSize = baseLimit * scale
+    }
 }

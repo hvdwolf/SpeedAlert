@@ -28,6 +28,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var seekBrightness: SeekBar
     private lateinit var txtOverspeedLabel: TextView
 
+    // NEW: Speedometer size controls
+    private lateinit var seekSpeedoSize: SeekBar
+    private lateinit var txtSpeedoSizeValue: TextView
+
     private val LOCATION_REQUEST = 1001
     private var defaultTextColor: Int = 0
 
@@ -37,6 +41,24 @@ class MainActivity : AppCompatActivity() {
     private val prefs by lazy {
         getSharedPreferences("settings", Context.MODE_PRIVATE)
     }
+
+    private val sizeLabels by lazy {
+        arrayOf(
+            getString(R.string.speedo_size_smallest),
+            getString(R.string.speedo_size_smaller),
+            getString(R.string.speedo_size_default),
+            getString(R.string.speedo_size_bigger),
+            getString(R.string.speedo_size_biggest)
+        )
+    }
+
+    private val sizeScales = floatArrayOf(
+        0.60f,
+        0.80f,
+        1.00f,
+        1.20f,
+        1.40f
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +78,33 @@ class MainActivity : AppCompatActivity() {
         seekBrightness = findViewById(R.id.seekBrightness)
         txtOverspeedLabel = findViewById(R.id.txtOverspeedLabel)
 
+        // NEW: Speedometer size
+        seekSpeedoSize = findViewById(R.id.seekSpeedoSize)
+        txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
+
         defaultTextColor = txtSpeed.currentTextColor
 
         floatingSpeedometer = FloatingSpeedometer(this, settings)
+
+        // ---------------------------------------------------------
+        // SPEEDOMETER SIZE INITIALIZATION
+        // ---------------------------------------------------------
+        val savedScale = prefs.getFloat("overlay_text_scale", 1.0f)
+        val index = sizeScales.indexOfFirst { it == savedScale }.let { if (it == -1) 2 else it }
+
+
+        seekSpeedoSize.progress = index
+        txtSpeedoSizeValue.text = sizeLabels[index]
+
+        seekSpeedoSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(sb: SeekBar?, value: Int, fromUser: Boolean) {
+                txtSpeedoSizeValue.text = sizeLabels[value]
+                prefs.edit().putFloat("overlay_text_scale", sizeScales[value]).apply()
+            }
+
+            override fun onStartTrackingTouch(sb: SeekBar?) {}
+            override fun onStopTrackingTouch(sb: SeekBar?) {}
+        })
 
         // ---------------------------------------------------------
         // OVERSPEED MODE INITIALIZATION
@@ -208,12 +254,12 @@ class MainActivity : AppCompatActivity() {
             seekOverspeed.max = 30
             seekOverspeed.progress = settings.getOverspeedPercentage()
             updateOverspeedLabel(settings.getOverspeedPercentage())
-            swOverspeedMode.text = "Use percentage overspeed"
+            swOverspeedMode.text = getString(R.string.overspeed_mode_percentage)
         } else {
             seekOverspeed.max = 20
             seekOverspeed.progress = settings.getOverspeedFixedKmh()
             updateOverspeedLabel(settings.getOverspeedFixedKmh())
-            swOverspeedMode.text = "Use fixed overspeed (km/h)"
+            swOverspeedMode.text = getString(R.string.overspeed_mode_fixed)
         }
     }
 

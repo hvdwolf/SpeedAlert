@@ -187,4 +187,11 @@
     <string name="debug_log_title">Debug log</string>
     <string name="overlay_text_brightness">Overlay text brightness</string>
 
+    <string name="speedo_size_title">Overlay text size</string>
+    <string name="speedo_size_smallest">Smallest</string>
+    <string name="speedo_size_smaller">Smaller</string>
+    <string name="speedo_size_default">Default</string>
+    <string name="speedo_size_bigger">Bigger</string>
+    <string name="speedo_size_biggest">Biggest</string>
+
 </resources>
