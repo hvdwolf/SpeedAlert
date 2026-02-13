@@ -50,7 +50,6 @@ class FloatingSpeedometer(
         txtSpeed = view!!.findViewById(R.id.txtOverlaySpeed)
         txtLimit = view!!.findViewById(R.id.txtOverlayLimit)
 
-        // Apply text scaling
         applyTextScaling()
 
         params = WindowManager.LayoutParams(
@@ -66,7 +65,6 @@ class FloatingSpeedometer(
 
         params.gravity = Gravity.TOP or Gravity.START
 
-        // Restore saved position
         params.x = max(0, settings.getOverlayX())
         params.y = max(0, settings.getOverlayY())
 
@@ -117,20 +115,35 @@ class FloatingSpeedometer(
         lastLimit = limit
         lastOverspeed = overspeed
 
-        val unit = if (settings.usesMph())
-            context.getString(R.string.unit_mph)
-        else
-            context.getString(R.string.unit_kmh)
+        // -----------------------------
+        // UNIT LABEL (based on user preference)
+        // -----------------------------
+        val unit = settings.displayUnit()
 
         val limitPrefix = context.getString(R.string.overlay_limit_prefix)
         val noLimit = context.getString(R.string.overlay_no_limit)
 
-        txtSpeed?.text = "$speed $unit"
-        txtLimit?.text = if (limit > 0) "$limitPrefix $limit $unit" else noLimit
+        // -----------------------------
+        // GPS SPEED (converted if needed)
+        // -----------------------------
+        val displaySpeed = settings.convertSpeed(speed)
+        txtSpeed?.text = "$displaySpeed $unit"
 
+        // -----------------------------
+        // ROAD LIMIT (converted if needed)
+        // -----------------------------
+        val displayLimit = settings.convertSpeed(limit)
+
+        txtLimit?.text = if (limit > 0)
+            "$limitPrefix $displayLimit $unit"
+        else
+            noLimit
+
+        // -----------------------------
+        // COLORING
+        // -----------------------------
         val normalColor = context.getColor(R.color.speed_text_day)
         val nightColor = context.getColor(R.color.speed_text_night)
-
         val baseColor = if (isNightMode()) nightColor else normalColor
 
         val brightness = prefs.getInt("speedo_brightness", 100)
@@ -146,11 +159,7 @@ class FloatingSpeedometer(
     }
 
     fun showNoGps() {
-        val unit = if (settings.usesMph())
-            context.getString(R.string.unit_mph)
-        else
-            context.getString(R.string.unit_kmh)
-
+        val unit = settings.displayUnit()
         val noGps = context.getString(R.string.overlay_no_gps)
 
         txtSpeed?.text = "-- $unit"
@@ -183,7 +192,6 @@ class FloatingSpeedometer(
     private fun applyTextScaling() {
         val scale = prefs.getFloat("overlay_text_scale", 1.0f)
 
-        // Your default sizes from XML
         val baseSpeed = 28f
         val baseLimit = 18f
 

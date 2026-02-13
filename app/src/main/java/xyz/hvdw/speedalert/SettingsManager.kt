@@ -20,8 +20,6 @@ class SettingsManager(context: Context) {
     // ---------------------------------------------------------
     // OVERSPEED MODE
     // ---------------------------------------------------------
-    // true  = percentage mode
-    // false = fixed km/h (or mph) mode
     fun isOverspeedModePercentage(): Boolean =
         prefs.getBoolean("overspeed_mode_percentage", true)
 
@@ -32,7 +30,6 @@ class SettingsManager(context: Context) {
     // ---------------------------------------------------------
     // OVERSPEED VALUES
     // ---------------------------------------------------------
-    // Percentage (existing)
     fun getOverspeedPercentage(): Int =
         prefs.getInt("overspeed_pct", 10)
 
@@ -40,7 +37,6 @@ class SettingsManager(context: Context) {
         prefs.edit().putInt("overspeed_pct", v).apply()
     }
 
-    // Fixed km/h (new)
     fun getOverspeedFixedKmh(): Int =
         prefs.getInt("overspeed_fixed_kmh", 5)
 
@@ -58,12 +54,39 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("broadcast_enabled", v).apply()
     }
 
+    // ---------------------------------------------------------
+    // KMH / MPH (USER CONTROLLED)
+    // ---------------------------------------------------------
+    fun usesMph(): Boolean =
+        prefs.getBoolean("use_mph", false)
+
+    fun setUseMph(value: Boolean) {
+        prefs.edit().putBoolean("use_mph", value).apply()
+    }
+
+    fun shouldConvertToMph(): Boolean =
+        !countryUsesMph() && usesMph()
+
+    fun shouldConvertToKmh(): Boolean =
+        countryUsesMph() && !usesMph()
+
+    fun displayUnit(): String {
+        return if (usesMph()) "mph" else "km/h"
+    }
+
+    fun convertSpeed(value: Int): Int {
+        return when {
+            shouldConvertToMph() -> (value * 0.621371).toInt()
+            shouldConvertToKmh() -> (value / 0.621371).toInt()
+            else -> value
+        }
+    }
 
     // ---------------------------------------------------------
     // SOUND VOLUME
     // ---------------------------------------------------------
     fun getBeepVolume(): Float =
-        prefs.getFloat("beep_volume", 1.0f)   // default: full volume
+        prefs.getFloat("beep_volume", 1.0f)
 
     fun setBeepVolume(v: Float) {
         prefs.edit().putFloat("beep_volume", v).apply()
@@ -99,18 +122,16 @@ class SettingsManager(context: Context) {
     }
 
     // ---------------------------------------------------------
-    // COUNTRY IDENTIFICATION
+    // COUNTRY IDENTIFICATION (STILL STORED, NOT USED FOR MPH)
     // ---------------------------------------------------------
-
     private val KEY_COUNTRY_CODE = "country_code"
 
     fun setCountryCode(code: String) {
         prefs.edit().putString(KEY_COUNTRY_CODE, code).apply()
     }
 
-    fun getCountryCode(): String? {
-        return prefs.getString(KEY_COUNTRY_CODE, null)
-    }
+    fun getCountryCode(): String? =
+        prefs.getString(KEY_COUNTRY_CODE, null)
 
     private val mphCountries = setOf(
         "US", // United States
@@ -122,9 +143,8 @@ class SettingsManager(context: Context) {
         "KY"  // Cayman Islands
     )
 
-    fun usesMph(): Boolean {
+    fun countryUsesMph(): Boolean {
         val code = getCountryCode()?.uppercase() ?: return false
         return mphCountries.contains(code)
     }
-
 }

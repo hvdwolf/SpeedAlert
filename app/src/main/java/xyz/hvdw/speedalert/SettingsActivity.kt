@@ -5,12 +5,14 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var swShowOverlay: Switch
     private lateinit var swBroadcast: Switch
     private lateinit var swOverspeedMode: Switch
+    private lateinit var swUseMph: Switch 
     private lateinit var seekOverspeed: SeekBar
     private lateinit var txtOverspeedLabel: TextView
     private lateinit var seekBeepVolume: SeekBar
@@ -61,6 +63,17 @@ class SettingsActivity : AppCompatActivity() {
         seekBrightness = findViewById(R.id.seekBrightness)
         seekSpeedoSize = findViewById(R.id.seekSpeedoSize)
         txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
+        swUseMph = findViewById<Switch>(R.id.swUseMph)
+
+        findViewById<Button>(R.id.btnMphInfo).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.mph_info_title))
+                .setMessage(getString(R.string.mph_info_message))
+                .setPositiveButton("OK", null)
+                .show()
+        }
+
+
 
         // ---------------------------------------------------------
         // SHOW OVERLAY
@@ -76,6 +89,14 @@ class SettingsActivity : AppCompatActivity() {
         swBroadcast.isChecked = settings.isBroadcastEnabled()
         swBroadcast.setOnCheckedChangeListener { _, checked ->
             settings.setBroadcastEnabled(checked)
+        }
+
+        // ---------------------------------------------------------
+        // KMH / MPH
+        // ---------------------------------------------------------
+        swUseMph.isChecked = settings.usesMph()
+        swUseMph.setOnCheckedChangeListener { _, checked ->
+            settings.setUseMph(checked)
         }
 
         // ---------------------------------------------------------

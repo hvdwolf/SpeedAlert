@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Button
@@ -91,35 +90,46 @@ class MainActivity : AppCompatActivity() {
     // ---------------------------------------------------------
     private val speedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            val speed = intent?.getIntExtra("speed", -1) ?: -1
-            val limit = intent?.getIntExtra("limit", -1) ?: -1
+
+            val rawSpeed = intent?.getIntExtra("speed", -1) ?: -1
+            val rawLimit = intent?.getIntExtra("limit", -1) ?: -1
             val overspeed = intent?.getBooleanExtra("overspeed", false) ?: false
             val acc = intent?.getFloatExtra("accuracy", -1f) ?: -1f
 
-            // SPEED
-            if (speed >= 0) {
-                val unit = if (settings.usesMph()) "mph" else "km/h"
-                txtSpeed.text = "$speed $unit"
+            val unit = settings.displayUnit()
+
+            // -----------------------------
+            // GPS SPEED (converted if needed)
+            // -----------------------------
+            if (rawSpeed >= 0) {
+                val displaySpeed = settings.convertSpeed(rawSpeed)
+                txtSpeed.text = "$displaySpeed $unit"
             } else {
                 txtSpeed.text = "--"
             }
 
-            // LIMIT
-            if (limit > 0) {
-                val unit = if (settings.usesMph()) "mph" else "km/h"
-                txtLimit.text = "$limit $unit"
+            // -----------------------------
+            // ROAD LIMIT (converted if needed)
+            // -----------------------------
+            if (rawLimit > 0) {
+                val displayLimit = settings.convertSpeed(rawLimit)
+                txtLimit.text = "$displayLimit $unit"
             } else {
                 txtLimit.text = "--"
             }
 
+            // -----------------------------
             // GPS ACCURACY
+            // -----------------------------
             if (acc >= 0) {
                 txtStatus.text = getString(R.string.gps_accuracy, acc.toInt())
             } else {
                 txtStatus.text = getString(R.string.gps_waiting)
             }
 
+            // -----------------------------
             // COLORING
+            // -----------------------------
             if (overspeed) {
                 txtSpeed.setTextColor(Color.RED)
                 txtLimit.setTextColor(Color.RED)
@@ -178,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         try {
             val intent = Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:$packageName")
+                android.net.Uri.parse("package:$packageName")
             )
             startActivity(intent)
         } catch (e: Exception) {

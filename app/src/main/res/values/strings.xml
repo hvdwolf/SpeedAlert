@@ -32,7 +32,7 @@
     <!-- ========================================================= -->
     <string name="show_overlay">Show overlay speedometer</string>
     <string name="enable_broadcast">Enable media broadcast</string>
-    <string name="switch_use_mph">Use mph instead of km/h</string>
+    <string name="switch_use_mph">Use mph instead of km/h for GPS speed</string>
 
     <string name="overspeed_mode_percentage">Use percentage overspeed</string>
     <string name="overspeed_mode_fixed">Use fixed overspeed (km/h)</string>
@@ -194,5 +194,15 @@
 
     <string name="btn_settings">Settings</string>
     <string name="settings_title">Settings</string>
+
+    <string name="switch_use_mph_readme">Read this!</string>
+    <string name="mph_info_title">About km/h and mph</string>
+    <string name="mph_info_message">
+    SpeedAlert can convert both GPS speed and road speed limits.\n\n
+    • If you drive in a km/h country but prefer mph, both values are converted.\n
+    • If you drive in an mph country but prefer km/h, both values are converted.\n
+    • If your preference matches the country, no conversion is done.\n\n
+    This ensures the display always matches your chosen unit.
+    </string>
 
 </resources>

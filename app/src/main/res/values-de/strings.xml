@@ -32,7 +32,7 @@
     <!-- ========================================================= -->
     <string name="show_overlay">Schwebenden Tacho anzeigen</string>
     <string name="enable_broadcast">Medien-Broadcast aktivieren</string>
-    <string name="switch_use_mph">mph statt km/h verwenden</string>
+    <string name="switch_use_mph">mph statt km/h verwenden für GPS Geschwindigkeit</string>
 
     <!-- Overspeed mode -->
     <string name="overspeed_mode_percentage">Prozentuale Toleranz verwenden</string>

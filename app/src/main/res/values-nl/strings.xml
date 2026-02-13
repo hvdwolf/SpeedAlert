@@ -32,7 +32,7 @@
     <!-- ========================================================= -->
     <string name="show_overlay">Toon zwevende snelheidsmeter</string>
     <string name="enable_broadcast">Media‑broadcast inschakelen</string>
-    <string name="switch_use_mph">Gebruik mph in plaats van km/u</string>
+    <string name="switch_use_mph">Gebruik mph in plaats van km/u voor GPS snelheid</string>
 
     <!-- Overspeed mode -->
     <string name="overspeed_mode_percentage">Gebruik overschrijding in procenten</string>
@@ -180,14 +180,14 @@
     <!-- ========================================================= -->
 
     <!-- Beep volume label, slider and test button -->
-    <string name="beep_volume_label">Alarm (piep) volume: %1$d%%</string>
-    <string name="beep_volume_test">Test</string>
-    <string name="beep_volume_prefix">Beep volume:</string>
+    <string name="beep_volume_label">Signaalvolume: %1$d%%</string>
+    <string name="beep_volume_test">Testen</string>
+    <string name="beep_volume_prefix">Signaalvolume:</string>
 
-    <string name="debug_log_title">Debug log</string>
-    <string name="overlay_text_brightness">Overlay tekst helderheid</string>
+    <string name="debug_log_title">Debuglog</string>
+    <string name="overlay_text_brightness">Helderheid van overlay‑tekst</string>
 
-    <string name="speedo_size_title">Overlay tekst grootte</string>
+    <string name="speedo_size_title">Tekstgrootte van overlay</string>
     <string name="speedo_size_smallest">Kleinst</string>
     <string name="speedo_size_smaller">Kleiner</string>
     <string name="speedo_size_default">Standaard</string>
@@ -196,5 +196,17 @@
 
     <string name="btn_settings">Instellingen</string>
     <string name="settings_title">Instellingen</string>
+
+    <string name="switch_use_mph_readme">Lees dit!</string>
+
+    <string name="mph_info_title">Over km/h en mph</string>
+
+    <string name="mph_info_message">
+    SpeedAlert kan zowel de GPS‑snelheid als de snelheidslimieten omrekenen.\n\n
+    • Als je in een km/h‑land rijdt maar mph verkiest, worden beide waarden omgerekend.\n
+    • Als je in een mph‑land rijdt maar km/h verkiest, worden beide waarden omgerekend.\n
+    • Als jouw voorkeur overeenkomt met de eenheid van het land, wordt er niets omgerekend.\n\n
+    Zo weet je zeker dat de weergave altijd overeenkomt met de door jou gekozen eenheid.
+    </string>
 
 </resources>

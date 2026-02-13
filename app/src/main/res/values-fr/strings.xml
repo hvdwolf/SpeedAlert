@@ -32,7 +32,7 @@
     <!-- ========================================================= -->
     <string name="show_overlay">Afficher le compteur flottant</string>
     <string name="enable_broadcast">Activer la diffusion multimédia</string>
-    <string name="switch_use_mph">Utiliser mph au lieu de km/h</string>
+    <string name="switch_use_mph">Utiliser mph au lieu de km/h pour vitesse de GPS</string>
 
     <!-- Overspeed mode -->
     <string name="overspeed_mode_percentage">Utiliser une tolérance en pourcentage</string>
@@ -180,21 +180,33 @@
     <!-- ========================================================= -->
 
     <!-- Beep volume label, slider and test button -->
-    <string name="beep_volume_label">Beep volume: %1$d%%</string>
-    <string name="beep_volume_test">Test</string>
-    <string name="beep_volume_prefix">Beep volume:</string>
+    <string name="beep_volume_label">Volume du bip : %1$d%%</string>
+    <string name="beep_volume_test">Tester</string>
+    <string name="beep_volume_prefix">Volume du bip :</string>
 
-    <string name="debug_log_title">Debug log</string>
-    <string name="overlay_text_brightness">Overlay text brightness</string>
+    <string name="debug_log_title">Journal de débogage</string>
+    <string name="overlay_text_brightness">Luminosité du texte de l’overlay</string>
 
-    <string name="speedo_size_title">Overlay text size</string>
-    <string name="speedo_size_smallest">Smallest</string>
-    <string name="speedo_size_smaller">Smaller</string>
-    <string name="speedo_size_default">Default</string>
-    <string name="speedo_size_bigger">Bigger</string>
-    <string name="speedo_size_biggest">Biggest</string>
+    <string name="speedo_size_title">Taille du texte de l’overlay</string>
+    <string name="speedo_size_smallest">Le plus petit</string>
+    <string name="speedo_size_smaller">Plus petit</string>
+    <string name="speedo_size_default">Par défaut</string>
+    <string name="speedo_size_bigger">Plus grand</string>
+    <string name="speedo_size_biggest">Le plus grand</string>
 
-    <string name="btn_settings">Settings</string>
-    <string name="settings_title">Settings</string>
+    <string name="btn_settings">Paramètres</string>
+    <string name="settings_title">Paramètres</string>
+
+    <string name="switch_use_mph_readme">À lire !</string>
+
+    <string name="mph_info_title">À propos de km/h et mph</string>
+
+    <string name="mph_info_message">
+    SpeedAlert peut convertir à la fois la vitesse GPS et les limitations de vitesse.\n\n
+    • Si vous conduisez dans un pays en km/h mais préférez mph, les deux valeurs sont converties.\n
+    • Si vous conduisez dans un pays en mph mais préférez km/h, les deux valeurs sont converties.\n
+    • Si votre préférence correspond à l’unité du pays, aucune conversion n’est effectuée.\n\n
+    Cela garantit que l’affichage correspond toujours à l’unité que vous avez choisie.
+    </string>
 
 </resources>
