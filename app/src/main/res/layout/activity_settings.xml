@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- SHOW OVERLAY -->
+        <Switch
+            android:id="@+id/swShowOverlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_overlay"
+            android:layout_marginBottom="12dp" />
+
+        <!-- BROADCAST -->
+        <Switch
+            android:id="@+id/swBroadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_broadcast"
+            android:layout_marginBottom="16dp" />
+
+        <!-- OVERSPEED MODE + SLIDER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <Switch
+                android:id="@+id/swOverspeedMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overspeed_mode_percentage" />
+
+            <TextView
+                android:id="@+id/txtOverspeedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overspeed_label_percent"
+                android:textSize="18sp"
+                android:layout_marginEnd="12dp" />
+
+            <SeekBar
+                android:id="@+id/seekOverspeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="30"
+                android:progress="5" />
+        </LinearLayout>
+
+        <!-- BEEP VOLUME -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/txtBeepVolumeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/beep_volume_label"
+                android:textSize="18sp"
+                android:layout_marginEnd="12dp" />
+
+            <SeekBar
+                android:id="@+id/seekBeepVolume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="100"
+                android:layout_marginEnd="12dp" />
+
+            <Button
+                android:id="@+id/btnTestBeep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/beep_volume_test" />
+        </LinearLayout>
+
+        <!-- BRIGHTNESS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/lblBrightness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overlay_text_brightness"
+                android:textSize="18sp"
+                android:layout_marginEnd="12dp" />
+
+            <SeekBar
+                android:id="@+id/seekBrightness"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="100" />
+        </LinearLayout>
+
+        <!-- SPEEDO SIZE -->
+        <LinearLayout
+            android:id="@+id/layoutSpeedoSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/txtSpeedoSizeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speedo_size_title"
+                android:textSize="18sp" />
+
+            <SeekBar
+                android:id="@+id/seekSpeedoSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/txtSpeedoSizeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speedo_size_default" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

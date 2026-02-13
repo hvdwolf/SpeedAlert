@@ -180,12 +180,12 @@
     <!-- ========================================================= -->
 
     <!-- Beep volume label, slider and test button -->
-    <string name="beep_volume_label">Beep volume: %1$d%%</string>
+    <string name="beep_volume_label">Alarm (piep) volume: %1$d%%</string>
     <string name="beep_volume_test">Test</string>
     <string name="beep_volume_prefix">Beep volume:</string>
 
     <string name="debug_log_title">Debug log</string>
-    <string name="overlay_text_brightness">Overlay tekst brightness</string>
+    <string name="overlay_text_brightness">Overlay tekst helderheid</string>
 
     <string name="speedo_size_title">Overlay tekst grootte</string>
     <string name="speedo_size_smallest">Kleinst</string>
@@ -193,5 +193,8 @@
     <string name="speedo_size_default">Standaard</string>
     <string name="speedo_size_bigger">Groter</string>
     <string name="speedo_size_biggest">Grootst</string>
+
+    <string name="btn_settings">Instellingen</string>
+    <string name="settings_title">Instellingen</string>
 
 </resources>

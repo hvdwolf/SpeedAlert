@@ -56,6 +56,11 @@
             android:name=".DebugActivity"
             android:exported="false" />
 
+        <!-- Settings screen -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
         <!-- FileProvider for sharing logs -->
         <provider
             android:name="androidx.core.content.FileProvider"
