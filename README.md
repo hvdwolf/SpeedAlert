@@ -13,12 +13,12 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".<br><br>
 Working GPS and working network connection to retrieve the online speed limit data. It doesn't matter whether you have a hot-spot via you phone or a SIM in your unit, just as long as you have a working internet connection.
 
 ## Screenshots
-The app is still heavily in development, so screenshot may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
+The app is still heavily in development, so screenshots may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
 <br><br>
 ![](./images/example-001.gif)<br><br>
-Text size in overlay ↓.<br>
+Text size in overlay **↓**.<br>
 ![](./images/overlayText_size.png)<br><br>
-Text brightness in overlay ↓.<br>
+Text brightness in overlay **↓**.<br>
 ![](./images/overlayTextbrightness.png)<br>
 
 ## App info and explanation
@@ -28,7 +28,7 @@ It will show an overlay (when you enabled it).<br>
 Again: Note that this apk will only work if the GPS location is accurate and the road has assigned speed limits in the [OpenStreetMap](https://openstreetmap.org) database.</p>
 Buttons that might need an explanation *(and note: everything below the horizontal line shouldn't be necessary for you as end user and will disappear in later versions)*:
 <ul><li>Start and Stop - Explained above.</li>
-<li>Debug screen - It shows you what is happening in the background which will be written to a log file. If the app works as it should, you never need this screen. Otherwise post me the info by using: "Copy log" is onto your unit, "Share log" is any option your unit supports. As the logfile can grow substantially you can also "empty" it. The "in memory" log will be kept below 50Kb (400-600 lines).<li>
+<li>Debug screen - It shows you what is happening in the background which will be written to a log file. If the app works as it should, you never need this screen. Otherwise post me the info by using: "Copy log" is onto your unit, "Share log" is any option your unit supports. As the logfile can grow substantially you can also "empty" it. The "in memory" log will be kept below 50Kb (400-600 lines).</li>
 </ul>
 
 
