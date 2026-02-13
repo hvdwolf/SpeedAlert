@@ -57,13 +57,6 @@
             android:text="@string/switch_use_mph"
             android:layout_marginBottom="16dp" /> -->
 
-        <!-- NEW: OVERSPEED MODE SWITCH -->
-        <Switch
-            android:id="@+id/swOverspeedMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Use percentage overspeed"
-            android:layout_marginBottom="12dp" />
 
         <!-- OVERSPEED SLIDER -->
         <LinearLayout
@@ -72,6 +65,13 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginBottom="16dp">
+
+            <!-- OVERSPEED MODE SWITCH -->
+            <Switch
+                android:id="@+id/swOverspeedMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use percentage overspeed" />
 
             <TextView
                 android:id="@+id/txtOverspeedLabel"
