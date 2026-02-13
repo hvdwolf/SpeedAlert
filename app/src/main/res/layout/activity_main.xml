@@ -35,151 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <!-- SWITCHES -->
-        <Switch
-            android:id="@+id/swShowOverlay"
-            android:text="@string/show_overlay"
-            android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Switch
-            android:id="@+id/swBroadcast"
-            android:text="@string/enable_broadcast"
-            android:layout_marginBottom="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <!-- <Switch
-            android:id="@+id/swUseMph"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/switch_use_mph"
-            android:layout_marginBottom="16dp" /> -->
-
-
-        <!-- OVERSPEED SLIDER -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
-
-            <!-- OVERSPEED MODE SWITCH -->
-            <Switch
-                android:id="@+id/swOverspeedMode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Use percentage overspeed" />
-
-            <TextView
-                android:id="@+id/txtOverspeedLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Overspeed tolerance: 5%"
-                android:textSize="18sp"
-                android:layout_marginEnd="12dp" />
-
-            <SeekBar
-                android:id="@+id/seekOverspeed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:max="30"
-                android:progress="5" />
-        </LinearLayout>
-
-        <!-- BEEP VOLUME -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
-
-            <!-- Label -->
-            <TextView
-                android:id="@+id/txtBeepVolumeLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/beep_volume_label"
-                android:textSize="18sp"
-                android:layout_marginEnd="12dp" />
-
-            <!-- Slider -->
-            <SeekBar
-                android:id="@+id/seekBeepVolume"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:max="100"
-                android:progress="100"
-                android:layout_marginEnd="12dp" />
-
-            <!-- Test button -->
-            <Button
-                android:id="@+id/btnTestBeep"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/beep_volume_test" />
-        </LinearLayout>
-
-        <!-- OVERLAY TEXT BRIGHTNESS SLIDER -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
-
-            <TextView
-                android:id="@+id/lblBrightness"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/overlay_text_brightness"
-                android:textSize="18sp"
-                android:layout_marginEnd="12dp" />
-
-            <SeekBar
-                android:id="@+id/seekBrightness"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:max="100"
-                android:progress="100" />
-        </LinearLayout>
-
-        <!-- OVERLAY TEXT SIZE SLIDER -->
-        <LinearLayout
-            android:id="@+id/layoutSpeedoSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
-
-            <TextView
-                android:id="@+id/txtSpeedoSizeLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/speedo_size_title"
-                android:textSize="18sp" />
-
-            <SeekBar
-                android:id="@+id/seekSpeedoSize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="4" />
-
-            <TextView
-                android:id="@+id/txtSpeedoSizeValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/speedo_size_default" />
-        </LinearLayout>
-
-
         <!-- START / STOP -->
         <LinearLayout
             android:orientation="horizontal"
@@ -212,13 +67,31 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp" />
 
-        <!-- DEBUG SCREEN BUTTON -->
-        <Button
-            android:id="@+id/btnDebugScreen"
+        <!-- SETTINGS + DEBUG BUTTONS -->
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_debug_screen"
-            android:layout_marginTop="12dp" />
+            android:gravity="center"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btnSettings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_settings"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnDebugScreen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_debug_screen"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
 
         <!-- DIAGNOSTICS -->
         <!-- For now we will hide the button. It can be re-enabled in case of issues
