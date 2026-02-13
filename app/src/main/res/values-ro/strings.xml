@@ -209,5 +209,9 @@
     Astfel, afișajul va corespunde întotdeauna unității alese de tine.
     </string>
 
+    <string name="btn_about">Despre</string>
+    <string name="about_title">Despre SpeedAlert</string>
+    <string name="about_description">Această aplicație te ajută să respecți limitele de viteză folosind date GPS și informații rutiere.</string>
+
 
 </resources>

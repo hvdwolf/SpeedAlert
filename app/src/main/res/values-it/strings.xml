@@ -209,4 +209,8 @@
     In questo modo l’indicazione corrisponde sempre all’unità che hai scelto.
     </string>
 
+    <string name="btn_about">Informazioni</string>
+    <string name="about_title">Informazioni su SpeedAlert</string>
+    <string name="about_description">Questa app ti aiuta a rispettare i limiti di velocità utilizzando i dati GPS e quelli stradali.</string>
+
 </resources>

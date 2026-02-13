@@ -209,4 +209,9 @@
     Así se garantiza que la visualización siempre coincida con la unidad que has elegido.
     </string>
 
+    <string name="btn_about">Acerca de</string>
+    <string name="about_title">Acerca de SpeedAlert</string>
+    <string name="about_description">Esta aplicación te ayuda a mantenerte dentro de los límites de velocidad usando datos de GPS y de la carretera.</string>
+
+
 </resources>

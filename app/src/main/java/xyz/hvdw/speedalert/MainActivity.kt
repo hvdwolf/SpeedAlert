@@ -13,6 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import xyz.hvdw.speedalert.BuildConfig
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnStop: Button
     private lateinit var btnSettings: Button
     private lateinit var btnDebug: Button
+    private lateinit var btnAbout: Button
 
     private lateinit var settings: SettingsManager
     private var defaultTextColor: Int = 0
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         btnStop = findViewById(R.id.btnStop)
         btnSettings = findViewById(R.id.btnSettings)
         btnDebug = findViewById(R.id.btnDebugScreen)
+        btnAbout = findViewById(R.id.btnAbout)
 
         defaultTextColor = txtSpeed.currentTextColor
 
@@ -62,6 +66,32 @@ class MainActivity : AppCompatActivity() {
 
         btnDebug.setOnClickListener {
             startActivity(Intent(this, DebugActivity::class.java))
+        }
+
+        val btnAbout = findViewById<Button>(R.id.btnAbout)
+        btnAbout.setOnClickListener {
+            val version = BuildConfig.VERSION_NAME
+            val author = "Harry van der Wolf (Surfer63)"
+            val description = getString(R.string.about_description)
+            val disclaimer_header = getString(R.string.disclaimer_header)
+            val disclaimer = getString(R.string.disclaimer_body)
+
+            val message = """
+                    SpeedAlert v$version
+                    $author
+
+                    $description
+
+
+                    $disclaimer_header
+                    $disclaimer
+                """.trimIndent()
+
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.about_title))
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show()
         }
 
         // ---------------------------------------------------------

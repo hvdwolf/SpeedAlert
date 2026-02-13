@@ -1,106 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- ABOUT BUTTON (top-right) -->
+    <Button
+        android:id="@+id/btnAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_about"
+        android:layout_margin="12dp"
+        android:layout_gravity="top|end" />
+
+    <!-- MAIN CONTENT -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <!-- SPEED + LIMIT + STATUS -->
-        <TextView
-            android:id="@+id/txtSpeed"
-            android:text="@string/speed_value_placeholder"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/txtLimit"
-            android:text="@string/limit_value_placeholder"
-            android:textSize="24sp"
-            android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/txtStatus"
-            android:text="@string/status_value_placeholder"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <!-- START / STOP -->
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
+            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btnStart"
-                android:text="@string/start_service"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"/>
+            <!-- SPEED + LIMIT + STATUS -->
+            <TextView
+                android:id="@+id/txtSpeed"
+                android:text="@string/speed_value_placeholder"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-            <Button
-                android:id="@+id/btnStop"
-                android:text="@string/stop_service"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/txtLimit"
+                android:text="@string/limit_value_placeholder"
+                android:textSize="24sp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/txtStatus"
+                android:text="@string/status_value_placeholder"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <!-- START / STOP -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"/>
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnStart"
+                    android:text="@string/start_service"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnStop"
+                    android:text="@string/stop_service"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#888888"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- SETTINGS + DEBUG BUTTONS -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="12dp">
+
+                <Button
+                    android:id="@+id/btnSettings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_settings"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/btnDebugScreen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_debug_screen"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
         </LinearLayout>
+    </ScrollView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#888888"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="8dp" />
-
-        <!-- SETTINGS + DEBUG BUTTONS -->
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="12dp">
-
-            <Button
-                android:id="@+id/btnSettings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_settings"
-                android:layout_marginEnd="8dp" />
-
-            <Button
-                android:id="@+id/btnDebugScreen"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_debug_screen"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-
-        <!-- DIAGNOSTICS -->
-        <!-- For now we will hide the button. It can be re-enabled in case of issues
-        <Button
-            android:id="@+id/btnDiagnostics"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_diagnostics"
-            android:layout_marginTop="12dp" /> -->
-
-    </LinearLayout>
-</ScrollView>
+</FrameLayout>

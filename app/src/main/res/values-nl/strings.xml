@@ -209,4 +209,9 @@
     Zo weet je zeker dat de weergave altijd overeenkomt met de door jou gekozen eenheid.
     </string>
 
+    <string name="btn_about">Info</string>
+    <string name="about_title">Over SpeedAlert</string>
+    <string name="about_description">Deze app helpt je om binnen de snelheidslimieten te blijven met behulp van GPS- en weggegevens.</string>
+
+
 </resources>

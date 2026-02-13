@@ -209,4 +209,9 @@
     Так обеспечивается, что отображаемые значения всегда соответствуют выбранной вами единице.
     </string>
 
+    <string name="btn_about">О программе</string>
+    <string name="about_title">О SpeedAlert</string>
+    <string name="about_description">Это приложение помогает соблюдать ограничения скорости, используя данные GPS и дорожную информацию.</string>
+
+
 </resources>

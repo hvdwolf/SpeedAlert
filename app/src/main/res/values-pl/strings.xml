@@ -209,4 +209,9 @@
     Dzięki temu wyświetlana wartość zawsze odpowiada wybranej przez Ciebie jednostce.
     </string>
 
+    <string name="btn_about">Informacje</string>
+    <string name="about_title">O SpeedAlert</string>
+    <string name="about_description">Ta aplikacja pomaga zachować dozwoloną prędkość, korzystając z danych GPS i informacji drogowych.</string>
+
+
 </resources>

@@ -205,4 +205,8 @@
     This ensures the display always matches your chosen unit.
     </string>
 
+    <string name="btn_about">About</string>
+    <string name="about_title">About SpeedAlert</string>
+    <string name="about_description">This app helps you stay within speed limits using GPS and road data.</string>
+
 </resources>
