@@ -4,7 +4,7 @@
 A simple tool that shows an overlay with your current speed and the speed limit for that road (when a limit is available for that road). The overlay text switches to red when overspeeding and plays an alarm sound if you exceed the speed tolerance you defined. The overlay can be dragged anywhere on screen. Next to that: if you lose GPS, it will tell you "no GPS".<br>
 This app uses your GPS to get exact location and speed and then uses the [Overpass Api](https://wiki.openstreetmap.org/wiki/Overpass_API) from the [OpenStreetMap](https://openstreetmap.org) database to get speed limits for the relevant part of the road you are driving on. Note that this app will only work if the GPS location is accurate and the road has assigned speed limits in the [OpenStreetMap](https://openstreetmap.org) database, but it will work world-wide as long as the street has an assigned speed limit.<br>
 This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".<br><br>
-*It is meant as an example App for use on FYT units, but can theoretically be used on any Android head unit running real Android 10+. It has a lot of debug options as FYT and other head units use "crippled" Android versions. If you can use this app in your own app (a modified launcher or whatever), please do so. I hope it will be implemented (and improved) inside the Dudu 7/6/5/4/3 units (as I do have a dudu7).*<br>
+
 ### Note: You use this app entirely at your own risk. I am not responsible for incorrect functioning or incorrect use of the app. All responsibility for use, or incorrect use, lies entirely with you! Always follow the specified (temporary) speed limits and drive responsibly.
 
 **This app does not collect, store or share any personal information. It is 100% privacy friendly.**
@@ -13,10 +13,13 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".<br><br>
 Working GPS and working network connection to retrieve the online speed limit data. It doesn't matter whether you have a hot-spot via you phone or a SIM in your unit, just as long as you have a working internet connection.
 
 ## Screenshots
-*(Note: The screen automatically follows the system day-night mode. Here you see day (light) mode and night (dark) mode examples.)*<br>
+The app is still heavily in development, so screenshot may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
 <br><br>
-![](./images/example-001.gif)<br>
-
+![](./images/example-001.gif)<br><br>
+Text size in overlay ↓.<br>
+![](./images/overlayText_size.png)<br><br>
+Text brightness in overlay ↓.<br>
+![](./images/overlayTextbrightness.png)<br>
 
 ## App info and explanation
 The app uses a "foreground service". A foreground service is an Android service that keeps running by showing a persistent notification so the system treats it as important and doesn’t kill it, even when not visible.<br>
@@ -25,10 +28,7 @@ It will show an overlay (when you enabled it).<br>
 Again: Note that this apk will only work if the GPS location is accurate and the road has assigned speed limits in the [OpenStreetMap](https://openstreetmap.org) database.</p>
 Buttons that might need an explanation *(and note: everything below the horizontal line shouldn't be necessary for you as end user and will disappear in later versions)*:
 <ul><li>Start and Stop - Explained above.</li>
-<li>Check overlay permission - This is a bit of a tricky situation on Android head units. This will work for FYT units and possibly for others, but I can't test that.</li>
-<li> Test speed limit lookup - In case you do not get speed limits, you can simply fill in a latitude and longitide of a road where you are certain it has an assigned speed limit.</li>
-<li>Debug screen - It shows you what is happening in the background which will be written to a log file. Not important for you unless it doesn't work as expected. Then you need the buttons: "Copy log" is onto your unit, "Share log" is any option your unit supports. As the logfile can grow substantially you can also "empty" it. The "in memory" log will be kept below 50Kb (400-600 lines).<li>
-<li> Diagnostics - A screen with options that can be used to check the several "get the max speed values from several sources".</li>
+<li>Debug screen - It shows you what is happening in the background which will be written to a log file. If the app works as it should, you never need this screen. Otherwise post me the info by using: "Copy log" is onto your unit, "Share log" is any option your unit supports. As the logfile can grow substantially you can also "empty" it. The "in memory" log will be kept below 50Kb (400-600 lines).<li>
 </ul>
 
 
@@ -38,7 +38,7 @@ Just download it from [Github](https://github.com/hvdwolf/SpeedAlert/releases/la
 ## Releases
 The releases are done via [my github](https://github.com/hvdwolf/SpeedAlert/releases/latest).<br>
 The app should run on Android 10 to 14, but I only tested on my DuDu7 running Android 13/SDK33.<br>
-*(Technically it should also run on mtcd/mtce type units, all fyt units and TS10/TS18 units)*
+*(Technically it should also run on mtcd/mtce type units, all fyt units and TS10/TS18 units, as of Android 10+)*
 
 ## Translations
 I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, de, es, fr, it, nl, pl, ru, uk.<br>
@@ -47,8 +47,7 @@ If you think your language is badly translated, download the strings.xml from yo
 
 
 ## ToDo's
-\- Make the "beep-beep-beep" optional. Currently it beeps every 15 seconds (or so) when overspeeding. You might want to "silence" it completely.<br>
-\- ??
+\- Clean up main screen and bring settings to a 2nd Settings screen.
 <HR>
 
 Copyleft 2026 Harry van der Wolf (surfer63), MIT License.<br>
