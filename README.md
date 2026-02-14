@@ -13,13 +13,9 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".<br><br>
 Working GPS and working network connection to retrieve the online speed limit data. It doesn't matter whether you have a hot-spot via you phone or a SIM in your unit, just as long as you have a working internet connection.
 
 ## Screenshots
-The app is still heavily in development, so screenshots may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
+**All screenshots are in below animated gif.** The app is still heavily in development, so screenshots may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
 <br><br>
-![](./images/example-001.gif)<br><br>
-Text size in overlay **↓**.<br>
-![](./images/overlayText_size.png)<br><br>
-Text brightness in overlay **↓**.<br>
-![](./images/overlayTextbrightness.png)<br>
+![](./images/example-002.gif)<br><br>
 
 ## App info and explanation
 The app uses a "foreground service". A foreground service is an Android service that keeps running by showing a persistent notification so the system treats it as important and doesn’t kill it, even when not visible.<br>
@@ -45,9 +41,6 @@ I used MS CoPilot to do an automatic translation of the strings. The default lan
 If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/values/strings.xml), translate it (note the multi-line disclaimer and the dialog_fyt_message) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to *my language*"  and then copy the text behind it. It saves you a lot of typing. Only some correcting if necessary.<br>
 If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/) and improve the translation, and in case of unclear translations, also download the US English version to compare. _(I think it did a pretty nice job for my own Dutch language. I only needed to change 1 string)_
 
-
-## ToDo's
-\- Clean up main screen and bring settings to a 2nd Settings screen.
 <HR>
 
 Copyleft 2026 Harry van der Wolf (surfer63), MIT License.<br>

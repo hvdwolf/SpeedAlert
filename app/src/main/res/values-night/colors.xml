@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Primary brand color (darker for night) -->
+    <color name="primary">#1E3A8A</color> <!-- deep blue -->
+    <color name="primary_variant">#162F6B</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <!-- Secondary (green) -->
+    <color name="secondary">#00A844</color>
+    <color name="secondary_variant">#007A32</color>
+    <color name="on_secondary">#FFFFFF</color>
+
+    <!-- Surfaces -->
+    <color name="surface">#121212</color>
+    <color name="on_surface">#FFFFFF</color>
+
+    <!-- Background -->
+    <color name="background">#000000</color>
+    <color name="on_background">#FFFFFF</color>
+
+    <!-- Your existing overlay colors can stay the same or be darkened -->
+    <color name="overlay_bg">#AA3333AA</color>
+    <color name="overspeed_bg">#AAAA3333</color>
+
+    <!-- Existing speed text overrides -->
     <color name="speed_text_day">#FFFFFFFF</color>
-    <color name="speed_text_night">#FFAAAAAA</color>    <!-- even dimmer -->
+    <color name="speed_text_night">#FFAAAAAA</color>
 
 </resources>
