@@ -1,7 +1,8 @@
 package xyz.hvdw.speedalert
 
 import android.content.Context
-import android.media.MediaPlayer
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +13,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var swShowOverlay: Switch
     private lateinit var swBroadcast: Switch
     private lateinit var swOverspeedMode: Switch
-    private lateinit var swUseMph: Switch 
+    private lateinit var swUseMph: Switch
     private lateinit var seekOverspeed: SeekBar
     private lateinit var txtOverspeedLabel: TextView
     private lateinit var seekBeepVolume: SeekBar
@@ -46,6 +47,10 @@ class SettingsActivity : AppCompatActivity() {
         1.40f
     )
 
+    // SoundPool for test beep
+    private var testSoundPool: SoundPool? = null
+    private var testBeepId: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -63,7 +68,7 @@ class SettingsActivity : AppCompatActivity() {
         seekBrightness = findViewById(R.id.seekBrightness)
         seekSpeedoSize = findViewById(R.id.seekSpeedoSize)
         txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
-        swUseMph = findViewById<Switch>(R.id.swUseMph)
+        swUseMph = findViewById(R.id.swUseMph)
 
         findViewById<Button>(R.id.btnMphInfo).setOnClickListener {
             AlertDialog.Builder(this)
@@ -72,8 +77,6 @@ class SettingsActivity : AppCompatActivity() {
                 .setPositiveButton("OK", null)
                 .show()
         }
-
-
 
         // ---------------------------------------------------------
         // SHOW OVERLAY
@@ -84,19 +87,15 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // ---------------------------------------------------------
-        // IF SERVICE SHOULD BE OPENED ON START APP
+        // AUTO START SERVICE
         // ---------------------------------------------------------
-        val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
+        val prefsAuto = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
         val swAutoStart = findViewById<Switch>(R.id.switchAutoStart)
 
-        // Load saved state
-        swAutoStart.isChecked = prefs.getBoolean("auto_start_service", false)
-
-        // Save state when toggled
+        swAutoStart.isChecked = prefsAuto.getBoolean("auto_start_service", false)
         swAutoStart.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("auto_start_service", isChecked).apply()
+            prefsAuto.edit().putBoolean("auto_start_service", isChecked).apply()
         }
-
 
         // ---------------------------------------------------------
         // BROADCAST
@@ -171,8 +170,24 @@ class SettingsActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(sb: SeekBar?) {}
         })
 
+        // ---------------------------------------------------------
+        // TEST BEEP (SoundPool)
+        // ---------------------------------------------------------
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+
+        testSoundPool = SoundPool.Builder()
+            .setMaxStreams(1)
+            .setAudioAttributes(audioAttributes)
+            .build()
+
+        testBeepId = testSoundPool!!.load(this, R.raw.beep, 1)
+
         btnTestBeep.setOnClickListener {
-            playTestBeep()
+            val vol = settings.getBeepVolume()
+            testSoundPool?.play(testBeepId, vol, vol, 1, 0, 1f)
         }
 
         // ---------------------------------------------------------
@@ -208,6 +223,15 @@ class SettingsActivity : AppCompatActivity() {
         })
     }
 
+    override fun onDestroy() {
+        testSoundPool?.release()
+        testSoundPool = null
+        super.onDestroy()
+    }
+
+    // ---------------------------------------------------------
+    // HELPERS
+    // ---------------------------------------------------------
     private fun updateOverspeedUI(isPctMode: Boolean) {
         if (isPctMode) {
             seekOverspeed.max = 30
@@ -228,13 +252,5 @@ class SettingsActivity : AppCompatActivity() {
         } else {
             txtOverspeedLabel.text = getString(R.string.overspeed_label_fixed, value)
         }
-    }
-
-    private fun playTestBeep() {
-        val vol = settings.getBeepVolume()
-        val mp = MediaPlayer.create(this, R.raw.beep)
-        mp.setVolume(vol, vol)
-        mp.setOnCompletionListener { it.release() }
-        mp.start()
     }
 }

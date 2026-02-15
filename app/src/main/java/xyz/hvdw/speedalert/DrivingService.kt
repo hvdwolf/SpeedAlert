@@ -6,13 +6,12 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.media.MediaPlayer
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.cancel
@@ -45,12 +44,14 @@ class DrivingService : Service() {
     private var lastGpsFixTime = 0L
     private var lastAccuracy = -1f
 
-    private var beepPlayer: MediaPlayer? = null
+    // SoundPool for beep
+    private var soundPool: SoundPool? = null
+    private var beepSoundId: Int = 0
 
-    // RAW Kalman profile from AppConfig
+    // Kalman filter
     private val kalman = KalmanFilter(AppConfig.KALMAN_PROFILE)
 
-    // single, shared GPS listener
+    // GPS listener
     private val gpsListener = LocationListener { loc ->
         updateLocation(loc)
     }
@@ -63,34 +64,42 @@ class DrivingService : Service() {
         notifier = ServiceNotification(this)
         notifier.createChannel()
 
-        beepPlayer = MediaPlayer.create(this, R.raw.beep)
-        val vol = settings.getBeepVolume() // 0.0f – 1.0f
-        beepPlayer?.setVolume(vol, vol)
+        // -----------------------------
+        // SOUNDPOOL INITIALIZATION
+        // -----------------------------
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
 
+        soundPool = SoundPool.Builder()
+            .setMaxStreams(1)
+            .setAudioAttributes(audioAttributes)
+            .build()
+
+        beepSoundId = soundPool!!.load(this, R.raw.beep, 1)
+
+        // -----------------------------
+        // GPS SETUP
+        // -----------------------------
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
-        // register GPS listener once
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
 
             try {
                 val provider = findGpsProvider()
-                if (provider == null) {
-                    log("No usable GPS provider found!")
+                if (provider != null) {
+                    locationManager.requestLocationUpdates(
+                        provider,
+                        200,
+                        0f,
+                        gpsListener
+                    )
+                    log("Using GPS provider: $provider")
                 } else {
-                    try {
-                        locationManager.requestLocationUpdates(
-                            provider,
-                            200,
-                            0f,
-                            gpsListener
-                        )
-                        log("Using GPS provider: $provider")
-                    } catch (e: Exception) {
-                        log("GPS requestLocationUpdates failed: ${e.message}")
-                    }
+                    log("No usable GPS provider found!")
                 }
-
             } catch (e: Exception) {
                 log("GPS requestLocationUpdates failed: ${e.message}")
             }
@@ -109,13 +118,15 @@ class DrivingService : Service() {
 
     override fun onDestroy() {
         running = false
+
         try {
             locationManager.removeUpdates(gpsListener)
         } catch (_: Exception) {}
 
         speedometer?.hide()
-        beepPlayer?.release()
-        beepPlayer = null
+
+        soundPool?.release()
+        soundPool = null
 
         stopForeground(true)
         scope.cancel()
@@ -221,7 +232,7 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // SPEED LIMIT FETCHING (ASYNC)
+    // SPEED LIMIT FETCHING
     // ---------------------------------------------------------
     private var limitJob: Job? = null
 
@@ -246,7 +257,7 @@ class DrivingService : Service() {
                 if (fetched.limitKmh > 0) {
                     lastLimit = fetched
                 } else {
-                    log("Service: no valid speed limit (source=${fetched.source}) — keeping previous limit")
+                    log("Service: no valid speed limit — keeping previous")
                 }
             } catch (e: Exception) {
                 log("SpeedLimit fetch failed: ${e.message}")
@@ -272,7 +283,7 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // OVERLAY
+    // OVERLAY + BEEP
     // ---------------------------------------------------------
     private fun updateOverlay() {
         if (!settings.getShowSpeedometer()) {
@@ -298,29 +309,20 @@ class DrivingService : Service() {
         if (overspeed) {
             val now = System.currentTimeMillis()
 
-            // Play immediately if this is the first beep OR 10 seconds have passed
             if (now - lastBeepTime >= 10_000) {
-
                 val vol = settings.getBeepVolume()
-                beepPlayer?.setVolume(vol, vol)
-
-                if (beepPlayer?.isPlaying == false) {
-                    beepPlayer?.start()
-                }
-
+                soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
                 lastBeepTime = now
             }
         } else {
-            // Reset when no longer overspeeding
             lastBeepTime = 0L
         }
-
 
         speedometer?.updateSpeed(lastSpeed, limit, overspeed)
     }
 
     // ---------------------------------------------------------
-    // BROADCAST HELPERS
+    // BROADCAST
     // ---------------------------------------------------------
     private fun sendSpeedBroadcast(speed: Int, limit: Int) {
         val cleanLimit = if (limit > 0) limit else -1
@@ -336,7 +338,11 @@ class DrivingService : Service() {
         sendBroadcast(intent)
     }
 
+    // ---------------------------------------------------------
+    // LOGGING
+    // ---------------------------------------------------------
     private val tsFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+
     private fun log(msg: String) {
         val ts = LocalDateTime.now().format(tsFormat)
         val msgline = "$ts $msg"
@@ -359,5 +365,4 @@ class DrivingService : Service() {
             else        -> 25
         }
     }
-
 }
