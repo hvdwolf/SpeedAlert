@@ -1,3 +1,8 @@
+**Changelog V1.4 (15 Feb 2026)**
+
+- Add switch in Settings to start service on start of SpeedAlert.
+- With regard to the Beep: Replace mediaplayer use for soundpool. This should not interfere with (BT) music and is also lighter on resources.
+
 **Changelog V1.3  (14 Feb 2026)**
 
 - Fix: return of mph/kmh switch with "Read this!" button. What does it do:

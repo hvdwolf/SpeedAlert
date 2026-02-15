@@ -10,7 +10,7 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".<br><br>
 **This app does not collect, store or share any personal information. It is 100% privacy friendly.**
 
 ## Requirements
-Working GPS and working network connection to retrieve the online speed limit data. It doesn't matter whether you have a hot-spot via you phone or a SIM in your unit, just as long as you have a working internet connection.
+Working GPS and working network connection to retrieve the online speed limit data. It doesn't matter whether you have a hot-spot via your phone or a SIM in your unit, just as long as you have a working internet connection.
 
 ## Screenshots
 **All screenshots are in below animated gif.** The app is still heavily in development, so screenshots may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
@@ -24,7 +24,8 @@ It will show an overlay (when you enabled it).<br>
 Again: Note that this apk will only work if the GPS location is accurate and the road has assigned speed limits in the [OpenStreetMap](https://openstreetmap.org) database.</p>
 Buttons that might need an explanation *(and note: everything below the horizontal line shouldn't be necessary for you as end user and will disappear in later versions)*:
 <ul><li>Start and Stop - Explained above.</li>
-<li>Debug screen - It shows you what is happening in the background which will be written to a log file. If the app works as it should, you never need this screen. Otherwise post me the info by using: "Copy log" is onto your unit, "Share log" is any option your unit supports. As the logfile can grow substantially you can also "empty" it. The "in memory" log will be kept below 50Kb (400-600 lines).</li>
+<li>Settings - Here you define your preferences: overspeed tolerance, mph or kmh, start service on startup of SpeedAlert app, etcetera.</li>
+<li>Debug screen - It shows you what is happening in the background. This will be written to a log file. If the app works as it should, you never need this screen. Otherwise post me the info by using: "Copy log" -> compy onto your unit, "Share log" -> is any share option your unit supports. As the logfile can grow substantially you can also "empty" it. The "in memory" log will be kept below 50Kb (400-600 lines).</li>
 </ul>
 
 
@@ -34,11 +35,11 @@ Just download it from [Github](https://github.com/hvdwolf/SpeedAlert/releases/la
 ## Releases
 The releases are done via [my github](https://github.com/hvdwolf/SpeedAlert/releases/latest).<br>
 The app should run on Android 10 to 14, but I only tested on my DuDu7 running Android 13/SDK33.<br>
-*(Technically it should also run on mtcd/mtce type units, all fyt units and TS10/TS18 units, as of Android 10+)*
+*(Technically it should also run on mtcd/mtce type units, all fyt units, all QCM6125/QCM6490 (Joying) units and TS10/TS18 units, as of Android 10+)*
 
 ## Translations
 I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, de, es, fr, it, nl, pl, ru, uk.<br>
-If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/values/strings.xml), translate it (note the multi-line disclaimer and the dialog_fyt_message) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to *my language*"  and then copy the text behind it. It saves you a lot of typing. Only some correcting if necessary.<br>
+If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/values/strings.xml), and translate it (note the multi-line disclaimer and the dialog_fyt_message) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to *my language*"  and then copy the text behind it. It saves you a lot of typing. Only some correcting if necessary.<br>
 If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/) and improve the translation, and in case of unclear translations, also download the US English version to compare. _(I think it did a pretty nice job for my own Dutch language. I only needed to change 1 string)_
 
 <HR>
