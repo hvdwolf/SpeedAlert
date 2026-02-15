@@ -213,5 +213,6 @@
     <string name="about_title">Over SpeedAlert</string>
     <string name="about_description">Deze app helpt je om binnen de snelheidslimieten te blijven met behulp van GPS- en weggegevens.</string>
 
+    <string name="start_service_on_open">Service starten bij openen van SpeedAlert</string>
 
 </resources>

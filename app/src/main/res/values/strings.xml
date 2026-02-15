@@ -209,4 +209,5 @@
     <string name="about_title">About SpeedAlert</string>
     <string name="about_description">This app helps you stay within speed limits using GPS and road data.</string>
 
+    <string name="start_service_on_open">Start service on opening SpeedAlert</string>
 </resources>

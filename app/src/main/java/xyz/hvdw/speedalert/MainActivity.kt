@@ -95,6 +95,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         // ---------------------------------------------------------
+        // CHECK IF SERVICE SHOULD BE OPENED ON START APP
+        // ---------------------------------------------------------
+        val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
+        val autoStart = prefs.getBoolean("auto_start_service", false)
+  
+        if (autoStart) {
+            startService(Intent(this, DrivingService::class.java))
+        }
+
+
+        // ---------------------------------------------------------
         // PERMISSIONS + RECEIVERS
         // ---------------------------------------------------------
         checkLocationPermission()

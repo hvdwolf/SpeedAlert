@@ -213,5 +213,6 @@
     <string name="about_title">Despre SpeedAlert</string>
     <string name="about_description">Această aplicație te ajută să respecți limitele de viteză folosind date GPS și informații rutiere.</string>
 
+    <string name="start_service_on_open">Pornește serviciul la deschiderea SpeedAlert</string>
 
 </resources>

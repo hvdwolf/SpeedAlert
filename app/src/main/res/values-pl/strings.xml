@@ -213,5 +213,6 @@
     <string name="about_title">O SpeedAlert</string>
     <string name="about_description">Ta aplikacja pomaga zachować dozwoloną prędkość, korzystając z danych GPS i informacji drogowych.</string>
 
+    <string name="start_service_on_open">Uruchom usługę przy otwieraniu SpeedAlert</string>
 
 </resources>

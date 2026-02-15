@@ -201,4 +201,5 @@
     <string name="about_title">Über SpeedAlert</string>
     <string name="about_description">Diese App hilft Ihnen, Geschwindigkeitsbegrenzungen mithilfe von GPS- und Straßendaten einzuhalten.</string>
 
+    <string name="start_service_on_open">Dienst beim Öffnen von SpeedAlert starten</string>
 </resources>

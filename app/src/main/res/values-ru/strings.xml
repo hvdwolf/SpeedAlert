@@ -213,5 +213,6 @@
     <string name="about_title">О SpeedAlert</string>
     <string name="about_description">Это приложение помогает соблюдать ограничения скорости, используя данные GPS и дорожную информацию.</string>
 
+    <string name="start_service_on_open">Запускать сервис при открытии SpeedAlert</string>
 
 </resources>

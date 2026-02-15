@@ -17,6 +17,14 @@
             android:text="@string/show_overlay"
             android:layout_marginBottom="12dp" />
 
+        <Switch
+            android:id="@+id/switchAutoStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_service_on_open"
+            android:layout_marginBottom="12dp"/>
+
+
         <!-- BROADCAST -->
         <Switch
             android:id="@+id/swBroadcast"

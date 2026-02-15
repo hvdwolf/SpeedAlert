@@ -84,6 +84,21 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // ---------------------------------------------------------
+        // IF SERVICE SHOULD BE OPENED ON START APP
+        // ---------------------------------------------------------
+        val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
+        val swAutoStart = findViewById<Switch>(R.id.switchAutoStart)
+
+        // Load saved state
+        swAutoStart.isChecked = prefs.getBoolean("auto_start_service", false)
+
+        // Save state when toggled
+        swAutoStart.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("auto_start_service", isChecked).apply()
+        }
+
+
+        // ---------------------------------------------------------
         // BROADCAST
         // ---------------------------------------------------------
         swBroadcast.isChecked = settings.isBroadcastEnabled()

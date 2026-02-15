@@ -213,5 +213,6 @@
     <string name="about_title">Про SpeedAlert</string>
     <string name="about_description">Цей застосунок допомагає дотримуватися обмежень швидкості, використовуючи дані GPS та дорожню інформацію.</string>
 
+    <string name="start_service_on_open">Запускати сервіс під час відкриття SpeedAlert</string>
 
 </resources>

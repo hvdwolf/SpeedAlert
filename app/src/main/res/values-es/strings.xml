@@ -213,5 +213,6 @@
     <string name="about_title">Acerca de SpeedAlert</string>
     <string name="about_description">Esta aplicación te ayuda a mantenerte dentro de los límites de velocidad usando datos de GPS y de la carretera.</string>
 
+    <string name="start_service_on_open">Iniciar el servicio al abrir SpeedAlert</string>
 
 </resources>
