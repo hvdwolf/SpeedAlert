@@ -4,22 +4,16 @@ import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import com.google.android.gms.location.*
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class DrivingService : Service() {
 
@@ -29,7 +23,10 @@ class DrivingService : Service() {
     private lateinit var settings: SettingsManager
     private lateinit var repo: SpeedLimitRepository
     private lateinit var notifier: ServiceNotification
-    private lateinit var locationManager: LocationManager
+
+    // Fused location provider
+    private lateinit var fusedClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
 
     private var speedometer: FloatingSpeedometer? = null
 
@@ -50,11 +47,6 @@ class DrivingService : Service() {
 
     // Kalman filter
     private val kalman = KalmanFilter(AppConfig.KALMAN_PROFILE)
-
-    // GPS listener
-    private val gpsListener = LocationListener { loc ->
-        updateLocation(loc)
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -80,29 +72,28 @@ class DrivingService : Service() {
         beepSoundId = soundPool!!.load(this, R.raw.beep, 1)
 
         // -----------------------------
-        // GPS SETUP
+        // FUSED LOCATION SETUP
         // -----------------------------
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        fusedClient = LocationServices.getFusedLocationProviderClient(this)
+
+        locationRequest = LocationRequest.Builder(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            1000L
+        )
+            .setMinUpdateIntervalMillis(500)
+            .setMaxUpdateDelayMillis(2000)
+            .build()
 
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
 
-            try {
-                val provider = findGpsProvider()
-                if (provider != null) {
-                    locationManager.requestLocationUpdates(
-                        provider,
-                        200,
-                        0f,
-                        gpsListener
-                    )
-                    log("Using GPS provider: $provider")
-                } else {
-                    log("No usable GPS provider found!")
-                }
-            } catch (e: Exception) {
-                log("GPS requestLocationUpdates failed: ${e.message}")
-            }
+            fusedClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+
+            log("FusedLocationProvider: started")
         } else {
             log("GPS permission not granted in service")
         }
@@ -120,7 +111,7 @@ class DrivingService : Service() {
         running = false
 
         try {
-            locationManager.removeUpdates(gpsListener)
+            fusedClient.removeLocationUpdates(locationCallback)
         } catch (_: Exception) {}
 
         speedometer?.hide()
@@ -138,6 +129,17 @@ class DrivingService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     // ---------------------------------------------------------
+    // FUSED LOCATION CALLBACK
+    // ---------------------------------------------------------
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult) {
+            for (loc in result.locations) {
+                updateLocation(loc)
+            }
+        }
+    }
+
+    // ---------------------------------------------------------
     // MAIN LOOP
     // ---------------------------------------------------------
     private suspend fun mainLoop() {
@@ -148,8 +150,6 @@ class DrivingService : Service() {
                     scheduleSpeedLimitFetch()
                     updateLocationAndSpeed()
                 }
-
-                restartGpsIfNeeded()
 
                 mainHandler.post { updateOverlay() }
 
@@ -164,7 +164,7 @@ class DrivingService : Service() {
     // ---------------------------------------------------------
     // LOCATION + SPEED
     // ---------------------------------------------------------
-    fun updateLocation(loc: Location) {
+    private fun updateLocation(loc: Location) {
         lastLocation = loc
         lastGpsFixTime = System.currentTimeMillis()
         lastAccuracy = loc.accuracy
@@ -184,51 +184,6 @@ class DrivingService : Service() {
     private fun hasGpsFix(): Boolean {
         val age = System.currentTimeMillis() - lastGpsFixTime
         return age < 5000
-    }
-
-    private fun restartGpsIfNeeded() {
-        val age = System.currentTimeMillis() - lastGpsFixTime
-
-        if (age > 15000) {
-            mainHandler.post {
-                val provider = findGpsProvider()
-                log("GPS watchdog: restarting using provider=$provider")
-
-                try {
-                    locationManager.removeUpdates(gpsListener)
-                } catch (_: Exception) {}
-
-                if (provider != null) {
-                    try {
-                        locationManager.requestLocationUpdates(
-                            provider,
-                            200,
-                            0f,
-                            gpsListener
-                        )
-                    } catch (e: Exception) {
-                        log("GPS re-request failed: ${e.message}")
-                    }
-                }
-            }
-
-            lastGpsFixTime = System.currentTimeMillis()
-        }
-    }
-
-    private fun findGpsProvider(): String? {
-        val providers = locationManager.allProviders
-        log("Available providers: $providers")
-
-        return when {
-            providers.contains(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
-            providers.contains("fused") -> "fused"
-            providers.contains("gps0") -> "gps0"
-            providers.contains("bd_gps") -> "bd_gps"
-            providers.contains("nmea") -> "nmea"
-            providers.contains(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
-            else -> null
-        }
     }
 
     // ---------------------------------------------------------
