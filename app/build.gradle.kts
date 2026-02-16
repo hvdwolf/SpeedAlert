@@ -10,9 +10,9 @@ android {
     defaultConfig {
         applicationId = "xyz.hvdw.speedalert"
         minSdk = 29
-        targetSdk = 34
-        versionCode = 5
-        versionName = "1.4"
+        targetSdk = 33
+        versionCode = 6
+        versionName = "1.4.1"
 
         // Only include the ABIs you want in the final APK
         ndk {
