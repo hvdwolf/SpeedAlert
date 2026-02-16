@@ -119,7 +119,7 @@ class DrivingService : Service() {
         soundPool?.release()
         soundPool = null
 
-        stopForeground(true)
+        stopForeground(STOP_FOREGROUND_REMOVE)
         scope.cancel()
 
         log("Service: destroyed")
@@ -187,7 +187,21 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // SPEED LIMIT FETCHING
+    // COUNTRY DETECTION
+    // ---------------------------------------------------------
+    private fun getCountryCode(lat: Double, lon: Double): String? {
+        return try {
+            val geocoder = android.location.Geocoder(this)
+            val list = geocoder.getFromLocation(lat, lon, 1)
+            list?.firstOrNull()?.countryCode
+        } catch (e: Exception) {
+            log("Geocoder failed: ${e.message}")
+            null
+        }
+    }
+
+    // ---------------------------------------------------------
+    // SPEED LIMIT FETCHING + FALLBACKS
     // ---------------------------------------------------------
     private var limitJob: Job? = null
 
@@ -212,7 +226,26 @@ class DrivingService : Service() {
                 if (fetched.limitKmh > 0) {
                     lastLimit = fetched
                 } else {
-                    log("Service: no valid speed limit — keeping previous")
+                    log("Service: no valid speed limit — applying fallback")
+
+                    val country = getCountryCode(lat, lon)
+                    val fallback = CountrySpeedFallbacks.get(country)
+
+                    val chosen = when {
+                        lastSpeed < 60 -> fallback.urban
+                        lastSpeed < 90 -> fallback.rural
+                        lastSpeed < 120 -> fallback.divided
+                        else -> fallback.motorway
+                    }
+
+                    lastLimit = SpeedLimitResult(
+                        speedKmh = -1,
+                        limitKmh = chosen,
+                        source = "fallback:${country ?: "unknown"}"
+                    )
+
+
+                    log("Fallback applied: $lastLimit")
                 }
             } catch (e: Exception) {
                 log("SpeedLimit fetch failed: ${e.message}")
