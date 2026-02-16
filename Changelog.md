@@ -1,4 +1,4 @@
-**Changelog V1.5 (17 Feb 2026)**
+**Changelog V1.5 (16 Feb 2026)**
 
 - Fix crash on startup of app on (real) Android 14/15/16.
 - Switch from LocationManager and LocationListener (Android 13 and down) to Android 14+ FusedLocationProviderClient.
