@@ -155,7 +155,87 @@ object CountrySpeedFallbacks {
             rural = 80,
             divided = 100,
             motorway = 120
-        )
+        ),
+
+        // Turkey
+        "TR" to FallbackSpeeds(
+            urban = 50,
+            rural = 90,
+            divided = 110,
+            motorway = 120
+        ),
+
+        // Korea
+        "KR" to FallbackSpeeds(
+            urban = 50,
+            rural = 80,
+            divided = 90,
+            motorway = 110
+        ),
+
+        // Japan
+        "JP" to FallbackSpeeds(
+            urban = 40,
+            rural = 60,
+            divided = 80,
+            motorway = 100
+        ),
+
+        // Brazil
+        "BR" to FallbackSpeeds(
+            urban = 50,
+            rural = 80,
+            divided = 100,
+            motorway = 110
+        ),
+
+        // Australia
+        "AU" to FallbackSpeeds(
+            urban = 50,
+            rural = 100,
+            divided = 110,
+            motorway = 110
+        ),
+
+        // Canada
+        "CA" to FallbackSpeeds(
+            urban = 50,
+            rural = 80,
+            divided = 100,
+            motorway = 110
+        ),
+
+        // Ireland
+        "IE" to FallbackSpeeds(
+            urban = 50,
+            rural = 80,
+            divided = 100,
+            motorway = 120
+        ),
+
+        // China
+        "CN" to FallbackSpeeds(
+            urban = 50,
+            rural = 80,
+            divided = 100,
+            motorway = 120
+        ),
+
+        // India
+        "IN" to FallbackSpeeds(
+            urban = 50,
+            rural = 80,
+            divided = 100,
+            motorway = 120
+        ),
+
+        // Taiwan
+        "TW" to FallbackSpeeds(
+            urban = 50,
+            rural = 70,
+            divided = 90,
+            motorway = 110
+        ),
     )
 
     /**

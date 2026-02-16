@@ -1,3 +1,9 @@
+**Changelog V1.5 (17 Feb 2026)**
+
+- Fix crash on startup of app on (real) Android 14/15/16.
+- Switch from LocationManager and LocationListener (Android 13 and down) to Android 14+ FusedLocationProviderClient.
+- Add country speedlimit fallbacks for a number of countries. Currently: NL, BE, DE, FR, GB, DK, RU, PL, UA, IL, NO, SE, IT, ES, PT, US (in general, no state specifics), VN, KR, JP, TR, BR, AU, CA, IE, CN, IN, TW. This will use the country defaults when the road has no speed limit tag. As this is a ["data source code"](https://github.com/hvdwolf/SpeedAlert/blob/main/app/src/main/java/xyz/hvdw/speedalert/CountrySpeedFallbacks.kt) file, your country can easily be added when it is missing.
+
 **Changelog V1.4 (15 Feb 2026)**
 
 - Add switch in Settings to start service on start of SpeedAlert.
