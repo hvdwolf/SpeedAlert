@@ -38,6 +38,17 @@ class MainActivity : AppCompatActivity() {
 
         settings = SettingsManager(this)
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    2001
+                )
+            }
+        }
+
         txtSpeed = findViewById(R.id.txtSpeed)
         txtLimit = findViewById(R.id.txtLimit)
         txtStatus = findViewById(R.id.txtStatus)
@@ -97,12 +108,12 @@ class MainActivity : AppCompatActivity() {
         // ---------------------------------------------------------
         // CHECK IF SERVICE SHOULD BE OPENED ON START APP
         // ---------------------------------------------------------
-        val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
-        val autoStart = prefs.getBoolean("auto_start_service", false)
+        //val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
+        //val autoStart = prefs.getBoolean("auto_start_service", false)
   
-        if (autoStart) {
-            startService(Intent(this, DrivingService::class.java))
-        }
+        //if (autoStart) {
+        //    startService(Intent(this, DrivingService::class.java))
+        //}
 
 
         // ---------------------------------------------------------
@@ -115,11 +126,35 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        // 1. Check overlay permission first
         if (!Settings.canDrawOverlays(this)) {
             txtStatus.text = getString(R.string.overlay_permission_missing)
             requestOverlayPermission()
+            return
+        }
+
+        // 2. Check POST_NOTIFICATIONS permission (Android 13+)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                // Do NOT start the service yet
+                return
+            }
+        }
+
+        // 3. Check location permission
+        checkLocationPermission()
+
+        // 4. Auto-start service ONLY when everything is allowed
+        val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
+        val autoStart = prefs.getBoolean("auto_start_service", false)
+
+        if (autoStart) {
+            startService(Intent(this, DrivingService::class.java))
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -209,6 +244,17 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.gps_permission_denied), Toast.LENGTH_SHORT).show()
             }
         }
+
+        if (requestCode == 2001) {
+            if (grantResults.isNotEmpty() &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Toast.makeText(this, "Notifications enabled", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Notifications disabled — service may not run", Toast.LENGTH_LONG).show()
+            }
+        }
+
     }
 
     // ---------------------------------------------------------
