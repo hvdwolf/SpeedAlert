@@ -6,15 +6,16 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import xyz.hvdw.speedalert.BuildConfig
-
+import android.net.Uri
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private var defaultTextColor: Int = 0
 
     private val LOCATION_REQUEST = 1001
+    private val BACKGROUND_LOCATION_REQUEST = 1002
+    private val NOTIFICATION_REQUEST = 2001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,17 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         settings = SettingsManager(this)
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-                requestPermissions(
-                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                    2001
-                )
-            }
-        }
-
+        // ---------------------------------------------------------
+        // UI ELEMENTS
+        // ---------------------------------------------------------
         txtSpeed = findViewById(R.id.txtSpeed)
         txtLimit = findViewById(R.id.txtLimit)
         txtStatus = findViewById(R.id.txtStatus)
@@ -79,86 +74,90 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, DebugActivity::class.java))
         }
 
-        val btnAbout = findViewById<Button>(R.id.btnAbout)
-        btnAbout.setOnClickListener {
-            val version = BuildConfig.VERSION_NAME
-            val author = "Harry van der Wolf (Surfer63)"
-            val description = getString(R.string.about_description)
-            val disclaimer_header = getString(R.string.disclaimer_header)
-            val disclaimer = getString(R.string.disclaimer_body)
-
-            val message = """
-                    SpeedAlert v$version
-                    $author
-
-                    $description
-
-
-                    $disclaimer_header
-                    $disclaimer
-                """.trimIndent()
-
-            AlertDialog.Builder(this)
-                .setTitle(getString(R.string.about_title))
-                .setMessage(message)
-                .setPositiveButton("OK", null)
-                .show()
-        }
+        btnAbout.setOnClickListener { showAboutDialog() }
 
         // ---------------------------------------------------------
-        // CHECK IF SERVICE SHOULD BE OPENED ON START APP
+        // PERMISSIONS
         // ---------------------------------------------------------
-        //val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
-        //val autoStart = prefs.getBoolean("auto_start_service", false)
-  
-        //if (autoStart) {
-        //    startService(Intent(this, DrivingService::class.java))
-        //}
-
-
-        // ---------------------------------------------------------
-        // PERMISSIONS + RECEIVERS
-        // ---------------------------------------------------------
+        requestNotificationPermission()
         checkLocationPermission()
+        checkBackgroundLocationPermission()
+        requestBatteryOptimizationExemption()
+
         registerReceiver(speedReceiver, IntentFilter("xyz.hvdw.speedalert.SPEED_UPDATE"))
+
+        // ---------------------------------------------------------
+        // AUTO-START (corrected)
+        // ---------------------------------------------------------
+        maybeAutoStartService()
     }
 
     override fun onResume() {
         super.onResume()
 
-        // 1. Check overlay permission first
+        // Overlay permission check only — NO auto-start here
         if (!Settings.canDrawOverlays(this)) {
             txtStatus.text = getString(R.string.overlay_permission_missing)
             requestOverlayPermission()
-            return
-        }
-
-        // 2. Check POST_NOTIFICATIONS permission (Android 13+)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-                // Do NOT start the service yet
-                return
-            }
-        }
-
-        // 3. Check location permission
-        checkLocationPermission()
-
-        // 4. Auto-start service ONLY when everything is allowed
-        val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
-        val autoStart = prefs.getBoolean("auto_start_service", false)
-
-        if (autoStart) {
-            startService(Intent(this, DrivingService::class.java))
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(speedReceiver)
+    }
+
+    // ---------------------------------------------------------
+    // AUTO-START (corrected logic)
+    // ---------------------------------------------------------
+    private fun maybeAutoStartService() {
+        val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
+        val autoStart = prefs.getBoolean("auto_start_service", false)
+
+        if (!autoStart) return
+
+        // Only start if ALL permissions are granted
+        if (!Settings.canDrawOverlays(this)) return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED) return
+
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            checkSelfPermission(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) return
+
+        startService(Intent(this, DrivingService::class.java))
+    }
+
+    // ---------------------------------------------------------
+    // ABOUT DIALOG
+    // ---------------------------------------------------------
+    private fun showAboutDialog() {
+        val version = BuildConfig.VERSION_NAME
+        val author = "Harry van der Wolf (Surfer63)"
+        val description = getString(R.string.about_description)
+        val disclaimer_header = getString(R.string.disclaimer_header)
+        val disclaimer = getString(R.string.disclaimer_body)
+
+        val message = """
+            SpeedAlert v$version
+            $author
+
+            $description
+
+            $disclaimer_header
+            $disclaimer
+        """.trimIndent()
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.about_title))
+            .setMessage(message)
+            .setPositiveButton("OK", null)
+            .show()
     }
 
     // ---------------------------------------------------------
@@ -174,38 +173,18 @@ class MainActivity : AppCompatActivity() {
 
             val unit = settings.displayUnit()
 
-            // -----------------------------
-            // GPS SPEED (converted if needed)
-            // -----------------------------
-            if (rawSpeed >= 0) {
-                val displaySpeed = settings.convertSpeed(rawSpeed)
-                txtSpeed.text = "$displaySpeed $unit"
-            } else {
-                txtSpeed.text = "--"
-            }
+            txtSpeed.text = if (rawSpeed >= 0)
+                "${settings.convertSpeed(rawSpeed)} $unit"
+            else "--"
 
-            // -----------------------------
-            // ROAD LIMIT (converted if needed)
-            // -----------------------------
-            if (rawLimit > 0) {
-                val displayLimit = settings.convertSpeed(rawLimit)
-                txtLimit.text = "$displayLimit $unit"
-            } else {
-                txtLimit.text = "--"
-            }
+            txtLimit.text = if (rawLimit > 0)
+                "${settings.convertSpeed(rawLimit)} $unit"
+            else "--"
 
-            // -----------------------------
-            // GPS ACCURACY
-            // -----------------------------
-            if (acc >= 0) {
-                txtStatus.text = getString(R.string.gps_accuracy, acc.toInt())
-            } else {
-                txtStatus.text = getString(R.string.gps_waiting)
-            }
+            txtStatus.text = if (acc >= 0)
+                getString(R.string.gps_accuracy, acc.toInt())
+            else getString(R.string.gps_waiting)
 
-            // -----------------------------
-            // COLORING
-            // -----------------------------
             if (overspeed) {
                 txtSpeed.setTextColor(Color.RED)
                 txtLimit.setTextColor(Color.RED)
@@ -230,31 +209,56 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    private fun checkBackgroundLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
 
-        if (requestCode == LOCATION_REQUEST) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, getString(R.string.gps_permission_granted), Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, getString(R.string.gps_permission_denied), Toast.LENGTH_SHORT).show()
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                    BACKGROUND_LOCATION_REQUEST
+                )
             }
         }
+    }
 
-        if (requestCode == 2001) {
-            if (grantResults.isNotEmpty() &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
 
-                Toast.makeText(this, "Notifications enabled", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Notifications disabled — service may not run", Toast.LENGTH_LONG).show()
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    NOTIFICATION_REQUEST
+                )
             }
         }
+    }
 
+    // ---------------------------------------------------------
+    // BATTERY OPTIMIZATION EXEMPTION
+    // ---------------------------------------------------------
+    private fun requestBatteryOptimizationExemption() {
+        val pm = getSystemService(PowerManager::class.java)
+
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            try {
+                val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                intent.data = Uri.parse("package:$packageName")
+                startActivity(intent)
+            } catch (e: Exception) {
+                try {
+                    val intent = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                    startActivity(intent)
+                } catch (e2: Exception) {
+                    Toast.makeText(
+                        this,
+                        "Please disable battery optimization manually",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
 
     // ---------------------------------------------------------
@@ -275,7 +279,7 @@ class MainActivity : AppCompatActivity() {
         try {
             val intent = Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                android.net.Uri.parse("package:$packageName")
+                Uri.parse("package:$packageName")
             )
             startActivity(intent)
         } catch (e: Exception) {

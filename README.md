@@ -12,6 +12,12 @@ This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".<br><br>
 ## Requirements
 Working GPS and working network connection to retrieve the online speed limit data. It doesn't matter whether you have a hot-spot via your phone or a SIM in your unit, just as long as you have a working internet connection.
 
+## Required permissions
+ - Background location - The app (Android) will ask: "Allow all the time", "Allow only when using the app", "Ask every time", "Deny". You need to select "Allow all the time", as the app needs to be able to run in the background. This means it can use background location as long as the app runs (not as long as your system runs).
+ - Overlay permission
+ - Notification permission
+ - Ignore Battery optimization (especially on Android 14/15/16)
+
 ## Screenshots
 **All screenshots are in below animated gif.** The app is still heavily in development, so screenshots may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
 <br><br>

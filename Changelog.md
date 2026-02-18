@@ -1,3 +1,18 @@
+**Changelog V1.6 (18 Feb 2026)**
+
+**Use hybrid form of location positioning:**
+In version 1.5, I switched from locationmanager to FusedLocationProviderClient, which is supposed to be the way forward on Android 14/15/16, but it gives away a lot of control.
+
+- If Android "thinks" you do not need GPS, you do not get GPS.
+- If Android "thinks" that  WiFi/cell (A-GPS) location is good enough, you don't get GPS.
+- And you need to very strict use "ignore battery optimization".
+
+In these cases you see "no GPS" or very bad accuracy.
+
+Locationmanager uses only GPS (GNSS) and is faster. Only in cities with high buildings, FusedLocationProviderClient can combine a bad GPS signal with a not so accurate GPS/cell signal and thereby improve the position.
+
+So I switched back to locationmanager that will continue to function till Android 17, with fallback to FusedLocationProviderClient if for some reason the locationmanager functionality does not deleiver a valid GPS signal.
+
 **Changelog V1.5 (16 Feb 2026)**
 
 - Fix crash on startup of app on (real) Android 14/15/16.

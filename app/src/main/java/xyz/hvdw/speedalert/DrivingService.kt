@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Handler
@@ -24,8 +25,9 @@ class DrivingService : Service() {
     private lateinit var repo: SpeedLimitRepository
     private lateinit var notifier: ServiceNotification
 
-    // Fused location provider
+    // Hybrid providers
     private lateinit var fusedClient: FusedLocationProviderClient
+    private lateinit var locationManager: LocationManager
     private lateinit var locationRequest: LocationRequest
 
     private var speedometer: FloatingSpeedometer? = null
@@ -72,28 +74,52 @@ class DrivingService : Service() {
         beepSoundId = soundPool!!.load(this, R.raw.beep, 1)
 
         // -----------------------------
-        // FUSED LOCATION SETUP
+        // HYBRID GPS SETUP
         // -----------------------------
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         fusedClient = LocationServices.getFusedLocationProviderClient(this)
 
         locationRequest = LocationRequest.Builder(
             Priority.PRIORITY_HIGH_ACCURACY,
             1000L
         )
-            .setMinUpdateIntervalMillis(500)
-            .setMaxUpdateDelayMillis(2000)
+            .setMinUpdateIntervalMillis(1000)
+            .setMaxUpdateDelayMillis(0)
             .build()
 
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
 
-            fusedClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-            )
+            // PRIMARY: dynamic GPS provider detection (FYT / Chinese units support)
+            val provider = findGpsProvider()
 
-            log("FusedLocationProvider: started")
+            if (provider != null) {
+                try {
+                    locationManager.requestLocationUpdates(
+                        provider,
+                        200,
+                        0f,
+                        gpsListener
+                    )
+                    log("GPS provider started: $provider")
+                } catch (e: Exception) {
+                    log("GPS provider '$provider' failed: ${e.message}")
+                }
+            } else {
+                log("No usable GPS provider found! Falling back to fused only.")
+            }
+
+            // SECONDARY: Fused
+            try {
+                fusedClient.requestLocationUpdates(
+                    locationRequest,
+                    fusedCallback,
+                    Looper.getMainLooper()
+                )
+                log("FusedLocationProvider started")
+            } catch (e: Exception) {
+                log("Fused start failed: ${e.message}")
+            }
         } else {
             log("GPS permission not granted in service")
         }
@@ -111,7 +137,11 @@ class DrivingService : Service() {
         running = false
 
         try {
-            fusedClient.removeLocationUpdates(locationCallback)
+            locationManager.removeUpdates(gpsListener)
+        } catch (_: Exception) {}
+
+        try {
+            fusedClient.removeLocationUpdates(fusedCallback)
         } catch (_: Exception) {}
 
         speedometer?.hide()
@@ -129,12 +159,24 @@ class DrivingService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     // ---------------------------------------------------------
-    // FUSED LOCATION CALLBACK
+    // PRIMARY GPS LISTENER
     // ---------------------------------------------------------
-    private val locationCallback = object : LocationCallback() {
+    private val gpsListener = android.location.LocationListener { loc ->
+        updateLocation(loc)
+    }
+
+    // ---------------------------------------------------------
+    // SECONDARY FUSED CALLBACK
+    // ---------------------------------------------------------
+    private val fusedCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
-            for (loc in result.locations) {
-                updateLocation(loc)
+            val gpsAge = System.currentTimeMillis() - lastGpsFixTime
+
+            // Only use fused if GPS is stale (> 5 sec)
+            if (gpsAge > 5000) {
+                for (loc in result.locations) {
+                    updateLocation(loc)
+                }
             }
         }
     }
@@ -145,6 +187,8 @@ class DrivingService : Service() {
     private suspend fun mainLoop() {
         while (running) {
             try {
+                restartGpsIfNeeded()
+
                 val loc = lastLocation
                 if (loc != null) {
                     scheduleSpeedLimitFetch()
@@ -183,7 +227,42 @@ class DrivingService : Service() {
 
     private fun hasGpsFix(): Boolean {
         val age = System.currentTimeMillis() - lastGpsFixTime
-        return age < 5000
+        return age < 3000 && lastAccuracy in 0f..25f
+    }
+
+    // ---------------------------------------------------------
+    // GPS WATCHDOG (fixed: runs on main thread)
+    // ---------------------------------------------------------
+    private fun restartGpsIfNeeded() {
+        val age = System.currentTimeMillis() - lastGpsFixTime
+
+        if (age > 8000) {
+            log("GPS watchdog: restarting GPS provider")
+
+            mainHandler.post {
+                try {
+                    locationManager.removeUpdates(gpsListener)
+                } catch (_: Exception) {}
+
+                val provider = findGpsProvider()
+
+                if (provider != null) {
+                    try {
+                        locationManager.requestLocationUpdates(
+                            provider,
+                            200,
+                            0f,
+                            gpsListener
+                        )
+                        log("GPS provider restarted: $provider")
+                    } catch (e: Exception) {
+                        log("GPS restart failed: ${e.message}")
+                    }
+                } else {
+                    log("GPS restart failed: no provider available")
+                }
+            }
+        }
     }
 
     // ---------------------------------------------------------
@@ -243,7 +322,6 @@ class DrivingService : Service() {
                         limitKmh = chosen,
                         source = "fallback:${country ?: "unknown"}"
                     )
-
 
                     log("Fallback applied: $lastLimit")
                 }
@@ -351,6 +429,24 @@ class DrivingService : Service() {
             acc <= 5f   -> 15
             acc <= 10f  -> 20
             else        -> 25
+        }
+    }
+
+    // ---------------------------------------------------------
+    // DYNAMIC GPS PROVIDER DETECTION (FYT / Chinese units)
+    // ---------------------------------------------------------
+    private fun findGpsProvider(): String? {
+        val providers = locationManager.allProviders
+        log("Available providers: $providers")
+
+        return when {
+            providers.contains(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
+            providers.contains("fused") -> "fused"
+            providers.contains("gps0") -> "gps0"
+            providers.contains("bd_gps") -> "bd_gps"
+            providers.contains("nmea") -> "nmea"
+            providers.contains(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
+            else -> null
         }
     }
 }
