@@ -147,4 +147,25 @@ class SettingsManager(context: Context) {
         val code = getCountryCode()?.uppercase() ?: return false
         return mphCountries.contains(code)
     }
+
+    // ---------------------------------------------------------
+    // Get/set speed limit retrieval thresholds
+    // ---------------------------------------------------------
+    fun getSpeedLimitFetchIntervalMs(): Long {
+        return prefs.getLong("speed_limit_fetch_interval", 4000L)
+    }
+
+    fun setSpeedLimitFetchIntervalMs(value: Long) {
+        prefs.edit().putLong("speed_limit_fetch_interval", value).apply()
+    }
+
+    fun getMinDistanceForFetch(): Float {
+        return prefs.getFloat("min_distance_fetch", 10f)
+    }
+
+    fun setMinDistanceForFetch(value: Float) {
+        prefs.edit().putFloat("min_distance_fetch", value).apply()
+    }
+
+
 }

@@ -215,4 +215,13 @@
 
     <string name="start_service_on_open">Uruchom usługę przy otwieraniu SpeedAlert</string>
 
+    <string name="fetch_interval_label">Interwał pobierania ograniczenia prędkości</string>
+    <string name="min_distance_label">Minimalna odległość przed pobraniem</string>
+
+    <string name="fetch_interval_2s">2 sekundy (4–8 MB/godz.)</string>
+    <string name="fetch_interval_4s">4 sekundy (2–4 MB/godz.)</string>
+    <string name="fetch_interval_8s">8 sekund (1–2 MB/godz.)</string>
+
+    <string name="min_distance_0m">0 m (pobieraj zawsze)</string>
+
 </resources>

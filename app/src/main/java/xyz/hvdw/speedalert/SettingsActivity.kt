@@ -23,6 +23,9 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var seekSpeedoSize: SeekBar
     private lateinit var txtSpeedoSizeValue: TextView
 
+    private lateinit var spinnerFetchInterval: Spinner
+    private lateinit var spinnerMinDistance: Spinner
+
     private lateinit var settings: SettingsManager
 
     private val prefs by lazy {
@@ -57,6 +60,9 @@ class SettingsActivity : AppCompatActivity() {
 
         settings = SettingsManager(this)
 
+        // ---------------------------------------------------------
+        // FIND VIEWS
+        // ---------------------------------------------------------
         swShowOverlay = findViewById(R.id.swShowOverlay)
         swBroadcast = findViewById(R.id.swBroadcast)
         swOverspeedMode = findViewById(R.id.swOverspeedMode)
@@ -69,6 +75,9 @@ class SettingsActivity : AppCompatActivity() {
         seekSpeedoSize = findViewById(R.id.seekSpeedoSize)
         txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
         swUseMph = findViewById(R.id.swUseMph)
+
+        spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)
+        spinnerMinDistance = findViewById(R.id.spinnerMinDistance)
 
         findViewById<Button>(R.id.btnMphInfo).setOnClickListener {
             AlertDialog.Builder(this)
@@ -171,7 +180,7 @@ class SettingsActivity : AppCompatActivity() {
         })
 
         // ---------------------------------------------------------
-        // TEST BEEP (SoundPool)
+        // TEST BEEP
         // ---------------------------------------------------------
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -221,6 +230,70 @@ class SettingsActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(sb: SeekBar?) {}
             override fun onStopTrackingTouch(sb: SeekBar?) {}
         })
+
+        // ---------------------------------------------------------
+        // SPEED LIMIT FETCH INTERVAL SPINNER
+        // ---------------------------------------------------------
+        val intervalLabels = arrayOf(
+            getString(R.string.fetch_interval_2s),
+            getString(R.string.fetch_interval_4s),
+            getString(R.string.fetch_interval_8s)
+        )
+
+
+        val intervalValues = longArrayOf(2000L, 4000L, 8000L)
+
+        val intervalAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            intervalLabels
+        )
+        intervalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerFetchInterval.adapter = intervalAdapter
+
+        val savedInterval = settings.getSpeedLimitFetchIntervalMs()
+        val intervalIndex = intervalValues.indexOf(savedInterval).let { if (it == -1) 1 else it }
+        spinnerFetchInterval.setSelection(intervalIndex)
+
+        spinnerFetchInterval.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, pos: Int, id: Long) {
+                settings.setSpeedLimitFetchIntervalMs(intervalValues[pos])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        // ---------------------------------------------------------
+        // MINIMUM DISTANCE SPINNER
+        // ---------------------------------------------------------
+        val distLabels = arrayOf(
+            getString(R.string.min_distance_0m),
+            "10 m",
+            "25 m",
+            "50 m"
+        )
+
+        val distValues = floatArrayOf(0f, 10f, 25f, 50f)
+
+        val distAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            distLabels
+        )
+        distAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerMinDistance.adapter = distAdapter
+
+        val savedDist = settings.getMinDistanceForFetch()
+        val distIndex = distValues.toList().indexOf(savedDist).let { if (it == -1) 1 else it }
+        spinnerMinDistance.setSelection(distIndex)
+
+        spinnerMinDistance.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, pos: Int, id: Long) {
+                settings.setMinDistanceForFetch(distValues[pos])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
     }
 
     override fun onDestroy() {

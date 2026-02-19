@@ -215,4 +215,13 @@
 
     <string name="start_service_on_open">Pornește serviciul la deschiderea SpeedAlert</string>
 
+    <string name="fetch_interval_label">Interval de actualizare a limitei de viteză</string>
+    <string name="min_distance_label">Distanța minimă înainte de actualizare</string>
+
+    <string name="fetch_interval_2s">2 secunde (4–8 MB/oră)</string>
+    <string name="fetch_interval_4s">4 secunde (2–4 MB/oră)</string>
+    <string name="fetch_interval_8s">8 secunde (1–2 MB/oră)</string>
+
+    <string name="min_distance_0m">0 m (actualizează întotdeauna)</string>
+
 </resources>

@@ -215,4 +215,13 @@
 
     <string name="start_service_on_open">Avvia il servizio all’apertura di SpeedAlert</string>
 
+    <string name="fetch_interval_label">Intervallo di aggiornamento limite di velocità</string>
+    <string name="min_distance_label">Distanza minima prima di aggiornare</string>
+
+    <string name="fetch_interval_2s">2 secondi (4–8 MB/ora)</string>
+    <string name="fetch_interval_4s">4 secondi (2–4 MB/ora)</string>
+    <string name="fetch_interval_8s">8 secondi (1–2 MB/ora)</string>
+
+    <string name="min_distance_0m">0 m (aggiorna sempre)</string>
+
 </resources>

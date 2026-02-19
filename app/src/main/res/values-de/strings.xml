@@ -202,4 +202,13 @@
     <string name="about_description">Diese App hilft Ihnen, Geschwindigkeitsbegrenzungen mithilfe von GPS- und Straßendaten einzuhalten.</string>
 
     <string name="start_service_on_open">Dienst beim Öffnen von SpeedAlert starten</string>
+
+    <string name="fetch_interval_label">Intervall für Tempolimit-Abfrage</string>
+    <string name="min_distance_label">Mindestentfernung vor neuer Abfrage</string>
+
+    <string name="fetch_interval_2s">2 Sekunden (4–8 MB/Stunde)</string>
+    <string name="fetch_interval_4s">4 Sekunden (2–4 MB/Stunde)</string>
+    <string name="fetch_interval_8s">8 Sekunden (1–2 MB/Stunde)</string>
+
+    <string name="min_distance_0m">0 m (immer abfragen)</string>
 </resources>

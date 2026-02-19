@@ -17,13 +17,13 @@
             android:text="@string/show_overlay"
             android:layout_marginBottom="12dp" />
 
+        <!-- AUTO START SERVICE -->
         <Switch
             android:id="@+id/switchAutoStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start_service_on_open"
             android:layout_marginBottom="12dp"/>
-
 
         <!-- BROADCAST -->
         <Switch
@@ -33,6 +33,7 @@
             android:text="@string/enable_broadcast"
             android:layout_marginBottom="12dp" />
 
+        <!-- MPH SWITCH + INFO BUTTON -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,18 +41,18 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="16dp">
 
-                <Switch
-                    android:id="@+id/swUseMph"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/switch_use_mph" />
+            <Switch
+                android:id="@+id/swUseMph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_use_mph" />
 
-                <Button
-                    android:id="@+id/btnMphInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/switch_use_mph_readme"
-                    android:layout_marginStart="12dp"/>
+            <Button
+                android:id="@+id/btnMphInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_use_mph_readme"
+                android:layout_marginStart="12dp"/>
         </LinearLayout>
 
         <!-- OVERSPEED MODE + SLIDER -->
@@ -168,6 +169,58 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/speedo_size_default" />
+        </LinearLayout>
+
+        <!-- SPEED LIMIT FETCH INTERVAL (horizontal row) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/txtFetchIntervalLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/fetch_interval_label"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinnerFetchInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:padding="4dp" />
+        </LinearLayout>
+
+        <!-- MINIMUM DISTANCE BEFORE FETCH (horizontal row) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/txtMinDistanceLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/min_distance_label"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinnerMinDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:padding="4dp" />
         </LinearLayout>
 
     </LinearLayout>

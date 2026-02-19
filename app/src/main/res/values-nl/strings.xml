@@ -215,4 +215,13 @@
 
     <string name="start_service_on_open">Service starten bij openen van SpeedAlert</string>
 
+    <string name="fetch_interval_label">Interval voor snelheidslimiet-opvraag</string>
+    <string name="min_distance_label">Minimale afstand vóór nieuwe opvraag</string>
+
+    <string name="fetch_interval_2s">2 seconden (4–8 MB/uur)</string>
+    <string name="fetch_interval_4s">4 seconden (2–4 MB/uur)</string>
+    <string name="fetch_interval_8s">8 seconden (1–2 MB/uur)</string>
+
+    <string name="min_distance_0m">0 m (altijd opvragen)</string>
+
 </resources>

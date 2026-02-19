@@ -215,4 +215,12 @@
 
     <string name="start_service_on_open">Démarrer le service à l’ouverture de SpeedAlert</string>
 
+    <string name="fetch_interval_label">Intervalle de récupération de la limitation de vitesse</string>
+    <string name="min_distance_label">Distance minimale avant une nouvelle requête</string>
+
+    <string name="fetch_interval_2s">2 secondes (4–8 Mo/heure)</string>
+    <string name="fetch_interval_4s">4 secondes (2–4 Mo/heure)</string>
+    <string name="fetch_interval_8s">8 secondes (1–2 Mo/heure)</string>
+
+    <string name="min_distance_0m">0 m (toujours interroger)</string>
 </resources>

@@ -210,4 +210,14 @@
     <string name="about_description">This app helps you stay within speed limits using GPS and road data.</string>
 
     <string name="start_service_on_open">Start service on opening SpeedAlert</string>
+
+    <string name="fetch_interval_label">Speed limit fetch interval</string>
+    <string name="min_distance_label">Minimum distance before fetching</string>
+
+    <string name="fetch_interval_2s">2 seconds (4–8 MB/hour)</string>
+    <string name="fetch_interval_4s">4 seconds (2–4 MB/hour)</string>
+    <string name="fetch_interval_8s">8 seconds (1–2 MB/hour)</string>
+
+    <string name="min_distance_0m">0 m (always fetch)</string>
+
 </resources>

@@ -215,4 +215,13 @@
 
     <string name="start_service_on_open">Запускать сервис при открытии SpeedAlert</string>
 
+    <string name="fetch_interval_label">Интервал запроса ограничения скорости</string>
+    <string name="min_distance_label">Минимальная дистанция перед запросом</string>
+
+    <string name="fetch_interval_2s">2 секунды (4–8 МБ/час)</string>
+    <string name="fetch_interval_4s">4 секунды (2–4 МБ/час)</string>
+    <string name="fetch_interval_8s">8 секунд (1–2 МБ/час)</string>
+
+    <string name="min_distance_0m">0 м (запрашивать всегда)</string>
+
 </resources>

@@ -215,4 +215,13 @@
 
     <string name="start_service_on_open">Iniciar el servicio al abrir SpeedAlert</string>
 
+    <string name="fetch_interval_label">Intervalo de consulta del límite de velocidad</string>
+    <string name="min_distance_label">Distancia mínima antes de consultar</string>
+
+    <string name="fetch_interval_2s">2 segundos (4–8 MB/hora)</string>
+    <string name="fetch_interval_4s">4 segundos (2–4 MB/hora)</string>
+    <string name="fetch_interval_8s">8 segundos (1–2 MB/hora)</string>
+
+    <string name="min_distance_0m">0 m (consultar siempre)</string>
+
 </resources>

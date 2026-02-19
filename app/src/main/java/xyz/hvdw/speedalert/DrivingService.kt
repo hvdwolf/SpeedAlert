@@ -43,6 +43,10 @@ class DrivingService : Service() {
     private var lastGpsFixTime = 0L
     private var lastAccuracy = -1f
 
+    // Option B: store last fetch location + speed
+    private var lastFetchLocation: Location? = null
+    private var lastFetchSpeed: Int = 0
+
     // SoundPool for beep
     private var soundPool: SoundPool? = null
     private var beepSoundId: Int = 0
@@ -90,7 +94,7 @@ class DrivingService : Service() {
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
 
-            // PRIMARY: dynamic GPS provider detection (FYT / Chinese units support)
+            // PRIMARY: dynamic GPS provider detection
             val provider = findGpsProvider()
 
             if (provider != null) {
@@ -231,7 +235,7 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // GPS WATCHDOG (fixed: runs on main thread)
+    // GPS WATCHDOG (main-thread safe)
     // ---------------------------------------------------------
     private fun restartGpsIfNeeded() {
         val age = System.currentTimeMillis() - lastGpsFixTime
@@ -286,12 +290,28 @@ class DrivingService : Service() {
 
     private fun scheduleSpeedLimitFetch() {
         val loc = lastLocation ?: return
+        val now = System.currentTimeMillis()
         val lat = loc.latitude
         val lon = loc.longitude
-        val now = System.currentTimeMillis()
 
-        if (now - lastLimitFetchTime < 4000) return
+        // 1. Interval check
+        val interval = settings.getSpeedLimitFetchIntervalMs()
+        if (now - lastLimitFetchTime < interval) return
+
+        // 2. Distance check
+        val minDist = settings.getMinDistanceForFetch()
+        lastFetchLocation?.let { prev ->
+            val dist = prev.distanceTo(loc)
+            if (dist < minDist) {
+                log("Skipping fetch: moved only ${dist.toInt()}m (< $minDist m)")
+                return
+            }
+        }
+
+        // Passed both checks → update timestamps
         lastLimitFetchTime = now
+        lastFetchLocation = loc
+        lastFetchSpeed = lastSpeed
 
         limitJob?.cancel()
         limitJob = scope.launch(Dispatchers.IO) {
@@ -425,6 +445,7 @@ class DrivingService : Service() {
 
     private fun dynamicRadius(acc: Float): Int {
         return when {
+            acc <= 1.5f -> 7
             acc <= 2.5f -> 10
             acc <= 5f   -> 15
             acc <= 10f  -> 20
