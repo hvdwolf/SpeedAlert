@@ -17,6 +17,14 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("show_speedometer", v).apply()
     }
 
+    fun setMinimizeOnStart(value: Boolean) {
+        prefs.edit().putBoolean("minimize_on_start", value).apply()
+    }
+
+    fun getMinimizeOnStart(): Boolean {
+        return prefs.getBoolean("minimize_on_start", false)
+    }
+
     // ---------------------------------------------------------
     // OVERSPEED MODE
     // ---------------------------------------------------------

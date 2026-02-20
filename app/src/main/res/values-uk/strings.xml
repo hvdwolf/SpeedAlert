@@ -215,4 +215,11 @@
 
     <string name="start_service_on_open">Запускати сервіс під час відкриття SpeedAlert</string>
 
+    <string name="minimize_on_start">Згорнути застосунок</string>
+
+    <string name="update_available_title">Доступна нова версія</string>
+    <string name="update_available_message">Доступна новіша версія (%1$s).\n\nВідкрити сторінку завантаження?</string>
+    <string name="update_available_open">Відкрити</string>
+    <string name="update_available_cancel">Скасувати</string>
+
 </resources>

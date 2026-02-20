@@ -4,9 +4,10 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Bundle
+import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -26,10 +27,17 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var spinnerFetchInterval: Spinner
     private lateinit var spinnerMinDistance: Spinner
 
+    private lateinit var swAutoStart: Switch
+    private lateinit var swMinimizeOnStart: Switch
+
     private lateinit var settings: SettingsManager
 
     private val prefs by lazy {
         getSharedPreferences("settings", Context.MODE_PRIVATE)
+    }
+
+    private val prefsAuto by lazy {
+        getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
     }
 
     private val sizeLabels by lazy {
@@ -50,7 +58,6 @@ class SettingsActivity : AppCompatActivity() {
         1.40f
     )
 
-    // SoundPool for test beep
     private var testSoundPool: SoundPool? = null
     private var testBeepId: Int = 0
 
@@ -79,6 +86,9 @@ class SettingsActivity : AppCompatActivity() {
         spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)
         spinnerMinDistance = findViewById(R.id.spinnerMinDistance)
 
+        swAutoStart = findViewById(R.id.switchAutoStart)
+        swMinimizeOnStart = findViewById(R.id.switchMinimizeOnStart)
+
         findViewById<Button>(R.id.btnMphInfo).setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.mph_info_title))
@@ -96,14 +106,21 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // ---------------------------------------------------------
-        // AUTO START SERVICE
+        // AUTO START + MINIMIZE
         // ---------------------------------------------------------
-        val prefsAuto = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
-        val swAutoStart = findViewById<Switch>(R.id.switchAutoStart)
-
         swAutoStart.isChecked = prefsAuto.getBoolean("auto_start_service", false)
+        swMinimizeOnStart.isChecked = settings.getMinimizeOnStart()
+
+        swMinimizeOnStart.visibility =
+            if (swAutoStart.isChecked) View.VISIBLE else View.GONE
+
         swAutoStart.setOnCheckedChangeListener { _, isChecked ->
             prefsAuto.edit().putBoolean("auto_start_service", isChecked).apply()
+            swMinimizeOnStart.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
+        swMinimizeOnStart.setOnCheckedChangeListener { _, checked ->
+            settings.setMinimizeOnStart(checked)
         }
 
         // ---------------------------------------------------------
@@ -239,7 +256,6 @@ class SettingsActivity : AppCompatActivity() {
             getString(R.string.fetch_interval_4s),
             getString(R.string.fetch_interval_8s)
         )
-
 
         val intervalValues = longArrayOf(2000L, 4000L, 8000L)
 

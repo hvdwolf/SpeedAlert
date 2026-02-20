@@ -220,4 +220,11 @@
 
     <string name="min_distance_0m">0 m (always fetch)</string>
 
+    <string name="minimize_on_start">Minimize app</string>
+
+    <string name="update_available_title">New version available</string>
+    <string name="update_available_message">A newer version (%1$s) is available.\n\nOpen download page?</string>
+    <string name="update_available_open">Open</string>
+    <string name="update_available_cancel">Cancel</string>
+
 </resources>

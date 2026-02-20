@@ -224,4 +224,11 @@
 
     <string name="min_distance_0m">0 m (altijd opvragen)</string>
 
+    <string name="minimize_on_start">App minimaliseren</string>
+
+    <string name="update_available_title">Nieuwe versie beschikbaar</string>
+    <string name="update_available_message">Er is een nieuwere versie (%1$s) beschikbaar.\n\nDownloadpagina openen?</string>
+    <string name="update_available_open">Openen</string>
+    <string name="update_available_cancel">Annuleren</string>
+
 </resources>

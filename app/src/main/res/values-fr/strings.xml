@@ -223,4 +223,12 @@
     <string name="fetch_interval_8s">8 secondes (1–2 Mo/heure)</string>
 
     <string name="min_distance_0m">0 m (toujours interroger)</string>
+
+    <string name="minimize_on_start">Minimiser l’application</string>
+
+    <string name="update_available_title">Nouvelle version disponible</string>
+    <string name="update_available_message">Une version plus récente (%1$s) est disponible.\n\nOuvrir la page de téléchargement ?</string>
+    <string name="update_available_open">Ouvrir</string>
+    <string name="update_available_cancel">Annuler</string>
+
 </resources>

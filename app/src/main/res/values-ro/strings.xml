@@ -224,4 +224,11 @@
 
     <string name="min_distance_0m">0 m (actualizează întotdeauna)</string>
 
+   <string name="minimize_on_start">Minimizează aplicația</string>
+
+   <string name="update_available_title">Versiune nouă disponibilă</string>
+   <string name="update_available_message">Este disponibilă o versiune mai nouă (%1$s).\n\nDeschide pagina de descărcare?</string>
+   <string name="update_available_open">Deschide</string>
+   <string name="update_available_cancel">Anulează</string>
+
 </resources>

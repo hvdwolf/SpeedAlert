@@ -224,4 +224,11 @@
 
     <string name="min_distance_0m">0 m (consultar siempre)</string>
 
+    <string name="minimize_on_start">Minimizar aplicación</string>
+
+    <string name="update_available_title">Nueva versión disponible</string>
+    <string name="update_available_message">Hay una versión más reciente (%1$s) disponible.\n\n¿Abrir la página de descarga?</string>
+    <string name="update_available_open">Abrir</string>
+    <string name="update_available_cancel">Cancelar</string>
+
 </resources>

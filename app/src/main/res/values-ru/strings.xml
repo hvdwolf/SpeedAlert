@@ -224,4 +224,11 @@
 
     <string name="min_distance_0m">0 м (запрашивать всегда)</string>
 
+    <string name="minimize_on_start">Свернуть приложение</string>
+
+    <string name="update_available_title">Доступна новая версия</string>
+    <string name="update_available_message">Доступна более новая версия (%1$s).\n\nОткрыть страницу загрузки?</string>
+    <string name="update_available_open">Открыть</string>
+    <string name="update_available_cancel">Отмена</string>
+
 </resources>

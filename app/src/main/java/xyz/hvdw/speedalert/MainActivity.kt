@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
@@ -15,7 +16,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import android.net.Uri
 
 class MainActivity : AppCompatActivity() {
 
@@ -86,8 +86,11 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(speedReceiver, IntentFilter("xyz.hvdw.speedalert.SPEED_UPDATE"))
 
+        // Check for new version
+        checkForNewVersion()
+
         // ---------------------------------------------------------
-        // AUTO-START (corrected)
+        // AUTO-START + MINIMIZE
         // ---------------------------------------------------------
         maybeAutoStartService()
     }
@@ -108,11 +111,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ---------------------------------------------------------
-    // AUTO-START (corrected logic)
+    // AUTO-START + MINIMIZE LOGIC
     // ---------------------------------------------------------
     private fun maybeAutoStartService() {
         val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
         val autoStart = prefs.getBoolean("auto_start_service", false)
+        val minimize = settings.getMinimizeOnStart()
 
         if (!autoStart) return
 
@@ -130,7 +134,13 @@ class MainActivity : AppCompatActivity() {
             checkSelfPermission(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
             != PackageManager.PERMISSION_GRANTED) return
 
+        // Start the service
         startService(Intent(this, DrivingService::class.java))
+
+        // Minimize if user enabled it
+        if (minimize) {
+            moveTaskToBack(true)
+        }
     }
 
     // ---------------------------------------------------------
@@ -302,4 +312,67 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("OK", null)
             .show()
     }
+
+    private fun checkForNewVersion() {
+        Thread {
+            try {
+                val url = java.net.URL("https://api.github.com/repos/hvdwolf/SpeedAlert/releases/latest")
+                val conn = url.openConnection() as java.net.HttpURLConnection
+                conn.connectTimeout = 5000
+                conn.readTimeout = 5000
+
+                val json = conn.inputStream.bufferedReader().readText()
+                val obj = org.json.JSONObject(json)
+
+                val latestTag = obj.getString("tag_name").trim()
+                val latestClean = latestTag.removePrefix("v").removePrefix("V")
+
+                val currentVersion = BuildConfig.VERSION_NAME.trim()
+
+                if (isNewerVersion(latestClean, currentVersion)) {
+                    runOnUiThread {
+                        showUpdateDialog(latestClean)
+                    }
+                }
+
+            } catch (e: Exception) {
+                // ignore
+            }
+        }.start()
+    }
+
+
+    private fun isNewerVersion(latest: String, current: String): Boolean {
+        val latestParts = latest.split(".")
+        val currentParts = current.split(".")
+
+        val maxLen = maxOf(latestParts.size, currentParts.size)
+
+        for (i in 0 until maxLen) {
+            val l = latestParts.getOrNull(i)?.toIntOrNull() ?: 0
+            val c = currentParts.getOrNull(i)?.toIntOrNull() ?: 0
+
+            if (l > c) return true
+            if (l < c) return false
+        }
+        return false
+    }
+
+
+    private fun showUpdateDialog(latest: String) {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.update_available_title))
+            .setMessage(getString(R.string.update_available_message, latest))
+            .setPositiveButton(getString(R.string.update_available_open)) { _, _ ->
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/hvdwolf/SpeedAlert/releases/latest")
+                )
+                startActivity(intent)
+            }
+            .setNegativeButton(getString(R.string.update_available_cancel), null)
+            .show()
+    }
+
+
 }

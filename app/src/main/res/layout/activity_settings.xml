@@ -17,13 +17,29 @@
             android:text="@string/show_overlay"
             android:layout_marginBottom="12dp" />
 
-        <!-- AUTO START SERVICE -->
-        <Switch
-            android:id="@+id/switchAutoStart"
-            android:layout_width="wrap_content"
+        <!-- AUTO START SERVICE AND OPTINALLY MINIMIZE -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/start_service_on_open"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <Switch
+                android:id="@+id/switchAutoStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_service_on_open" />
+
+            <Switch
+                android:id="@+id/switchMinimizeOnStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minimize_on_start"
+                android:layout_marginStart="30dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
 
         <!-- BROADCAST -->
         <Switch
