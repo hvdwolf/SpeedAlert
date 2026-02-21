@@ -134,6 +134,17 @@ class MainActivity : AppCompatActivity() {
             checkSelfPermission(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
             != PackageManager.PERMISSION_GRANTED) return
 
+        // request external storage for non head unit devices
+        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                3001
+            )
+        }
+
+
         // Start the service
         startService(Intent(this, DrivingService::class.java))
 

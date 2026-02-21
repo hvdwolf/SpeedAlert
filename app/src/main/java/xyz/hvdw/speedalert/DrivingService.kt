@@ -24,6 +24,7 @@ class DrivingService : Service() {
     private lateinit var settings: SettingsManager
     private lateinit var repo: SpeedLimitRepository
     private lateinit var notifier: ServiceNotification
+    private lateinit var localDb: LocalSpeedDbManager
 
     // Hybrid providers
     private lateinit var fusedClient: FusedLocationProviderClient
@@ -43,7 +44,7 @@ class DrivingService : Service() {
     private var lastGpsFixTime = 0L
     private var lastAccuracy = -1f
 
-    // Option B: store last fetch location + speed
+    // Store last fetch location + speed
     private var lastFetchLocation: Location? = null
     private var lastFetchSpeed: Int = 0
 
@@ -61,6 +62,9 @@ class DrivingService : Service() {
         repo = SpeedLimitRepository(this)
         notifier = ServiceNotification(this)
         notifier.createChannel()
+
+        localDb = LocalSpeedDbManager(this)
+        localDb.initialize()
 
         // -----------------------------
         // SOUNDPOOL INITIALIZATION
@@ -152,6 +156,8 @@ class DrivingService : Service() {
 
         soundPool?.release()
         soundPool = null
+
+        localDb.close()
 
         stopForeground(STOP_FOREGROUND_REMOVE)
         scope.cancel()
@@ -284,7 +290,7 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // SPEED LIMIT FETCHING + FALLBACKS
+    // SPEED LIMIT FETCHING + LOCAL DB + FALLBACKS
     // ---------------------------------------------------------
     private var limitJob: Job? = null
 
@@ -318,7 +324,31 @@ class DrivingService : Service() {
             try {
                 val acc = lastAccuracy
                 val radius = dynamicRadius(acc)
-                log("Service: calling repo for $lat,$lon")
+
+                // First: try local DB based on country code
+                val country = getCountryCode(lat, lon)
+                log("Country detected: ${country ?: "none"}")
+                if (country != null) {
+                    localDb.updateCountry(country)
+                    val localSpeed = localDb.lookupSpeed(lat, lon)
+                    if (localSpeed != null && localSpeed > 0) {
+                        log("Local DB hit: speed=$localSpeed for country=$country")
+                        lastLimit = SpeedLimitResult(
+                            speedKmh = -1,
+                            limitKmh = localSpeed,
+                            source = "localdb:${country.lowercase()}"
+                        )
+                        log("Local DB hit: $lastLimit")
+                        return@launch
+                    } else {
+                        log("Local DB miss or no DB for country: $country")
+                    }
+                } else {
+                    log("No country code available for local DB lookup")
+                }
+
+                // If no local DB result → use repo (Overpass/Nominatim)
+                log("Service: calling repo for $lat,$lon (radius=$radius)")
                 val fetched = repo.getSpeedLimit(lat, lon, radius)
                 log("Service: repo returned $fetched")
 
@@ -327,20 +357,20 @@ class DrivingService : Service() {
                 } else {
                     log("Service: no valid speed limit — applying fallback")
 
-                    val country = getCountryCode(lat, lon)
-                    val fallback = CountrySpeedFallbacks.get(country)
+                    val fallbackCountry = country ?: getCountryCode(lat, lon)
+                    val fb = CountrySpeedFallbacks.get(fallbackCountry)
 
                     val chosen = when {
-                        lastSpeed < 60 -> fallback.urban
-                        lastSpeed < 90 -> fallback.rural
-                        lastSpeed < 120 -> fallback.divided
-                        else -> fallback.motorway
+                        lastSpeed < 60 -> fb.urban
+                        lastSpeed < 90 -> fb.rural
+                        lastSpeed < 120 -> fb.divided
+                        else -> fb.motorway
                     }
 
                     lastLimit = SpeedLimitResult(
                         speedKmh = -1,
                         limitKmh = chosen,
-                        source = "fallback:${country ?: "unknown"}"
+                        source = "fallback:${fallbackCountry ?: "unknown"}"
                     )
 
                     log("Fallback applied: $lastLimit")
@@ -442,6 +472,11 @@ class DrivingService : Service() {
         val file = File(filesDir, "speedalert.log")
         file.appendText(msgline + "\n")
     }
+
+    fun logExternal(msg: String) {
+        log(msg)
+    }
+
 
     private fun dynamicRadius(acc: Float): Int {
         return when {
