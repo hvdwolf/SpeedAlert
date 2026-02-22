@@ -1,4 +1,4 @@
-**Changelog V1.7 (21 Feb 2026)**
+**Changelog V1.7 (22 Feb 2026)**
 
  - Currently the app simply measures every 4 seconds. In this version added options to influence the performance: 
    - Minimum Distance option (0m, 10m, 25m, 50m)
