@@ -1,3 +1,13 @@
+**Changelog V1.7 (21 Feb 2026)**
+
+ - Currently the app simply measures every 4 seconds. In this version added options to influence the performance: 
+   - Minimum Distance option (0m, 10m, 25m, 50m)
+   - Interval: 2 seconds (4–8 MB/hour), 4 seconds (2–4 MB/hour), 8 seconds (1–2 MB/hour)
+ - When you select "Start service on opening app", you now have a second switch to minimize the app (after starting the service).
+ - Add a "checkForNewVersion" at startup with a dialog: "A newer version X.Y is available. Open download page?"  _(Of course this will only start working as of next release)_
+ - Add Portuguese, Korean, simplified Chinese (China) and tradional Chinese (Taiwan) language.
+
+
 **Changelog V1.6 (18 Feb 2026)**
 
 **Use hybrid form of location positioning:**

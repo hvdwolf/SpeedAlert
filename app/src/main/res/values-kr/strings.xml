@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
+    <string name="app_name">SpeedAlert</string>
+
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">면책 조항</string>
+    <string name="disclaimer_body">
+        이 앱의 잘못된 동작 또는 잘못된 사용에 대해 저는 책임지지 않습니다.
+        이 앱은 GPS 데이터를 기반으로 속도 알림을 제공합니다. 정확도는 기기, 환경, GPS 수신 상태에 따라 달라질 수 있습니다.
+        항상 지정된(임시 포함) 제한 속도를 준수하고 안전하게 운전하십시오.
+    </string>
+
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
+    <string name="speed_value_placeholder">속도: --</string>
+    <string name="limit_value_placeholder">제한: --</string>
+    <string name="status_value_placeholder">상태: --</string>
+
+    <string name="speed_value">속도: %1$d km/h</string>
+    <string name="limit_value">제한: %1$d km/h</string>
+    <string name="status_value">상태: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
+    <string name="show_overlay">오버레이 속도계 표시</string>
+    <string name="enable_broadcast">미디어 브로드캐스트 활성화</string>
+    <string name="switch_use_mph">GPS 속도를 km/h 대신 mph로 사용</string>
+
+    <string name="overspeed_mode_percentage">과속 허용치를 퍼센트로 사용</string>
+    <string name="overspeed_mode_fixed">고정 과속 허용치 사용 (km/h)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="start_service">서비스 시작</string>
+    <string name="stop_service">서비스 중지</string>
+    <string name="btn_check_overlay">오버레이 권한 확인</string>
+    <string name="btn_debug_screen">디버그 화면</string>
+    <string name="btn_diagnostics">진단</string>
+    <string name="btn_test_lookup">속도 제한 조회 테스트</string>
+
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
+    <string name="hint_latitude">위도</string>
+    <string name="hint_longitude">경도</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mph</string>
+    <string name="overlay_limit_prefix">제한:</string>
+    <string name="overlay_no_gps">GPS 없음</string>
+    <string name="overlay_no_limit">-</string>
+
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">주행 속도 모니터</string>
+    <string name="channel_description">주행 중 현재 속도와 제한 속도를 표시합니다</string>
+
+    <string name="notif_running_title">속도 모니터 실행 중</string>
+    <string name="notif_running_text">속도 제한 업데이트 중…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">오버레이 권한 허용됨</string>
+    <string name="overlay_permission_missing">오버레이 권한 없음</string>
+    <string name="overlay_permission_ok">오버레이 권한 정상</string>
+
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">과속 허용치: %1$d%%</string>
+    <string name="overspeed_saved_percent">저장된 과속 허용 퍼센트: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">과속 허용치: %1$d km/h</string>
+    <string name="overspeed_saved_fixed">저장된 과속 허용치: %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">유효한 위도와 경도를 입력하세요</string>
+    <string name="test_lookup_result">테스트 결과: %1$s (%2$f,%3$f)</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
+    <string name="gps_accuracy">GPS 정확도: %1$d m</string>
+    <string name="gps_waiting">GPS 대기 중…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">오버레이 권한 필요</string>
+    <string name="dialog_overlay_message">SpeedAlert는 떠 있는 속도계를 표시하기 위해 권한이 필요합니다.</string>
+    <string name="dialog_grant">허용</string>
+    <string name="dialog_cancel">취소</string>
+
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">오버레이 권한 (FYT)</string>
+    <string name="dialog_fyt_message"><![CDATA[
+    FYT 헤드유닛은 오버레이 권한 화면을 숨깁니다.
+
+    오버레이를 활성화하려면:
+    1. 공장 설정으로 이동
+    2. 비밀번호 입력: 3368 또는 8888
+    3. "앱 권한" 또는 "오버레이 앱" 찾기
+    4. SpeedAlert에 오버레이 허용
+
+    그래도 작동하지 않으면 기기를 재부팅하세요.
+    ]]></string>
+    <string name="dialog_ok">확인</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
+    <string name="gps_permission_granted">GPS 권한 허용됨</string>
+    <string name="gps_permission_denied">GPS 권한 거부됨</string>
+
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
+    <string name="btn_copy_log">로그 복사</string>
+    <string name="btn_share_log">로그 공유</string>
+    <string name="btn_empty_log">로그 비우기</string>
+
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">RAW Overpass 테스트</string>
+    <string name="diag_test_web_overpass">WebView Overpass 테스트</string>
+    <string name="diag_test_raw_nominatim">RAW Nominatim 테스트</string>
+    <string name="diag_test_web_nominatim">WebView Nominatim 테스트</string>
+    <string name="diag_show_raw_overpass">RAW Overpass 응답 보기</string>
+    <string name="diag_show_last_location">마지막 위치 보기</string>
+    <string name="diag_show_network_type">네트워크 유형 보기</string>
+
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
+    <string name="logfile_not_exist">로그 파일이 아직 존재하지 않습니다</string>
+    <string name="logfile_copied">/sdcard/SpeedAlert/speedalert.log 로 복사됨</string>
+    <string name="logfile_copy_failed">복사 실패: %1$s</string>
+
+    <string name="share_logfile_title">로그 파일 공유</string>
+    <string name="logfile_share_failed">공유 실패: %1$s</string>
+
+    <string name="logfile_emptied">로그 파일 비워짐</string>
+    <string name="logfile_empty_failed">로그 비우기 실패: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">SpeedAlert 서비스</string>
+    <string name="notif_channel_description">주행 중 SpeedAlert를 계속 실행합니다</string>
+
+    <string name="notif_service_running_title">SpeedAlert 실행 중</string>
+    <string name="notif_service_running_text">속도 및 제한 모니터링 중…</string>
+
+    <!-- ========================================================= -->
+    <!-- Strings added after 1.0 -->
+    <!-- ========================================================= -->
+
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">비프음 볼륨: %1$d%%</string>
+    <string name="beep_volume_test">테스트</string>
+    <string name="beep_volume_prefix">비프음 볼륨:</string>
+
+    <string name="debug_log_title">디버그 로그</string>
+    <string name="overlay_text_brightness">오버레이 텍스트 밝기</string>
+
+    <string name="speedo_size_title">오버레이 텍스트 크기</string>
+    <string name="speedo_size_smallest">가장 작게</string>
+    <string name="speedo_size_smaller">작게</string>
+    <string name="speedo_size_default">기본</string>
+    <string name="speedo_size_bigger">크게</string>
+    <string name="speedo_size_biggest">가장 크게</string>
+
+    <string name="btn_settings">설정</string>
+    <string name="settings_title">설정</string>
+
+    <string name="switch_use_mph_readme">이것을 읽어보세요!</string>
+
+    <string name="mph_info_title">km/h와 mph에 대하여</string>
+    <string name="mph_info_message">
+    SpeedAlert는 GPS 속도와 도로 제한 속도를 모두 변환할 수 있습니다.\n\n
+    • km/h 국가에서 mph를 선호하면 두 값 모두 변환됩니다.\n
+    • mph 국가에서 km/h를 선호하면 두 값 모두 변환됩니다.\n
+    • 국가 단위와 선호 단위가 같으면 변환되지 않습니다.\n\n
+    항상 선택한 단위에 맞게 표시됩니다.
+    </string>
+
+    <string name="btn_about">정보</string>
+    <string name="about_title">SpeedAlert 정보</string>
+    <string name="about_description">이 앱은 GPS와 도로 데이터를 사용하여 제한 속도를 준수하도록 도와줍니다.</string>
+
+    <string name="start_service_on_open">SpeedAlert 실행 시 서비스 시작</string>
+
+    <string name="fetch_interval_label">속도 제한 조회 간격</string>
+    <string name="min_distance_label">조회 전 최소 이동 거리</string>
+
+    <string name="fetch_interval_2s">2초 (4–8 MB/시간)</string>
+    <string name="fetch_interval_4s">4초 (2–4 MB/시간)</string>
+    <string name="fetch_interval_8s">8초 (1–2 MB/시간)</string>
+
+    <string name="min_distance_0m">0 m (항상 조회)</string>
+
+    <string name="minimize_on_start">앱 최소화</string>
+
+    <string name="update_available_title">새 버전 사용 가능</string>
+    <string name="update_available_message">새로운 버전(%1$s)이 있습니다.\n\n다운로드 페이지를 여시겠습니까?</string>
+    <string name="update_available_open">열기</string>
+    <string name="update_available_cancel">취소</string>
+
+</resources>

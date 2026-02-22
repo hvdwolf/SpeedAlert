@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
+    <string name="app_name">SpeedAlert</string>
+
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">免责声明</string>
+    <string name="disclaimer_body">
+        我不对本应用的不正确运行或不正确使用承担任何责任。
+        本应用基于 GPS 数据提供限速提醒。准确度可能因设备、环境和 GPS 信号而异。
+        请始终遵守规定（包括临时）的限速，并安全驾驶。
+    </string>
+
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
+    <string name="speed_value_placeholder">速度: --</string>
+    <string name="limit_value_placeholder">限速: --</string>
+    <string name="status_value_placeholder">状态: --</string>
+
+    <string name="speed_value">速度: %1$d km/h</string>
+    <string name="limit_value">限速: %1$d km/h</string>
+    <string name="status_value">状态: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
+    <string name="show_overlay">显示悬浮速度表</string>
+    <string name="enable_broadcast">启用媒体广播</string>
+    <string name="switch_use_mph">GPS 速度使用 mph（而非 km/h）</string>
+
+    <string name="overspeed_mode_percentage">使用百分比超速容差</string>
+    <string name="overspeed_mode_fixed">使用固定超速容差（km/h）</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="start_service">启动服务</string>
+    <string name="stop_service">停止服务</string>
+    <string name="btn_check_overlay">检查悬浮窗权限</string>
+    <string name="btn_debug_screen">调试界面</string>
+    <string name="btn_diagnostics">诊断</string>
+    <string name="btn_test_lookup">测试限速查询</string>
+
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
+    <string name="hint_latitude">纬度</string>
+    <string name="hint_longitude">经度</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mph</string>
+    <string name="overlay_limit_prefix">限速:</string>
+    <string name="overlay_no_gps">无 GPS</string>
+    <string name="overlay_no_limit">-</string>
+
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">行驶速度监控</string>
+    <string name="channel_description">在驾驶时显示当前速度和限速</string>
+
+    <string name="notif_running_title">速度监控运行中</string>
+    <string name="notif_running_text">正在更新限速…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">悬浮窗权限已授予</string>
+    <string name="overlay_permission_missing">缺少悬浮窗权限</string>
+    <string name="overlay_permission_ok">悬浮窗权限正常</string>
+
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">超速容差: %1$d%%</string>
+    <string name="overspeed_saved_percent">已保存的超速百分比: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">超速容差: %1$d km/h</string>
+    <string name="overspeed_saved_fixed">已保存的超速容差: %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">请输入有效的纬度和经度</string>
+    <string name="test_lookup_result">测试结果: %1$s（%2$f,%3$f）</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
+    <string name="gps_accuracy">GPS 精度: %1$d m</string>
+    <string name="gps_waiting">等待 GPS…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">需要悬浮窗权限</string>
+    <string name="dialog_overlay_message">SpeedAlert 需要权限以显示悬浮速度表。</string>
+    <string name="dialog_grant">允许</string>
+    <string name="dialog_cancel">取消</string>
+
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">悬浮窗权限（FYT）</string>
+    <string name="dialog_fyt_message"><![CDATA[
+    您的 FYT 车机隐藏了悬浮窗权限界面。
+
+    启用悬浮窗的方法：
+    1. 进入工厂设置
+    2. 输入密码：3368 或 8888
+    3. 找到“应用权限”或“悬浮窗应用”
+    4. 为 SpeedAlert 启用悬浮窗
+
+    如果仍然无法使用，请重启设备。
+    ]]></string>
+    <string name="dialog_ok">确定</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
+    <string name="gps_permission_granted">GPS 权限已授予</string>
+    <string name="gps_permission_denied">GPS 权限被拒绝</string>
+
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
+    <string name="btn_copy_log">复制日志</string>
+    <string name="btn_share_log">分享日志</string>
+    <string name="btn_empty_log">清空日志</string>
+
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">测试 RAW Overpass</string>
+    <string name="diag_test_web_overpass">测试 WebView Overpass</string>
+    <string name="diag_test_raw_nominatim">测试 RAW Nominatim</string>
+    <string name="diag_test_web_nominatim">测试 WebView Nominatim</string>
+    <string name="diag_show_raw_overpass">显示 RAW Overpass 响应</string>
+    <string name="diag_show_last_location">显示最后位置</string>
+    <string name="diag_show_network_type">显示网络类型</string>
+
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
+    <string name="logfile_not_exist">日志文件尚不存在</string>
+    <string name="logfile_copied">已复制到 /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copy_failed">复制失败: %1$s</string>
+
+    <string name="share_logfile_title">分享日志文件</string>
+    <string name="logfile_share_failed">分享失败: %1$s</string>
+
+    <string name="logfile_emptied">日志文件已清空</string>
+    <string name="logfile_empty_failed">清空日志失败: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">SpeedAlert 服务</string>
+    <string name="notif_channel_description">驾驶时保持 SpeedAlert 运行</string>
+
+    <string name="notif_service_running_title">SpeedAlert 运行中</string>
+    <string name="notif_service_running_text">正在监控速度和限速…</string>
+
+    <!-- ========================================================= -->
+    <!-- Strings added after 1.0 -->
+    <!-- ========================================================= -->
+
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">提示音音量: %1$d%%</string>
+    <string name="beep_volume_test">测试</string>
+    <string name="beep_volume_prefix">提示音音量:</string>
+
+    <string name="debug_log_title">调试日志</string>
+    <string name="overlay_text_brightness">悬浮文字亮度</string>
+
+    <string name="speedo_size_title">悬浮文字大小</string>
+    <string name="speedo_size_smallest">最小</string>
+    <string name="speedo_size_smaller">较小</string>
+    <string name="speedo_size_default">默认</string>
+    <string name="speedo_size_bigger">较大</string>
+    <string name="speedo_size_biggest">最大</string>
+
+    <string name="btn_settings">设置</string>
+    <string name="settings_title">设置</string>
+
+    <string name="switch_use_mph_readme">请阅读！</string>
+
+    <string name="mph_info_title">关于 km/h 与 mph</string>
+    <string name="mph_info_message">
+    SpeedAlert 可转换 GPS 速度和道路限速。\n\n
+    • 如果您在 km/h 国家但偏好 mph，两者都会转换。\n
+    • 如果您在 mph 国家但偏好 km/h，两者都会转换。\n
+    • 如果偏好与国家单位一致，则不会转换。\n\n
+    这样可确保显示内容始终符合您选择的单位。
+    </string>
+
+    <string name="btn_about">关于</string>
+    <string name="about_title">关于 SpeedAlert</string>
+    <string name="about_description">本应用通过 GPS 和道路数据帮助您遵守限速。</string>
+
+    <string name="start_service_on_open">打开 SpeedAlert 时启动服务</string>
+
+    <string name="fetch_interval_label">限速查询间隔</string>
+    <string name="min_distance_label">查询前的最小移动距离</string>
+
+    <string name="fetch_interval_2s">2 秒（4–8 MB/小时）</string>
+    <string name="fetch_interval_4s">4 秒（2–4 MB/小时）</string>
+    <string name="fetch_interval_8s">8 秒（1–2 MB/小时）</string>
+
+    <string name="min_distance_0m">0 m（始终查询）</string>
+
+    <string name="minimize_on_start">启动时最小化应用</string>
+
+    <string name="update_available_title">有新版本可用</string>
+    <string name="update_available_message">有可用的新版本 (%1$s)。\n\n是否打开下载页面？</string>
+    <string name="update_available_open">打开</string>
+    <string name="update_available_cancel">取消</string>
+
+</resources>
