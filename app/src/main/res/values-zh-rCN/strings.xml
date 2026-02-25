@@ -228,4 +228,6 @@
     <string name="update_available_open">打开</string>
     <string name="update_available_cancel">取消</string>
 
+    <string name="use_country_fallback">当没有 maxspeed 标签时使用国家默认限速</string>
+
 </resources>

@@ -219,4 +219,6 @@
     <string name="update_available_open">Öffnen</string>
     <string name="update_available_cancel">Abbrechen</string>
 
+    <string name="use_country_fallback">Länderspezifische Standardgeschwindigkeiten verwenden, wenn kein maxspeed‑Tag vorhanden ist</string>
+
 </resources>

@@ -228,4 +228,6 @@
     <string name="update_available_open">열기</string>
     <string name="update_available_cancel">취소</string>
 
+    <string name="use_country_fallback">maxspeed 태그가 없을 때 국가 기본 속도를 사용</string>
+
 </resources>

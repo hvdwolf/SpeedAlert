@@ -231,4 +231,6 @@
     <string name="update_available_open">Apri</string>
     <string name="update_available_cancel">Annulla</string>
 
+    <string name="use_country_fallback">Usa la velocità predefinita del paese quando manca il tag maxspeed</string>
+
 </resources>

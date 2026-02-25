@@ -325,6 +325,19 @@ class DrivingService : Service() {
                 if (fetched.limitKmh > 0) {
                     lastLimit = fetched
                 } else {
+                    // No valid speed limit from Overpass/Nominatim
+                    // Decide whether to apply fallback or not
+                    if (!settings.useCountryFallback()) {
+                        log("Fallback disabled — no speed limit available")
+                        lastLimit = SpeedLimitResult(
+                            speedKmh = -1,
+                            limitKmh = -1,
+                            source = "nofallback"
+                        )
+                        return@launch
+                    }
+
+                    // Fallback enabled → use your existing logic
                     log("Service: no valid speed limit — applying fallback")
 
                     val country = getCountryCode(lat, lon)

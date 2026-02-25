@@ -231,4 +231,6 @@
     <string name="update_available_open">Openen</string>
     <string name="update_available_cancel">Annuleren</string>
 
+    <string name="use_country_fallback">Landspecifieke standaardsnelheden gebruiken wanneer geen maxspeed‑tag aanwezig is</string>
+
 </resources>

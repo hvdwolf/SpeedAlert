@@ -231,4 +231,6 @@
     <string name="update_available_open">Ouvrir</string>
     <string name="update_available_cancel">Annuler</string>
 
+    <string name="use_country_fallback">Utiliser la vitesse par défaut du pays lorsqu’aucune étiquette maxspeed n’est présente</string>
+
 </resources>

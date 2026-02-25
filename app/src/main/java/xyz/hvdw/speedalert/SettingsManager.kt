@@ -52,6 +52,15 @@ class SettingsManager(context: Context) {
         prefs.edit().putInt("overspeed_fixed_kmh", v).apply()
     }
 
+    fun useCountryFallback(): Boolean {
+        return prefs.getBoolean("swuse_country_fallback", true)
+    }
+
+    fun setUseCountryFallback(value: Boolean) {
+        prefs.edit().putBoolean("swuse_country_fallback", value).apply()
+    }
+
+
     // ---------------------------------------------------------
     // BROADCAST
     // ---------------------------------------------------------

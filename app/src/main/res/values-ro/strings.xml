@@ -231,4 +231,6 @@
    <string name="update_available_open">Deschide</string>
    <string name="update_available_cancel">Anulează</string>
 
+   <string name="use_country_fallback">Folosește viteza implicită a țării când lipsește eticheta maxspeed</string>
+
 </resources>

@@ -225,4 +225,6 @@
     <string name="update_available_open">Abrir</string>
     <string name="update_available_cancel">Cancelar</string>
 
+    <string name="use_country_fallback">Usar a velocidade padrão do país quando não existir etiqueta maxspeed</string>
+
 </resources>

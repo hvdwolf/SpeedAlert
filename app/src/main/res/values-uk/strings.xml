@@ -222,4 +222,6 @@
     <string name="update_available_open">Відкрити</string>
     <string name="update_available_cancel">Скасувати</string>
 
+    <string name="use_country_fallback">Використовувати стандартну швидкість країни, якщо відсутній тег maxspeed</string>
+
 </resources>

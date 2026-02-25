@@ -227,4 +227,6 @@
     <string name="update_available_open">Open</string>
     <string name="update_available_cancel">Cancel</string>
 
+    <string name="use_country_fallback">Use country fallback speeds when no maxspeed tag</string>
+
 </resources>

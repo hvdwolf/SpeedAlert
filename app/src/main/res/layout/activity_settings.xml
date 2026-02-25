@@ -101,6 +101,13 @@
                 android:max="30"
                 android:progress="5" />
         </LinearLayout>
+        <Switch
+            android:id="@+id/swuse_country_fallback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/use_country_fallback" />
+
+
 
         <!-- BEEP VOLUME -->
         <LinearLayout
