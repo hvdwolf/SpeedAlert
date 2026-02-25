@@ -233,4 +233,7 @@
 
     <string name="use_country_fallback">Landspecifieke standaardsnelheden gebruiken wanneer geen maxspeed‑tag aanwezig is</string>
 
+    <string name="use_sign_overlay">Snelheidsweergave in verkeersbord‑stijl gebruiken</string>
+    <string name="use_text_overlay">Tekstuele snelheidsweergave gebruiken</string>
+
 </resources>

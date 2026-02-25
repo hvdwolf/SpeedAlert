@@ -230,4 +230,7 @@
 
     <string name="use_country_fallback">maxspeed 태그가 없을 때 국가 기본 속도를 사용</string>
 
+    <string name="use_sign_overlay">도로 표지판 스타일 속도 표시 사용</string>
+    <string name="use_text_overlay">텍스트 형식 속도 표시 사용</string>
+
 </resources>

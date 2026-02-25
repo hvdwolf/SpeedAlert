@@ -229,4 +229,8 @@
 
     <string name="use_country_fallback">Use country fallback speeds when no maxspeed tag</string>
 
+    <string name="use_sign_overlay">Use road‑sign style speed overlay</string>
+    <string name="use_text_overlay">Use textual speed overlay</string>
+
+
 </resources>

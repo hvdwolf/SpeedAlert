@@ -417,7 +417,12 @@ class DrivingService : Service() {
             lastBeepTime = 0L
         }
 
-        speedometer?.updateSpeed(lastSpeed, limit, overspeed)
+        if (settings.useSignOverlay()) {
+            speedometer?.updateSpeedSignMode(lastSpeed, limit, overspeed)
+        } else {
+            speedometer?.updateSpeedTextMode(lastSpeed, limit, overspeed)
+        }
+
     }
 
     // ---------------------------------------------------------

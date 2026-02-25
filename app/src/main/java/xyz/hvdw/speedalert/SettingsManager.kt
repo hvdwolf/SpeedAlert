@@ -17,6 +17,14 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("show_speedometer", v).apply()
     }
 
+    fun useSignOverlay(): Boolean {
+        return prefs.getBoolean("use_sign_overlay", false)
+    }
+
+    fun setUseSignOverlay(value: Boolean) {
+        prefs.edit().putBoolean("use_sign_overlay", value).apply()
+    }
+
     fun setMinimizeOnStart(value: Boolean) {
         prefs.edit().putBoolean("minimize_on_start", value).apply()
     }

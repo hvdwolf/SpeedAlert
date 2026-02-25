@@ -233,4 +233,7 @@
 
    <string name="use_country_fallback">Folosește viteza implicită a țării când lipsește eticheta maxspeed</string>
 
+   <string name="use_sign_overlay">Folosește afișarea vitezei în stil semn rutier</string>
+   <string name="use_text_overlay">Folosește afișarea vitezei în format text</string>
+
 </resources>

@@ -233,4 +233,7 @@
 
     <string name="use_country_fallback">Użyj domyślnej prędkości kraju, gdy brak tagu maxspeed</string>
 
+    <string name="use_sign_overlay">Użyj wyświetlania prędkości w stylu znaku drogowego</string>
+    <string name="use_text_overlay">Użyj tekstowego wyświetlania prędkości</string>
+
 </resources>

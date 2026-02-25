@@ -227,4 +227,7 @@
 
     <string name="use_country_fallback">Usar a velocidade padrão do país quando não existir etiqueta maxspeed</string>
 
+    <string name="use_sign_overlay">Usar visualização de velocidade em estilo de sinal rodoviário</string>
+    <string name="use_text_overlay">Usar visualização de velocidade em formato textual</string>
+
 </resources>

@@ -233,4 +233,7 @@
 
     <string name="use_country_fallback">Utiliser la vitesse par défaut du pays lorsqu’aucune étiquette maxspeed n’est présente</string>
 
+    <string name="use_sign_overlay">Utiliser l’affichage de vitesse en style panneau routier</string>
+    <string name="use_text_overlay">Utiliser l’affichage de vitesse textuel</string>
+
 </resources>

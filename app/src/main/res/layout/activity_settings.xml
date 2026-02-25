@@ -17,6 +17,14 @@
             android:text="@string/show_overlay"
             android:layout_marginBottom="12dp" />
 
+        <Switch
+            android:id="@+id/switchSignOverlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/use_sign_overlay"
+            android:layout_marginBottom="12dp" />
+
+
         <!-- AUTO START SERVICE AND OPTINALLY MINIMIZE -->
         <LinearLayout
             android:layout_width="match_parent"

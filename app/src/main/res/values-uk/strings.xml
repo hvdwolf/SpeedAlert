@@ -224,4 +224,7 @@
 
     <string name="use_country_fallback">Використовувати стандартну швидкість країни, якщо відсутній тег maxspeed</string>
 
+    <string name="use_sign_overlay">Використовувати відображення швидкості у стилі дорожнього знака</string>
+    <string name="use_text_overlay">Використовувати текстове відображення швидкості</string>
+
 </resources>

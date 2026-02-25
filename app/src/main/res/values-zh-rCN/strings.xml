@@ -230,4 +230,7 @@
 
     <string name="use_country_fallback">当没有 maxspeed 标签时使用国家默认限速</string>
 
+    <string name="use_sign_overlay">使用道路标志样式的速度显示</string>
+    <string name="use_text_overlay">使用文字形式的速度显示</string>
+
 </resources>

@@ -23,6 +23,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var seekBrightness: SeekBar
     private lateinit var seekSpeedoSize: SeekBar
     private lateinit var txtSpeedoSizeValue: TextView
+    private lateinit var switchSign: Switch
 
     private lateinit var spinnerFetchInterval: Spinner
     private lateinit var spinnerMinDistance: Spinner
@@ -82,6 +83,7 @@ class SettingsActivity : AppCompatActivity() {
         seekSpeedoSize = findViewById(R.id.seekSpeedoSize)
         txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
         swUseMph = findViewById(R.id.swUseMph)
+        switchSign = findViewById<Switch>(R.id.switchSignOverlay)
 
         spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)
         spinnerMinDistance = findViewById(R.id.spinnerMinDistance)
@@ -103,6 +105,11 @@ class SettingsActivity : AppCompatActivity() {
         swShowOverlay.isChecked = settings.getShowSpeedometer()
         swShowOverlay.setOnCheckedChangeListener { _, checked ->
             settings.setShowSpeedometer(checked)
+        }
+
+        switchSign.isChecked = settings.useSignOverlay()
+        switchSign.setOnCheckedChangeListener { _, isChecked ->
+            settings.setUseSignOverlay(isChecked)
         }
 
         // ---------------------------------------------------------

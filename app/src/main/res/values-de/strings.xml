@@ -221,4 +221,7 @@
 
     <string name="use_country_fallback">Länderspezifische Standardgeschwindigkeiten verwenden, wenn kein maxspeed‑Tag vorhanden ist</string>
 
+    <string name="use_sign_overlay">Straßenschild‑Stil für Geschwindigkeitsanzeige verwenden</string>
+    <string name="use_text_overlay">Textuelle Geschwindigkeitsanzeige verwenden</string>
+
 </resources>

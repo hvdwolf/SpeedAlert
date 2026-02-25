@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.TextView
 import kotlin.math.max
 
@@ -30,8 +31,14 @@ class FloatingSpeedometer(
         context.getSharedPreferences("settings", Context.MODE_PRIVATE)
     }
 
+    // Text mode views
     private var txtSpeed: TextView? = null
     private var txtLimit: TextView? = null
+
+    // Sign mode views
+    private var imgLimitSign: ImageView? = null
+    private var txtLimitSign: TextView? = null
+    private var txtSpeedSign: TextView? = null
 
     // Drag helpers
     private var initialX = 0
@@ -43,12 +50,21 @@ class FloatingSpeedometer(
         if (view != null) return
 
         windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-
         val inflater = LayoutInflater.from(context)
-        view = inflater.inflate(R.layout.overlay_speedometer, null)
 
-        txtSpeed = view!!.findViewById(R.id.txtOverlaySpeed)
-        txtLimit = view!!.findViewById(R.id.txtOverlayLimit)
+        // Inflate correct layout based on setting
+        view = if (settings.useSignOverlay()) {
+            inflater.inflate(R.layout.overlay_speed_sign, null).also { v ->
+                imgLimitSign = v.findViewById(R.id.imgLimitSign)
+                txtLimitSign = v.findViewById(R.id.txtLimitSign)
+                txtSpeedSign = v.findViewById(R.id.txtSpeedSign)
+            }
+        } else {
+            inflater.inflate(R.layout.overlay_speedometer, null).also { v ->
+                txtSpeed = v.findViewById(R.id.txtOverlaySpeed)
+                txtLimit = v.findViewById(R.id.txtOverlayLimit)
+            }
+        }
 
         applyTextScaling()
 
@@ -64,12 +80,10 @@ class FloatingSpeedometer(
         )
 
         params.gravity = Gravity.TOP or Gravity.START
-
         params.x = max(0, settings.getOverlayX())
         params.y = max(0, settings.getOverlayY())
 
         addDragSupport(view!!)
-
         windowManager?.addView(view, params)
     }
 
@@ -110,38 +124,27 @@ class FloatingSpeedometer(
         }
     }
 
-    fun updateSpeed(speed: Int, limit: Int, overspeed: Boolean) {
+    // ---------------------------------------------------------
+    // TEXT MODE (your existing logic)
+    // ---------------------------------------------------------
+    fun updateSpeedTextMode(speed: Int, limit: Int, overspeed: Boolean) {
         lastSpeed = speed
         lastLimit = limit
         lastOverspeed = overspeed
 
-        // -----------------------------
-        // UNIT LABEL (based on user preference)
-        // -----------------------------
         val unit = settings.displayUnit()
-
         val limitPrefix = context.getString(R.string.overlay_limit_prefix)
         val noLimit = context.getString(R.string.overlay_no_limit)
 
-        // -----------------------------
-        // GPS SPEED (converted if needed)
-        // -----------------------------
         val displaySpeed = settings.convertSpeed(speed)
         txtSpeed?.text = "$displaySpeed $unit"
 
-        // -----------------------------
-        // ROAD LIMIT (converted if needed)
-        // -----------------------------
         val displayLimit = settings.convertSpeed(limit)
-
         txtLimit?.text = if (limit > 0)
             "$limitPrefix $displayLimit $unit"
         else
             noLimit
 
-        // -----------------------------
-        // COLORING
-        // -----------------------------
         val normalColor = context.getColor(R.color.speed_text_day)
         val nightColor = context.getColor(R.color.speed_text_night)
         val baseColor = if (isNightMode()) nightColor else normalColor
@@ -158,15 +161,62 @@ class FloatingSpeedometer(
         }
     }
 
+    // ---------------------------------------------------------
+    // SIGN MODE (new)
+    // ---------------------------------------------------------
+    fun updateSpeedSignMode(speed: Int, limit: Int, overspeed: Boolean) {
+        lastSpeed = speed
+        lastLimit = limit
+        lastOverspeed = overspeed
+
+        val unit = settings.displayUnit()
+        val displaySpeed = settings.convertSpeed(speed)
+        txtSpeedSign?.text = "$displaySpeed $unit"
+
+        val displayLimit = settings.convertSpeed(limit)
+
+        if (limit > 0) {
+            imgLimitSign?.setImageResource(R.drawable.speed_sign_background)
+            txtLimitSign?.text = displayLimit.toString()
+        } else {
+            imgLimitSign?.setImageResource(R.drawable.speed_sign_empty)
+            txtLimitSign?.text = ""
+        }
+
+        val normalColor = context.getColor(R.color.speed_text_day)
+        val nightColor = context.getColor(R.color.speed_text_night)
+        val baseColor = if (isNightMode()) nightColor else normalColor
+
+        val brightness = prefs.getInt("speedo_brightness", 100)
+        val finalColor = applyBrightness(baseColor, brightness)
+
+        if (overspeed) {
+            txtSpeedSign?.setTextColor(0xFFFF4444.toInt())
+            txtLimitSign?.setTextColor(0xFFCC0000.toInt())
+        } else {
+            txtSpeedSign?.setTextColor(finalColor)
+            txtLimitSign?.setTextColor(Color.BLACK)
+        }
+    }
+
     fun showNoGps() {
         val unit = settings.displayUnit()
         val noGps = context.getString(R.string.overlay_no_gps)
 
-        txtSpeed?.text = "-- $unit"
-        txtLimit?.text = noGps
+        if (settings.useSignOverlay()) {
+            txtSpeedSign?.text = "-- $unit"
+            txtLimitSign?.text = ""
+            imgLimitSign?.setImageResource(R.drawable.speed_sign_empty)
 
-        txtSpeed?.setTextColor(0xFFFFAA00.toInt())
-        txtLimit?.setTextColor(0xFFFFAA00.toInt())
+            txtSpeedSign?.setTextColor(0xFFFFAA00.toInt())
+            txtLimitSign?.setTextColor(0xFFFFAA00.toInt())
+        } else {
+            txtSpeed?.text = "-- $unit"
+            txtLimit?.text = noGps
+
+            txtSpeed?.setTextColor(0xFFFFAA00.toInt())
+            txtLimit?.setTextColor(0xFFFFAA00.toInt())
+        }
     }
 
     private fun isNightMode(): Boolean {
@@ -183,12 +233,13 @@ class FloatingSpeedometer(
     }
 
     fun updateBrightness() {
-        updateSpeed(lastSpeed, lastLimit, lastOverspeed)
+        if (settings.useSignOverlay()) {
+            updateSpeedSignMode(lastSpeed, lastLimit, lastOverspeed)
+        } else {
+            updateSpeedTextMode(lastSpeed, lastLimit, lastOverspeed)
+        }
     }
 
-    // -----------------------------
-    // TEXT SCALING
-    // -----------------------------
     private fun applyTextScaling() {
         val scale = prefs.getFloat("overlay_text_scale", 1.0f)
 
@@ -197,5 +248,8 @@ class FloatingSpeedometer(
 
         txtSpeed?.textSize = baseSpeed * scale
         txtLimit?.textSize = baseLimit * scale
+
+        txtSpeedSign?.textSize = baseSpeed * scale
+        txtLimitSign?.textSize = baseLimit * scale
     }
 }
