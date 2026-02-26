@@ -233,4 +233,6 @@
     <string name="use_sign_overlay">使用道路标志样式的速度显示</string>
     <string name="use_text_overlay">使用文字形式的速度显示</string>
 
+    <string name="hide_current_speed">不显示当前速度</string>
+
 </resources>

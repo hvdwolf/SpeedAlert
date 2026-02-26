@@ -17,13 +17,28 @@
             android:text="@string/show_overlay"
             android:layout_marginBottom="12dp" />
 
-        <Switch
-            android:id="@+id/switchSignOverlay"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layoutSignOverlay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/use_sign_overlay"
-            android:layout_marginBottom="12dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
+            <Switch
+                android:id="@+id/switchSignOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_sign_overlay" />
+
+            <Switch
+                android:id="@+id/switchHideCurrentSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hide_current_speed"
+                android:layout_marginStart="30dp"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <!-- AUTO START SERVICE AND OPTINALLY MINIMIZE -->
         <LinearLayout

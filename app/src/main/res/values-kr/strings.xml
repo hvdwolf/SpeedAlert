@@ -233,4 +233,6 @@
     <string name="use_sign_overlay">도로 표지판 스타일 속도 표시 사용</string>
     <string name="use_text_overlay">텍스트 형식 속도 표시 사용</string>
 
+    <string name="hide_current_speed">현재 속도를 표시하지 않기</string>
+
 </resources>

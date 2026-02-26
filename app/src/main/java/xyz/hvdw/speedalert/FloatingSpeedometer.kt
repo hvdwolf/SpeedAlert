@@ -171,7 +171,13 @@ class FloatingSpeedometer(
 
         val unit = settings.displayUnit()
         val displaySpeed = settings.convertSpeed(speed)
-        txtSpeedSign?.text = "$displaySpeed $unit"
+        if (settings.hideCurrentSpeed()) {
+            txtSpeedSign?.visibility = View.GONE
+        } else {
+            txtSpeedSign?.visibility = View.VISIBLE
+            txtSpeedSign?.text = "$displaySpeed $unit"
+        }
+
 
         val displayLimit = settings.convertSpeed(limit)
 
@@ -204,13 +210,23 @@ class FloatingSpeedometer(
         val noGps = context.getString(R.string.overlay_no_gps)
 
         if (settings.useSignOverlay()) {
-            txtSpeedSign?.text = "-- $unit"
+
+            // LIMIT SIGN
             txtLimitSign?.text = ""
             imgLimitSign?.setImageResource(R.drawable.speed_sign_empty)
-
-            txtSpeedSign?.setTextColor(0xFFFFAA00.toInt())
             txtLimitSign?.setTextColor(0xFFFFAA00.toInt())
+
+            // CURRENT SPEED (may be hidden)
+            if (settings.hideCurrentSpeed()) {
+                txtSpeedSign?.visibility = View.GONE
+            } else {
+                txtSpeedSign?.visibility = View.VISIBLE
+                txtSpeedSign?.text = "-- $unit"
+                txtSpeedSign?.setTextColor(0xFFFFAA00.toInt())
+            }
+
         } else {
+            // TEXT MODE (unchanged)
             txtSpeed?.text = "-- $unit"
             txtLimit?.text = noGps
 
@@ -246,7 +262,9 @@ class FloatingSpeedometer(
         val baseSpeed = 28f
         val baseLimit = 18f
 
-        txtSpeed?.textSize = baseSpeed * scale
+        if (!settings.hideCurrentSpeed()) {
+            txtSpeedSign?.textSize = baseSpeed * scale
+        }
         txtLimit?.textSize = baseLimit * scale
 
         txtSpeedSign?.textSize = baseSpeed * scale

@@ -236,4 +236,6 @@
    <string name="use_sign_overlay">Folosește afișarea vitezei în stil semn rutier</string>
    <string name="use_text_overlay">Folosește afișarea vitezei în format text</string>
 
+   <string name="hide_current_speed">Nu afișa viteza curentă</string>
+
 </resources>

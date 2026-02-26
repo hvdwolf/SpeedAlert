@@ -230,4 +230,6 @@
     <string name="use_sign_overlay">Usar visualização de velocidade em estilo de sinal rodoviário</string>
     <string name="use_text_overlay">Usar visualização de velocidade em formato textual</string>
 
+    <string name="hide_current_speed">Não mostrar a velocidade atual</string>
+
 </resources>

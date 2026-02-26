@@ -232,5 +232,7 @@
     <string name="use_sign_overlay">Use road‑sign style speed overlay</string>
     <string name="use_text_overlay">Use textual speed overlay</string>
 
+    <string name="hide_current_speed">Don’t show current speed</string>
+
 
 </resources>

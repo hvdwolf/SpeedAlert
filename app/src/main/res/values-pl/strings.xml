@@ -236,4 +236,6 @@
     <string name="use_sign_overlay">Użyj wyświetlania prędkości w stylu znaku drogowego</string>
     <string name="use_text_overlay">Użyj tekstowego wyświetlania prędkości</string>
 
+    <string name="hide_current_speed">Nie pokazuj aktualnej prędkości</string>
+
 </resources>

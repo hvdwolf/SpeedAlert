@@ -236,4 +236,6 @@
     <string name="use_sign_overlay">Utiliser l’affichage de vitesse en style panneau routier</string>
     <string name="use_text_overlay">Utiliser l’affichage de vitesse textuel</string>
 
+    <string name="hide_current_speed">Ne pas afficher la vitesse actuelle</string>
+
 </resources>

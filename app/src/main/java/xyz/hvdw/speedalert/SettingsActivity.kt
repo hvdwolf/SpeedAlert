@@ -24,6 +24,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var seekSpeedoSize: SeekBar
     private lateinit var txtSpeedoSizeValue: TextView
     private lateinit var switchSign: Switch
+    private lateinit var switchHideCurrentSpeed: Switch
 
     private lateinit var spinnerFetchInterval: Spinner
     private lateinit var spinnerMinDistance: Spinner
@@ -84,6 +85,7 @@ class SettingsActivity : AppCompatActivity() {
         txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
         swUseMph = findViewById(R.id.swUseMph)
         switchSign = findViewById<Switch>(R.id.switchSignOverlay)
+        switchHideCurrentSpeed = findViewById(R.id.switchHideCurrentSpeed)
 
         spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)
         spinnerMinDistance = findViewById(R.id.spinnerMinDistance)
@@ -108,9 +110,17 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         switchSign.isChecked = settings.useSignOverlay()
+        switchHideCurrentSpeed.visibility =
+            if (settings.useSignOverlay()) View.VISIBLE else View.GONE
         switchSign.setOnCheckedChangeListener { _, isChecked ->
             settings.setUseSignOverlay(isChecked)
         }
+
+        switchHideCurrentSpeed.isChecked = settings.hideCurrentSpeed()
+        switchHideCurrentSpeed.setOnCheckedChangeListener { _, isChecked ->
+            settings.setHideCurrentSpeed(isChecked)
+        }
+
 
         // ---------------------------------------------------------
         // AUTO START + MINIMIZE

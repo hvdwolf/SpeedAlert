@@ -227,4 +227,6 @@
     <string name="use_sign_overlay">Використовувати відображення швидкості у стилі дорожнього знака</string>
     <string name="use_text_overlay">Використовувати текстове відображення швидкості</string>
 
+    <string name="hide_current_speed">Не показувати поточну швидкість</string>
+
 </resources>

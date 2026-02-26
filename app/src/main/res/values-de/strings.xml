@@ -223,5 +223,7 @@
 
     <string name="use_sign_overlay">Straßenschild‑Stil für Geschwindigkeitsanzeige verwenden</string>
     <string name="use_text_overlay">Textuelle Geschwindigkeitsanzeige verwenden</string>
+    
+    <string name="hide_current_speed">Aktuelle Geschwindigkeit nicht anzeigen</string>
 
 </resources>

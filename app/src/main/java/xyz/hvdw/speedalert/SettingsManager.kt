@@ -25,6 +25,14 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("use_sign_overlay", value).apply()
     }
 
+    fun hideCurrentSpeed(): Boolean {
+        return prefs.getBoolean("hide_current_speed", false)
+    }
+
+    fun setHideCurrentSpeed(value: Boolean) {
+        prefs.edit().putBoolean("hide_current_speed", value).apply()
+    }
+
     fun setMinimizeOnStart(value: Boolean) {
         prefs.edit().putBoolean("minimize_on_start", value).apply()
     }

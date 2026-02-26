@@ -236,4 +236,6 @@
     <string name="use_sign_overlay">Использовать отображение скорости в виде дорожного знака</string>
     <string name="use_text_overlay">Использовать текстовое отображение скорости</string>
 
+    <string name="hide_current_speed">Не показывать текущую скорость</string>
+
 </resources>

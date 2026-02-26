@@ -236,4 +236,6 @@
     <string name="use_sign_overlay">Snelheidsweergave in verkeersbord‑stijl gebruiken</string>
     <string name="use_text_overlay">Tekstuele snelheidsweergave gebruiken</string>
 
+    <string name="hide_current_speed">Huidige snelheid niet tonen</string>
+
 </resources>
