@@ -1,6 +1,6 @@
 **Changelog 1.8 (01 Mar 2026)**
 
-- Make country fallback speeds an option: Currently if the app can't get a max speed tag for the road, it will use a country fallback (city/urban, rural, divided and motorway). That sometimes gives weird max. speeds. Sometimes too high, sometimes too low. The latter is of course undesirable.  In some countries it might be better not to use them -> so make it an option.
+- Make country fallback speeds an option: Currently if the app can't get a max speed tag for the road, it will use a country fallback (city/urban, rural, divided and motorway). That sometimes gives weird max. speeds. Sometimes too high, sometimes too low. The first is of course undesirable as you might get a ticket for overspeeding.  In some countries it might be better not to use them -> so make it an option.
 - Add option for a road sign speed limit.<br>![speedsign_night](./images/Speedsign_night.jpg)
 - When the option for road sign has been chosen, a second option appears to only show the speed sign and not the current speed.<br>![setting speedsign only](./images/Setting_speedsign_only.png)<br>![speedsign only](images/SpeedSign_only.png)
 
