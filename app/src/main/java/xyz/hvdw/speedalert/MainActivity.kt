@@ -16,6 +16,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import java.net.URL
+import java.net.HttpURLConnection
+import org.json.JSONObject
+import android.util.Log
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -313,16 +318,22 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun checkForNewVersion() {
+   private fun checkForNewVersion() {
         Thread {
             try {
-                val url = java.net.URL("https://api.github.com/repos/hvdwolf/SpeedAlert/releases/latest")
-                val conn = url.openConnection() as java.net.HttpURLConnection
+                val url = URL("https://api.github.com/repos/hvdwolf/SpeedAlert/releases/latest")
+                val conn = url.openConnection() as HttpURLConnection
                 conn.connectTimeout = 5000
                 conn.readTimeout = 5000
+                conn.setRequestProperty("User-Agent", "SpeedAlert")
 
                 val json = conn.inputStream.bufferedReader().readText()
-                val obj = org.json.JSONObject(json)
+                val obj = JSONObject(json)
+
+                if (!obj.has("tag_name")) {
+                    Log.e("UpdateCheck", "GitHub response missing tag_name: $json")
+                    return@Thread
+                }
 
                 val latestTag = obj.getString("tag_name").trim()
                 val latestClean = latestTag.removePrefix("v").removePrefix("V")
@@ -336,10 +347,52 @@ class MainActivity : AppCompatActivity() {
                 }
 
             } catch (e: Exception) {
-                // ignore
+                Log.e("UpdateCheck", "Failed to check update", e)
             }
         }.start()
     }
+
+/*    private fun checkForNewVersion() {
+        Thread {
+            try {
+                val url = URL("https://github.com/hvdwolf/SpeedAlert/releases/latest")
+                val conn = url.openConnection() as HttpURLConnection
+                conn.instanceFollowRedirects = false
+                conn.connectTimeout = 5000
+                conn.readTimeout = 5000
+                conn.setRequestProperty("User-Agent", "SpeedAlert")
+
+                val redirect = conn.getHeaderField("Location")
+
+                if (redirect == null) {
+                    Log.e("UpdateCheck", "No redirect received from GitHub")
+                    return@Thread
+                }
+
+                // Extract tag from redirect URL
+                val tag = redirect.substringAfterLast("/tag/").trim()
+                val latestClean = tag.removePrefix("v").removePrefix("V")
+
+                val currentVersion = BuildConfig.VERSION_NAME.trim()
+
+                Log.e("UpdateCheck", "Redirect URL = $redirect")
+                Log.e("UpdateCheck", "Latest version = '$latestClean'")
+                Log.e("UpdateCheck", "Current version = '${BuildConfig.VERSION_NAME}'")
+
+
+                if (isNewerVersion(latestClean, currentVersion)) {
+                    runOnUiThread {
+                        showUpdateDialog(latestClean)
+                    }
+                }
+                Log.e("UpdateCheck", "isNewerVersion = ${isNewerVersion(latestClean, currentVersion)}")
+
+            } catch (e: Exception) {
+                Log.e("UpdateCheck", "Failed to check update", e)
+            }
+        }.start()
+    }
+*/
 
 
     private fun isNewerVersion(latest: String, current: String): Boolean {
