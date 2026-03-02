@@ -1,3 +1,11 @@
+**Changelog 1.8.1 (02 Mar 2026)**
+
+- Fix regression bug in kmh/mph.
+- Fallback speeds GB/US on file are in mph, but considered by the code as kmh and therefore converted incorrectly to mph (which is not necessary). Convert GB/US to kmh  and make file "kmh only" and do indeed convert to mph, as that's so much simpler for only 2 countries than adapting the code and giving all 27 fallbacks (currently) an identifier.
+- Fix  "dead" switch for "Use country fallback speed when no maxspeed tag". Switch listener was missing.
+- Debug screen updates far too often. Use buffering and "once per second" gui writing to prevent ANRs (Application Not Responding)
+
+
 **Changelog 1.8 (01 Mar 2026)**
 
 - Make country fallback speeds an option: Currently if the app can't get a max speed tag for the road, it will use a country fallback (city/urban, rural, divided and motorway). That sometimes gives weird max. speeds. Sometimes too high, sometimes too low. The first is of course undesirable as you might get a ticket for overspeeding.  In some countries it might be better not to use them -> so make it an option.
