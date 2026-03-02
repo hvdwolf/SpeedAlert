@@ -22,6 +22,9 @@ class DebugActivity : AppCompatActivity() {
     private lateinit var txtDebugFull: TextView
     private lateinit var scrollDebugFull: ScrollView
 
+    private val logBuffer = StringBuilder()
+    private var lastUiUpdate = 0L
+
     private val debugReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val msg = intent?.getStringExtra("msg") ?: return
@@ -106,8 +109,21 @@ class DebugActivity : AppCompatActivity() {
     }
 
     private fun append(msg: String) {
-        txtDebugFull.append(msg + "\n")
-        scrollDebugFull.post { scrollDebugFull.fullScroll(ScrollView.FOCUS_DOWN) }
+        // Add to buffer
+        logBuffer.append(msg).append('\n')
+
+        // Throttle UI updates to once per second
+        val now = System.currentTimeMillis()
+        if (now - lastUiUpdate < 1000) return
+        lastUiUpdate = now
+
+        // Push buffered text to UI
+        txtDebugFull.text = logBuffer.toString()
+
+        // Scroll down
+        scrollDebugFull.post {
+            scrollDebugFull.fullScroll(ScrollView.FOCUS_DOWN)
+        }
     }
 
 
