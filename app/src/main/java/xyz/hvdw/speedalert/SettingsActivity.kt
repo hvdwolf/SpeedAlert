@@ -25,6 +25,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var txtSpeedoSizeValue: TextView
     private lateinit var switchSign: Switch
     private lateinit var switchHideCurrentSpeed: Switch
+    private lateinit var swUseCountryFallback: Switch
 
     private lateinit var spinnerFetchInterval: Spinner
     private lateinit var spinnerMinDistance: Spinner
@@ -100,6 +101,13 @@ class SettingsActivity : AppCompatActivity() {
                 .setPositiveButton("OK", null)
                 .show()
         }
+
+        swUseCountryFallback = findViewById(R.id.swUseCountryFallback)
+        swUseCountryFallback.isChecked = settings.useCountryFallback()
+        swUseCountryFallback.setOnCheckedChangeListener { _, checked ->
+            settings.setUseCountryFallback(checked)
+        }
+
 
         // ---------------------------------------------------------
         // SHOW OVERLAY

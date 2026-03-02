@@ -68,6 +68,9 @@ class SettingsManager(context: Context) {
         prefs.edit().putInt("overspeed_fixed_kmh", v).apply()
     }
 
+    // ---------------------------------------------------------
+    // Does the user want country fallback speeds?
+    // ---------------------------------------------------------
     fun useCountryFallback(): Boolean {
         return prefs.getBoolean("swuse_country_fallback", true)
     }
@@ -180,6 +183,7 @@ class SettingsManager(context: Context) {
         val code = getCountryCode()?.uppercase() ?: return false
         return mphCountries.contains(code)
     }
+
 
     // ---------------------------------------------------------
     // Get/set speed limit retrieval thresholds

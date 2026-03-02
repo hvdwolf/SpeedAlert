@@ -21,6 +21,8 @@ class DrivingService : Service() {
     private val scope = CoroutineScope(Dispatchers.Default + Job())
     private val mainHandler = Handler(Looper.getMainLooper())
 
+    private val mphCountries = setOf("GB", "LR", "MM", "US")
+
     private lateinit var settings: SettingsManager
     private lateinit var repo: SpeedLimitRepository
     private lateinit var notifier: ServiceNotification
@@ -402,12 +404,17 @@ class DrivingService : Service() {
             return
         }
 
-        val limit = lastLimit.limitKmh
-        val overspeed = calculateOverspeed(limit, lastSpeed)
+        val loc = lastLocation
+        val country = loc?.let { getCountryCode(it.latitude, it.longitude) }
+
+        val limitKmh = lastLimit.limitKmh
+        val displaySpeed = convertForDisplay(lastSpeed, country)
+        val displayLimit = convertForDisplay(limitKmh, country)
+
+        val overspeed = calculateOverspeed(limitKmh, lastSpeed)  // still in km/h internally
 
         if (overspeed) {
             val now = System.currentTimeMillis()
-
             if (now - lastBeepTime >= 10_000) {
                 val vol = settings.getBeepVolume()
                 soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
@@ -418,12 +425,12 @@ class DrivingService : Service() {
         }
 
         if (settings.useSignOverlay()) {
-            speedometer?.updateSpeedSignMode(lastSpeed, limit, overspeed)
+            speedometer?.updateSpeedSignMode(displaySpeed, displayLimit, overspeed)
         } else {
-            speedometer?.updateSpeedTextMode(lastSpeed, limit, overspeed)
+            speedometer?.updateSpeedTextMode(displaySpeed, displayLimit, overspeed)
         }
-
     }
+
 
     // ---------------------------------------------------------
     // BROADCAST
@@ -488,4 +495,29 @@ class DrivingService : Service() {
             else -> null
         }
     }
+
+
+    private fun convertForDisplay(valueKmh: Int, country: String?): Int {
+        if (valueKmh <= 0) return valueKmh
+
+        val isMphCountry = country != null && mphCountries.contains(country.uppercase())
+        val userWantsMph = settings.usesMph()  // or your existing flag
+
+        return when {
+            // kmh country + kmh user
+            !isMphCountry && !userWantsMph -> valueKmh
+
+            // mph country + mph user
+            isMphCountry && userWantsMph -> valueKmh
+
+            // kmh country + mph user
+            !isMphCountry && userWantsMph -> (valueKmh * 0.621371).toInt()
+
+            // mph country + kmh user
+            isMphCountry && !userWantsMph -> (valueKmh / 0.621371).toInt()
+
+            else -> valueKmh
+        }
+    }
+
 }

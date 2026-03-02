@@ -21,6 +21,9 @@ data class SpeedLimitResult(
 class SpeedLimitRepository(private val context: Context) {
 
     private val web = WebViewFetcher(context)
+    private val settings = SettingsManager(context)
+
+    private val mphCountries = setOf("GB", "LR", "MM", "US")
 
     // Multiple Overpass servers for reliability
     private val overpassServers = listOf(
@@ -30,7 +33,7 @@ class SpeedLimitRepository(private val context: Context) {
         "https://overpass.nchc.org.tw/api/interpreter"
     )
 
-    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
+/*    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
         log("Repo: start lookup for $lat,$lon (radius=$radius)")
 
         // 1) RAW OVERPASS (multi-server)
@@ -73,6 +76,63 @@ class SpeedLimitRepository(private val context: Context) {
             source = "fallback:${country ?: "unknown"}"
         )
     }
+*/
+
+    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
+        log("Repo: start lookup for $lat,$lon (radius=$radius)")
+
+        // Detect country once, early
+        val country = detectCountry(lat, lon)
+        val isMphCountry = country != null && mphCountries.contains(country.uppercase())
+
+        // 1) RAW OVERPASS
+        val rawOverpass = tryRawOverpass(lat, lon, radius)
+        if (rawOverpass > 0) {
+            val normalized = if (isMphCountry) (rawOverpass * 1.60934).toInt() else rawOverpass
+            return SpeedLimitResult(-1, normalized, "raw-overpass:${country ?: "unknown"}")
+        }
+
+        // 2) RAW NOMINATIM (country only)
+        val rawCountry = tryRawNominatim(lat, lon)
+        if (rawCountry != null) {
+            return SpeedLimitResult(-1, -1, "raw-nominatim:$rawCountry")
+        }
+
+        // 3) WEBVIEW OVERPASS
+        val webOverpass = tryWebOverpass(lat, lon, radius)
+        if (webOverpass > 0) {
+            val normalized = if (isMphCountry) (webOverpass * 1.60934).toInt() else webOverpass
+            return SpeedLimitResult(-1, normalized, "web-overpass:${country ?: "unknown"}")
+        }
+
+        // 4) WEBVIEW NOMINATIM
+        val webCountry = tryWebNominatim(lat, lon)
+        if (webCountry != null) {
+            return SpeedLimitResult(-1, -1, "web-nominatim:$webCountry")
+        }
+
+        // 5) TOTAL FAILURE → FALLBACK OR NONE
+        if (!settings.useCountryFallback()) {
+            log("Repo: all methods failed and fallback disabled")
+            return SpeedLimitResult(
+                speedKmh = -1,
+                limitKmh = -1,
+                source = "nofallback"
+            )
+        }
+
+        log("Repo: all methods failed → applying fallback")
+
+        val fallback = CountrySpeedFallbacks.get(country)
+        val chosen = fallback.rural
+
+        return SpeedLimitResult(
+            speedKmh = -1,
+            limitKmh = chosen,
+            source = "fallback:${country ?: "unknown"}"
+        )
+    }
+
 
     // ---------------------------------------------------------
     // COUNTRY DETECTION (local geocoder)
