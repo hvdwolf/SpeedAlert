@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import kotlin.math.max
 
@@ -40,6 +41,8 @@ class FloatingSpeedometer(
     private var txtLimitSign: TextView? = null
     private var txtSpeedSign: TextView? = null
 
+    private var root: LinearLayout? = null
+
     // Drag helpers
     private var initialX = 0
     private var initialY = 0
@@ -58,6 +61,7 @@ class FloatingSpeedometer(
                 imgLimitSign = v.findViewById(R.id.imgLimitSign)
                 txtLimitSign = v.findViewById(R.id.txtLimitSign)
                 txtSpeedSign = v.findViewById(R.id.txtSpeedSign)
+                root = v.findViewById<LinearLayout>(R.id.speedometerSignRoot)
             }
         } else {
             inflater.inflate(R.layout.overlay_speedometer, null).also { v ->
@@ -125,7 +129,7 @@ class FloatingSpeedometer(
     }
 
     // ---------------------------------------------------------
-    // TEXT MODE (your existing logic)
+    // TEXT MODE
     // ---------------------------------------------------------
     fun updateSpeedTextMode(speed: Int, limit: Int, overspeed: Boolean) {
         lastSpeed = speed
@@ -162,7 +166,7 @@ class FloatingSpeedometer(
     }
 
     // ---------------------------------------------------------
-    // SIGN MODE (new)
+    // SIGN MODE
     // ---------------------------------------------------------
     fun updateSpeedSignMode(speed: Int, limit: Int, overspeed: Boolean) {
         lastSpeed = speed
@@ -172,8 +176,13 @@ class FloatingSpeedometer(
         val unit = settings.displayUnit()
         val displaySpeed = settings.convertSpeed(speed)
         if (settings.hideCurrentSpeed()) {
+            root?.setBackgroundColor(Color.TRANSPARENT)
+            root?.setPadding(0, 0, 0, 0)
             txtSpeedSign?.visibility = View.GONE
         } else {
+            root?.setBackgroundResource(R.drawable.speedometer_bg)
+            val pad = (8 * context.resources.displayMetrics.density).toInt()
+            root?.setPadding(pad, pad, pad, pad)
             txtSpeedSign?.visibility = View.VISIBLE
             txtSpeedSign?.text = "$displaySpeed $unit"
         }
