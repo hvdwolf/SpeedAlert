@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -42,6 +43,7 @@ class FloatingSpeedometer(
     private var txtSpeedSign: TextView? = null
 
     private var root: LinearLayout? = null
+    private var signContainer: FrameLayout? = null
 
     // Drag helpers
     private var initialX = 0
@@ -58,6 +60,7 @@ class FloatingSpeedometer(
         // Inflate correct layout based on setting
         view = if (settings.useSignOverlay()) {
             inflater.inflate(R.layout.overlay_speed_sign, null).also { v ->
+                signContainer = v.findViewById(R.id.signContainer)
                 imgLimitSign = v.findViewById(R.id.imgLimitSign)
                 txtLimitSign = v.findViewById(R.id.txtLimitSign)
                 txtSpeedSign = v.findViewById(R.id.txtSpeedSign)
@@ -265,11 +268,23 @@ class FloatingSpeedometer(
         }
     }
 
+    // Scales text and road sign
     private fun applyTextScaling() {
         val scale = prefs.getFloat("overlay_text_scale", 1.0f)
 
         val baseSpeed = 28f
         val baseLimit = 18f
+
+
+        if (settings.useSignOverlay()) {
+            // Base size of the sign in dp
+            val baseSignSizeDp = 48f
+            val scaledSizePx = (baseSignSizeDp * scale * context.resources.displayMetrics.density).toInt()
+            signContainer?.layoutParams?.width = scaledSizePx
+            signContainer?.layoutParams?.height = scaledSizePx
+            signContainer?.requestLayout()
+        }
+
 
         if (!settings.hideCurrentSpeed()) {
             txtSpeedSign?.textSize = baseSpeed * scale
