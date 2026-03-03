@@ -33,13 +33,17 @@ class SpeedLimitRepository(private val context: Context) {
         "https://overpass.nchc.org.tw/api/interpreter"
     )
 
-/*    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
+    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
         log("Repo: start lookup for $lat,$lon (radius=$radius)")
+
+        // Detect country once, early
+        val country = detectCountry(lat, lon)
+        val isMphCountry = country != null && mphCountries.contains(country.uppercase())
 
         // 1) RAW OVERPASS (multi-server)
         val rawOverpass = tryRawOverpass(lat, lon, radius)
         if (rawOverpass > 0) {
-            return SpeedLimitResult(-1, rawOverpass, "raw-overpass")
+            return SpeedLimitResult(-1, rawOverpass, "raw-overpass:${country ?: "unknown"}")
         }
 
         // 2) RAW NOMINATIM (country only)
@@ -51,7 +55,7 @@ class SpeedLimitRepository(private val context: Context) {
         // 3) WEBVIEW OVERPASS (multi-server)
         val webOverpass = tryWebOverpass(lat, lon, radius)
         if (webOverpass > 0) {
-            return SpeedLimitResult(-1, webOverpass, "web-overpass")
+            return SpeedLimitResult(-1, webOverpass, "web-overpass:${country ?: "unknown"}")
         }
 
         // 4) WEBVIEW NOMINATIM (country only)
@@ -60,14 +64,19 @@ class SpeedLimitRepository(private val context: Context) {
             return SpeedLimitResult(-1, -1, "web-nominatim:$webCountry")
         }
 
-        // 5) TOTAL FAILURE → FALLBACK
+        // 5) TOTAL FAILURE → FALLBACK OR NONE
+        if (!settings.useCountryFallback()) {
+            log("Repo: all methods failed and fallback disabled")
+            return SpeedLimitResult(
+                speedKmh = -1,
+                limitKmh = -1,
+                source = "nofallback"
+            )
+        }
+
         log("Repo: all methods failed → applying fallback")
 
-        val country = detectCountry(lat, lon)
         val fallback = CountrySpeedFallbacks.get(country)
-
-        // Choose fallback based on typical road type
-        // (DrivingService will refine based on actual speed)
         val chosen = fallback.rural
 
         return SpeedLimitResult(
@@ -76,9 +85,9 @@ class SpeedLimitRepository(private val context: Context) {
             source = "fallback:${country ?: "unknown"}"
         )
     }
-*/
 
-    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
+
+/*    fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
         log("Repo: start lookup for $lat,$lon (radius=$radius)")
 
         // Detect country once, early
@@ -132,7 +141,7 @@ class SpeedLimitRepository(private val context: Context) {
             source = "fallback:${country ?: "unknown"}"
         )
     }
-
+*/
 
     // ---------------------------------------------------------
     // COUNTRY DETECTION (local geocoder)
@@ -359,7 +368,7 @@ class SpeedLimitRepository(private val context: Context) {
     }
 
     // ---------------------------------------------------------
-    // DIAGNOSTICS HELPERS (unchanged)
+    // DIAGNOSTICS HELPERS
     // ---------------------------------------------------------
     fun testRawOverpass(lat: Double, lon: Double, radius: Int): String { /* unchanged */ return "" }
     fun testWebOverpass(lat: Double, lon: Double, radius: Int): String { /* unchanged */ return "" }

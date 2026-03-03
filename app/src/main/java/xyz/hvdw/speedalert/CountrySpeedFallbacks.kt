@@ -54,12 +54,12 @@ object CountrySpeedFallbacks {
         ),
 
         // United Kingdom
-        // Fallback speeds in kmh, will be converted to mph in code
+        // Fallback speeds in mph
         "GB" to FallbackSpeeds(
-            urban = 48,
-            rural = 96,
-            divided = 112,
-            motorway = 112
+            urban = 30,
+            rural = 60,
+            divided = 70,
+            motorway = 70
         ),
 
         // Denmark
@@ -143,12 +143,12 @@ object CountrySpeedFallbacks {
         ),
 
         // USA (varies by state)
-        // Fallback speeds in kmh, will be converted to mph in code
+        // Fallback speeds in mph
         "US" to FallbackSpeeds(
-            urban = 48,
-            rural = 88,
-            divided = 105,
-            motorway = 112
+            urban = 30,
+            rural = 55,
+            divided = 65,
+            motorway = 70
         ),
 
         // Vietnam
