@@ -235,4 +235,7 @@
 
     <string name="hide_current_speed">不顯示目前速度</string>
 
+    <string name="beep_muted">提示音已靜音</string>
+    <string name="beep_unmuted">提示音已開啟</string>
+
 </resources>

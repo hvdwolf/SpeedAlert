@@ -226,4 +226,7 @@
     
     <string name="hide_current_speed">Aktuelle Geschwindigkeit nicht anzeigen</string>
 
+    <string name="beep_muted">Signalton stummgeschaltet</string>
+    <string name="beep_unmuted">Signalton aktiviert</string>
+
 </resources>

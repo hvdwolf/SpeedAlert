@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import kotlin.math.max
 
 class FloatingSpeedometer(
@@ -26,6 +27,7 @@ class FloatingSpeedometer(
 
     private var windowManager: WindowManager? = null
     private var view: View? = null
+    private var imgMuteState: ImageView? = null
 
     private lateinit var params: WindowManager.LayoutParams
 
@@ -65,15 +67,38 @@ class FloatingSpeedometer(
                 txtLimitSign = v.findViewById(R.id.txtLimitSign)
                 txtSpeedSign = v.findViewById(R.id.txtSpeedSign)
                 root = v.findViewById<LinearLayout>(R.id.speedometerSignRoot)
+                imgMuteState = v.findViewById(R.id.imgMuteState)
             }
         } else {
             inflater.inflate(R.layout.overlay_speedometer, null).also { v ->
                 txtSpeed = v.findViewById(R.id.txtOverlaySpeed)
                 txtLimit = v.findViewById(R.id.txtOverlayLimit)
+                imgMuteState = v.findViewById(R.id.imgMuteState)
             }
         }
 
+        view?.isClickable = true
+        view?.isFocusable = true
+
+        view?.setOnClickListener {
+            val newState = !settings.isMuted()
+            settings.setMuted(newState)
+
+            Toast.makeText(
+                context,
+                if (newState)
+                    context.getString(R.string.beep_muted)
+                else
+                    context.getString(R.string.beep_unmuted),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+
         applyTextScaling()
+
+        // Apply initial mute icon state
+        updateMuteIcon()
 
         params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -101,7 +126,57 @@ class FloatingSpeedometer(
         }
     }
 
+
     private fun addDragSupport(v: View) {
+        val touchSlop = 10 * context.resources.displayMetrics.density // small movement threshold
+
+        v.setOnTouchListener { _, event ->
+            when (event.action) {
+
+                MotionEvent.ACTION_DOWN -> {
+                    initialX = params.x
+                    initialY = params.y
+                    initialTouchX = event.rawX
+                    initialTouchY = event.rawY
+                    false
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    val dx = event.rawX - initialTouchX
+                    val dy = event.rawY - initialTouchY
+
+                    // If movement is significant → drag
+                    if (kotlin.math.abs(dx) > touchSlop || kotlin.math.abs(dy) > touchSlop) {
+                        params.x = initialX + dx.toInt()
+                        params.y = initialY + dy.toInt()
+                        windowManager?.updateViewLayout(view, params)
+                        true
+                    } else {
+                        false
+                    }
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val dx = event.rawX - initialTouchX
+                    val dy = event.rawY - initialTouchY
+
+                    // If movement was tiny → treat as tap
+                    if (kotlin.math.abs(dx) <= touchSlop && kotlin.math.abs(dy) <= touchSlop) {
+                        v.performClick()   // ← THIS MAKES YOUR CLICK LISTENER FIRE
+                    } else {
+                        // Drag finished → save position
+                        settings.setOverlayX(params.x)
+                        settings.setOverlayY(params.y)
+                    }
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
+/*    private fun addDragSupport(v: View) {
         v.setOnTouchListener { _, event ->
             when (event.action) {
 
@@ -130,6 +205,7 @@ class FloatingSpeedometer(
             }
         }
     }
+*/
 
     // ---------------------------------------------------------
     // TEXT MODE
@@ -166,6 +242,8 @@ class FloatingSpeedometer(
             txtSpeed?.setTextColor(finalColor)
             txtLimit?.setTextColor(finalColor)
         }
+
+        updateMuteIcon()
     }
 
     // ---------------------------------------------------------
@@ -215,6 +293,8 @@ class FloatingSpeedometer(
             txtSpeedSign?.setTextColor(finalColor)
             txtLimitSign?.setTextColor(Color.BLACK)
         }
+
+        updateMuteIcon()
     }
 
     fun showNoGps() {
@@ -245,6 +325,8 @@ class FloatingSpeedometer(
             txtSpeed?.setTextColor(0xFFFFAA00.toInt())
             txtLimit?.setTextColor(0xFFFFAA00.toInt())
         }
+
+        updateMuteIcon()
     }
 
     private fun isNightMode(): Boolean {
@@ -294,4 +376,13 @@ class FloatingSpeedometer(
         txtSpeedSign?.textSize = baseSpeed * scale
         txtLimitSign?.textSize = baseLimit * scale
     }
+
+    private fun updateMuteIcon() {
+        if (settings.isMuted()) {
+            imgMuteState?.setImageResource(R.drawable.ic_volume_off)
+        } else {
+            imgMuteState?.setImageResource(R.drawable.ic_volume_on)
+        }
+    }
+
 }

@@ -234,5 +234,7 @@
 
     <string name="hide_current_speed">Don’t show current speed</string>
 
+    <string name="beep_muted">Beep muted</string>
+    <string name="beep_unmuted">Beep unmuted</string>
 
 </resources>

@@ -235,4 +235,7 @@
 
     <string name="hide_current_speed">현재 속도를 표시하지 않기</string>
 
+    <string name="beep_muted">비프음 음소거됨</string>
+    <string name="beep_unmuted">비프음 활성화됨</string>
+
 </resources>

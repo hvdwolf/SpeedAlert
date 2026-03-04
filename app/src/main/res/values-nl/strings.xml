@@ -238,4 +238,7 @@
 
     <string name="hide_current_speed">Huidige snelheid niet tonen</string>
 
+    <string name="beep_muted">Alarmtoon gedempt</string>
+    <string name="beep_unmuted">Alarmtoon ingeschakeld</string>
+
 </resources>

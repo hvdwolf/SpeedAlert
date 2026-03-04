@@ -158,6 +158,17 @@ class SettingsManager(context: Context) {
     }
 
     // ---------------------------------------------------------
+    // WHEN OVERLAY TAPPED, MUTE/UNMUTE
+    // ---------------------------------------------------------
+    fun isMuted(): Boolean =
+        prefs.getBoolean("mute_beep", false)
+
+    fun setMuted(value: Boolean) {
+        prefs.edit().putBoolean("mute_beep", value).apply()
+    }
+
+
+    // ---------------------------------------------------------
     // COUNTRY IDENTIFICATION (STILL STORED, NOT USED FOR MPH)
     // ---------------------------------------------------------
     private val KEY_COUNTRY_CODE = "country_code"

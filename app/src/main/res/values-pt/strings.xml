@@ -232,4 +232,7 @@
 
     <string name="hide_current_speed">Não mostrar a velocidade atual</string>
 
+    <string name="beep_muted">Aviso sonoro silenciado</string>
+    <string name="beep_unmuted">Aviso sonoro ativado</string>
+
 </resources>

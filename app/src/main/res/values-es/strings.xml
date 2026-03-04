@@ -238,4 +238,7 @@
 
     <string name="hide_current_speed">No mostrar la velocidad actual</string>
 
+    <string name="beep_muted">Tono desactivado</string>
+    <string name="beep_unmuted">Tono activado</string>
+
 </resources>

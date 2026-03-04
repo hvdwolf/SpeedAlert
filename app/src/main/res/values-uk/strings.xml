@@ -229,4 +229,7 @@
 
     <string name="hide_current_speed">Не показувати поточну швидкість</string>
 
+    <string name="beep_muted">Сигнал вимкнено</string>
+    <string name="beep_unmuted">Сигнал увімкнено</string>
+
 </resources>

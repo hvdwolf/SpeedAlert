@@ -68,7 +68,7 @@ class DrivingService : Service() {
         // SOUNDPOOL INITIALIZATION
         // -----------------------------
         val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setUsage(AudioAttributes.USAGE_ALARM)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .build()
 
@@ -417,7 +417,9 @@ class DrivingService : Service() {
             val now = System.currentTimeMillis()
             if (now - lastBeepTime >= 10_000) {
                 val vol = settings.getBeepVolume()
-                soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
+                if (!settings.isMuted()) {
+                    soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
+                }
                 lastBeepTime = now
             }
         } else {

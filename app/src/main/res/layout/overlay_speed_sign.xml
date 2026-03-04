@@ -30,6 +30,14 @@
             android:textStyle="bold" />
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/imgMuteState"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="6dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_volume_on"/>
+
     <TextView
         android:id="@+id/txtSpeedSign"
         android:layout_width="wrap_content"

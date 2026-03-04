@@ -225,7 +225,7 @@ class SettingsActivity : AppCompatActivity() {
         // TEST BEEP
         // ---------------------------------------------------------
         val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setUsage(AudioAttributes.USAGE_ALARM)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .build()
 
