@@ -216,4 +216,18 @@ class SettingsManager(context: Context) {
     }
 
 
+    fun setOverlayAlpha(value: Int) {
+        prefs.edit().putInt("overlay_alpha", value).apply()
+    }
+
+
+    fun setBrightness(value: Int) {
+        prefs.edit().putInt("speedo_brightness", value).apply()
+    }
+
+
+    fun setOverlayTextScale(value: Float) {
+        prefs.edit().putFloat("overlay_text_scale", value).apply()
+    }
+
 }

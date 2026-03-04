@@ -238,4 +238,7 @@
     <string name="beep_muted">提示音已靜音</string>
     <string name="beep_unmuted">提示音已開啟</string>
 
+    <string name="settings_transparency_label">覆蓋層透明度</string>
+    <string name="settings_preview_label">預覽</string>
+
 </resources>

@@ -241,4 +241,7 @@
     <string name="beep_muted">Alarmtoon gedempt</string>
     <string name="beep_unmuted">Alarmtoon ingeschakeld</string>
 
+    <string name="settings_transparency_label">Overlay-transparantie</string>
+    <string name="settings_preview_label">Voorbeeld</string>
+
 </resources>

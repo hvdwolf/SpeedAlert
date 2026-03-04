@@ -232,4 +232,7 @@
     <string name="beep_muted">Сигнал вимкнено</string>
     <string name="beep_unmuted">Сигнал увімкнено</string>
 
+    <string name="settings_transparency_label">Прозорість накладки</string>
+    <string name="settings_preview_label">Попередній перегляд</string>
+
 </resources>

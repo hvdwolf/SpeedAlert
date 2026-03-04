@@ -238,4 +238,7 @@
     <string name="beep_muted">비프음 음소거됨</string>
     <string name="beep_unmuted">비프음 활성화됨</string>
 
+    <string name="settings_transparency_label">오버레이 투명도</string>
+    <string name="settings_preview_label">미리보기</string>
+
 </resources>

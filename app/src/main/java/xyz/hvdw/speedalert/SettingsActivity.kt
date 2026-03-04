@@ -1,6 +1,7 @@
 package xyz.hvdw.speedalert
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Bundle
@@ -33,11 +34,15 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var swAutoStart: Switch
     private lateinit var swMinimizeOnStart: Switch
 
+    private lateinit var seekBar: SeekBar
+    private lateinit var preview: FrameLayout
+
+    //private val prefs by lazy {
+    //    getSharedPreferences("settings", Context.MODE_PRIVATE)
+    //}
+    private lateinit var prefs: SharedPreferences
     private lateinit var settings: SettingsManager
 
-    private val prefs by lazy {
-        getSharedPreferences("settings", Context.MODE_PRIVATE)
-    }
 
     private val prefsAuto by lazy {
         getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
@@ -68,7 +73,10 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        // Settings manager for all app settings
         settings = SettingsManager(this)
+        // For all overlay UI sttings
+        prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
 
         // ---------------------------------------------------------
         // FIND VIEWS
@@ -128,6 +136,25 @@ class SettingsActivity : AppCompatActivity() {
         switchHideCurrentSpeed.setOnCheckedChangeListener { _, isChecked ->
             settings.setHideCurrentSpeed(isChecked)
         }
+
+        // -----------------------------
+        // TRANSPARENCY
+        // -----------------------------
+        seekBar = findViewById(R.id.transparencySeekBar)
+        preview = findViewById(R.id.overlayPreview)
+
+        val alpha = prefs.getInt("overlay_alpha", 200)
+        seekBar.progress = alpha
+        updatePreview(alpha)
+
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
+                updatePreview(progress)
+                prefs.edit().putInt("overlay_alpha", progress).apply()
+            }
+            override fun onStartTrackingTouch(sb: SeekBar?) {}
+            override fun onStopTrackingTouch(sb: SeekBar?) {}
+        })
 
 
         // ---------------------------------------------------------
@@ -273,6 +300,7 @@ class SettingsActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(sb: SeekBar?) {}
         })
 
+
         // ---------------------------------------------------------
         // SPEED LIMIT FETCH INTERVAL SPINNER
         // ---------------------------------------------------------
@@ -366,5 +394,9 @@ class SettingsActivity : AppCompatActivity() {
         } else {
             txtOverspeedLabel.text = getString(R.string.overspeed_label_fixed, value)
         }
+    }
+
+    private fun updatePreview(alpha: Int) {
+        preview.background?.alpha = alpha
     }
 }

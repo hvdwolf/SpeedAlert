@@ -229,4 +229,7 @@
     <string name="beep_muted">Signalton stummgeschaltet</string>
     <string name="beep_unmuted">Signalton aktiviert</string>
 
+    <string name="settings_transparency_label">Überlagerungstransparenz</string>
+    <string name="settings_preview_label">Vorschau</string>
+
 </resources>

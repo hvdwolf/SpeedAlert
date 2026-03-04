@@ -237,4 +237,7 @@
     <string name="beep_muted">Beep muted</string>
     <string name="beep_unmuted">Beep unmuted</string>
 
+    <string name="settings_transparency_label">Overlay transparency</string>
+    <string name="settings_preview_label">Preview</string>
+
 </resources>

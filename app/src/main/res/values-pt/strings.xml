@@ -235,4 +235,7 @@
     <string name="beep_muted">Aviso sonoro silenciado</string>
     <string name="beep_unmuted">Aviso sonoro ativado</string>
 
+    <string name="settings_transparency_label">Transparência da sobreposição</string>
+    <string name="settings_preview_label">Pré-visualização</string>
+
 </resources>

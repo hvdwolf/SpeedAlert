@@ -241,4 +241,7 @@
     <string name="beep_muted">Sygnał wyciszony</string>
     <string name="beep_unmuted">Sygnał włączony</string>
 
+    <string name="settings_transparency_label">Przezroczystość nakładki</string>
+    <string name="settings_preview_label">Podgląd</string>
+
 </resources>

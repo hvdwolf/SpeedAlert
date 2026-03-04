@@ -53,11 +53,14 @@ class FloatingSpeedometer(
     private var initialTouchX = 0f
     private var initialTouchY = 0f
 
+    
+
     fun show() {
         if (view != null) return
 
         windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val inflater = LayoutInflater.from(context)
+        val alpha = prefs.getInt("overlay_alpha", 200)
 
         // Inflate correct layout based on setting
         view = if (settings.useSignOverlay()) {
@@ -73,6 +76,7 @@ class FloatingSpeedometer(
             inflater.inflate(R.layout.overlay_speedometer, null).also { v ->
                 txtSpeed = v.findViewById(R.id.txtOverlaySpeed)
                 txtLimit = v.findViewById(R.id.txtOverlayLimit)
+                root = v.findViewById<LinearLayout>(R.id.speedometerRoot)
                 imgMuteState = v.findViewById(R.id.imgMuteState)
             }
         }
@@ -96,6 +100,7 @@ class FloatingSpeedometer(
 
 
         applyTextScaling()
+        applyOverlayBackgroundAlpha()
 
         // Apply initial mute icon state
         updateMuteIcon()
@@ -176,36 +181,6 @@ class FloatingSpeedometer(
         }
     }
 
-/*    private fun addDragSupport(v: View) {
-        v.setOnTouchListener { _, event ->
-            when (event.action) {
-
-                MotionEvent.ACTION_DOWN -> {
-                    initialX = params.x
-                    initialY = params.y
-                    initialTouchX = event.rawX
-                    initialTouchY = event.rawY
-                    false
-                }
-
-                MotionEvent.ACTION_MOVE -> {
-                    params.x = initialX + (event.rawX - initialTouchX).toInt()
-                    params.y = initialY + (event.rawY - initialTouchY).toInt()
-                    windowManager?.updateViewLayout(view, params)
-                    true
-                }
-
-                MotionEvent.ACTION_UP -> {
-                    settings.setOverlayX(params.x)
-                    settings.setOverlayY(params.y)
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }
-*/
 
     // ---------------------------------------------------------
     // TEXT MODE
@@ -244,6 +219,7 @@ class FloatingSpeedometer(
         }
 
         updateMuteIcon()
+        applyOverlayBackgroundAlpha()
     }
 
     // ---------------------------------------------------------
@@ -256,7 +232,7 @@ class FloatingSpeedometer(
 
         val unit = settings.displayUnit()
         val displaySpeed = settings.convertSpeed(speed)
-        if (settings.hideCurrentSpeed()) {
+        /*if (settings.hideCurrentSpeed()) {
             root?.setBackgroundColor(Color.TRANSPARENT)
             root?.setPadding(0, 0, 0, 0)
             txtSpeedSign?.visibility = View.GONE
@@ -266,8 +242,21 @@ class FloatingSpeedometer(
             root?.setPadding(pad, pad, pad, pad)
             txtSpeedSign?.visibility = View.VISIBLE
             txtSpeedSign?.text = "$displaySpeed $unit"
-        }
+        }*/
+        // Always use the same background
+        root?.setBackgroundResource(R.drawable.speedometer_bg)
 
+        // Set Padding
+        val pad = (8 * context.resources.displayMetrics.density).toInt()
+        root?.setPadding(pad, pad, pad, pad)
+
+        // Show or hide current speed
+        if (settings.hideCurrentSpeed()) {
+            txtSpeedSign?.visibility = View.GONE
+        } else {
+            txtSpeedSign?.visibility = View.VISIBLE
+            txtSpeedSign?.text = "$displaySpeed $unit"
+        }
 
         val displayLimit = settings.convertSpeed(limit)
 
@@ -295,6 +284,7 @@ class FloatingSpeedometer(
         }
 
         updateMuteIcon()
+        applyOverlayBackgroundAlpha()
     }
 
     fun showNoGps() {
@@ -350,9 +340,16 @@ class FloatingSpeedometer(
         }
     }
 
+
+    private fun applyOverlayBackgroundAlpha() {
+        val alpha = prefs.getInt("overlay_alpha", 200) // 0–255
+        root?.background?.alpha = alpha
+    }
+
+
     // Scales text and road sign
     private fun applyTextScaling() {
-        val scale = prefs.getFloat("overlay_text_scale", 1.0f)
+        val scale = prefs.getFloat("overlay_text_scale", 1.0f).toFloat()
 
         val baseSpeed = 28f
         val baseLimit = 18f
@@ -384,5 +381,6 @@ class FloatingSpeedometer(
             imgMuteState?.setImageResource(R.drawable.ic_volume_on)
         }
     }
+
 
 }

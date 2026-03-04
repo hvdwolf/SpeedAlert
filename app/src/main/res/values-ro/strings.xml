@@ -241,4 +241,7 @@
     <string name="beep_muted">Bip dezactivat</string>
     <string name="beep_unmuted">Bip activat</string>
 
+    <string name="settings_transparency_label">Transparența suprapunerii</string>
+    <string name="settings_preview_label">Previzualizare</string>
+
 </resources>

@@ -241,4 +241,7 @@
     <string name="beep_muted">Segnale disattivato</string>
     <string name="beep_unmuted">Segnale attivato</string>
 
+    <string name="settings_transparency_label">Trasparenza dell’overlay</string>
+    <string name="settings_preview_label">Anteprima</string>
+
 </resources>

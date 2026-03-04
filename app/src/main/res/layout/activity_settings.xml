@@ -269,5 +269,32 @@
                 android:padding="4dp" />
         </LinearLayout>
 
+        <!-- TRANSPARENCY & PREVIEW -->
+        <TextView
+            android:id="@+id/transparencyLabel"
+            android:text="@string/settings_transparency_label"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <SeekBar
+            android:id="@+id/transparencySeekBar"
+            android:max="255"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/previewLabel"
+            android:text="@string/settings_preview_label"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/overlayPreview"
+            android:layout_marginTop="8dp"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:background="#AA000000" />
     </LinearLayout>
 </ScrollView>

@@ -238,4 +238,7 @@
     <string name="beep_muted">提示音已静音</string>
     <string name="beep_unmuted">提示音已开启</string>
 
+    <string name="settings_transparency_label">叠加层透明度</string>
+    <string name="settings_preview_label">预览</string>
+
 </resources>
