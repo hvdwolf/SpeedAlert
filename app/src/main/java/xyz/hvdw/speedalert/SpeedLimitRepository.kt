@@ -25,13 +25,30 @@ class SpeedLimitRepository(private val context: Context) {
 
     private val mphCountries = setOf("GB", "LR", "MM", "US")
 
-    // Multiple Overpass servers for reliability
-    private val overpassServers = listOf(
-        "https://overpass.kumi.systems/api/interpreter",
-        "https://overpass-api.de/api/interpreter",
-        "https://overpass.openstreetmap.fr/api/interpreter",
-        "https://overpass.nchc.org.tw/api/interpreter"
-    )
+    // Multiple Overpass servers for reliability. 
+    //Shuffle them to not overload them and get blocked
+    private fun overpassServers(): List<String> {
+        return listOf(
+            "https://overpass-api.de/api/interpreter",
+            "https://lz4.overpass-api.de/api/interpreter",
+            "https://overpass.openstreetmap.fr/api/interpreter",
+            "https://overpass.kumi.systems/api/interpreter",
+            "https://overpass.osm.ch/api/interpreter"
+        ).shuffled()
+    }
+
+
+    private var lastOverpassCall = 0L
+
+    private fun canCallOverpass(): Boolean {
+        val now = System.currentTimeMillis()
+        if (now - lastOverpassCall < 5_000) {
+            return false
+        }
+        lastOverpassCall = now
+        return true
+    }
+
 
     fun getSpeedLimit(lat: Double, lon: Double, radius: Int): SpeedLimitResult {
         log("Repo: start lookup for $lat,$lon (radius=$radius)")
@@ -164,12 +181,12 @@ class SpeedLimitRepository(private val context: Context) {
     // ---------------------------------------------------------
     private fun buildOverpassQuery(lat: Double, lon: Double, radius: Int): String {
         val q = """
-            [out:json][timeout:5];
+            [out:json][timeout:15];   //was 5 seconds
             way(around:$radius,$lat,$lon)
               ["highway"]
               ["maxspeed"]
               [highway!~"^(cycleway|footway|path|track|service|bridleway|steps|living_street)$"];
-            out tags geom;
+            out center;  //was: out tags geom
         """.trimIndent()
         return URLEncoder.encode(q, "UTF-8")
     }
@@ -177,10 +194,10 @@ class SpeedLimitRepository(private val context: Context) {
     // ---------------------------------------------------------
     // RAW OVERPASS (multi-server)
     // ---------------------------------------------------------
-    private fun tryRawOverpass(lat: Double, lon: Double, radius: Int): Int {
+    /*private fun tryRawOverpass(lat: Double, lon: Double, radius: Int): Int {
         val query = buildOverpassQuery(lat, lon, radius)
 
-        for (server in overpassServers) {
+        for (server in overpassServers()) {
             val url = "$server?data=$query"
             log("Trying Overpass RAW: $server")
 
@@ -192,7 +209,52 @@ class SpeedLimitRepository(private val context: Context) {
         }
 
         return -1
+    }*/
+
+    private fun tryRawOverpass(lat: Double, lon: Double, radius: Int): Int {
+        if (!canCallOverpass()) {
+            log("Skipping Overpass: rate limit")
+            return -1
+        }
+
+        val query = buildOverpassQuery(lat, lon, radius)
+
+        for (server in overpassServers()) {
+            val url = "$server?data=$query"
+            log("Trying Overpass RAW: $server")
+
+            val start = System.currentTimeMillis()
+            val body = fetchRaw(url)
+            val duration = System.currentTimeMillis() - start
+
+            if (body == null) {
+                log("RAW fetch error from $server after ${duration}ms")
+                continue
+            }
+
+            if (body.contains("429") || body.contains("Too Many Requests", true)) {
+                log("Overpass throttled (429) at $server — switching to next server")
+                continue
+            }
+
+            if (body.contains("error", true)) {
+                log("Overpass returned error JSON at $server: $body")
+                continue
+            }
+
+            val limit = parseOverpass(body, lat, lon)
+            if (limit > 0) {
+                log("Overpass success from $server in ${duration}ms → limit=$limit")
+                return limit
+            } else {
+                log("Overpass returned no usable maxspeed from $server (duration ${duration}ms)")
+            }
+        }
+
+        log("All Overpass servers failed or returned no result")
+        return -1
     }
+
 
     // ---------------------------------------------------------
     // WEBVIEW OVERPASS (multi-server)
@@ -200,7 +262,7 @@ class SpeedLimitRepository(private val context: Context) {
     private fun tryWebOverpass(lat: Double, lon: Double, radius: Int): Int {
         val query = buildOverpassQuery(lat, lon, radius)
 
-        for (server in overpassServers) {
+        for (server in overpassServers()) {
             val url = "$server?data=$query"
             log("Trying Overpass WebView: $server")
 
@@ -235,21 +297,19 @@ class SpeedLimitRepository(private val context: Context) {
                 val el = elements.optJSONObject(i) ?: continue
                 val tags = el.optJSONObject("tags") ?: continue
 
+                // Extract maxspeed
                 val maxspeed = tags.optString("maxspeed", "")
                 val speed = maxspeed.filter { it.isDigit() }.toIntOrNull() ?: continue
 
-                val geometry = el.optJSONArray("geometry") ?: continue
+                // Use center instead of geometry
+                val center = el.optJSONObject("center") ?: continue
+                val nLat = center.optDouble("lat")
+                val nLon = center.optDouble("lon")
 
-                for (j in 0 until geometry.length()) {
-                    val node = geometry.optJSONObject(j) ?: continue
-                    val nLat = node.optDouble("lat")
-                    val nLon = node.optDouble("lon")
-
-                    val dist = haversine(lat, lon, nLat, nLon)
-                    if (dist < bestDistance) {
-                        bestDistance = dist
-                        bestSpeed = speed
-                    }
+                val dist = haversine(lat, lon, nLat, nLon)
+                if (dist < bestDistance) {
+                    bestDistance = dist
+                    bestSpeed = speed
                 }
             }
 
@@ -260,11 +320,13 @@ class SpeedLimitRepository(private val context: Context) {
 
             log("Overpass: bestDistance = $bestDistance m, speed = $bestSpeed")
             bestSpeed
+
         } catch (e: Exception) {
             log("Overpass parse error: ${e.message}")
             -1
         }
     }
+
 
     // ---------------------------------------------------------
     // HAVERSINE DISTANCE
@@ -336,18 +398,41 @@ class SpeedLimitRepository(private val context: Context) {
     // ---------------------------------------------------------
     private fun fetchRaw(urlString: String): String? {
         return try {
-            val conn = (URL(urlString).openConnection() as HttpURLConnection).apply {
-                connectTimeout = 5000
-                readTimeout = 5000
+            val url = URL(urlString)
+            val conn = (url.openConnection() as HttpURLConnection).apply {
+                connectTimeout = 10000      // 10 sec connect timeout
+                readTimeout = 15000         // 15 sec read timeout
                 requestMethod = "GET"
                 setRequestProperty("User-Agent", "SpeedAlert/1.0")
+                setRequestProperty("Accept-Encoding", "gzip")
             }
-            conn.inputStream.bufferedReader().use { it.readText() }
+
+            val code = conn.responseCode
+
+            // Log non-200 responses
+            if (code != HttpURLConnection.HTTP_OK) {
+                log("RAW fetch error: HTTP $code from $urlString")
+                return null
+            }
+
+            // Handle gzip or normal stream
+            val stream = if ("gzip".equals(conn.contentEncoding, ignoreCase = true)) {
+                java.util.zip.GZIPInputStream(conn.inputStream)
+            } else {
+                conn.inputStream
+            }
+
+            stream.bufferedReader().use { it.readText() }
+
+        } catch (e: java.net.SocketTimeoutException) {
+            log("RAW fetch error: timeout")
+            null
         } catch (e: Exception) {
             log("RAW fetch error: ${e.message}")
             null
         }
     }
+
 
     // ---------------------------------------------------------
     // LOGGING
