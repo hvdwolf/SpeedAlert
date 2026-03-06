@@ -507,11 +507,11 @@ class DrivingService : Service() {
 
     private fun dynamicRadius(acc: Float): Int {
         return when {
-            acc <= 1.5f -> 7
-            acc <= 2.5f -> 10
-            acc <= 5f   -> 15
-            acc <= 10f  -> 20
-            else        -> 25
+            acc <= 1.5f -> 15
+            acc <= 2.5f -> 20
+            acc <= 5f   -> 30
+            acc <= 10f  -> 40
+            else        -> 50
         }
     }
 
