@@ -8,7 +8,7 @@ class LocalSpeedDbManager(private val service: DrivingService) {
 
     companion object {
         private const val TAG = "LocalSpeedDbManager"
-        private const val DB_DIR = "/sdcard/SpeedAlert"
+        private const val DB_DIR = "/storage/emulated/0/Android/media/xyz.hvdw.speedalert" 
     }
 
     private var dbMap: Map<String, File> = emptyMap()
@@ -101,7 +101,7 @@ class LocalSpeedDbManager(private val service: DrivingService) {
             SQLiteDatabase.openDatabase(
                 file.absolutePath,
                 null,
-                SQLiteDatabase.OPEN_READONLY or SQLiteDatabase.NO_LOCALIZED_COLLATORS
+                SQLiteDatabase.OPEN_READONLY or SQLiteDatabase.NO_LOCALIZED_COLLATORS //or SQLiteDatabase.OPEN_IMMUTABLE
             )
         } catch (e: Exception) {
             Log.e(TAG, "Failed to open DB ${file.name}: ${e.message}")
