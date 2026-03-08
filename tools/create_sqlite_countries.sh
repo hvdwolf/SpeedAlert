@@ -13,6 +13,7 @@ AS="afghanistan armenia azerbaijan bangladesh bhutan cambodia china iran iraq is
 CAM="bahamas belize costa-rica cuba el-salvador guatemala haiti-and-dominican-republic honduras jamaica nicaragua panama"
 NAM="canada greenland mexico us"
 SAM="argentina bolivia brazil chile colombia ecuador guyana paraguay peru suriname uruguay venezuela"
+AF="algeria angola benin botswana burkina-faso burundi cameroon canary-islands cape-verde central-african-republic chad comores congo-brazzaville congo-democratic-republic djibouti egypt equatorial-guinea eritrea ethiopia gabon ghana guinea guinea-bissau ivory-coast kenya lesotho liberia libya madagascar malawi mali mauritania mauritius morocco mozambique namibia niger nigeria rwanda saint-helena-ascension-and-tristan-da-cunha sao-tome-and-principe senegal-and-gambia seychelles sierra-leone somalia south-africa south-sudan sudan swaziland tanzania togo tunisia uganda zambia zimbabwe"
 
 ######################################################################################################
 #  functions
@@ -45,7 +46,7 @@ Create_Single_Country_Database() {
     country="$1"
     found=false
 
-    for list in EU_A EU_B AS CAM NAM SAM; do
+    for list in EU_A EU_B AS CAM NAM SAM AF; do
         if echo "${!list}" | tr ' ' '\n' | grep -qx "$country"; then
             echo "$country is in $list"
             found=true
@@ -60,6 +61,8 @@ Create_Single_Country_Database() {
                    ./max_speed_db_cli.py --continent north-america $country;;
                 "SAM" | "sam")
                    ./max_speed_db_cli.py --continent south-america $country;;
+                "AF" | "af")
+                   ./max_speed_db_cli.py --continent africa $country;;
                 *) 
                    printf "\n\nYou need to use the English names as they are used on https://download.geofabrik.de/\n"
                    printf "There is no country with the name \"%s\".\n" "$country"
@@ -101,6 +104,8 @@ case $ACTION in
        Create_Databases "north-america" $NAM;;
     "SAM" | "sam")
        Create_Databases "south-america" $SAM;;
+    "AF" | "af")
+       Create_Databases "africa" $AF;;
 
     *) Create_Single_Country_Database $ACTION;;
 esac
