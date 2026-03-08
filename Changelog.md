@@ -1,3 +1,14 @@
+**Changelog 1.9 (08 Mar 2026)**
+
+ - Fix (again, sorry) kmh/mph and mph fallback.
+ - Give background an option to go from solid to fully transparent in all overlay modes. This is a live setting and will be applied once the "main loop" has done its gps and speed limit lookup.
+ - Scale the road sign size equally with the text size.
+ - Add "tap" action to both text and speed sign overlay: tap to mute/unmute the beep. The overlay will also show a small status speaker icon. You do not need to tap the small speaker icon. The entire overlay is "tap sensitive". Upon "tap" also a small toast (floating popup) wil be displayed indicating the status. *Note: If using high transparency values, the speaker icon will hardly be visible on a white background.*
+ - Optimize calls to Overpass. Some of the latest versions hardly returned results. This was due to the fact that the function was called too often and we got blocked by the Overpass server(s) (like mentioned some time ago: These are open-source servers and quite easily overloaded). The calls have now been optimized (not up to 5x per second) and the 5 Overpass servers are now shuffled and randomized before every call, to make sure that we not always start with the first and overload it.
+ - Removed one Overpass server as it was stopped end of 2025, thereby only giving errors.
+ - "Beep" sound: I used the notification channel, which doesn't work with FYT/DuDu builtin FM app and Media player as FYT uses it's own audio stack. Then I tried to use the alarm sound channel (after all it is an alarm to warn the user), but FYT blocks the alarm stream totally. So now I use the navigation stream just like Google Maps/Waze and other nav apps are doing.
+
+
 **Changelog 1.8.1 (02 Mar 2026)**
 
 - Fix regression bug in kmh/mph.

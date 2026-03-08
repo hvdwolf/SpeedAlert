@@ -90,7 +90,7 @@ class DrivingService : Service() {
             .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
             .build()
 
-        val soundPool = SoundPool.Builder()
+        soundPool = SoundPool.Builder()
             .setMaxStreams(1)
             .setAudioAttributes(audioAttributes)
             .build()

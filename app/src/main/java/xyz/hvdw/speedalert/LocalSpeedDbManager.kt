@@ -117,12 +117,17 @@ class LocalSpeedDbManager(private val service: DrivingService) {
         val db = activeDb ?: return null
 
         val sql = """
-            SELECT speed_data.speed
+            SELECT 
+                speed_index.id,
+                speed_index.minLat,
+                speed_index.maxLat,
+                speed_index.minLon,
+                speed_index.maxLon,
+                speed_data.speed
             FROM speed_index
             JOIN speed_data ON speed_index.id = speed_data.id
             WHERE minLat <= ? AND maxLat >= ?
               AND minLon <= ? AND maxLon >= ?
-            LIMIT 1
         """
 
         return try {
@@ -130,21 +135,50 @@ class LocalSpeedDbManager(private val service: DrivingService) {
                 lat.toString(), lat.toString(),
                 lon.toString(), lon.toString()
             )).use { c ->
-                if (c.moveToFirst()) {
-                    val speed = c.getInt(0)
-                    service.logExternal("Local DB: HIT → speed=$speed at ($lat,$lon)")
-                    speed
+
+                if (!c.moveToFirst()) {
+                    service.logExternal("Local DB: MISS at ($lat,$lon)")
+                    return null
+                }
+
+                var bestSpeed = -1
+                var bestDist = Double.MAX_VALUE
+
+                do {
+                    val minLat = c.getDouble(1)
+                    val maxLat = c.getDouble(2)
+                    val minLon = c.getDouble(3)
+                    val maxLon = c.getDouble(4)
+                    val speed = c.getInt(5)
+
+                    val centerLat = (minLat + maxLat) / 2
+                    val centerLon = (minLon + maxLon) / 2
+
+                    val dLat = lat - centerLat
+                    val dLon = lon - centerLon
+                    val dist = dLat * dLat + dLon * dLon  // squared distance
+
+                    if (dist < bestDist) {
+                        bestDist = dist
+                        bestSpeed = speed
+                    }
+
+                } while (c.moveToNext())
+
+                if (bestSpeed > 0) {
+                    service.logExternal("Local DB: HIT → speed=$bestSpeed at ($lat,$lon)")
+                    bestSpeed
                 } else {
                     service.logExternal("Local DB: MISS at ($lat,$lon)")
                     null
                 }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "DB lookup failed: ${e.message}")
             service.logExternal("Local DB: lookup error → ${e.message}")
             null
         }
     }
+
 
     // ---------------------------------------------------------
     // CLEANUP

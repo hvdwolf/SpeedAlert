@@ -11,8 +11,8 @@ android {
         applicationId = "xyz.hvdw.speedalert"
         minSdk = 29
         targetSdk = 33
-        versionCode = 11
-        versionName = "1.8.1"
+        versionCode = 12
+        versionName = "1.9"
 
         // Only include the ABIs you want in the final APK
         ndk {
