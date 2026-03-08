@@ -71,12 +71,26 @@ class DrivingService : Service() {
         // -----------------------------
         // SOUNDPOOL INITIALIZATION
         // -----------------------------
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ALARM)
+        // Below should ALWAYS work but not on FYT units with the builtin
+        // FM app and builtin Media player
+        // USAGE_ALARM doesn't work either on FYTs as FYT blocks it
+        /* val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .build()
 
         soundPool = SoundPool.Builder()
+            .setMaxStreams(1)
+            .setAudioAttributes(audioAttributes)
+            .build()
+        */
+        // Use navigation settings to not be blocked by FYT FM/Media app
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
+
+        val soundPool = SoundPool.Builder()
             .setMaxStreams(1)
             .setAudioAttributes(audioAttributes)
             .build()
