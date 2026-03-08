@@ -134,3 +134,62 @@ Below you will find the country statistics grouped by continent. You can identif
 | suriname | SR | 24,380 | 6,257 | 25.66% |
 | uruguay | UY | 96,851 | 16,851 | 17.40% |
 | venezuela | VE | 429,631 | 36,311 | 8.45% |
+
+### Africa
+
+| Country | ISO | Total highway ways | Total maxspeed ways | Percentage with maxspeed tags |
+|--------|-----|-------------------:|--------------------:|-------------------------------:|
+| algeria | DZ | 602,576 | 38,440 | 6.38% |
+| angola | AO | 243,000 | 5,780 | 2.38% |
+| benin | BJ | 102,263 | 470 | 0.46% |
+| botswana | BW | 127,001 | 1,714 | 1.35% |
+| burkina-faso | BF | 157,384 | 4,607 | 2.93% |
+| burundi | BI | 39,682 | 46 | 0.12% |
+| cameroon | CM | 216,901 | 327 | 0.15% |
+| cape-verde | CV | 18,540 | 85 | 0.46% |
+| central-african-republic | CF | 22,982 | 10 | 0.04% |
+| chad | TD | 80,067 | 186 | 0.23% |
+| congo-brazzaville | CG | 44,989 | 78 | 0.17% |
+| congo-democratic-republic | CD | 379,211 | 676 | 0.18% |
+| djibouti | DJ | 8,764 | 50 | 0.57% |
+| egypt | EG | 1,493,901 | 3,879 | 0.26% |
+| equatorial-guinea | GQ | 12,046 | 44 | 0.37% |
+| eritrea | ER | 29,471 | 6 | 0.02% |
+| ethiopia | ET | 349,715 | 2,546 | 0.73% |
+| gabon | GA | 25,674 | 1,665 | 6.49% |
+| ghana | GH | 330,884 | 24,496 | 7.40% |
+| guinea | GN | 100,460 | 344 | 0.34% |
+| guinea-bissau | GW | 14,734 | 133 | 0.90% |
+| ivory-coast | CI | 164,421 | 2,191 | 1.33% |
+| kenya | KE | 467,866 | 4,607 | 0.98% |
+| lesotho | LS | 43,058 | 432 | 1.00% |
+| liberia | LR | 28,998 | 118 | 0.41% |
+| libya | LY | 272,811 | 2,554 | 0.94% |
+| madagascar | MG | 171,952 | 398 | 0.23% |
+| malawi | MW | 187,760 | 557 | 0.30% |
+| mali | ML | 254,707 | 450 | 0.18% |
+| mauritania | MR | 55,216 | 238 | 0.43% |
+| mauritius | MU | 34,049 | 7,018 | 20.61% |
+| morocco | MA | 482,997 | 31,801 | 6.58% |
+| mozambique | MZ | 294,559 | 1,700 | 0.58% |
+| namibia | NA | 42,081 | 18,684 | 44.40% |
+| niger | NE | 128,131 | 169 | 0.13% |
+| nigeria | NG | 1,558,293 | 2,348 | 0.15% |
+| rwanda | RW | 79,886 | 435 | 0.54% |
+| saint-helena-ascension-and-tristan-da-cunha | SH | 790 | 26 | 3.29% |
+| sao-tome-and-principe | ST | 1,959 | 26 | 1.33% |
+| senegal-and-gambia | SN/GM | 280,912 | 2,031 | 0.72% |
+| seychelles | SC | 3,243 | 182 | 5.61% |
+| sierra-leone | SL | 39,213 | 127 | 0.32% |
+| somalia | SO | 122,240 | 147 | 0.12% |
+| south-africa | ZA | 1,574,958 | 107,164 | 6.80% |
+| south-sudan | SS | 60,822 | 71 | 0.12% |
+| sudan | SD | 428,776 | 323 | 0.08% |
+| swaziland | SZ | 38,351 | 749 | 1.95% |
+| tanzania | TZ | 896,070 | 3,053 | 0.34% |
+| togo | TG | 75,913 | 415 | 0.55% |
+| tunisia | TN | 331,190 | 7,813 | 2.36% |
+| uganda | UG | 296,974 | 1,797 | 0.61% |
+| zambia | ZM | 148,998 | 1,049 | 0.70% |
+| zimbabwe | ZW | 99,358 | 2,025 | 2.04% |
+
