@@ -6,6 +6,9 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.media.AudioAttributes
+import android.media.AudioTrack
+import android.media.AudioFormat
+import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Handler
 import android.os.IBinder
@@ -54,8 +57,16 @@ class DrivingService : Service() {
     private var soundPool: SoundPool? = null
     private var beepSoundId: Int = 0
 
+    // Audiotrack for code generated beeps
+    private var audioTrack: AudioTrack? = null
+
     // Kalman filter
     private val kalman = KalmanFilter(AppConfig.KALMAN_PROFILE)
+
+    // For speed camera
+    private var cameraManager: CameraManager? = null
+    private var lastCameraBeepTime = 0L
+
 
     override fun onCreate() {
         super.onCreate()
@@ -67,6 +78,7 @@ class DrivingService : Service() {
 
         localDb = LocalSpeedDbManager(this)
         localDb.initialize()
+        cameraManager = localDb.getCameraManager()
 
         // -----------------------------
         // SOUNDPOOL INITIALIZATION
@@ -74,16 +86,6 @@ class DrivingService : Service() {
         // Below should ALWAYS work but not on FYT units with the builtin
         // FM app and builtin Media player
         // USAGE_ALARM doesn't work either on FYTs as FYT blocks it
-        /* val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
-
-        soundPool = SoundPool.Builder()
-            .setMaxStreams(1)
-            .setAudioAttributes(audioAttributes)
-            .build()
-        */
         // Use navigation settings to not be blocked by FYT FM/Media app
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
@@ -96,6 +98,11 @@ class DrivingService : Service() {
             .build()
 
         beepSoundId = soundPool!!.load(this, R.raw.beep, 1)
+
+        // -----------------------------
+        // AUDIOTRACK INITIALIZATION
+        // -----------------------------
+        initBeep()
 
         // -----------------------------
         // HYBRID GPS SETUP
@@ -219,6 +226,7 @@ class DrivingService : Service() {
                 if (loc != null) {
                     scheduleSpeedLimitFetch()
                     updateLocationAndSpeed()
+                    checkCameras()
                 }
 
                 mainHandler.post { updateOverlay() }
@@ -463,6 +471,8 @@ class DrivingService : Service() {
                 val vol = settings.getBeepVolume()
                 if (!settings.isMuted()) {
                     soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
+                    //audioTrack?.setVolume(vol)
+                    //playTwoToneBeep()
                 }
                 lastBeepTime = now
             }
@@ -568,6 +578,94 @@ class DrivingService : Service() {
             isMphCountry && !userWantsMph -> (valueKmh / 0.621371).toInt()
 
             else -> valueKmh
+        }
+    }
+
+    // ---------------------------------------------------------
+    // USE AUDIOTRACK INSTEAD OF SOUNDPOOL. THIS SHOULD BYPASS
+    // ALL NEGATIVE FYT/DUDU AUDIOSTACK "FEATURES"
+    // ---------------------------------------------------------
+    private fun initBeep() {
+        val sampleRate = 44100
+        val toneDurationMs = 70
+        val gapMs = 15
+
+        val toneSamples = sampleRate * toneDurationMs / 1000
+        val gapSamples = sampleRate * gapMs / 1000
+
+        val freq1 = 1000.0
+        val freq2 = 1400.0
+
+        val buffer = ShortArray(toneSamples * 2 + gapSamples)
+
+        // First tone
+        for (i in 0 until toneSamples) {
+            val angle = 2.0 * Math.PI * i * freq1 / sampleRate
+            buffer[i] = (Math.sin(angle) * Short.MAX_VALUE).toInt().toShort()
+        }
+
+        // Gap (silence)
+        for (i in 0 until gapSamples) {
+            buffer[toneSamples + i] = 0
+        }
+
+        // Second tone
+        for (i in 0 until toneSamples) {
+            val angle = 2.0 * Math.PI * i * freq2 / sampleRate
+            buffer[toneSamples + gapSamples + i] =
+                (Math.sin(angle) * Short.MAX_VALUE).toInt().toShort()
+        }
+
+        val attributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+
+        val format = AudioFormat.Builder()
+            .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+            .setSampleRate(sampleRate)
+            .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
+            .build()
+
+        audioTrack = AudioTrack(
+            attributes,
+            format,
+            buffer.size * 2,
+            AudioTrack.MODE_STATIC,
+            AudioManager.AUDIO_SESSION_ID_GENERATE
+        )
+
+        audioTrack!!.write(buffer, 0, buffer.size)
+    }
+
+    fun playTwoToneBeep() {
+        audioTrack?.stop()
+        audioTrack?.reloadStaticData()
+        audioTrack?.play()
+    }
+
+    private fun checkCameras() {
+        val loc = lastLocation ?: return
+        val camMgr = cameraManager ?: return
+
+        val heading = loc.bearing
+        val lat = loc.latitude
+        val lon = loc.longitude
+
+        val cams = camMgr.findNearbyCameras(lat, lon, heading, 300.0)
+        if (cams.isEmpty()) return
+
+        val nearest = cams.first()
+        val now = System.currentTimeMillis()
+
+        if (now - lastCameraBeepTime >= 15000) {
+            val vol = settings.getBeepVolume()
+            if (!settings.isMuted()) {
+                audioTrack?.setVolume(vol)
+                playTwoToneBeep()
+                log("Camera alert: ${nearest.type} at ${nearest.distanceMeters.toInt()}m")
+            }
+            lastCameraBeepTime = now
         }
     }
 

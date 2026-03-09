@@ -8,24 +8,47 @@ class LocalSpeedDbManager(private val service: DrivingService) {
 
     companion object {
         private const val TAG = "LocalSpeedDbManager"
-        private const val DB_DIR = "/storage/emulated/0/Android/media/xyz.hvdw.speedalert" 
+        private const val DB_DIR = "/storage/emulated/0/Android/media/xyz.hvdw.speedalert"
     }
 
     private var dbMap: Map<String, File> = emptyMap()
     private var activeDb: SQLiteDatabase? = null
     private var activeCountry: String? = null
 
+    private var cameraDb: SQLiteDatabase? = null
+    private val cameraManager = CameraManager()
+
     // ---------------------------------------------------------
     // INITIALIZATION
     // ---------------------------------------------------------
     fun initialize() {
         dbMap = findLocalSpeedDatabases()
-        Log.i(TAG, "Found local DBs: $dbMap")
-        service.logExternal("Local DB: found databases $dbMap")
+        Log.i(TAG, "Found local speed DBs: $dbMap")
+        service.logExternal("Local DB: found speed DBs $dbMap")
+
+        // Scan for camera DBs
+        val dir = File(DB_DIR)
+        val camFiles = dir.listFiles { f ->
+            f.isFile && f.name.lowercase().endsWith("-camera.sqlite")
+        } ?: emptyArray()
+
+        for (file in camFiles) {
+            try {
+                cameraDb = SQLiteDatabase.openDatabase(
+                    file.absolutePath,
+                    null,
+                    SQLiteDatabase.OPEN_READONLY or SQLiteDatabase.NO_LOCALIZED_COLLATORS
+                )
+                cameraManager.setDatabase(cameraDb)
+                service.logExternal("Local DB: loaded camera DB ${file.name}")
+            } catch (e: Exception) {
+                service.logExternal("Local DB: failed to open camera DB ${file.name}: ${e.message}")
+            }
+        }
     }
 
     // ---------------------------------------------------------
-    // SCAN FOR *.sqlite FILES (CREATE FOLDER IF MISSING)
+    // SCAN FOR SPEED *.sqlite FILES (CREATE FOLDER IF MISSING)
     // ---------------------------------------------------------
     private fun findLocalSpeedDatabases(): Map<String, File> {
         val dir = File(DB_DIR)
@@ -48,13 +71,22 @@ class LocalSpeedDbManager(private val service: DrivingService) {
             f.isFile && f.extension.lowercase() == "sqlite"
         } ?: return emptyMap()
 
-        return files.associateBy { file ->
-            file.nameWithoutExtension.lowercase()  // "nl", "de", "fr"
+        val map = mutableMapOf<String, File>()
+
+        for (file in files) {
+            val name = file.nameWithoutExtension.lowercase()
+
+            // speed DB: nl.sqlite → key "nl"
+            if (!name.endsWith("-camera")) {
+                map[name] = file
+            }
         }
+
+        return map
     }
 
     // ---------------------------------------------------------
-    // SELECT DB BASED ON COUNTRY CODE
+    // SELECT SPEED DB BASED ON COUNTRY CODE
     // ---------------------------------------------------------
     fun updateCountry(countryCode: String?) {
         if (countryCode == null) {
@@ -63,7 +95,7 @@ class LocalSpeedDbManager(private val service: DrivingService) {
         }
 
         val cc = countryCode.lowercase()
-        service.logExternal("Local DB: selecting database for country $cc")
+        service.logExternal("Local DB: selecting speed DB for country $cc")
 
         // Already using correct DB
         if (cc == activeCountry) {
@@ -78,8 +110,8 @@ class LocalSpeedDbManager(private val service: DrivingService) {
 
         val file = dbMap[cc]
         if (file == null) {
-            Log.i(TAG, "No local DB for country: $cc")
-            service.logExternal("Local DB: no database for country $cc")
+            Log.i(TAG, "No local speed DB for country: $cc")
+            service.logExternal("Local DB: no speed DB for country $cc")
             return
         }
 
@@ -94,14 +126,14 @@ class LocalSpeedDbManager(private val service: DrivingService) {
     }
 
     // ---------------------------------------------------------
-    // OPEN SQLITE DB (READ-ONLY)
+    // OPEN SPEED SQLITE DB (READ-ONLY)
     // ---------------------------------------------------------
     private fun openSpeedDb(file: File): SQLiteDatabase? {
         return try {
             SQLiteDatabase.openDatabase(
                 file.absolutePath,
                 null,
-                SQLiteDatabase.OPEN_READONLY or SQLiteDatabase.NO_LOCALIZED_COLLATORS //or SQLiteDatabase.OPEN_IMMUTABLE
+                SQLiteDatabase.OPEN_READONLY or SQLiteDatabase.NO_LOCALIZED_COLLATORS
             )
         } catch (e: Exception) {
             Log.e(TAG, "Failed to open DB ${file.name}: ${e.message}")
@@ -179,6 +211,12 @@ class LocalSpeedDbManager(private val service: DrivingService) {
         }
     }
 
+    // ---------------------------------------------------------
+    // CAMERA MANAGER ACCESS
+    // ---------------------------------------------------------
+    fun getCameraManager(): CameraManager? {
+        return if (cameraDb != null) cameraManager else null
+    }
 
     // ---------------------------------------------------------
     // CLEANUP
@@ -187,6 +225,11 @@ class LocalSpeedDbManager(private val service: DrivingService) {
         activeDb?.close()
         activeDb = null
         activeCountry = null
+
+        cameraManager.close()
+        cameraDb?.close()
+        cameraDb = null
+
         service.logExternal("Local DB: closed")
     }
 }
