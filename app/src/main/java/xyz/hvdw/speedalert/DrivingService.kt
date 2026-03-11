@@ -13,6 +13,7 @@ import android.media.SoundPool
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.widget.Toast
 import com.google.android.gms.location.*
 import java.io.File
 import java.time.LocalDateTime
@@ -41,6 +42,7 @@ class DrivingService : Service() {
     private var lastLimitFetchTime = 0L
     private var lastLimit = SpeedLimitResult(-1, -1, "none")
     private var lastBeepTime = 0L
+    private var lastCameraStage = 0 // 0 = none, 1 = 200m, 2 = 150m, 3 = 50m
 
     private var running = true
 
@@ -644,6 +646,8 @@ class DrivingService : Service() {
         audioTrack?.play()
     }
 
+
+
     private fun checkCameras() {
         val loc = lastLocation ?: return
         val camMgr = cameraManager ?: return
@@ -653,19 +657,52 @@ class DrivingService : Service() {
         val lon = loc.longitude
 
         val cams = camMgr.findNearbyCameras(lat, lon, heading, 300.0)
-        if (cams.isEmpty()) return
+        if (cams.isEmpty()) {
+            lastCameraStage = 0
+            return
+        }
 
-        val nearest = cams.first()
-        val now = System.currentTimeMillis()
+        val nearest = cams.first()   // <-- This is a CameraHit
+        val dist = nearest.distanceMeters
 
-        if (now - lastCameraBeepTime >= 15000) {
-            val vol = settings.getBeepVolume()
-            if (!settings.isMuted()) {
-                audioTrack?.setVolume(vol)
-                playTwoToneBeep()
-                log("Camera alert: ${nearest.type} at ${nearest.distanceMeters.toInt()}m")
-            }
-            lastCameraBeepTime = now
+        if (dist in 200.0..300.0 && lastCameraStage < 1) {
+            triggerCameraAlert(nearest, dist)
+            lastCameraStage = 1
+            return
+        }
+
+        if (dist in 135.0..165.0 && lastCameraStage < 2) {
+            triggerCameraAlert(nearest, dist)
+            lastCameraStage = 2
+            return
+        }
+
+        if (dist in 0.0..70.0 && lastCameraStage < 3) {
+            triggerCameraAlert(nearest, dist)
+            lastCameraStage = 3
+            return
+        }
+
+        if (dist > 300.0) {
+            lastCameraStage = 0
+        }
+    }
+
+
+    private fun triggerCameraAlert(cam: CameraHit, dist: Double) {
+        val vol = settings.getBeepVolume()
+        if (!settings.isMuted()) {
+            audioTrack?.setVolume(vol)
+            playTwoToneBeep()
+        }
+
+        val meters = dist.toInt()
+        val msg = getString(R.string.camera_alert, meters)
+
+        log("Camera alert: ${cam.type} at ${meters}m")
+
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         }
     }
 

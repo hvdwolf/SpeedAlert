@@ -238,4 +238,6 @@
     <string name="settings_transparency_label">Transparência da sobreposição</string>
     <string name="settings_preview_label">Pré-visualização</string>
 
+    <string name="camera_alert">Radar a %1$d metros</string>
+
 </resources>

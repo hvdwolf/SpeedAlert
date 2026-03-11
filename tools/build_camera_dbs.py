@@ -77,81 +77,6 @@ def parse_maxspeed(maxspeed_str):
     return None
 
 
-# ---------- SPEED HANDLER ----------
-class SpeedHandler(osmium.SimpleHandler):
-    def __init__(self, cursor):
-        super().__init__()
-        self.cur = cursor
-        self.allowed = {
-            "motorway", "motorway_link",
-            "trunk", "trunk_link",
-            "primary", "primary_link",
-            "secondary", "secondary_link",
-            "tertiary", "tertiary_link",
-            "unclassified",
-            "residential",
-            "living_street",
-            "service",
-        }
-        self.speed_rows = []
-        self.index_rows = []
-
-    def flush(self):
-        if not self.speed_rows:
-            return
-        self.cur.executemany(
-            "INSERT OR REPLACE INTO speed_data VALUES (?,?)",
-            self.speed_rows
-        )
-        self.cur.executemany(
-            "INSERT OR REPLACE INTO speed_index VALUES (?,?,?,?,?)",
-            self.index_rows
-        )
-        self.speed_rows.clear()
-        self.index_rows.clear()
-
-    def way(self, w):
-        tags = w.tags
-        highway = tags.get("highway")
-        if highway not in self.allowed:
-            return
-        maxspeed = tags.get("maxspeed")
-        if not maxspeed:
-            return
-        speed = parse_maxspeed(maxspeed)
-        if speed is None:
-            return
-
-        first = True
-        for n in w.nodes:
-            lat, lon = n.lat, n.lon
-            if first:
-                minLat = maxLat = lat
-                minLon = maxLon = lon
-                first = False
-            else:
-                minLat = min(minLat, lat)
-                maxLat = max(maxLat, lat)
-                minLon = min(minLon, lon)
-                maxLon = max(maxLon, lon)
-
-        if first:
-            return
-
-        eps = POINT_EPSILON
-        minLat -= eps
-        maxLat += eps
-        minLon -= eps
-        maxLon += eps
-
-        wid = int(w.id)
-        self.speed_rows.append((wid, speed))
-        self.index_rows.append((wid, minLat, maxLat, minLon, maxLon))
-
-        if len(self.speed_rows) >= BATCH_SIZE:
-            self.flush()
-
-
 # ---------- CAMERA HANDLER ----------
 class CameraHandler(osmium.SimpleHandler):
     def __init__(self, cursor):
@@ -327,78 +252,6 @@ def create_camera_filtered_pbf(input_pbf: Path, output_pbf: Path):
     print(f"Camera-filtered PBF saved to {output_pbf}")
 
 
-# ---------- STATS ----------
-class WayStats(osmium.SimpleHandler):
-    def __init__(self):
-        super().__init__()
-        self.allowed = {
-            "motorway", "motorway_link",
-            "trunk", "trunk_link",
-            "primary", "primary_link",
-            "secondary", "secondary_link",
-            "tertiary", "tertiary_link",
-            "unclassified",
-            "residential",
-            "living_street",
-            "service",
-        }
-        self.total_highway = 0
-        self.total_maxspeed = 0
-
-    def way(self, w):
-        tags = w.tags
-        highway = tags.get("highway")
-        if highway not in self.allowed:
-            return
-        self.total_highway += 1
-        if "maxspeed" in tags:
-            self.total_maxspeed += 1
-
-
-# ---------- CREATE SPEED DB ----------
-def create_speed_db(osm_file: Path, db_file: Path, optimize=False):
-    conn = sqlite3.connect(db_file)
-    cur = conn.cursor()
-    cur.execute("PRAGMA journal_mode=OFF")
-    cur.execute("PRAGMA synchronous=OFF")
-    cur.execute("PRAGMA locking_mode=EXCLUSIVE")
-    cur.execute("PRAGMA temp_store=MEMORY")
-    cur.execute("PRAGMA cache_size=-200000")
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS speed_index(
-            id INTEGER PRIMARY KEY,
-            minLat REAL,
-            maxLat REAL,
-            minLon REAL,
-            maxLon REAL
-        )
-    """)
-
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS speed_data(
-            id INTEGER PRIMARY KEY,
-            speed INTEGER
-        ) WITHOUT ROWID
-    """)
-
-    conn.commit()
-    handler = SpeedHandler(cur)
-    conn.execute("BEGIN")
-    handler.apply_file(str(osm_file), locations=True, idx="sparse_file_array")
-    handler.flush()
-    conn.commit()
-    cur.execute("CREATE INDEX IF NOT EXISTS idx_lat ON speed_index(minLat,maxLat)")
-    cur.execute("CREATE INDEX IF NOT EXISTS idx_lon ON speed_index(minLon,maxLon)")
-
-    if optimize:
-        print("Running VACUUM/ANALYZE on speed DB...")
-        cur.execute("VACUUM")
-        cur.execute("ANALYZE")
-
-    conn.close()
-
-
 # ---------- CREATE CAMERA DB ----------
 def create_camera_db(osm_file: Path, db_file: Path, optimize=False):
     conn = sqlite3.connect(db_file)
@@ -457,28 +310,6 @@ def run_process(continent, country, optimize=False):
 
     osm_file = download_osm(country, continent)
 
-    print(f"Computing statistics for {country}...")
-    stats = WayStats()
-    stats.apply_file(str(osm_file), locations=False)
-    print(f"Total highway ways: {stats.total_highway:,}")
-    print(f"Total maxspeed ways: {stats.total_maxspeed:,}")
-    pct = (stats.total_maxspeed / stats.total_highway * 100.0) if stats.total_highway > 0 else 0.0
-    print(f"Percentage with maxspeed tags: {pct:.2f}%")
-
-    today = datetime.datetime.now().strftime("%Y%m%d")
-    stats_file = Path(f"statistics_{today}.txt")
-
-    with stats_file.open("a", encoding="utf-8") as f:
-        f.write(f"{country}\n")
-        f.write(f"Total highway ways: {stats.total_highway:,}\n")
-        f.write(f"Total maxspeed ways: {stats.total_maxspeed:,}\n")
-        f.write(f"Percentage with maxspeed tags: {pct:.2f}%\n\n")
-
-    speed_filtered = osm_file.with_name(osm_file.stem + "_speed_filtered.osm.pbf")
-    #camera_filtered = osm_file.with_name(osm_file.stem + "_camera_filtered.osm.pbf")
-
-    create_speed_filtered_pbf(osm_file, speed_filtered)
-    #create_camera_filtered_pbf(osm_file, camera_filtered)
     camera_filtered = osm_file.with_name(osm_file.stem + "_camera_filtered.osm.pbf")
 
     # Remove old filtered file if it exists
@@ -496,20 +327,12 @@ def run_process(continent, country, optimize=False):
     ], check=True)
 
 
-    print(f"Creating speed SQLite DB {speed_db_file} ...")
-    create_speed_db(speed_filtered, speed_db_file, optimize)
+    #print(f"Creating speed SQLite DB {speed_db_file} ...")
+    #create_speed_db(speed_filtered, speed_db_file, optimize)
 
     print(f"Creating camera SQLite DB {camera_db_file} ...")
     create_camera_db(camera_filtered, camera_db_file, optimize)
 
-    print(f"Compressing {speed_db_file} with 7z...")
-    subprocess.run([
-        "7z",
-        "a",
-        "-mx=9",
-        f"{speed_db_file}.7z",
-        str(speed_db_file)
-    ], check=True)
 
     print(f"Compressing {camera_db_file} with 7z...")
     subprocess.run([
@@ -520,11 +343,12 @@ def run_process(continent, country, optimize=False):
         str(camera_db_file)
     ], check=True)
 
-    speed_db_file.unlink()
+    #speed_db_file.unlink()
     camera_db_file.unlink()
 
     print("Cleaning up temporary files...")
-    for f in (osm_file, speed_filtered, camera_filtered):
+    #for f in (osm_file, speed_filtered, camera_filtered):
+    for f in (osm_file, camera_filtered):
         if f.exists():
             f.unlink()
     print("Done! SQLite DBs ready.")

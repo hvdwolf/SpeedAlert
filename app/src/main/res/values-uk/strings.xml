@@ -235,4 +235,6 @@
     <string name="settings_transparency_label">Прозорість накладки</string>
     <string name="settings_preview_label">Попередній перегляд</string>
 
+    <string name="camera_alert">Камера контролю швидкості через %1$d метрів</string>
+
 </resources>

@@ -244,4 +244,6 @@
     <string name="settings_transparency_label">Прозрачность оверлея</string>
     <string name="settings_preview_label">Предпросмотр</string>
 
+    <string name="camera_alert">Камера контроля скорости через %1$d метров</string>
+
 </resources>

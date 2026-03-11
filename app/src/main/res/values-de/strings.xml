@@ -232,4 +232,6 @@
     <string name="settings_transparency_label">Überlagerungstransparenz</string>
     <string name="settings_preview_label">Vorschau</string>
 
+    <string name="camera_alert">Blitzer in %1$d Metern</string>
+
 </resources>

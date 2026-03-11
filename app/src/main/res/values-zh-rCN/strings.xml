@@ -241,4 +241,6 @@
     <string name="settings_transparency_label">叠加层透明度</string>
     <string name="settings_preview_label">预览</string>
 
+    <string name="camera_alert">%1$d米前有测速摄像头</string>
+
 </resources>

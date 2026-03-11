@@ -244,4 +244,6 @@
     <string name="settings_transparency_label">Przezroczystość nakładki</string>
     <string name="settings_preview_label">Podgląd</string>
 
+    <string name="camera_alert">Fotoradar za %1$d metrów</string>
+
 </resources>

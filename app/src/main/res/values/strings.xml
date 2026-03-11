@@ -240,4 +240,6 @@
     <string name="settings_transparency_label">Overlay transparency</string>
     <string name="settings_preview_label">Preview</string>
 
+    <string name="camera_alert">Speed camera at %1$d meters</string>
+
 </resources>
