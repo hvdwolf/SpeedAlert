@@ -14,7 +14,7 @@ import java.util.Locale
 
 data class SpeedLimitResult(
     val speedKmh: Int,
-    val limitKmh: Int,
+    val roadLimitWithoutUnit: Int,
     val source: String
 )
 
@@ -86,7 +86,7 @@ class SpeedLimitRepository(private val context: Context) {
             log("Repo: all methods failed and fallback disabled")
             return SpeedLimitResult(
                 speedKmh = -1,
-                limitKmh = -1,
+                roadLimitWithoutUnit = -1,
                 source = "nofallback"
             )
         }
@@ -98,7 +98,7 @@ class SpeedLimitRepository(private val context: Context) {
 
         return SpeedLimitResult(
             speedKmh = -1,
-            limitKmh = chosen,
+            roadLimitWithoutUnit = chosen,
             source = "fallback:${country ?: "unknown"}"
         )
     }
@@ -142,7 +142,7 @@ class SpeedLimitRepository(private val context: Context) {
             log("Repo: all methods failed and fallback disabled")
             return SpeedLimitResult(
                 speedKmh = -1,
-                limitKmh = -1,
+                roadLimitWithoutUnit = -1,
                 source = "nofallback"
             )
         }
@@ -154,7 +154,7 @@ class SpeedLimitRepository(private val context: Context) {
 
         return SpeedLimitResult(
             speedKmh = -1,
-            limitKmh = chosen,
+            roadLimitWithoutUnit = chosen,
             source = "fallback:${country ?: "unknown"}"
         )
     }

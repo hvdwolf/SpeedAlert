@@ -3,6 +3,7 @@ package xyz.hvdw.speedalert
 import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.media.AudioAttributes
@@ -18,6 +19,7 @@ import com.google.android.gms.location.*
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlinx.coroutines.*
 
 class DrivingService : Service() {
@@ -43,6 +45,7 @@ class DrivingService : Service() {
     private var lastLimit = SpeedLimitResult(-1, -1, "none")
     private var lastBeepTime = 0L
     private var lastCameraStage = 0 // 0 = none, 1 = 200m, 2 = 150m, 3 = 50m
+    private var lastCountryUpdateTime = 0L
 
     private var running = true
 
@@ -249,6 +252,8 @@ class DrivingService : Service() {
         lastGpsFixTime = System.currentTimeMillis()
         lastAccuracy = loc.accuracy
         log("GPS fix: lat=${loc.latitude}, lon=${loc.longitude}, acc=${loc.accuracy}m")
+
+        updateCountryCodeIfNeeded(loc.latitude, loc.longitude)
     }
 
     private fun updateLocationAndSpeed() {
@@ -258,7 +263,7 @@ class DrivingService : Service() {
         val filtered = kalman.update(rawSpeed.toDouble()).toInt()
 
         lastSpeed = filtered
-        sendSpeedBroadcast(filtered, lastLimit.limitKmh)
+        sendSpeedBroadcast(filtered, lastLimit.roadLimitWithoutUnit)
     }
 
     private fun hasGpsFix(): Boolean {
@@ -361,7 +366,7 @@ class DrivingService : Service() {
                         log("Local DB hit: speed=$localSpeed for country=$country")
                         lastLimit = SpeedLimitResult(
                             speedKmh = -1,
-                            limitKmh = localSpeed,
+                            roadLimitWithoutUnit = localSpeed,
                             source = "localdb:${country.lowercase()}"
                         )
                         log("Local DB hit: $lastLimit")
@@ -378,7 +383,7 @@ class DrivingService : Service() {
                 val fetched = repo.getSpeedLimit(lat, lon, radius)
                 log("Service: repo returned $fetched")
 
-                if (fetched.limitKmh > 0) {
+                if (fetched.roadLimitWithoutUnit > 0) {
                     lastLimit = fetched
                 } else {
                     // No valid speed limit from Overpass/Nominatim
@@ -387,7 +392,7 @@ class DrivingService : Service() {
                         log("Fallback disabled — no speed limit available")
                         lastLimit = SpeedLimitResult(
                             speedKmh = -1,
-                            limitKmh = -1,
+                            roadLimitWithoutUnit = -1,
                             source = "nofallback"
                         )
                         return@launch
@@ -408,7 +413,7 @@ class DrivingService : Service() {
 
                     lastLimit = SpeedLimitResult(
                         speedKmh = -1,
-                        limitKmh = chosen,
+                        roadLimitWithoutUnit = chosen,
                         source = "fallback:${fallbackCountry ?: "unknown"}"
                     )
 
@@ -461,11 +466,11 @@ class DrivingService : Service() {
         val loc = lastLocation
         val country = loc?.let { getCountryCode(it.latitude, it.longitude) }
 
-        val limitKmh = lastLimit.limitKmh
+        val roadLimitWithoutUnit = lastLimit.roadLimitWithoutUnit
         val displaySpeed = convertForDisplay(lastSpeed, country)
-        val displayLimit = convertForDisplay(limitKmh, country)
+        val displayLimit = convertForDisplay(roadLimitWithoutUnit, country)
 
-        val overspeed = calculateOverspeed(limitKmh, lastSpeed)  // still in km/h internally
+        val overspeed = calculateOverspeed(roadLimitWithoutUnit, lastSpeed)  // still in km/h internally
 
         if (overspeed) {
             val now = System.currentTimeMillis()
@@ -563,6 +568,7 @@ class DrivingService : Service() {
     private fun convertForDisplay(valueKmh: Int, country: String?): Int {
         if (valueKmh <= 0) return valueKmh
 
+        log("fun convertForDisplay: ${valueKmh} for country ${country}")
         val isMphCountry = country != null && mphCountries.contains(country.uppercase())
         val userWantsMph = settings.usesMph()  // or your existing flag
 
@@ -582,6 +588,31 @@ class DrivingService : Service() {
             else -> valueKmh
         }
     }
+
+    private fun updateCountryCodeIfNeeded(lat: Double, lon: Double) {
+        val now = System.currentTimeMillis()
+
+        // Only update every 3 minutes
+        if (now - lastCountryUpdateTime < 3 * 60 * 1000) return  // run every 3 minutes
+
+        lastCountryUpdateTime = now
+
+        try {
+            val geocoder = Geocoder(this, Locale.getDefault())
+            val results = geocoder.getFromLocation(lat, lon, 1)
+
+            val countryCode = results?.firstOrNull()?.countryCode
+            if (countryCode != null) {
+                val sm = SettingsManager(this)
+                sm.setCountryCode(countryCode)
+                log("updateCountryCodeIfNeeded: Country code updated: $countryCode")
+            }
+        } catch (e: Exception) {
+            log("Failed to update country code: ${e.message}")
+        }
+    }
+
+
 
     // ---------------------------------------------------------
     // USE AUDIOTRACK INSTEAD OF SOUNDPOOL. THIS SHOULD BYPASS
