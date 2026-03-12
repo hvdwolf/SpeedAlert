@@ -106,15 +106,20 @@ class DebugActivity : AppCompatActivity() {
             txtDebugFull.text = ""
             scrollToBottom()
         }
+
+        findViewById<Button>(R.id.btnShowSettings).setOnClickListener {
+            dumpAllSettings()
+        }
+
     }
 
-    private fun append(msg: String) {
+    private fun append(msg: String, forceFlush: Boolean = false) {
         // Add to buffer
         logBuffer.append(msg).append('\n')
 
         // Throttle UI updates to once per second
         val now = System.currentTimeMillis()
-        if (now - lastUiUpdate < 1000) return
+        if (!forceFlush && now - lastUiUpdate < 1000) return
         lastUiUpdate = now
 
         // Push buffered text to UI
@@ -171,5 +176,58 @@ class DebugActivity : AppCompatActivity() {
             else        -> 25
         }
     }
+
+    private fun dumpAllSettings() {
+        append("=== SETTINGS DUMP START ===")
+
+        // 1. Dump raw SharedPreferences
+        append("-- SharedPreferences (speedalert_settings) --")
+        val prefs = getSharedPreferences("speedalert_settings", Context.MODE_PRIVATE)
+        for ((key, value) in prefs.all) {
+            append("$key = $value")
+        }
+
+        // 2. Dump SettingsManager values
+        append("-- SettingsManager values --")
+        val sm = SettingsManager(this)
+
+        append("show_speedometer = ${sm.getShowSpeedometer()}")
+        append("use_sign_overlay = ${sm.useSignOverlay()}")
+        append("hide_current_speed = ${sm.hideCurrentSpeed()}")
+        append("minimize_on_start = ${sm.getMinimizeOnStart()}")
+
+        append("overspeed_mode_percentage = ${sm.isOverspeedModePercentage()}")
+        append("overspeed_pct = ${sm.getOverspeedPercentage()}")
+        append("overspeed_fixed_kmh = ${sm.getOverspeedFixedKmh()}")
+
+        append("use_country_fallback = ${sm.useCountryFallback()}")
+
+        append("broadcast_enabled = ${sm.isBroadcastEnabled()}")
+
+        append("use_mph = ${sm.usesMph()}")
+        append("display_unit = ${sm.displayUnit()}")
+        append("should_convert_to_mph = ${sm.shouldConvertToMph()}")
+        append("should_convert_to_kmh = ${sm.shouldConvertToKmh()}")
+        append("country_code = ${sm.getCountryCode()}")
+        append("country_uses_mph = ${sm.countryUsesMph()}")
+
+        append("beep_volume = ${sm.getBeepVolume()}")
+
+        append("custom_sound = ${sm.getCustomSound()?.toString() ?: "null"}")
+
+        append("overlay_x = ${sm.getOverlayX()}")
+        append("overlay_y = ${sm.getOverlayY()}")
+        append("overlay_alpha = ${prefs.getInt("overlay_alpha", -1)}")
+        append("speedo_brightness = ${prefs.getInt("speedo_brightness", -1)}")
+        append("overlay_text_scale = ${prefs.getFloat("overlay_text_scale", -1f)}")
+
+        append("speed_limit_fetch_interval = ${sm.getSpeedLimitFetchIntervalMs()}")
+        append("min_distance_fetch = ${sm.getMinDistanceForFetch()}")
+
+        append("mute_beep = ${sm.isMuted()}")
+
+        append("=== SETTINGS DUMP END ===", forceFlush = true)
+    }
+
 
 }
