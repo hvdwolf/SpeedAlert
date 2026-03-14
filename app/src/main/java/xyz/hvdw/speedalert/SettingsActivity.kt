@@ -3,7 +3,8 @@ package xyz.hvdw.speedalert
 import android.content.Context
 import android.content.SharedPreferences
 import android.media.AudioAttributes
-import android.media.SoundPool
+import android.media.AudioFormat
+import android.media.AudioTrack
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -66,12 +67,24 @@ class SettingsActivity : AppCompatActivity() {
         1.40f
     )
 
-    private var testSoundPool: SoundPool? = null
     private var testBeepId: Int = 0
+    private var testTripleBeep: AudioTrack? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        // Tone generator to test triple beep
+        val gen = ToneGenerator()
+        val tone = gen.generateTone(1870.0, 160)
+        val gap = gen.generateSilence(25)
+
+        testTripleBeep = gen.buildTrack(
+            tone, gap,
+            tone, gap,
+            tone
+        )
 
         // Settings manager for all app settings
         settings = SettingsManager(this)
@@ -96,11 +109,22 @@ class SettingsActivity : AppCompatActivity() {
         switchSign = findViewById<Switch>(R.id.switchSignOverlay)
         switchHideCurrentSpeed = findViewById(R.id.switchHideCurrentSpeed)
 
+        val swShowMute = findViewById<Switch>(R.id.swShowMuteButton)
+        swShowMute.isChecked = settings.showSpeakerMuteButton()
+
         spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)
         spinnerMinDistance = findViewById(R.id.spinnerMinDistance)
 
         swAutoStart = findViewById(R.id.switchAutoStart)
         swMinimizeOnStart = findViewById(R.id.switchMinimizeOnStart)
+        swShowMute.setOnCheckedChangeListener { _, checked ->
+            settings.setShowSpeakerMuteButton(checked)
+
+            // If user hides the mute button, force unmuted state
+            if (!checked) {
+                settings.setMuted(false)
+            }
+        }
 
         findViewById<Button>(R.id.btnMphInfo).setOnClickListener {
             AlertDialog.Builder(this)
@@ -255,22 +279,30 @@ class SettingsActivity : AppCompatActivity() {
         // FM app and builtin Media player
         // USAGE_ALARM doesn't work either on FYTs as FYT blocks it
         // Use navigation settings to not be blocked by FYT FM/Media app
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-            .build()
 
-        val testSoundPool = SoundPool.Builder()
-            .setMaxStreams(1)
-            .setAudioAttributes(audioAttributes)
-            .build()
-
-        testBeepId = testSoundPool!!.load(this, R.raw.beep, 1)
+        var testTripleBeep: AudioTrack? = null
 
         btnTestBeep.setOnClickListener {
+            if (testTripleBeep == null) {
+                val gen = ToneGenerator()
+                val tone = gen.generateTone(1870.0, 160)
+                val gap  = gen.generateSilence(25)
+
+                testTripleBeep = gen.buildTrack(
+                    tone, gap,
+                    tone, gap,
+                    tone
+                )
+            }
+
             val vol = settings.getBeepVolume()
-            testSoundPool?.play(testBeepId, vol, vol, 1, 0, 1f)
+            testTripleBeep?.setStereoVolume(vol, vol)
+            testTripleBeep?.stop()
+            testTripleBeep?.reloadStaticData()
+            testTripleBeep?.play()
         }
+
+        
 
         // ---------------------------------------------------------
         // BRIGHTNESS
@@ -370,8 +402,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        testSoundPool?.release()
-        testSoundPool = null
+        testTripleBeep?.release()
+        testTripleBeep = null
+
         super.onDestroy()
     }
 

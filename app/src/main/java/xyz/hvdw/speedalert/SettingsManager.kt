@@ -128,6 +128,14 @@ class SettingsManager(context: Context) {
         prefs.edit().putFloat("beep_volume", v).apply()
     }
 
+    fun showSpeakerMuteButton(): Boolean =
+        prefs.getBoolean("show_mute_button", true)
+
+    fun setShowSpeakerMuteButton(value: Boolean) {
+        prefs.edit().putBoolean("show_mute_button", value).apply()
+    }
+
+
     // ---------------------------------------------------------
     // CUSTOM SOUND
     // ---------------------------------------------------------

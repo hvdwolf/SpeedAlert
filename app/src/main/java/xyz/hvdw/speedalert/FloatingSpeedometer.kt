@@ -60,7 +60,6 @@ class FloatingSpeedometer(
 
         windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val inflater = LayoutInflater.from(context)
-        val alpha = prefs.getInt("overlay_alpha", 200)
 
         // Inflate correct layout based on setting
         view = if (settings.useSignOverlay()) {

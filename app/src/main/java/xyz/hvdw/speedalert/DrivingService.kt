@@ -10,7 +10,6 @@ import android.media.AudioAttributes
 import android.media.AudioTrack
 import android.media.AudioFormat
 import android.media.AudioManager
-import android.media.SoundPool
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -58,12 +57,9 @@ class DrivingService : Service() {
     private var lastFetchLocation: Location? = null
     private var lastFetchSpeed: Int = 0
 
-    // SoundPool for beep
-    private var soundPool: SoundPool? = null
-    private var beepSoundId: Int = 0
-
     // Audiotrack for code generated beeps
-    private var audioTrack: AudioTrack? = null
+    private var twoToneTrack: AudioTrack? = null
+    private var tripleBeepTrack: AudioTrack? = null
 
     // Kalman filter
     private val kalman = KalmanFilter(AppConfig.KALMAN_PROFILE)
@@ -86,28 +82,9 @@ class DrivingService : Service() {
         cameraManager = localDb.getCameraManager()
 
         // -----------------------------
-        // SOUNDPOOL INITIALIZATION
-        // -----------------------------
-        // Below should ALWAYS work but not on FYT units with the builtin
-        // FM app and builtin Media player
-        // USAGE_ALARM doesn't work either on FYTs as FYT blocks it
-        // Use navigation settings to not be blocked by FYT FM/Media app
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-            .build()
-
-        soundPool = SoundPool.Builder()
-            .setMaxStreams(1)
-            .setAudioAttributes(audioAttributes)
-            .build()
-
-        beepSoundId = soundPool!!.load(this, R.raw.beep, 1)
-
-        // -----------------------------
         // AUDIOTRACK INITIALIZATION
         // -----------------------------
-        initBeep()
+        initTwoToneBeep()
 
         // -----------------------------
         // HYBRID GPS SETUP
@@ -182,8 +159,10 @@ class DrivingService : Service() {
 
         speedometer?.hide()
 
-        soundPool?.release()
-        soundPool = null
+        tripleBeepTrack?.release()
+        tripleBeepTrack = null
+        twoToneTrack?.release()
+        twoToneTrack = null
 
         localDb.close()
 
@@ -259,16 +238,18 @@ class DrivingService : Service() {
     private fun updateLocationAndSpeed() {
         val loc = lastLocation ?: return
 
-        val rawSpeed = (loc.speed * 3.6).toInt()
-        val filtered = kalman.update(rawSpeed.toDouble()).toInt()
+        // GPS ALWAYS returns m/s on your device
+        val speedKmh = (loc.speed * 3.6).toInt()
 
-        lastSpeed = filtered
+        val filtered = kalman.update(speedKmh.toDouble()).toInt()
+
+        lastSpeed = filtered   // ALWAYS store km/h internally
         sendSpeedBroadcast(filtered, lastLimit.roadLimitWithoutUnit)
     }
 
     private fun hasGpsFix(): Boolean {
         val age = System.currentTimeMillis() - lastGpsFixTime
-        return age < 3000 && lastAccuracy in 0f..25f
+        return age < 5000 && lastAccuracy in 0f..25f
     }
 
     // ---------------------------------------------------------
@@ -307,20 +288,6 @@ class DrivingService : Service() {
     }
 
     // ---------------------------------------------------------
-    // COUNTRY DETECTION
-    // ---------------------------------------------------------
-    private fun getCountryCode(lat: Double, lon: Double): String? {
-        return try {
-            val geocoder = android.location.Geocoder(this)
-            val list = geocoder.getFromLocation(lat, lon, 1)
-            list?.firstOrNull()?.countryCode
-        } catch (e: Exception) {
-            log("Geocoder failed: ${e.message}")
-            null
-        }
-    }
-
-    // ---------------------------------------------------------
     // SPEED LIMIT FETCHING + LOCAL DB + FALLBACKS
     // ---------------------------------------------------------
     private var limitJob: Job? = null
@@ -350,80 +317,119 @@ class DrivingService : Service() {
         lastFetchLocation = loc
         lastFetchSpeed = lastSpeed
 
+        // Cancel previous job (but it may still run a few lines!)
         limitJob?.cancel()
+
         limitJob = scope.launch(Dispatchers.IO) {
+
+            // If this job is cancelled before starting, bail out
+            if (!isActive) return@launch
+
+            // Snapshot: we NEVER lose this unless we get a better one
+            val previousLimit = lastLimit
+            var candidate: SpeedLimitResult? = null
+
             try {
                 val acc = lastAccuracy
                 val radius = dynamicRadius(acc)
+                val country = settings.getCountryCode()
+                log("Using stored country: ${country ?: "none"}")
 
-                // First: try local DB based on country code
-                val country = getCountryCode(lat, lon)
-                log("Country detected: ${country ?: "none"}")
+                // ---------------------------------------------------------
+                // 1. LOCAL DB LOOKUP
+                // ---------------------------------------------------------
                 if (country != null) {
                     localDb.updateCountry(country)
                     val localSpeed = localDb.lookupSpeed(lat, lon)
+
+                    if (!isActive) return@launch
+
                     if (localSpeed != null && localSpeed > 0) {
-                        log("Local DB hit: speed=$localSpeed for country=$country")
-                        lastLimit = SpeedLimitResult(
+                        candidate = SpeedLimitResult(
                             speedKmh = -1,
                             roadLimitWithoutUnit = localSpeed,
                             source = "localdb:${country.lowercase()}"
                         )
-                        log("Local DB hit: $lastLimit")
-                        return@launch
+                        log("Local DB hit: $candidate")
                     } else {
-                        log("Local DB miss or no DB for country: $country")
+                        log("Local DB miss for country=$country")
                     }
-                } else {
-                    log("No country code available for local DB lookup")
                 }
 
-                // If no local DB result → use repo (Overpass/Nominatim)
-                log("Service: calling repo for $lat,$lon (radius=$radius)")
-                val fetched = repo.getSpeedLimit(lat, lon, radius)
-                log("Service: repo returned $fetched")
+                // ---------------------------------------------------------
+                // 2. OVERPASS (only if DB did NOT give a value)
+                // ---------------------------------------------------------
+                if (candidate == null) {
+                    log("Calling repo for $lat,$lon (radius=$radius)")
+                    val fetched = repo.getSpeedLimit(lat, lon, radius)
+                    log("Repo returned: $fetched")
 
-                if (fetched.roadLimitWithoutUnit > 0) {
-                    lastLimit = fetched
-                } else {
-                    // No valid speed limit from Overpass/Nominatim
-                    // Decide whether to apply fallback or not
-                    if (!settings.useCountryFallback()) {
-                        log("Fallback disabled — no speed limit available")
-                        lastLimit = SpeedLimitResult(
-                            speedKmh = -1,
-                            roadLimitWithoutUnit = -1,
-                            source = "nofallback"
-                        )
-                        return@launch
+                    if (!isActive) return@launch
+
+                    if (fetched.roadLimitWithoutUnit > 0) {
+                        candidate = fetched
+                        log("Repo hit: $candidate")
+                    } else {
+                        log("Repo returned no valid speed limit")
                     }
-
-                    // Fallback enabled → use your existing logic
-                    log("Service: no valid speed limit — applying fallback")
-
-                    val fallbackCountry = country ?: getCountryCode(lat, lon)
-                    val fb = CountrySpeedFallbacks.get(fallbackCountry)
-
-                    val chosen = when {
-                        lastSpeed < 60 -> fb.urban
-                        lastSpeed < 90 -> fb.rural
-                        lastSpeed < 120 -> fb.divided
-                        else -> fb.motorway
-                    }
-
-                    lastLimit = SpeedLimitResult(
-                        speedKmh = -1,
-                        roadLimitWithoutUnit = chosen,
-                        source = "fallback:${fallbackCountry ?: "unknown"}"
-                    )
-
-                    log("Fallback applied: $lastLimit")
                 }
+
+                // ---------------------------------------------------------
+                // 3. FALLBACK (only if still nothing AND enabled)
+                // ---------------------------------------------------------
+                if (candidate == null && settings.useCountryFallback()) {
+                    val fbCountry = country ?: settings.getCountryCode()
+                    val fb = CountrySpeedFallbacks.get(fbCountry)
+
+                    if (!isActive) return@launch
+
+                    if (fb == null) {
+                        log("Fallback table missing for $fbCountry — keeping previous limit")
+                    } else {
+                        val chosen = when {
+                            lastSpeed < 60 -> fb.urban
+                            lastSpeed < 90 -> fb.rural
+                            lastSpeed < 120 -> fb.divided
+                            else -> fb.motorway
+                        }
+
+                        if (chosen > 0) {
+                            candidate = SpeedLimitResult(
+                                speedKmh = -1,
+                                roadLimitWithoutUnit = chosen,
+                                source = "fallback:${fbCountry ?: "unknown"}"
+                            )
+                            log("Fallback applied: $candidate")
+                        } else {
+                            log("Fallback produced non‑positive value — ignoring")
+                        }
+                    }
+                } else if (candidate == null && !settings.useCountryFallback()) {
+                    log("Fallback disabled — keeping previous speed limit")
+                }
+
             } catch (e: Exception) {
                 log("SpeedLimit fetch failed: ${e.message}")
             }
+
+            // ---------------------------------------------------------
+            // FINAL COMMIT (atomic, race‑safe)
+            // ---------------------------------------------------------
+            if (!isActive) return@launch
+
+            val finalLimit =
+                if (candidate != null && candidate!!.roadLimitWithoutUnit > 0) {
+                    candidate!!
+                } else {
+                    log("No valid new limit — keeping previous: $previousLimit")
+                    previousLimit
+                }
+
+            lastLimit = finalLimit
+            log("Final lastLimit after fetch: $lastLimit")
         }
     }
+
 
     // ---------------------------------------------------------
     // OVERSPEED CALCULATION
@@ -463,13 +469,26 @@ class DrivingService : Service() {
             return
         }
 
+        val displaySpeed = speedToDisplay(lastSpeed)
+        // If we have no valid speed limit yet, keep showing grey sign
+        if (lastLimit.roadLimitWithoutUnit <= 0) {
+            if (settings.useSignOverlay()) {
+                speedometer?.updateSpeedSignMode(displaySpeed, -1, false)
+            } else {
+                speedometer?.updateSpeedTextMode(displaySpeed, -1, false)
+            }
+            return
+        }
+
+
         val loc = lastLocation
-        val country = loc?.let { getCountryCode(it.latitude, it.longitude) }
+        val country = settings.getCountryCode()
 
         val roadLimitWithoutUnit = lastLimit.roadLimitWithoutUnit
-        val displaySpeed = convertForDisplay(lastSpeed, country)
-        val displayLimit = convertForDisplay(roadLimitWithoutUnit, country)
+        //val displaySpeed = speedToDisplay(lastSpeed)
+        val displayLimit = limitToDisplay(lastLimit.roadLimitWithoutUnit, country)
 
+        log("updateOverlay: displayLimit=$displayLimit, country=$country, source=${lastLimit.source}")
         val overspeed = calculateOverspeed(roadLimitWithoutUnit, lastSpeed)  // still in km/h internally
 
         if (overspeed) {
@@ -477,9 +496,10 @@ class DrivingService : Service() {
             if (now - lastBeepTime >= 10_000) {
                 val vol = settings.getBeepVolume()
                 if (!settings.isMuted()) {
-                    soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
-                    //audioTrack?.setVolume(vol)
-                    //playTwoToneBeep()
+                    //soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
+                    tripleBeepTrack?.setVolume(vol)
+                    tripleBeepTrack?.setStereoVolume(vol, vol)
+                    playTripleBeep()
                 }
                 lastBeepTime = now
             }
@@ -565,35 +585,57 @@ class DrivingService : Service() {
     }
 
 
-    private fun convertForDisplay(valueKmh: Int, country: String?): Int {
-        if (valueKmh <= 0) return valueKmh
+    // ---------------------------------------------------------
+    // CONVERT GPS SPEED TO USER PREFERENCE
+    // ---------------------------------------------------------
+    // lastSpeed is ALWAYS km/h internally
+    // It is always calculated from GPS m/s to kmh
+    private fun speedToDisplay(speedKmh: Int): Int {
+        if (speedKmh <= 0) return speedKmh
 
-        log("fun convertForDisplay: ${valueKmh} for country ${country}")
+        return if (settings.usesMph()) {
+            (speedKmh * 0.621371).toInt()   // km/h → mph
+        } else {
+            speedKmh                        // km/h → km/h
+        }
+    }
+
+    // ---------------------------------------------------------
+    // OVERPASS/DB RETURN SPEEDLIMIT IN LOCAL UNIT
+    // ---------------------------------------------------------
+    // limitWithoutUnit is the raw Overpass/DB value (unitless)
+    private fun limitToDisplay(limitWithoutUnit: Int, country: String?): Int {
+
+        if (limitWithoutUnit <= 0) return limitWithoutUnit
+
         val isMphCountry = country != null && mphCountries.contains(country.uppercase())
         val userWantsMph = settings.usesMph()  // or your existing flag
 
         return when {
             // kmh country + kmh user
-            !isMphCountry && !userWantsMph -> valueKmh
+            !isMphCountry && !userWantsMph -> limitWithoutUnit  // already kmh
 
             // mph country + mph user
-            isMphCountry && userWantsMph -> valueKmh
+            isMphCountry && userWantsMph -> limitWithoutUnit    // already mph
 
             // kmh country + mph user
-            !isMphCountry && userWantsMph -> (valueKmh * 0.621371).toInt()
+            !isMphCountry && userWantsMph -> (limitWithoutUnit * 0.621371).toInt()  // is now converted: kmh -> mph
 
             // mph country + kmh user
-            isMphCountry && !userWantsMph -> (valueKmh / 0.621371).toInt()
+            isMphCountry && !userWantsMph -> (limitWithoutUnit / 0.621371).toInt()  // is now converted: mph -> kmh
 
-            else -> valueKmh
+            else -> limitWithoutUnit
         }
     }
 
+    // ---------------------------------------------------------
+    // COUNTRY DETECTION with caching for better performance
+    // ---------------------------------------------------------
     private fun updateCountryCodeIfNeeded(lat: Double, lon: Double) {
         val now = System.currentTimeMillis()
 
-        // Only update every 3 minutes
-        if (now - lastCountryUpdateTime < 3 * 60 * 1000) return  // run every 3 minutes
+        // Only update every 5 minutes
+        if (now - lastCountryUpdateTime < 5 * 60 * 1000) return  // run every 3 minutes
 
         lastCountryUpdateTime = now
 
@@ -616,65 +658,50 @@ class DrivingService : Service() {
 
     // ---------------------------------------------------------
     // USE AUDIOTRACK INSTEAD OF SOUNDPOOL. THIS SHOULD BYPASS
-    // ALL NEGATIVE FYT/DUDU AUDIOSTACK "FEATURES"
+    // ALL NEGATIVE FYT/DUDU AUDIOSTACK "FEATURES".
+    // USE THE ToneGenerator.kt FOR THIS
     // ---------------------------------------------------------
-    private fun initBeep() {
-        val sampleRate = 44100
-        val toneDurationMs = 70
-        val gapMs = 15
+    // Below for speed camera
+    private fun initTwoToneBeep() {
+        val gen = ToneGenerator()
 
-        val toneSamples = sampleRate * toneDurationMs / 1000
-        val gapSamples = sampleRate * gapMs / 1000
+        val tone1 = gen.generateTone(freqHz = 1000.0, durationMs = 70)
+        val gap   = gen.generateSilence(durationMs = 15)
+        val tone2 = gen.generateTone(freqHz = 1400.0, durationMs = 70)
 
-        val freq1 = 1000.0
-        val freq2 = 1400.0
-
-        val buffer = ShortArray(toneSamples * 2 + gapSamples)
-
-        // First tone
-        for (i in 0 until toneSamples) {
-            val angle = 2.0 * Math.PI * i * freq1 / sampleRate
-            buffer[i] = (Math.sin(angle) * Short.MAX_VALUE).toInt().toShort()
-        }
-
-        // Gap (silence)
-        for (i in 0 until gapSamples) {
-            buffer[toneSamples + i] = 0
-        }
-
-        // Second tone
-        for (i in 0 until toneSamples) {
-            val angle = 2.0 * Math.PI * i * freq2 / sampleRate
-            buffer[toneSamples + gapSamples + i] =
-                (Math.sin(angle) * Short.MAX_VALUE).toInt().toShort()
-        }
-
-        val attributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
-
-        val format = AudioFormat.Builder()
-            .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-            .setSampleRate(sampleRate)
-            .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
-            .build()
-
-        audioTrack = AudioTrack(
-            attributes,
-            format,
-            buffer.size * 2,
-            AudioTrack.MODE_STATIC,
-            AudioManager.AUDIO_SESSION_ID_GENERATE
+        twoToneTrack = gen.buildTrack(
+            tone1,
+            gap,
+            tone2
         )
-
-        audioTrack!!.write(buffer, 0, buffer.size)
     }
 
     fun playTwoToneBeep() {
-        audioTrack?.stop()
-        audioTrack?.reloadStaticData()
-        audioTrack?.play()
+        twoToneTrack?.stop()
+        twoToneTrack?.reloadStaticData()
+        twoToneTrack?.play()
+    }
+
+
+
+    // Initialize triple beep for speed limit
+    private fun initTripleBeep() {
+        val gen = ToneGenerator()
+
+        val tone = gen.generateTone(freqHz = 1870.0, durationMs = 160)
+        val gap = gen.generateSilence(durationMs = 25)
+
+        tripleBeepTrack = gen.buildTrack(
+            tone, gap,
+            tone, gap,
+            tone
+        )
+    }
+
+    fun playTripleBeep() {
+        tripleBeepTrack?.stop()
+        tripleBeepTrack?.reloadStaticData()
+        tripleBeepTrack?.play()
     }
 
 
@@ -723,7 +750,7 @@ class DrivingService : Service() {
     private fun triggerCameraAlert(cam: CameraHit, dist: Double) {
         val vol = settings.getBeepVolume()
         if (!settings.isMuted()) {
-            audioTrack?.setVolume(vol)
+            twoToneTrack?.setVolume(vol)
             playTwoToneBeep()
         }
 

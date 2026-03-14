@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/SettingsTheme"
     android:padding="16dp">
 
     <LinearLayout
@@ -63,6 +64,13 @@
                 android:visibility="gone" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#33000000"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
+
 
         <!-- BROADCAST -->
         <Switch
@@ -70,6 +78,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/enable_broadcast"
+            android:layout_marginBottom="12dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#33000000"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp" />
 
         <!-- MPH SWITCH + INFO BUTTON -->
@@ -106,14 +121,14 @@
                 android:id="@+id/swOverspeedMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/overspeed_mode_percentage" />
+                android:text="@string/overspeed_mode_percentage"
+                android:layout_marginEnd="12dp" />
 
             <TextView
                 android:id="@+id/txtOverspeedLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/overspeed_label_percent"
-                android:textSize="18sp"
                 android:layout_marginEnd="12dp" />
 
             <SeekBar
@@ -130,6 +145,12 @@
             android:layout_height="wrap_content"
             android:text="@string/use_country_fallback" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#33000000"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
 
 
         <!-- BEEP VOLUME -->
@@ -138,14 +159,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:id="@+id/txtBeepVolumeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/beep_volume_label"
-                android:textSize="18sp"
                 android:layout_marginEnd="12dp" />
 
             <SeekBar
@@ -163,6 +183,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/beep_volume_test" />
         </LinearLayout>
+        <Switch
+            android:id="@+id/swShowMuteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_mute_button_title" />
+
 
         <!-- BRIGHTNESS -->
         <LinearLayout
@@ -177,7 +203,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/overlay_text_brightness"
-                android:textSize="18sp"
                 android:layout_marginEnd="12dp" />
 
             <SeekBar
@@ -194,21 +219,24 @@
             android:id="@+id/layoutSpeedoSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:id="@+id/txtSpeedoSizeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/speedo_size_title"
-                android:textSize="18sp" />
+                android:text="@string/speedo_size_title" 
+                android:layout_marginEnd="12dp" />
 
             <SeekBar
                 android:id="@+id/seekSpeedoSize"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:max="4" />
+                android:layout_weight="1"
+                android:max="4"
+                android:layout_marginEnd="12dp" />
 
             <TextView
                 android:id="@+id/txtSpeedoSizeValue"
@@ -217,14 +245,20 @@
                 android:text="@string/speedo_size_default" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#33000000"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
+
         <!-- SPEED LIMIT FETCH INTERVAL (horizontal row) -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp">
+            android:layout_marginBottom="12dp" >
 
             <TextView
                 android:id="@+id/txtFetchIntervalLabel"
@@ -232,8 +266,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/fetch_interval_label"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:layout_marginEnd="12dp" />
 
             <Spinner
                 android:id="@+id/spinnerFetchInterval"
@@ -245,12 +278,11 @@
 
         <!-- MINIMUM DISTANCE BEFORE FETCH (horizontal row) -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp">
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:id="@+id/txtMinDistanceLabel"
@@ -258,8 +290,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/min_distance_label"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:layout_marginEnd="12dp" />
 
             <Spinner
                 android:id="@+id/spinnerMinDistance"
@@ -268,6 +299,13 @@
                 android:spinnerMode="dropdown"
                 android:padding="4dp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#33000000"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
 
         <!-- TRANSPARENCY & PREVIEW -->
         <TextView
