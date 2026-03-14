@@ -1,6 +1,7 @@
 package xyz.hvdw.speedalert
 
 import android.content.Context
+import android.content.res.Configuration
 import android.content.SharedPreferences
 import android.media.AudioAttributes
 import android.media.AudioFormat
@@ -90,6 +91,22 @@ class SettingsActivity : AppCompatActivity() {
         settings = SettingsManager(this)
         // For all overlay UI sttings
         prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
+
+        val separator0 = findViewById<View>(R.id.settingsSeparator0)
+        val separator1 = findViewById<View>(R.id.settingsSeparator1)
+        val separator2 = findViewById<View>(R.id.settingsSeparator2)
+        val separator3 = findViewById<View>(R.id.settingsSeparator3)
+        val separator4 = findViewById<View>(R.id.settingsSeparator4)
+        val separatorDayColor = getColor(R.color.separator_day)
+        val separatorNightColor = getColor(R.color.separator_night)
+        val separatorBaseColor = if (isNightMode()) separatorNightColor else separatorDayColor
+        separator0.setBackgroundColor(separatorBaseColor)
+        separator1.setBackgroundColor(separatorBaseColor)
+        separator2.setBackgroundColor(separatorBaseColor)
+        separator3.setBackgroundColor(separatorBaseColor)
+        separator4.setBackgroundColor(separatorBaseColor)
+
+
 
         // ---------------------------------------------------------
         // FIND VIEWS
@@ -435,5 +452,10 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updatePreview(alpha: Int) {
         preview.background?.alpha = alpha
+    }
+
+    private fun isNightMode(): Boolean {
+        val uiMode = resources.configuration.uiMode
+        return (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }
 }

@@ -65,6 +65,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/settingsSeparator0"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#33000000"
@@ -81,6 +82,7 @@
             android:layout_marginBottom="12dp" />
 
         <View
+            android:id="@+id/settingsSeparator1"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#33000000"
@@ -146,6 +148,7 @@
             android:text="@string/use_country_fallback" />
 
         <View
+            android:id="@+id/settingsSeparator2"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#33000000"
@@ -246,6 +249,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/settingsSeparator3"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#33000000"
@@ -301,6 +305,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/settingsSeparator4"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="#33000000"

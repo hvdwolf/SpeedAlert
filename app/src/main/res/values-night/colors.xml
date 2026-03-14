@@ -27,4 +27,7 @@
     <color name="speed_text_day">#FFFFFFFF</color>
     <color name="speed_text_night">#FFAAAAAA</color>
 
+    <color name="separator_day">#33000000</color> 
+    <color name="separator_night">#33CCCCCC</color>
+
 </resources>

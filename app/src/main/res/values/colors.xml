@@ -23,4 +23,7 @@
     <color name="speed_text_day">#FFFFFFFF</color>      <!-- pure white -->
     <color name="speed_text_night">#FFCCCCCC</color>    <!-- soft grey -->
 
+    <color name="separator_day">#33000000</color> 
+    <color name="separator_night">#33CCCCCC</color>
+
 </resources>
