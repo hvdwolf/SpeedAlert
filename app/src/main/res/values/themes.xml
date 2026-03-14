@@ -29,5 +29,9 @@
         <item name="colorBackground">@color/background</item>
 
     </style>
+    <style name="SettingsTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">#FF000000</item>
+    </style>
+
 
 </resources>

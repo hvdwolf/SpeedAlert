@@ -246,4 +246,7 @@
 
     <string name="camera_alert">Autovelox a %1$d metri</string>
 
+    <string name="show_mute_button_title">Mostra pulsante altoparlante/muto nell’overlay</string>
+    <string name="show_mute_button_summary">Se disattivato, l’overlay emetterà sempre un beep e l’icona del muto sarà nascosta</string>
+
 </resources>

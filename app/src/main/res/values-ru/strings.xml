@@ -246,4 +246,7 @@
 
     <string name="camera_alert">Камера контроля скорости через %1$d метров</string>
 
+    <string name="show_mute_button_title">Показывать кнопку динамик/без звука в оверлее</string>
+    <string name="show_mute_button_summary">Если отключено, оверлей всегда будет подавать сигнал, а значок отключения звука будет скрыт</string>
+
 </resources>

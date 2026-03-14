@@ -243,4 +243,7 @@
 
     <string name="camera_alert">%1$d미터 앞에 속도 카메라</string>
 
+    <string name="show_mute_button_title">오버레이에 스피커/음소거 버튼 표시</string>
+    <string name="show_mute_button_summary">비활성화하면 오버레이는 항상 비프음을 내며 음소거 아이콘은 숨겨집니다</string>
+
 </resources>

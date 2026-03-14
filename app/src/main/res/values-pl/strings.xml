@@ -246,4 +246,7 @@
 
     <string name="camera_alert">Fotoradar za %1$d metrów</string>
 
+    <string name="show_mute_button_title">Pokaż przycisk głośnik/wyciszenie w nakładce</string>
+    <string name="show_mute_button_summary">Jeśli wyłączone, nakładka zawsze będzie wydawać dźwięk, a ikona wyciszenia będzie ukryta</string>
+
 </resources>

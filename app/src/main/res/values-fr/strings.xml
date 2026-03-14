@@ -246,4 +246,7 @@
 
     <string name="camera_alert">Radar à %1$d mètres</string>
 
+    <string name="show_mute_button_title">Afficher le bouton haut‑parleur/muet dans la superposition</string>
+    <string name="show_mute_button_summary">Si désactivé, la superposition émettra toujours un bip et l’icône muet sera masquée</string>
+
 </resources>

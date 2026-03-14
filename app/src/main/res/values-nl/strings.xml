@@ -246,4 +246,7 @@
 
     <string name="camera_alert">Snelheidscamera over %1$d meter</string>
 
+    <string name="show_mute_button_title">Luidspreker-/mute‑knop in overlay tonen</string>
+    <string name="show_mute_button_summary">Als uitgeschakeld, piept de overlay altijd en wordt het mute‑icoon verborgen</string>
+
 </resources>

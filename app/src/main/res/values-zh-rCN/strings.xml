@@ -243,4 +243,7 @@
 
     <string name="camera_alert">%1$d米前有测速摄像头</string>
 
+    <string name="show_mute_button_title">在叠加层中显示扬声器/静音按钮</string>
+    <string name="show_mute_button_summary">若禁用，叠加层将始终发出提示音，并隐藏静音图标</string>
+
 </resources>

@@ -246,4 +246,7 @@
 
     <string name="camera_alert">Radar a %1$d metros</string>
 
+    <string name="show_mute_button_title">Mostrar botón de altavoz/silencio en la superposición</string>
+<string name="show_mute_button_summary">Si está desactivado, la superposición siempre emitirá un sonido y el icono de silencio estará oculto</string>
+
 </resources>

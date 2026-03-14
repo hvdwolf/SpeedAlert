@@ -237,4 +237,7 @@
 
     <string name="camera_alert">Камера контролю швидкості через %1$d метрів</string>
 
+    <string name="show_mute_button_title">Показувати кнопку динамік/без звуку в оверлеї</string>
+    <string name="show_mute_button_summary">Якщо вимкнено, оверлей завжди подаватиме сигнал, а значок вимкнення звуку буде приховано</string>
+
 </resources>

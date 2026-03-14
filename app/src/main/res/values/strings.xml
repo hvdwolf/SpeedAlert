@@ -242,4 +242,7 @@
 
     <string name="camera_alert">Speed camera at %1$d meters</string>
 
+    <string name="show_mute_button_title">Show speaker/mute button in overlay</string>
+    <string name="show_mute_button_summary">If disabled, the overlay will always beep and the mute icon is hidden</string>
+
 </resources>
