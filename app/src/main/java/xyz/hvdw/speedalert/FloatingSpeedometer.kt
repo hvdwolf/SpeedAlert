@@ -79,11 +79,20 @@ class FloatingSpeedometer(
                 imgMuteState = v.findViewById(R.id.imgMuteState)
             }
         }
+        // Hide or show mute icon based on settings
+        if (settings.showSpeakerMuteButton()) {
+            imgMuteState?.visibility = View.VISIBLE
+        } else {
+            imgMuteState?.visibility = View.GONE
+        }
+
 
         view?.isClickable = true
         view?.isFocusable = true
 
         view?.setOnClickListener {
+            if (!settings.showSpeakerMuteButton()) return@setOnClickListener
+
             val newState = !settings.isMuted()
             settings.setMuted(newState)
 
@@ -95,6 +104,8 @@ class FloatingSpeedometer(
                     context.getString(R.string.beep_unmuted),
                 Toast.LENGTH_SHORT
             ).show()
+
+            updateMuteIcon()
         }
 
 
@@ -237,7 +248,7 @@ class FloatingSpeedometer(
             txtSpeedSign?.visibility = View.GONE
         } else {
             root?.setBackgroundResource(R.drawable.speedometer_bg)
-            val pad = (8 * context.resources.displayMetrics.density).toInt()
+            val pad = (8 * context.resources.displayMetrics.density).roundToInt()
             root?.setPadding(pad, pad, pad, pad)
             txtSpeedSign?.visibility = View.VISIBLE
             txtSpeedSign?.text = "$displaySpeed $unit"
@@ -374,12 +385,18 @@ class FloatingSpeedometer(
     }
 
     private fun updateMuteIcon() {
+        if (!settings.showSpeakerMuteButton()) {
+            imgMuteState?.visibility = View.GONE
+            return
+        }
+
+        imgMuteState?.visibility = View.VISIBLE
+
         if (settings.isMuted()) {
             imgMuteState?.setImageResource(R.drawable.ic_volume_off)
         } else {
             imgMuteState?.setImageResource(R.drawable.ic_volume_on)
         }
     }
-
 
 }

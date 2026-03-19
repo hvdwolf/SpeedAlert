@@ -7,6 +7,9 @@ import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioTrack
 import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -255,18 +258,32 @@ class SettingsActivity : AppCompatActivity() {
 
                 if (settings.isOverspeedModePercentage()) {
                     settings.setOverspeedPercentage(value)
-                    Toast.makeText(
+                    /*Toast.makeText(
                         this@SettingsActivity,
                         getString(R.string.overspeed_saved_percent, value),
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show() */
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        ToastUtils.show(
+                            this@SettingsActivity,
+                            prefs,
+                            getString(R.string.overspeed_saved_percent, value)
+                        )
+                    }, 80)
                 } else {
                     settings.setOverspeedFixedKmh(value)
-                    Toast.makeText(
+                    /*Toast.makeText(
                         this@SettingsActivity,
                         getString(R.string.overspeed_saved_fixed, value),
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show() */
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        ToastUtils.show(
+                            this@SettingsActivity,
+                            prefs,
+                            getString(R.string.overspeed_saved_fixed, value)
+                        )
+                    }, 80)
                 }
             }
         })
@@ -317,6 +334,13 @@ class SettingsActivity : AppCompatActivity() {
             testTripleBeep?.stop()
             testTripleBeep?.reloadStaticData()
             testTripleBeep?.play()
+
+            // Only to test
+            /*ToastUtils.show(
+                this@SettingsActivity,
+                prefs,
+                "You tested the beep"
+            )*/
         }
 
         

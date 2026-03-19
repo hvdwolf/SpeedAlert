@@ -2,6 +2,7 @@ package xyz.hvdw.speedalert
 
 import android.content.Context
 import android.net.Uri
+import kotlin.math.roundToInt
 
 class SettingsManager(context: Context) {
 
@@ -112,8 +113,8 @@ class SettingsManager(context: Context) {
 
     fun convertSpeed(value: Int): Int {
         return when {
-            shouldConvertToMph() -> (value * 0.621371).toInt()
-            shouldConvertToKmh() -> (value / 0.621371).toInt()
+            shouldConvertToMph() -> (value * 0.621371).roundToInt()
+            shouldConvertToKmh() -> (value / 0.621371).roundToInt()
             else -> value
         }
     }

@@ -1,6 +1,7 @@
 package xyz.hvdw.speedalert
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -14,12 +15,16 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.widget.Toast
+//import androidx.preference.PreferenceManager
+import android.content.SharedPreferences
 import com.google.android.gms.location.*
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlinx.coroutines.*
+import kotlin.math.roundToInt
+
 
 class DrivingService : Service() {
 
@@ -85,6 +90,7 @@ class DrivingService : Service() {
         // AUDIOTRACK INITIALIZATION
         // -----------------------------
         initTwoToneBeep()
+        initTripleBeep()
 
         // -----------------------------
         // HYBRID GPS SETUP
@@ -239,9 +245,9 @@ class DrivingService : Service() {
         val loc = lastLocation ?: return
 
         // GPS ALWAYS returns m/s on your device
-        val speedKmh = (loc.speed * 3.6).toInt()
+        val speedKmh = (loc.speed * 3.6).roundToInt()
 
-        val filtered = kalman.update(speedKmh.toDouble()).toInt()
+        val filtered = kalman.update(speedKmh.toDouble()).roundToInt()
 
         lastSpeed = filtered   // ALWAYS store km/h internally
         sendSpeedBroadcast(filtered, lastLimit.roadLimitWithoutUnit)
@@ -307,7 +313,7 @@ class DrivingService : Service() {
         lastFetchLocation?.let { prev ->
             val dist = prev.distanceTo(loc)
             if (dist < minDist) {
-                log("Skipping fetch: moved only ${dist.toInt()}m (< $minDist m)")
+                log("Skipping fetch: moved only ${dist.roundToInt()}m (< $minDist m)")
                 return
             }
         }
@@ -378,7 +384,7 @@ class DrivingService : Service() {
                 // 3. FALLBACK (only if still nothing AND enabled)
                 // ---------------------------------------------------------
                 if (candidate == null && settings.useCountryFallback()) {
-                    val fbCountry = country ?: settings.getCountryCode()
+                    val fbCountry = settings.getCountryCode() ?: country
                     val fb = CountrySpeedFallbacks.get(fbCountry)
 
                     if (!isActive) return@launch
@@ -434,7 +440,7 @@ class DrivingService : Service() {
     // ---------------------------------------------------------
     // OVERSPEED CALCULATION
     // ---------------------------------------------------------
-    private fun calculateOverspeed(limit: Int, speed: Int): Boolean {
+    /*private fun calculateOverspeed(limit: Int, speed: Int): Boolean {
         if (limit <= 0) return false
 
         return if (settings.isOverspeedModePercentage()) {
@@ -446,7 +452,29 @@ class DrivingService : Service() {
             val allowed = limit + fixed
             speed > allowed
         }
+    }*/
+
+    private fun calculateOverspeed(limit: Int, speedKmh: Int): Boolean {
+        if (limit <= 0) return false
+
+        // Convert speed to same unit as limit
+        val speed = if (settings.usesMph()) {
+            (speedKmh * 0.621371).roundToInt()   // km/h → mph
+        } else {
+            speedKmh
+        }
+
+        return if (settings.isOverspeedModePercentage()) {
+            val pct = settings.getOverspeedPercentage()
+            val allowed = limit + (limit * pct / 100)
+            speed > allowed
+        } else {
+            val fixed = settings.getOverspeedFixedKmh()
+            val allowed = limit + fixed
+            speed > allowed
+        }
     }
+
 
     // ---------------------------------------------------------
     // OVERLAY + BEEP
@@ -496,7 +524,6 @@ class DrivingService : Service() {
             if (now - lastBeepTime >= 10_000) {
                 val vol = settings.getBeepVolume()
                 if (!settings.isMuted()) {
-                    //soundPool?.play(beepSoundId, vol, vol, 1, 0, 1f)
                     tripleBeepTrack?.setVolume(vol)
                     tripleBeepTrack?.setStereoVolume(vol, vol)
                     playTripleBeep()
@@ -594,7 +621,7 @@ class DrivingService : Service() {
         if (speedKmh <= 0) return speedKmh
 
         return if (settings.usesMph()) {
-            (speedKmh * 0.621371).toInt()   // km/h → mph
+            (speedKmh * 0.621371).roundToInt()   // km/h → mph
         } else {
             speedKmh                        // km/h → km/h
         }
@@ -619,10 +646,10 @@ class DrivingService : Service() {
             isMphCountry && userWantsMph -> limitWithoutUnit    // already mph
 
             // kmh country + mph user
-            !isMphCountry && userWantsMph -> (limitWithoutUnit * 0.621371).toInt()  // is now converted: kmh -> mph
+            !isMphCountry && userWantsMph -> (limitWithoutUnit * 0.621371).roundToInt()  // is now converted: kmh -> mph
 
             // mph country + kmh user
-            isMphCountry && !userWantsMph -> (limitWithoutUnit / 0.621371).toInt()  // is now converted: mph -> kmh
+            isMphCountry && !userWantsMph -> (limitWithoutUnit / 0.621371).roundToInt()  // is now converted: mph -> kmh
 
             else -> limitWithoutUnit
         }
@@ -748,20 +775,27 @@ class DrivingService : Service() {
 
 
     private fun triggerCameraAlert(cam: CameraHit, dist: Double) {
+        //val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val vol = settings.getBeepVolume()
+        val muted = if (settings.showSpeakerMuteButton()) {
+            settings.isMuted()
+        } else {
+            false   // mute button hidden → always unmuted
+        }
         if (!settings.isMuted()) {
             twoToneTrack?.setVolume(vol)
             playTwoToneBeep()
         }
 
-        val meters = dist.toInt()
+        val meters = dist.roundToInt()
         val msg = getString(R.string.camera_alert, meters)
 
         log("Camera alert: ${cam.type} at ${meters}m")
 
         Handler(Looper.getMainLooper()).post {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            ToastUtils.show(this, prefs, msg)
         }
     }
-
 }

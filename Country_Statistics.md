@@ -4,7 +4,8 @@ The "Total Higway Ways" is actually a list of all "[highways](https://wiki.opens
 In this list we have: motorway, motorway_link, trunk, trunk_link, primary, primary_link, secondary, secondary_link, tertiary, tertiary_link, unclassified, residential, living_street, service.<br>
 So not cyclepaths, footpaths,bridleways, busways, etcetera.
 
-Below you will find the country statistics grouped by continent. You can identify them by their name and their "ISO-3166-1 alpha-2" country code.
+Below you will find the country statistics grouped by continent. These statistics show the total number of ways (for cars) and the ones that have speedlimit tags.
+You can identify the countries by their name and their "ISO-3166-1 alpha-2" country code.
 
 ### Europe
 
@@ -83,6 +84,7 @@ Below you will find the country statistics grouped by continent. You can identif
 | north-korea | KP | 185,535 | 165 | 0.09% |
 | pakistan | PK | 1,132,689 | 53,824 | 4.75% |
 | philippines | PH | 1,270,686 | 86,041 | 6.77% |
+| russia | RU | 5,514,918 | 483,347 | 8.76% |
 | south-korea | KR | 1,164,180 | 61,909 | 5.32% |
 | sri-lanka | LK | 258,021 | 111,001 | 43.02% |
 | syria | SY | 265,032 | 1,165 | 0.44% |
@@ -133,7 +135,7 @@ Below you will find the country statistics grouped by continent. You can identif
 | peru | PE | 635,627 | 45,717 | 7.19% |
 | suriname | SR | 24,380 | 6,257 | 25.66% |
 | uruguay | UY | 96,851 | 16,851 | 17.40% |
-| venezuela | VE | 429,631 | 36,311 | 8.45% |
+| venezuela | VE | 429,678 | 36,364 | 8.46% |
 
 ### Africa
 

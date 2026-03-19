@@ -1,3 +1,15 @@
+**Changelog 2.0**
+
+ - fix mph/kmh conversion (hopefully for the last time).
+ - (fix) fallback should only be used (or grey sign/empty speed text) if no gps fix or speed limit was found. In 2 latest versions, fallback always ran (due to "race condition"). Also GPS fix time out was too short (when compared to Google Maps / Waze).
+ - Add button in Debug screen to list all settings used in the program (in case of errors)
+ - Add option for local speed limit databases. See [Local DataBases](./LocalDatabases.md). This works much faster and more reliable than an internet call, provided the road has speed tags.
+ - Add option for local speed camera databases (note: speed cameras only work with local database). See [Local DataBases](./LocalDatabases.md).
+ - Replace mp3 sounds with coded sounds to prevent latency.
+ - Add a setting to hide/display speaker mute button in overlay (the one that can be tapped to mute/unmute).
+ - Make camera alert toast resizable like text in overlay.
+
+
 **Changelog 1.9 (08 Mar 2026)**
 
  - Fix (again, sorry) kmh/mph and mph fallback.

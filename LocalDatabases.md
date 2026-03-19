@@ -20,6 +20,7 @@ The app will select the nearest "way" to show the speed limit. Depending on accu
 
 
 ## Speed cameras
+*Note: Speed camera only work from local database. It requires a have internet call to get all the data "in 300 meter range".*
 Speed cameras use a "bounding half circle" of 300 meters, e.g. only looking forward. (300 m is not that big if you drive (too) fast).
 It is not looking at the road, it is simply looking at the distance to a speed camera. That can be a speed camera, but also an integrated traffic light/speed camera. Currently "trajectory control" is not included ("trajectory control" meassures average speed over a certain distance. Only in very few countries).
 It will play a double-tone (low-high) beep and show a "toast" at the bottom of the screen with "speed camera in xy meters" (once between 200-300 meters, once between 100 -200 meters, once within 100 meters).
@@ -27,11 +28,11 @@ It will play a double-tone (low-high) beep and show a "toast" at the bottom of t
 
 ## How do you use these databases?
 
-The files are named by their 2-character ISO code as that is how Android and Overpass work. You can find your country and its ISO code inside this ["countries_iso.txt"](https://drive.google.com/file/d/1LaTJKSe-JiK-2oPMF3VgIQ6L1sp-Z7zL/view?usp=sharing) file.<br>
+The files are named by their 2-character ISO code as that is how Android and Overpass work. You can find your country and its ISO code inside this ["countries_iso.md"](https://github.com/hvdwolf/SpeedAlert/blob/main/countries_iso.md) file.<br>
 The compressed road speed limit database files are named "xy.sqlite.7z".<br>
 The compressed speed camera database files are named "xy-camera.sqlite.7z". *Note: Not all countries have speed cameras or registered speed cameras, like e.g. Greenland. These countries will miss in the list*.<br>
 
-* Download the 7z file for your country onto your device from [my Google Drive](https://drive.google.com/drive/folders/1RGjBXgvTJEx8wr4er3WhCcslJVgdmRi4?usp=sharing) from the folder "Speed_Limit_Databases" and/or the "Camera_Databases".
+* Download the 7z file for your country onto your device from [my Special Database Release page](https://github.com/hvdwolf/SpeedAlert/releases/tag/V2026-03) from the folder "Speed_Limit_Databases" and/or the "Camera_Databases".
 * Un7zip the file so you have "xy.sqlite" or "xy-camera.sqlite".
 * Copy that **un7zipped** xy.sqlite or xy-camaera.sqlite file into "(storage/emulated/0)/Android/media/xyz.hvdw.speedalert".
 
