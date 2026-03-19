@@ -32,7 +32,7 @@ The files are named by their 2-character ISO code as that is how Android and Ove
 The compressed road speed limit database files are named "xy.sqlite.7z".<br>
 The compressed speed camera database files are named "xy-camera.sqlite.7z". *Note: Not all countries have speed cameras or registered speed cameras, like e.g. Greenland. These countries will miss in the list*.<br>
 
-* Download the 7z file for your country onto your device from [my Special Database Release page](https://github.com/hvdwolf/SpeedAlert/releases/tag/V2026-03) from the folder "Speed_Limit_Databases" and/or the "Camera_Databases".
+* Download the 7z file for your country onto your device from [this github Database Release page](https://github.com/hvdwolf/SpeedAlert/releases/tag/V2026-03) from the folder "Speed_Limit_Databases" and/or the "Camera_Databases".
 * Un7zip the file so you have "xy.sqlite" or "xy-camera.sqlite".
 * Copy that **un7zipped** xy.sqlite or xy-camaera.sqlite file into "(storage/emulated/0)/Android/media/xyz.hvdw.speedalert".
 
