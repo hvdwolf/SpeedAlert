@@ -1,7 +1,7 @@
 # Using local speed limit and speed camera databases
 
 As of version 2.0, Speedalert comes with optional local databases for speed limits on roads and local databases for speed cameras.
-They do not come pre-installed as that would make it a massive application. You can download those from my Google Drive.
+They do not come pre-installed as that would make it a massive application. You can download those from [this github release page](https://github.com/hvdwolf/SpeedAlert/releases/tag/V2026-03).
 
 ### Why local databases?
 The application uses simple Sqlite databases (no rtree as Android doesn't support them). Sqlite db lookups take 0.2 - 3 ms (milliseconds), whereas overpass lookups take 200 ms up to 10 seconds.<br>
