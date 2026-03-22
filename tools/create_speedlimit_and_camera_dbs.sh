@@ -6,10 +6,9 @@
 CONTINENT_IDS="africa, antarctica, asia, australia-oceania, central-america, europe, north-america, south-america"
 
 EU="albania andorra austria azores belarus belgium bosnia-herzegovina bulgaria croatia cyprus czech-republic denmark estonia faroe-islands finland france georgia germany gibraltar greece hungary iceland ireland isle-of-man italy jersey latvia liechtenstein lithuania luxembourg malta moldova monaco montenegro netherlands north-macedonia norway poland portugal romania russia serbia slovakia slovenia spain sweden switzerland turkey ukraine united-kingdom"
-EU_A="austria belgium denmark france germany ireland-and-northern-ireland italy luxembourg netherlands norway poland portugal spain sweden switzerland ukraine united-kingdom" 
-EU_B="albania andorra azores belarus bosnia-herzegovina bulgaria croatia cyprus czech-republic estonia faroe-islands finland georgia greece guernsey-jersey hungary iceland isle-of-man kosovo latvia liechtenstein lithuania macedonia malta moldova monaco montenegro romania russia serbia slovakia slovenia turkey"
-DE_regions="baden-wuerttemberg bayern berlin brandenburg bremen hamburg hessen mecklenburg-vorpommern niedersachsen nordrhein-westfalen rheinland-pfalz saarland sachsen sachsen-anhalt schleswig-holstein thueringen"
-AS="afghanistan armenia azerbaijan bangladesh bhutan cambodia china iran iraq israel japan jordan kazakhstan kuwait kyrgyzstan laos lebanon malaysia-singapore-brunei maldives mongolia myanmar nepal north-korea pakistan philippines qatar saudi-arabia south-korea sri-lanka syria taiwan tajikistan thailand turkmenistan uzbekistan vietnam yemen"
+#EU_A="austria belgium denmark france germany ireland-and-northern-ireland italy luxembourg netherlands norway poland portugal spain sweden switzerland ukraine united-kingdom" 
+#EU_B="albania andorra azores belarus bosnia-herzegovina bulgaria croatia cyprus czech-republic estonia faroe-islands finland georgia greece guernsey-jersey hungary iceland isle-of-man kosovo latvia liechtenstein lithuania macedonia malta moldova monaco montenegro romania russia serbia slovakia slovenia turkey"
+AS="afghanistan armenia azerbaijan bangladesh bhutan cambodia china iran iraq israel japan jordan kazakhstan kuwait kyrgyzstan laos lebanon malaysia-singapore-brunei maldives mongolia myanmar nepal north-korea pakistan philippines qatar russia saudi-arabia south-korea sri-lanka syria taiwan tajikistan thailand turkmenistan uzbekistan vietnam yemen"
 CAM="bahamas belize costa-rica cuba el-salvador guatemala haiti-and-dominican-republic honduras jamaica nicaragua panama"
 NAM="canada greenland mexico us"
 SAM="argentina bolivia brazil chile colombia ecuador guyana paraguay peru suriname uruguay venezuela"
@@ -19,14 +18,10 @@ AF="algeria angola benin botswana burkina-faso burundi cameroon canary-islands c
 #  functions
 
 Info () {
-    printf "Provide a country, like Netherlands or Belgium or Germany\n"
-    printf "for example:  ./maxspeed_db.sh france\n\n"
-    printf "* other options:\n* Duitsland, Germany, EU_A, EU_B, DE  => Regions Germany\n"
-    printf "* Frankrijk, FR => Regions France\n"
-    printf "* UK, VK, United_Kingdom => England, Scotland, Wales, Northern_Ireland\n"
-    printf "* Examples separate countries => Gb_england, Netherlands, Belgium, Luxembourg, Denmark\n"
-    printf "* Examples separate regions: Germany_thueringen, France_auvergne-rhone-alpes, Italy_liguria\n"
-    printf "Note: France (Italy) will download the entire France_road (Italy) map. Frankrijk (Italie or IT)  will download all regions\n\n"
+    printf "Provide a continent to the script by its abbreviation: EU, AS, AF, CAM, NAM, SAM\n"
+    printf "For Europe, Asia, Africa, Central America, North America, South America\n"
+    printf "For example:  \"./create_speedlimit_and_camera_dbs.sh EU\" or \"./create_speedlimit_and_camera_dbs.sh eu\"\n\n"
+    printf "The script will go over all countries for that continent and put these in folder \"DBs/<continent>\"\n\n"
     exit
 }
 
@@ -41,6 +36,14 @@ Create_Databases() {
     done
 }
 
+Move_Databases() {
+    CONTINENT=$1
+    printf "moving created speed limit and camera databases on continent $CONTINENT to folder DBs/${CONTINENT}\n\n"
+    rm -rf DBs/${CONTINENT}
+    mkdir -p DBs/${CONTINENT}
+    mv *.7z DBs/${CONTINENT}
+}
+
 Create_Single_Country_Database() {
     echo "Starting on $1"
     country="$1"
@@ -51,7 +54,8 @@ Create_Single_Country_Database() {
             echo "$country is in $list"
             found=true
             case $list in
-                "EU" | "eu" | "EU_A" | "eu_a" | "EU_B" | "eu_b")
+                #"EU" | "eu" | "EU_A" | "eu_a" | "EU_B" | "eu_b")
+                "EU" | "eu")
                     ./build_speed_and_camera_dbs.py --continent europe -o $country;;
                 "AS" | "as")
                    ./build_speed_and_camera_dbs.py --continent asia $country;;
@@ -91,21 +95,22 @@ ACTION="$@"
 
 case $ACTION in
     "EU" | "eu")
-       Create_Databases "europe" $EU;;
-    "EU_A" | "eu_a")
-       Create_Databases "europe" $EU_A;;
-    "EU_B" | "eu_b")
-       Create_Databases "europe" $EU_B;;
+       Create_Databases "europe" $EU;
+       Move_Databases "europe";;
     "AS" | "as")
-       Create_Databases "asia" $AS;;
+       Create_Databases "asia" $AS;
+       Move_Databases "asia";;
     "CAM" | "cam")
-       Create_Databases "central-america" $CAM;;
+       Create_Databases "central-america" $CAM;
+       Move_Databases "central-america";;
     "NAM" | "nam")
-       Create_Databases "north-america" $NAM;;
+       Create_Databases "north-america" $NAM;
+       Move_Databases "north-america";;
     "SAM" | "sam")
-       Create_Databases "south-america" $SAM;;
+       Create_Databases "south-america" $SAM;
+       Move_Databases "south-america";;
     "AF" | "af")
-       Create_Databases "africa" $AF;;
-
+       Create_Databases "africa" $AF;
+       Move_Databases "africa";;
     *) Create_Single_Country_Database $ACTION;;
 esac
