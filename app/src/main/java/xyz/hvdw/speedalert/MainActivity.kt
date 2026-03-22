@@ -20,6 +20,7 @@ import java.net.URL
 import java.net.HttpURLConnection
 import org.json.JSONObject
 import android.util.Log
+import kotlin.math.roundToInt
 
 
 class MainActivity : AppCompatActivity() {
@@ -208,7 +209,7 @@ class MainActivity : AppCompatActivity() {
             else "--"
 
             txtStatus.text = if (acc >= 0)
-                getString(R.string.gps_accuracy, acc.toInt())
+                getString(R.string.gps_accuracy, acc.roundToInt())
             else getString(R.string.gps_waiting)
 
             if (overspeed) {
