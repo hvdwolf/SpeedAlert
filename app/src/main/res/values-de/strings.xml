@@ -237,4 +237,11 @@
     <string name="show_mute_button_title">Lautsprecher/Stumm-Schaltfläche im Overlay anzeigen</string>
     <string name="show_mute_button_summary">Wenn deaktiviert, gibt das Overlay immer einen Ton aus und das Stummsymbol wird ausgeblendet</string>
 
+    <string name="header_overlay">Overlay-Einstellungen</string>
+    <string name="header_speed_units">Geschwindigkeit &amp; Einheiten</string>
+    <string name="header_overspeed">Geschwindigkeitswarnung</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Geschwindigkeitslimit-Abruf</string>
+    <string name="header_advanced">Erweitert</string>
+
 </resources>

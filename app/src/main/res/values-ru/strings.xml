@@ -249,4 +249,11 @@
     <string name="show_mute_button_title">Показывать кнопку динамик/без звука в оверлее</string>
     <string name="show_mute_button_summary">Если отключено, оверлей всегда будет подавать сигнал, а значок отключения звука будет скрыт</string>
 
+    <string name="header_overlay">Настройки оверлея</string>
+    <string name="header_speed_units">Скорость &amp; Единицы</string>
+    <string name="header_overspeed">Предупреждение о превышении скорости</string>
+    <string name="header_audio">Аудио</string>
+    <string name="header_fetching">Получение ограничения скорости</string>
+    <string name="header_advanced">Дополнительно</string>
+
 </resources>

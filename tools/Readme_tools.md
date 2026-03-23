@@ -22,4 +22,5 @@ The bash scripts will only run on Linux/MacOS (or Windows with WSL). The python 
 
 ## General
 
-All scripts, python and/or bash, show you an quick info/help if you start them without parameter(s).
+All scripts, python and/or bash, show you an quick info/help if you start them without parameter(s).<br>
+To create the biggest countries (when looking at data) like Germany, US, France, China and a few others you need 6GB internal memory. Other countries need less, even down to 50MB.

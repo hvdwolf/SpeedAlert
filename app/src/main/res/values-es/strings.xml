@@ -247,6 +247,13 @@
     <string name="camera_alert">Radar a %1$d metros</string>
 
     <string name="show_mute_button_title">Mostrar botón de altavoz/silencio en la superposición</string>
-<string name="show_mute_button_summary">Si está desactivado, la superposición siempre emitirá un sonido y el icono de silencio estará oculto</string>
+    <string name="show_mute_button_summary">Si está desactivado, la superposición siempre emitirá un sonido y el icono de silencio estará oculto</string>
+
+    <string name="header_overlay">Ajustes de superposición</string>
+    <string name="header_speed_units">Velocidad &amp; Unidades</string>
+    <string name="header_overspeed">Alerta de exceso de velocidad</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Obtención del límite de velocidad</string>
+    <string name="header_advanced">Avanzado</string>
 
 </resources>

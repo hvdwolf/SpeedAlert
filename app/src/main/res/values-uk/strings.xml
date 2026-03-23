@@ -240,4 +240,11 @@
     <string name="show_mute_button_title">Показувати кнопку динамік/без звуку в оверлеї</string>
     <string name="show_mute_button_summary">Якщо вимкнено, оверлей завжди подаватиме сигнал, а значок вимкнення звуку буде приховано</string>
 
+    <string name="header_overlay">Налаштування оверлею</string>
+    <string name="header_speed_units">Швидкість &amp; Одиниці</string>
+    <string name="header_overspeed">Попередження про перевищення швидкості</string>
+    <string name="header_audio">Аудіо</string>
+    <string name="header_fetching">Отримання обмеження швидкості</string>
+    <string name="header_advanced">Розширені</string>
+
 </resources>

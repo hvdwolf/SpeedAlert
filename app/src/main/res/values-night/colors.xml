@@ -30,4 +30,7 @@
     <color name="separator_day">#33000000</color> 
     <color name="separator_night">#33CCCCCC</color>
 
+    <color name="settingsHeaderText">#FFFFFF</color>
+    <color name="settingsHeaderBackground">#333333</color>
+
 </resources>

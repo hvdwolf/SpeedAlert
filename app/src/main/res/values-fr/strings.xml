@@ -249,4 +249,11 @@
     <string name="show_mute_button_title">Afficher le bouton haut‑parleur/muet dans la superposition</string>
     <string name="show_mute_button_summary">Si désactivé, la superposition émettra toujours un bip et l’icône muet sera masquée</string>
 
+    <string name="header_overlay">Paramètres d’affichage</string>
+    <string name="header_speed_units">Vitesse &amp; Unités</string>
+    <string name="header_overspeed">Alerte de survitesse</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Récupération des limitations</string>
+    <string name="header_advanced">Avancé</string>
+
 </resources>

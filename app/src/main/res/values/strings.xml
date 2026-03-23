@@ -245,4 +245,11 @@
     <string name="show_mute_button_title">Show speaker/mute button in overlay</string>
     <string name="show_mute_button_summary">If disabled, the overlay will always beep and the mute icon is hidden</string>
 
+    <string name="header_overlay">Overlay Settings</string>
+    <string name="header_speed_units">Speed &amp; Units</string>
+    <string name="header_overspeed">Overspeed Warning</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Speed Limit Fetching</string>
+    <string name="header_advanced">Advanced</string>
+
 </resources>

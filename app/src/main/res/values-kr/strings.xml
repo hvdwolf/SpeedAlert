@@ -246,4 +246,11 @@
     <string name="show_mute_button_title">오버레이에 스피커/음소거 버튼 표시</string>
     <string name="show_mute_button_summary">비활성화하면 오버레이는 항상 비프음을 내며 음소거 아이콘은 숨겨집니다</string>
 
+    <string name="header_overlay">오버레이 설정</string>
+    <string name="header_speed_units">속도 &amp; 단위</string>
+    <string name="header_overspeed">과속 경고</string>
+    <string name="header_audio">오디오</string>
+    <string name="header_fetching">제한 속도 가져오기</string>
+    <string name="header_advanced">고급 설정</string>
+
 </resources>

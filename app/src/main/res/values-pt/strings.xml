@@ -243,4 +243,11 @@
     <string name="show_mute_button_title">Mostrar botão de alto‑falante/mudo na sobreposição</string>
     <string name="show_mute_button_summary">Se desativado, a sobreposição sempre emitirá um beep e o ícone de mudo ficará oculto</string>
 
+    <string name="header_overlay">Configurações de overlay</string>
+    <string name="header_speed_units">Velocidade &amp; Unidades</string>
+    <string name="header_overspeed">Alerta de excesso de velocidade</string>
+    <string name="header_audio">Áudio</string>
+    <string name="header_fetching">Obtenção do limite de velocidade</string>
+    <string name="header_advanced">Avançado</string>
+
 </resources>

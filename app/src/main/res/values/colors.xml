@@ -26,4 +26,7 @@
     <color name="separator_day">#33000000</color> 
     <color name="separator_night">#33CCCCCC</color>
 
+    <color name="settingsHeaderText">#222222</color>
+    <color name="settingsHeaderBackground">#F2F2F2</color>
+
 </resources>

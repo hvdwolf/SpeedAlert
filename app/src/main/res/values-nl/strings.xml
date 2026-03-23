@@ -249,4 +249,11 @@
     <string name="show_mute_button_title">Luidspreker-/mute‑knop in overlay tonen</string>
     <string name="show_mute_button_summary">Als uitgeschakeld, piept de overlay altijd en wordt het mute‑icoon verborgen</string>
 
+    <string name="header_overlay">Overlay-instellingen</string>
+    <string name="header_speed_units">Snelheid &amp; Eenheden</string>
+    <string name="header_overspeed">Snelheidswaarschuwing</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Snelheidslimiet ophalen</string>
+    <string name="header_advanced">Geavanceerd</string>
+
 </resources>

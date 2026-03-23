@@ -249,4 +249,11 @@
     <string name="show_mute_button_title">Afișează butonul difuzor/mut în overlay</string>
     <string name="show_mute_button_summary">Dacă este dezactivat, overlay‑ul va emite întotdeauna un bip, iar pictograma de mut va fi ascunsă</string>
 
+    <string name="header_overlay">Setări overlay</string>
+    <string name="header_speed_units">Viteză &amp; Unități</string>
+    <string name="header_overspeed">Avertizare depășire viteză</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Preluare limită de viteză</string>
+    <string name="header_advanced">Avansat</string>
+
 </resources>

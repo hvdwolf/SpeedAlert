@@ -249,4 +249,11 @@
     <string name="show_mute_button_title">Mostra pulsante altoparlante/muto nell’overlay</string>
     <string name="show_mute_button_summary">Se disattivato, l’overlay emetterà sempre un beep e l’icona del muto sarà nascosta</string>
 
+    <string name="header_overlay">Impostazioni overlay</string>
+    <string name="header_speed_units">Velocità &amp; Unità</string>
+    <string name="header_overspeed">Avviso di velocità eccessiva</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Recupero limite di velocità</string>
+    <string name="header_advanced">Avanzate</string>
+
 </resources>

@@ -246,4 +246,11 @@
     <string name="show_mute_button_title">在叠加层中显示扬声器/静音按钮</string>
     <string name="show_mute_button_summary">若禁用，叠加层将始终发出提示音，并隐藏静音图标</string>
 
+    <string name="header_overlay">叠加层设置</string>
+    <string name="header_speed_units">速度与单位</string>
+    <string name="header_overspeed">超速警告</string>
+    <string name="header_audio">音频</string>
+    <string name="header_fetching">获取限速信息</string>
+    <string name="header_advanced">高级设置</string>
+
 </resources>
