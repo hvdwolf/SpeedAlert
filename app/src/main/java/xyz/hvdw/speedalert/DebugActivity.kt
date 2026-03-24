@@ -178,56 +178,63 @@ class DebugActivity : AppCompatActivity() {
     }
 
     private fun dumpAllSettings() {
-        append("=== SETTINGS DUMP START ===")
+        fun out(msg: String) {
+            append(msg)
+            logToFile(msg)   // <-- write to log file too
+        }
+
+        out("=== SETTINGS DUMP START ===")
 
         // 1. Dump raw SharedPreferences
-        append("-- SharedPreferences (speedalert_settings) --")
+        out("-- SharedPreferences (speedalert_settings) --")
         val prefs = getSharedPreferences("speedalert_settings", Context.MODE_PRIVATE)
         for ((key, value) in prefs.all) {
-            append("$key = $value")
+            out("$key = $value")
         }
 
         // 2. Dump SettingsManager values
-        append("-- SettingsManager values --")
+        out("-- SettingsManager values --")
         val sm = SettingsManager(this)
 
-        append("show_speedometer = ${sm.getShowSpeedometer()}")
-        append("use_sign_overlay = ${sm.useSignOverlay()}")
-        append("hide_current_speed = ${sm.hideCurrentSpeed()}")
-        append("minimize_on_start = ${sm.getMinimizeOnStart()}")
+        out("show_speedometer = ${sm.getShowSpeedometer()}")
+        out("use_sign_overlay = ${sm.useSignOverlay()}")
+        out("hide_current_speed = ${sm.hideCurrentSpeed()}")
+        out("minimize_on_start = ${sm.getMinimizeOnStart()}")
 
-        append("overspeed_mode_percentage = ${sm.isOverspeedModePercentage()}")
-        append("overspeed_pct = ${sm.getOverspeedPercentage()}")
-        append("overspeed_fixed_kmh = ${sm.getOverspeedFixedKmh()}")
+        out("overspeed_mode_percentage = ${sm.isOverspeedModePercentage()}")
+        out("overspeed_pct = ${sm.getOverspeedPercentage()}")
+        out("overspeed_fixed_kmh = ${sm.getOverspeedFixedKmh()}")
 
-        append("use_country_fallback = ${sm.useCountryFallback()}")
+        out("use_country_fallback = ${sm.useCountryFallback()}")
 
-        append("broadcast_enabled = ${sm.isBroadcastEnabled()}")
+        out("broadcast_enabled = ${sm.isBroadcastEnabled()}")
 
-        append("use_mph = ${sm.usesMph()}")
-        append("display_unit = ${sm.displayUnit()}")
-        append("should_convert_to_mph = ${sm.shouldConvertToMph()}")
-        append("should_convert_to_kmh = ${sm.shouldConvertToKmh()}")
-        append("country_code = ${sm.getCountryCode()}")
-        append("country_uses_mph = ${sm.countryUsesMph()}")
+        out("use_mph = ${sm.usesMph()}")
+        out("display_unit = ${sm.displayUnit()}")
+        out("should_convert_to_mph = ${sm.shouldConvertToMph()}")
+        out("should_convert_to_kmh = ${sm.shouldConvertToKmh()}")
+        out("country_code = ${sm.getCountryCode()}")
+        out("country_uses_mph = ${sm.countryUsesMph()}")
 
-        append("beep_volume = ${sm.getBeepVolume()}")
+        out("speed_limit_db_name = ${sm.getSpeedLimitDbName()}")
+        out("camera_db_name = ${sm.getCameraDbName()}")
 
-        append("custom_sound = ${sm.getCustomSound()?.toString() ?: "null"}")
+        out("beep_volume = ${sm.getBeepVolume()}")
 
-        append("overlay_x = ${sm.getOverlayX()}")
-        append("overlay_y = ${sm.getOverlayY()}")
-        append("overlay_alpha = ${prefs.getInt("overlay_alpha", -1)}")
-        append("speedo_brightness = ${prefs.getInt("speedo_brightness", -1)}")
-        append("overlay_text_scale = ${prefs.getFloat("overlay_text_scale", -1f)}")
+        out("custom_sound = ${sm.getCustomSound()?.toString() ?: "null"}")
 
-        append("speed_limit_fetch_interval = ${sm.getSpeedLimitFetchIntervalMs()}")
-        append("min_distance_fetch = ${sm.getMinDistanceForFetch()}")
+        out("overlay_x = ${sm.getOverlayX()}")
+        out("overlay_y = ${sm.getOverlayY()}")
+        out("overlay_alpha = ${prefs.getInt("overlay_alpha", -1)}")
+        out("speedo_brightness = ${prefs.getInt("speedo_brightness", -1)}")
+        out("overlay_text_scale = ${prefs.getFloat("overlay_text_scale", -1f)}")
 
-        append("mute_beep = ${sm.isMuted()}")
+        out("speed_limit_fetch_interval = ${sm.getSpeedLimitFetchIntervalMs()}")
+        out("min_distance_fetch = ${sm.getMinDistanceForFetch()}")
 
-        append("=== SETTINGS DUMP END ===", forceFlush = true)
+        out("mute_beep = ${sm.isMuted()}")
+
+        out("=== SETTINGS DUMP END ===")
     }
-
 
 }

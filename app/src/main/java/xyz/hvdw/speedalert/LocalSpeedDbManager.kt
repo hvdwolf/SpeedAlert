@@ -15,6 +15,9 @@ class LocalSpeedDbManager(private val service: DrivingService) {
     private var activeDb: SQLiteDatabase? = null
     private var activeCountry: String? = null
 
+    private var activeSpeedDbFile: File? = null
+    private var activeCameraDbFile: File? = null
+
     private var cameraDb: SQLiteDatabase? = null
     private val cameraManager = CameraManager()
 
@@ -40,6 +43,7 @@ class LocalSpeedDbManager(private val service: DrivingService) {
                     SQLiteDatabase.OPEN_READONLY or SQLiteDatabase.NO_LOCALIZED_COLLATORS
                 )
                 cameraManager.setDatabase(cameraDb)
+                activeCameraDbFile = file
                 service.logExternal("Local DB: loaded camera DB ${file.name}")
             } catch (e: Exception) {
                 service.logExternal("Local DB: failed to open camera DB ${file.name}: ${e.message}")
@@ -118,6 +122,7 @@ class LocalSpeedDbManager(private val service: DrivingService) {
         activeDb = openSpeedDb(file)
         if (activeDb != null) {
             activeCountry = cc
+            activeSpeedDbFile = file
             Log.i(TAG, "Using local speed DB for country: $cc")
             service.logExternal("Local DB: using ${file.name}")
         } else {
@@ -232,4 +237,13 @@ class LocalSpeedDbManager(private val service: DrivingService) {
 
         service.logExternal("Local DB: closed")
     }
+
+    fun getActiveSpeedDbName(): String? {
+        return activeSpeedDbFile?.name
+    }
+
+    fun getCameraDbName(): String? {
+        return activeCameraDbFile?.name
+    }
+
 }

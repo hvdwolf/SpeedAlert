@@ -84,6 +84,7 @@ class DrivingService : Service() {
 
         localDb = LocalSpeedDbManager(this)
         localDb.initialize()
+
         cameraManager = localDb.getCameraManager()
 
         // -----------------------------
@@ -533,6 +534,20 @@ class DrivingService : Service() {
             lastBeepTime = 0L
         }
 
+        // Store DB names once they become available
+        localDb.getActiveSpeedDbName()?.let { name ->
+            if (settings.getSpeedLimitDbName() != name) {
+                settings.setSpeedLimitDbName(name)
+                log("Stored speed DB name: $name")
+            }
+        }
+
+        localDb.getCameraDbName()?.let { name ->
+            if (settings.getCameraDbName() != name) {
+                settings.setCameraDbName(name)
+                log("Stored camera DB name: $name")
+            }
+        }
 
         if (settings.useSignOverlay()) {
             speedometer?.updateSpeedSignMode(displaySpeed, displayLimit, overspeed)

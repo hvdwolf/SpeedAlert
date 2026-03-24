@@ -206,10 +206,30 @@ class SettingsManager(context: Context) {
         "KY"  // Cayman Islands
     )
 
+    // ---------------------------------------------------------
+    // COUNTRY Database IDENTIFICATION (IF USED)
+    // ---------------------------------------------------------
     fun countryUsesMph(): Boolean {
         val code = getCountryCode()?.uppercase() ?: return false
         return mphCountries.contains(code)
     }
+
+    fun setSpeedLimitDbName(name: String) {
+        prefs.edit().putString("speed_limit_db_name", name).apply()
+    }
+
+    fun getSpeedLimitDbName(): String? {
+        return prefs.getString("speed_limit_db_name", null)
+    }
+
+    fun setCameraDbName(name: String) {
+        prefs.edit().putString("camera_db_name", name).apply()
+    }
+
+    fun getCameraDbName(): String? {
+        return prefs.getString("camera_db_name", null)
+    }
+
 
 
     // ---------------------------------------------------------
