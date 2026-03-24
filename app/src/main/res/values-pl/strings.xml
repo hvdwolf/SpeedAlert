@@ -256,4 +256,6 @@
     <string name="header_fetching">Pobieranie ograniczeń prędkości</string>
     <string name="header_advanced">Zaawansowane</string>
 
+    <string name="beep_once_title">Piszcz tylko raz przy przekroczeniu prędkości</string>
+
 </resources>

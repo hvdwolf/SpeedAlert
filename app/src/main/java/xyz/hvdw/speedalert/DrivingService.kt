@@ -91,6 +91,7 @@ class DrivingService : Service() {
         // -----------------------------
         initTwoToneBeep()
         initTripleBeep()
+       
 
         // -----------------------------
         // HYBRID GPS SETUP
@@ -440,19 +441,6 @@ class DrivingService : Service() {
     // ---------------------------------------------------------
     // OVERSPEED CALCULATION
     // ---------------------------------------------------------
-    /*private fun calculateOverspeed(limit: Int, speed: Int): Boolean {
-        if (limit <= 0) return false
-
-        return if (settings.isOverspeedModePercentage()) {
-            val pct = settings.getOverspeedPercentage()
-            val allowed = limit + (limit * pct / 100)
-            speed > allowed
-        } else {
-            val fixed = settings.getOverspeedFixedKmh()
-            val allowed = limit + fixed
-            speed > allowed
-        }
-    }*/
 
     private fun calculateOverspeed(limit: Int, speedKmh: Int): Boolean {
         if (limit <= 0) return false
@@ -513,7 +501,6 @@ class DrivingService : Service() {
         val country = settings.getCountryCode()
 
         val roadLimitWithoutUnit = lastLimit.roadLimitWithoutUnit
-        //val displaySpeed = speedToDisplay(lastSpeed)
         val displayLimit = limitToDisplay(lastLimit.roadLimitWithoutUnit, country)
 
         log("updateOverlay: displayLimit=$displayLimit, country=$country, source=${lastLimit.source}")
@@ -521,7 +508,17 @@ class DrivingService : Service() {
 
         if (overspeed) {
             val now = System.currentTimeMillis()
-            if (now - lastBeepTime >= 10_000) {
+
+            val shouldBeep =
+                if (settings.beepOnce()) {
+                    // Only beep once per overspeed event
+                    lastBeepTime == 0L
+                } else {
+                    // Beep every 10 seconds
+                    now - lastBeepTime >= 10_000
+                }
+
+            if (shouldBeep) {
                 val vol = settings.getBeepVolume()
                 if (!settings.isMuted()) {
                     tripleBeepTrack?.setVolume(vol)
@@ -530,9 +527,12 @@ class DrivingService : Service() {
                 }
                 lastBeepTime = now
             }
+
         } else {
+            // Reset so next overspeed event can beep again
             lastBeepTime = 0L
         }
+
 
         if (settings.useSignOverlay()) {
             speedometer?.updateSpeedSignMode(displaySpeed, displayLimit, overspeed)

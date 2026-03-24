@@ -256,4 +256,6 @@
     <string name="header_fetching">Récupération des limitations</string>
     <string name="header_advanced">Avancé</string>
 
+    <string name="beep_once_title">Émettre un seul bip en cas de survitesse</string>
+
 </resources>

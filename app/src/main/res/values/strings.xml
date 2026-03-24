@@ -252,4 +252,6 @@
     <string name="header_fetching">Speed Limit Fetching</string>
     <string name="header_advanced">Advanced</string>
 
+    <string name="beep_once_title">Only beep once when overspeeding</string>
+
 </resources>

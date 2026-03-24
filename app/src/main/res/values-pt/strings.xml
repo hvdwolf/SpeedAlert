@@ -250,4 +250,6 @@
     <string name="header_fetching">Obtenção do limite de velocidade</string>
     <string name="header_advanced">Avançado</string>
 
+    <string name="beep_once_title">Emitir apenas um bip ao exceder a velocidade</string>
+
 </resources>

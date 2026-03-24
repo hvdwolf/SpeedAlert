@@ -256,4 +256,6 @@
     <string name="header_fetching">Получение ограничения скорости</string>
     <string name="header_advanced">Дополнительно</string>
 
+    <string name="beep_once_title">Подавать сигнал только один раз при превышении скорости</string>
+
 </resources>

@@ -40,6 +40,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var txtBeepVolumeLabel: TextView
     private lateinit var btnTestBeep: Button
     private lateinit var swShowMuteButton: Switch
+    private lateinit var swBeepOnce: Switch
 
     // Fetching
     private lateinit var spinnerFetchInterval: Spinner
@@ -142,6 +143,12 @@ class SettingsActivity : AppCompatActivity() {
         txtBeepVolumeLabel = findViewById(R.id.txtBeepVolumeLabel)
         btnTestBeep = findViewById(R.id.btnTestBeep)
         swShowMuteButton = findViewById(R.id.swShowMuteButton)
+        swBeepOnce = findViewById(R.id.swBeepOnce)
+        swBeepOnce.isChecked = settings.beepOnce()
+
+        swBeepOnce.setOnCheckedChangeListener { _, checked ->
+            settings.setBeepOnce(checked)
+        }
 
         spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)
         spinnerMinDistance = findViewById(R.id.spinnerMinDistance)

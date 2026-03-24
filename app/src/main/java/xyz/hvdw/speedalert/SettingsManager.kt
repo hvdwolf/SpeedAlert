@@ -136,6 +136,13 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("show_mute_button", value).apply()
     }
 
+    fun setBeepOnce(value: Boolean) {
+        prefs.edit().putBoolean("beep_once", value).apply()
+    }
+
+    fun beepOnce(): Boolean {
+        return prefs.getBoolean("beep_once", false)
+    }
 
     // ---------------------------------------------------------
     // CUSTOM SOUND

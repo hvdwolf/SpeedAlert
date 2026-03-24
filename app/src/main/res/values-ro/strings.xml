@@ -256,4 +256,6 @@
     <string name="header_fetching">Preluare limită de viteză</string>
     <string name="header_advanced">Avansat</string>
 
+    <string name="beep_once_title">Emite un singur bip la depășirea vitezei</string>
+
 </resources>

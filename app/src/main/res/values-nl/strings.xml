@@ -256,4 +256,6 @@
     <string name="header_fetching">Snelheidslimiet ophalen</string>
     <string name="header_advanced">Geavanceerd</string>
 
+    <string name="beep_once_title">Bij overschrijding slechts één keer piepen</string>
+
 </resources>

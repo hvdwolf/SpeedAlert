@@ -256,4 +256,6 @@
     <string name="header_fetching">Recupero limite di velocità</string>
     <string name="header_advanced">Avanzate</string>
 
+    <string name="beep_once_title">Emetti un solo beep in caso di eccesso di velocità</string>
+
 </resources>

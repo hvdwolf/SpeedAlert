@@ -253,4 +253,6 @@
     <string name="header_fetching">제한 속도 가져오기</string>
     <string name="header_advanced">고급 설정</string>
 
+    <string name="beep_once_title">과속 시 한 번만 비프음 재생</string>
+
 </resources>

@@ -246,4 +246,6 @@
     <string name="show_mute_button_title">在覆蓋層中顯示揚聲器/靜音按鈕</string>
     <string name="show_mute_button_summary">若停用，覆蓋層將始終發出提示音，並隱藏靜音圖示</string>
 
+    <string name="beep_once_title">超速時僅提示一次</string>
+
 </resources>
