@@ -188,11 +188,13 @@
     <string name="overlay_text_brightness">Luminosità del testo dell’overlay</string>
 
     <string name="speedo_size_title">Dimensione del testo dell’overlay</string>
-    <string name="speedo_size_smallest">Più piccolo</string>
-    <string name="speedo_size_smaller">Piccolo</string>
+    <string name="speedo_size_smallest">Il più piccolo</string>
+    <string name="speedo_size_smaller">Più piccolo</string>
     <string name="speedo_size_default">Predefinito</string>
-    <string name="speedo_size_bigger">Grande</string>
-    <string name="speedo_size_biggest">Più grande</string>
+    <string name="speedo_size_bigger">Più grande</string>
+    <string name="speedo_size_even_bigger">Ancora più grande</string>
+    <string name="speedo_size_very_big">Molto grande</string>
+    <string name="speedo_size_extremely_big">Estremamente grande</string>
 
     <string name="btn_settings">Impostazioni</string>
     <string name="settings_title">Impostazioni</string>

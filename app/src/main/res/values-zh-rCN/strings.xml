@@ -189,8 +189,10 @@
     <string name="speedo_size_smallest">最小</string>
     <string name="speedo_size_smaller">较小</string>
     <string name="speedo_size_default">默认</string>
-    <string name="speedo_size_bigger">较大</string>
-    <string name="speedo_size_biggest">最大</string>
+    <string name="speedo_size_bigger">更大</string>
+    <string name="speedo_size_even_bigger">更大一些</string>
+    <string name="speedo_size_very_big">非常大</string>
+    <string name="speedo_size_extremely_big">极大</string>
 
     <string name="btn_settings">设置</string>
     <string name="settings_title">设置</string>

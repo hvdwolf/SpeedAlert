@@ -131,8 +131,7 @@
                 android:id="@+id/layoutSpeedoSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_marginTop="16dp">
 
                 <TextView
@@ -140,21 +139,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/speedo_size_title"
-                    android:layout_marginEnd="12dp" />
+                    android:layout_marginBottom="8dp" />
 
-                <SeekBar
-                    android:id="@+id/seekSpeedoSize"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="4"
-                    android:layout_marginEnd="12dp" />
+                <!-- Container for label + SeekBar -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/txtSpeedoSizeValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/speedo_size_default" />
+            <!-- Floating percentage label ABOVE the SeekBar -->
+                    <TextView
+                        android:id="@+id/txtSpeedoSizeValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:textStyle="bold"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="0dp" />
+
+                    <SeekBar
+                        android:id="@+id/seekSpeedoSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:max="6" />
+
+                </FrameLayout>
+
             </LinearLayout>
 
         </LinearLayout>

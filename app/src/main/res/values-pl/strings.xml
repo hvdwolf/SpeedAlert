@@ -192,7 +192,9 @@
     <string name="speedo_size_smaller">Mniejszy</string>
     <string name="speedo_size_default">Domyślny</string>
     <string name="speedo_size_bigger">Większy</string>
-    <string name="speedo_size_biggest">Największy</string>
+    <string name="speedo_size_even_bigger">Jeszcze większy</string>
+    <string name="speedo_size_very_big">Bardzo duży</string>
+    <string name="speedo_size_extremely_big">Ogromny</string>
 
     <string name="btn_settings">Ustawienia</string>
     <string name="settings_title">Ustawienia</string>

@@ -186,11 +186,13 @@
     <string name="overlay_text_brightness">오버레이 텍스트 밝기</string>
 
     <string name="speedo_size_title">오버레이 텍스트 크기</string>
-    <string name="speedo_size_smallest">가장 작게</string>
-    <string name="speedo_size_smaller">작게</string>
-    <string name="speedo_size_default">기본</string>
-    <string name="speedo_size_bigger">크게</string>
-    <string name="speedo_size_biggest">가장 크게</string>
+    <string name="speedo_size_smallest">가장 작음</string>
+    <string name="speedo_size_smaller">더 작음</string>
+    <string name="speedo_size_default">기본값</string>
+    <string name="speedo_size_bigger">더 큼</string>
+    <string name="speedo_size_even_bigger">훨씬 더 큼</string>
+    <string name="speedo_size_very_big">매우 큼</string>
+    <string name="speedo_size_extremely_big">극도로 큼</string>
 
     <string name="btn_settings">설정</string>
     <string name="settings_title">설정</string>

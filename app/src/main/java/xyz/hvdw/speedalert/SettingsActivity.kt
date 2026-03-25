@@ -59,17 +59,31 @@ class SettingsActivity : AppCompatActivity() {
         getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
     }
 
-    private val sizeLabels by lazy {
+    /*private val sizeLabels by lazy {
         arrayOf(
             getString(R.string.speedo_size_smallest),
             getString(R.string.speedo_size_smaller),
             getString(R.string.speedo_size_default),
             getString(R.string.speedo_size_bigger),
-            getString(R.string.speedo_size_biggest)
+            getString(R.string.speedo_size_even_bigger),
+            getString(R.string.speedo_size_very_big),
+            getString(R.string.speedo_size_extremely_big),
+        )
+    } */
+    private val sizeLabels by lazy {
+        arrayOf(
+            "60%",
+            "80%",
+            "100%",
+            "120%",
+            "140%",
+            "160%",
+            "180%",
         )
     }
 
-    private val sizeScales = floatArrayOf(0.60f, 0.80f, 1.00f, 1.20f, 1.40f)
+
+    private val sizeScales = floatArrayOf(0.60f, 0.80f, 1.00f, 1.20f, 1.40f, 1.60f, 1.80f)
 
     private var testTripleBeep: AudioTrack? = null
 
@@ -204,16 +218,59 @@ class SettingsActivity : AppCompatActivity() {
         })
 
         // Speedo size
-        val savedScale = prefs.getFloat("overlay_text_scale", 1.0f)
+        val savedScaleRaw = prefs.getFloat("overlay_text_scale", 1.0f)
+        val savedScale = sizeScales.minByOrNull { kotlin.math.abs(it - savedScaleRaw) } ?: 1.0f
         val index = sizeScales.indexOfFirst { it == savedScale }.let { if (it == -1) 2 else it }
         seekSpeedoSize.progress = index
         txtSpeedoSizeValue.text = sizeLabels[index]
 
+        // Position floating label correctly on startup
+        seekSpeedoSize.post {
+            val progress = seekSpeedoSize.progress
+            val scale = sizeScales[progress]
+            txtSpeedoSizeValue.text = "${(scale * 100).toInt()}%"
+
+            val thumb = seekSpeedoSize.thumb
+            val thumbCenter = thumb.bounds.centerX().toFloat()
+            val barCenter = seekSpeedoSize.width / 2f
+
+            var tx = thumbCenter - barCenter
+
+            // Clamp to prevent clipping
+            val minX = - (txtSpeedoSizeValue.width / 2f)
+            val maxX = seekSpeedoSize.width - (txtSpeedoSizeValue.width / 2f)
+            tx = tx.coerceIn(minX, maxX)
+
+            txtSpeedoSizeValue.translationX = tx
+        }
+
         seekSpeedoSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(sb: SeekBar?, value: Int, fromUser: Boolean) {
-                txtSpeedoSizeValue.text = sizeLabels[value]
-                prefs.edit().putFloat("overlay_text_scale", sizeScales[value]).apply()
+                val scale = sizeScales[value]
+                val pct = (scale * 100).toInt()
+                txtSpeedoSizeValue.text = "$pct%"
+
+                sb?.let {
+                    val thumb = it.thumb
+
+                    val thumbCenter = thumb.bounds.centerX().toFloat()
+                    val barCenter = seekSpeedoSize.width / 2f
+
+                    // Desired translation
+                    var tx = thumbCenter - barCenter
+
+                    // Clamp so the label never leaves the FrameLayout
+                    val minX = - (txtSpeedoSizeValue.width / 2f)
+                    val maxX = seekSpeedoSize.width - (txtSpeedoSizeValue.width / 2f)
+
+                    tx = tx.coerceIn(minX, maxX)
+
+                    txtSpeedoSizeValue.translationX = tx
+                }
+
+                prefs.edit().putFloat("overlay_text_scale", scale).apply()
             }
+
             override fun onStartTrackingTouch(sb: SeekBar?) {}
             override fun onStopTrackingTouch(sb: SeekBar?) {}
         })

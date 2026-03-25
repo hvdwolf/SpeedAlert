@@ -192,7 +192,9 @@
     <string name="speedo_size_smaller">Mai mic</string>
     <string name="speedo_size_default">Implicit</string>
     <string name="speedo_size_bigger">Mai mare</string>
-    <string name="speedo_size_biggest">Cel mai mare</string>
+    <string name="speedo_size_even_bigger">Și mai mare</string>
+    <string name="speedo_size_very_big">Foarte mare</string>
+    <string name="speedo_size_extremely_big">Extrem de mare</string>
 
     <string name="btn_settings">Setări</string>
     <string name="settings_title">Setări</string>

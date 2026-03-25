@@ -192,7 +192,9 @@
     <string name="speedo_size_smaller">Kleiner</string>
     <string name="speedo_size_default">Standaard</string>
     <string name="speedo_size_bigger">Groter</string>
-    <string name="speedo_size_biggest">Grootst</string>
+    <string name="speedo_size_even_bigger">Nog groter</string>
+    <string name="speedo_size_very_big">Heel groot</string>
+    <string name="speedo_size_extremely_big">Extreem groot</string>
 
     <string name="btn_settings">Instellingen</string>
     <string name="settings_title">Instellingen</string>

@@ -190,9 +190,11 @@
     <string name="speedo_size_title">Розмір тексту накладки</string>
     <string name="speedo_size_smallest">Найменший</string>
     <string name="speedo_size_smaller">Менший</string>
-    <string name="speedo_size_default">Стандартний</string>
+    <string name="speedo_size_default">Типовий</string>
     <string name="speedo_size_bigger">Більший</string>
-    <string name="speedo_size_biggest">Найбільший</string>
+    <string name="speedo_size_even_bigger">Ще більший</string>
+    <string name="speedo_size_very_big">Дуже великий</string>
+    <string name="speedo_size_extremely_big">Надзвичайно великий</string>
 
     <string name="btn_settings">Налаштування</string>
     <string name="settings_title">Налаштування</string>
