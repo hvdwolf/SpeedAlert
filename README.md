@@ -1,7 +1,11 @@
 # Speed Alert
 ![logo](./images/logo.png)<br>
-<!-- ![logo](https://github.com/hvdwolf/SpeedAlert/raw/main/images/logo.png) -->
-A simple tool that shows an overlay with your current speed and the speed limit for that road (when a limit is available for that road). The overlay text switches to red when overspeeding and plays an alarm sound if you exceed the speed tolerance you defined. The overlay can be dragged anywhere on screen. Next to that: if you lose GPS, it will tell you "no GPS".<br>
+
+# I moved from github to codeberg.org as codeberg is a community project in Europe.
+# As of now go to [https://codeberg.org/hvdwolf/SpeedAlert/](https://codeberg.org/hvdwolf/SpeedAlert/)
+
+
+A tool that shows an overlay with your current speed and the speed limit for that road (when a limit is available for that road). The overlay text switches to red when overspeeding and plays an alarm sound if you exceed the speed tolerance you defined. The overlay can be dragged anywhere on screen. Next to that: if you lose GPS, it will tell you "no GPS".<br>
 This app uses your GPS to get exact location and speed and then uses the [Overpass Api](https://wiki.openstreetmap.org/wiki/Overpass_API) from the [OpenStreetMap](https://openstreetmap.org) database to get speed limits for the relevant part of the road you are driving on. Note that this app will only work if the GPS location is accurate and the road has assigned speed limits in the [OpenStreetMap](https://openstreetmap.org) database, but it will work world-wide as long as the street has an assigned speed limit.<br>
 This app is 80% made with AI (MS CoPilot) and 20% by "me, myself and I".<br><br>
 
@@ -36,17 +40,17 @@ Buttons that might need an explanation *(and note: everything below the horizont
 
 
 ## Installation
-Just download the apk from [Github](https://github.com/hvdwolf/SpeedAlert/releases/latest) and then side-load the application from your file manager.<br>(Note: When Google asks you to scan the app, then do so. My app is signed and should be absolutely secure and OK, but we live in dangerous times).<br>
+Just download the apk from [Github](https://codeberg.org/hvdwolf/SpeedAlert/releases/latest) and then side-load the application from your file manager.<br>(Note: When Google asks you to scan the app, then do so. My app is signed and should be absolutely secure and OK, but we live in dangerous times).<br>
 
 ## Releases
-The releases are done via [my github](https://github.com/hvdwolf/SpeedAlert/releases/latest).<br>
+The releases are done via [my github](https://codeberg.org/hvdwolf/SpeedAlert/releases/latest).<br>
 The app should run on Android 10 to 16, but I only tested on my DuDu7 running Android 13/SDK33 (and on my Samsung S22 Ultra running Android 16).<br>
 *(Technically it should also run on mtcd/mtce type units, all fyt units, all QCM6125/QCM6490 (Joying) units and TS10/TS18 units, and actually any Android device as of Android 10+)*
 
 ## Translations
 I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, de, es, fr, it, nl, pl, pt, ru, uk.<br>
-If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/values/strings.xml), and translate it (note the multi-line disclaimer and the dialog_fyt_message) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to *my language*"  and then copy the text behind it. It saves you a lot of typing. Only some correcting if necessary.<br>
-If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://github.com/hvdwolf/SpeedAlert/raw/main/app/src/main/res/) and improve the translation, and in case of unclear translations, also download the US English version to compare. _(I think it did a pretty nice job for my own Dutch language. I only needed to change 1 string)_
+If you want to have it in your own language, you need to download the [strings.xml](https://codeberg.org/hvdwolf/SpeedAlert/src/branch/main/app/src/main/res/values/strings.xml), and translate it (note the multi-line disclaimer and the dialog_fyt_message) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to *my language*"  and then copy the text behind it. It saves you a lot of typing. Only some correcting if necessary.<br>
+If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://codeberg.org/hvdwolf/SpeedAlert/src/branch/main/app/src/main/res) and improve the translation, and in case of unclear translations, also download the US English version to compare. _(I think it did a pretty nice job for my own Dutch language. I only needed to change 1 string)_
 
 <HR>
 
