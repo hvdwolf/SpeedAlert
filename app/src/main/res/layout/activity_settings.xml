@@ -420,6 +420,15 @@
             android:padding="8dp"
             android:visibility="gone">
 
+            <TextView
+               android:id="@+id/txtFetchingInfo"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="@string/fetching_info"
+               android:layout_marginBottom="12dp"
+               android:textColor="@color/settingsHeaderText"
+               android:textSize="14sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -465,6 +474,23 @@
                     android:spinnerMode="dropdown"
                     android:padding="4dp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvDownloadDb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/download_databases"
+                android:linksClickable="true"
+                android:autoLink="none" />
+
+            <TextView
+                android:id="@+id/tvInstallDb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/install_database"
+                android:linksClickable="true"
+                android:focusable="true" />
+
 
         </LinearLayout>
 

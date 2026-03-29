@@ -260,4 +260,18 @@
 
     <string name="beep_once_title">Émettre un seul bip en cas de survitesse</string>
 
+    <string name="fetching_info">
+    Si vous utilisez une base de données locale, le réseau est très peu sollicité. Vous pouvez donc régler la récupération des limitations à 2 secondes et la distance minimale à 0 mètre.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Télécharger les bases de données</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Installer la base de données</a>]]></string>
+
+    <string name="select_7z_db">Veuillez sélectionner un fichier de base de données .7z</string>
+    <string name="extraction_failed">Échec de l’extraction</string>
+    <string name="media_access_failed">Impossible d’accéder au répertoire média</string>
+    <string name="database_installed">Base de données installée : %1$s</string>
+
 </resources>

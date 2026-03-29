@@ -33,4 +33,6 @@
     <color name="settingsHeaderText">#FFFFFF</color>
     <color name="settingsHeaderBackground">#333333</color>
 
+    <color name="link_color">#90CAF9</color>
+
 </resources>

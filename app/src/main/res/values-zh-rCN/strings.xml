@@ -257,4 +257,16 @@
 
     <string name="beep_once_title">超速时仅提示一次</string>
 
+    <string name="fetching_info">
+    如果使用本地数据库，几乎不会使用网络，因此可以将限速获取设置为 2 秒，最小距离设置为 0 米</string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">下载数据库</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">安装数据库</a>]]></string>
+    <string name="select_7z_db">请选择 .7z 数据库文件</string>
+    <string name="extraction_failed">解压失败</string>
+    <string name="media_access_failed">无法访问媒体目录</string>
+    <string name="database_installed">数据库已安装：%1$s</string>
+
 </resources>

@@ -257,4 +257,15 @@
 
     <string name="beep_once_title">과속 시 한 번만 비프음 재생</string>
 
+    <string name="fetching_info">로컬 데이터베이스를 사용하면 네트워크 사용이 거의 없으므로, 제한 속도 가져오기를 2초로, 최소 거리를 0미터로 설정해도 됩니다.</string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">데이터베이스 다운로드</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">데이터베이스 설치</a>]]></string>
+    <string name="select_7z_db">.7z 데이터베이스 파일을 선택하세요</string>
+    <string name="extraction_failed">추출 실패</string>
+    <string name="media_access_failed">미디어 디렉터리에 접근할 수 없습니다</string>
+    <string name="database_installed">데이터베이스 설치됨: %1$s</string>
+
 </resources>

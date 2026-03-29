@@ -251,4 +251,17 @@
 
     <string name="beep_once_title">Подавати сигнал лише один раз при перевищенні швидкості</string>
 
+    <string name="fetching_info">
+    Якщо ви використовуєте локальну базу даних, мережа майже не використовується, тому можна встановити отримання обмежень швидкості на 2 секунди та мінімальну відстань на 0 метрів.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Завантажити бази даних</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Встановити базу даних</a>]]></string>
+    <string name="select_7z_db">Виберіть файл бази даних .7z</string>
+    <string name="extraction_failed">Помилка розпакування</string>
+    <string name="media_access_failed">Неможливо отримати доступ до каталогу медіа</string>
+    <string name="database_installed">Базу даних встановлено: %1$s</string>
+
 </resources>

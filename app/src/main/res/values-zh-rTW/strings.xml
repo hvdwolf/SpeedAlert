@@ -250,4 +250,17 @@
 
     <string name="beep_once_title">超速時僅提示一次</string>
 
+    <string name="fetching_info">
+    如果使用本地資料庫，幾乎不會使用網路，因此可以將速限擷取設定為 2 秒，最小距離設定為 0 公尺</string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">下載資料庫</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">安裝資料庫</a>]]></string>
+
+    <string name="select_7z_db">請選擇 .7z 資料庫檔案</string>
+    <string name="extraction_failed">解壓縮失敗</string>
+    <string name="media_access_failed">無法存取媒體目錄</string>
+    <string name="database_installed">資料庫已安裝：%1$s</string>
+
 </resources>

@@ -260,4 +260,17 @@
 
     <string name="beep_once_title">Piszcz tylko raz przy przekroczeniu prędkości</string>
 
+    <string name="fetching_info">
+    Jeśli korzystasz z lokalnej bazy danych, sieć jest prawie w ogóle nieużywana, więc możesz ustawić pobieranie ograniczeń prędkości na 2 sekundy i minimalną odległość na 0 metrów.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Pobierz bazy danych</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Zainstaluj bazę danych</a>]]></string>
+    <string name="select_7z_db">Wybierz plik bazy danych .7z</string>
+    <string name="extraction_failed">Rozpakowywanie nie powiodło się</string>
+    <string name="media_access_failed">Brak dostępu do katalogu multimediów</string>
+    <string name="database_installed">Zainstalowano bazę danych: %1$s</string>
+
 </resources>

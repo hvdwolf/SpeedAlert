@@ -29,4 +29,6 @@
     <color name="settingsHeaderText">#222222</color>
     <color name="settingsHeaderBackground">#F2F2F2</color>
 
+    <color name="link_color">#1E88E5</color>
+
 </resources>

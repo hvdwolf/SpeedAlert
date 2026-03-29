@@ -256,4 +256,18 @@
 
     <string name="beep_once_title">Only beep once when overspeeding</string>
 
+    <string name="fetching_info">
+    If you use a local database you hardly ever use the network, so you can set the speed limit fetching to 2 seconds and the minimum distance to 0 meters.
+    </string>
+    <string name="download_databases">
+    <![CDATA[
+        <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Download databases</a>
+    ]]>
+    </string>
+    <string name="install_database"><![CDATA[<a href="#">Install database</a>]]></string>
+    <string name="select_7z_db">Please select a .7z database file</string>
+    <string name="extraction_failed">Extraction failed</string>
+    <string name="media_access_failed">Cannot access media directory</string>
+    <string name="database_installed">Database installed: %1$s</string>
+
 </resources>

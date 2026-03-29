@@ -260,4 +260,17 @@
 
     <string name="beep_once_title">Bij overschrijding slechts één keer piepen</string>
 
+    <string name="fetching_info">
+    Als je een lokale database gebruikt, wordt het netwerk nauwelijks gebruikt. Je kunt de snelheidsophaal limiet dus op 2 seconden zetten en de minimale afstand op 0 meter.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Databases downloaden</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Database installeren</a>]]></string>
+    <string name="select_7z_db">Selecteer een .7z-databasebestand</string>
+    <string name="extraction_failed">Extractie mislukt</string>
+    <string name="media_access_failed">Kan mediamap niet openen</string>
+    <string name="database_installed">Database geïnstalleerd: %1$s</string>
+
 </resources>

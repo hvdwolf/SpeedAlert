@@ -235,6 +235,7 @@ class DebugActivity : AppCompatActivity() {
         out("mute_beep = ${sm.isMuted()}")
 
         out("=== SETTINGS DUMP END ===")
+        append("", forceFlush = true)
     }
 
 }

@@ -249,4 +249,17 @@
 
     <string name="beep_once_title">Nur einmal bei Überschreitung der Geschwindigkeit piepen</string>
 
+    <string name="fetching_info">
+    Wenn Sie eine lokale Datenbank verwenden, wird das Netzwerk kaum genutzt. Daher können Sie das Abrufintervall auf 2 Sekunden und die Mindestentfernung auf 0 Meter einstellen.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Datenbanken herunterladen</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Datenbank installieren</a>]]></string>
+    <string name="select_7z_db">Bitte wählen Sie eine .7z-Datenbankdatei aus</string>
+    <string name="extraction_failed">Extraktion fehlgeschlagen</string>
+    <string name="media_access_failed">Zugriff auf Medienverzeichnis nicht möglich</string>
+    <string name="database_installed">Datenbank installiert: %1$s</string>
+
 </resources>

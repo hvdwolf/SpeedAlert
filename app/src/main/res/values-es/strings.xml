@@ -260,4 +260,17 @@
 
     <string name="beep_once_title">Emitir un solo pitido al exceder la velocidad</string>
 
+    <string name="fetching_info">
+    Si usas una base de datos local, casi no utilizas la red, así que puedes configurar la obtención de límites de velocidad a 2 segundos y la distancia mínima a 0 metros.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Descargar bases de datos</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Instalar base de datos</a>]]></string>
+    <string name="select_7z_db">Seleccione un archivo de base de datos .7z</string>
+    <string name="extraction_failed">La extracción falló</string>
+    <string name="media_access_failed">No se puede acceder al directorio de medios</string>
+    <string name="database_installed">Base de datos instalada: %1$s</string>
+
 </resources>

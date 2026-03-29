@@ -260,4 +260,17 @@
 
     <string name="beep_once_title">Emetti un solo beep in caso di eccesso di velocità</string>
 
+    <string name="fetching_info">
+    Se utilizzi un database locale, la rete viene usata pochissimo. Puoi quindi impostare il recupero dei limiti di velocità a 2 secondi e la distanza minima a 0 metri.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Scarica database</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Installa database</a>]]></string>
+    <string name="select_7z_db">Seleziona un file di database .7z</string>
+    <string name="extraction_failed">Estrazione non riuscita</string>
+    <string name="media_access_failed">Impossibile accedere alla directory multimediale</string>
+    <string name="database_installed">Database installato: %1$s</string>
+
 </resources>

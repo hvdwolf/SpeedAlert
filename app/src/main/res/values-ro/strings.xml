@@ -260,4 +260,17 @@
 
     <string name="beep_once_title">Emite un singur bip la depășirea vitezei</string>
 
+    <string name="fetching_info">
+    Dacă folosești o bază de date locală, aproape că nu utilizezi rețeaua, așa că poți seta preluarea limitelor de viteză la 2 secunde și distanța minimă la 0 metri.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Descărcați bazele de date</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Instalați baza de date</a>]]></string>
+    <string name="select_7z_db">Selectați un fișier de bază de date .7z</string>
+    <string name="extraction_failed">Extragerea a eșuat</string>
+    <string name="media_access_failed">Nu se poate accesa directorul media</string>
+    <string name="database_installed">Baza de date instalată: %1$s</string>
+
 </resources>
