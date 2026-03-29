@@ -1,7 +1,7 @@
 # Using local speed limit and speed camera databases
 
 As of version 2.0, Speedalert comes with optional local databases for speed limits on roads and local databases for speed cameras.
-They do not come pre-installed as that would make it a massive application. You can download those from [this github release page](https://github.com/hvdwolf/SpeedAlert/releases/tag/V2026-03).
+They do not come pre-installed as that would make it a massive application. You can download those from [this github release page](https://github.com/hvdwolf/SpeedAlert_Databases/tags).
 
 ### Why local databases?
 The application uses simple Sqlite databases (no rtree as Android doesn't support them). Sqlite db lookups take 0.2 - 3 ms (milliseconds), whereas overpass lookups take 200 ms up to 10 seconds.<br>
@@ -32,7 +32,7 @@ The files are named by their 2-character ISO code as that is how Android and Ove
 The compressed road speed limit database files are named "xy.sqlite.7z".<br>
 The compressed speed camera database files are named "xy-camera.sqlite.7z". *Note: Not all countries have speed cameras or registered speed cameras, like e.g. Greenland. These countries will miss in the list*.<br>
 
-* Download the 7z file for your country onto your device from [this github Database Release page](https://github.com/hvdwolf/SpeedAlert/releases/tag/V2026-03) from the folder "Speed_Limit_Databases" and/or the "Camera_Databases".
+* Download the 7z file for your country onto your device from [this github Database Release page](https://github.com/hvdwolf/SpeedAlert_Databases/tags) from the folder "Speed_Limit_Databases" and/or the "Camera_Databases".
 * Un7zip the file so you have "xy.sqlite" or "xy-camera.sqlite".
 * Copy that **un7zipped** xy.sqlite or xy-camaera.sqlite file into "(storage/emulated/0)/Android/media/xyz.hvdw.speedalert".
 
