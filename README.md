@@ -24,6 +24,9 @@ Working GPS and working network connection to retrieve the online speed limit da
  - Notification permission
  - Ignore Battery optimization (especially on Android 14/15/16)
 
+## Settings Video
+You can find [here](https://drive.google.com/file/d/1iwwuUIOH-tOzoTl3MlAIgSNaVB0skCSr/view?usp=sharing) a video explaining the settings as of V2.1.
+
 ## Screenshots
 **All screenshots are in below animated gif.** The app is still heavily in development, so screenshots may differ from the ones shown here. Note: The app screen automatically follows the system day-night mode. Some (partial) screenshots are therefore "dark" or "light".
 <br><br>
