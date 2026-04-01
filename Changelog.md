@@ -1,10 +1,22 @@
-**Changelog 2.0**
+**Changelog 2.1 (01 Apr 2026)**
+
+ - Due to a growing number of settings, the Settings screen has become pretty long and requires scrolling. Changed to CardView and grouped settings.
+ - Create a new repository for the databases (SpeedAlert_Databases) to cleanly separate apk releases from database releases.
+ - Settings screen in the "Speed Limit Fetching" section: Add option to download and install speed limit and camera databases (calls local browser). 
+  - Fix minor rounding error in main screen GPS accuracy.
+ - Option added to "Only beep once when overspeeding".
+ - Add chosen speed and camera database to settings (if any), so it/they can be displayed with "Show All Settings" (Debug screen).
+ - Add two bigger scales to text sizes in the overlay. Replace textual labels (..., smaller, default, bigger, ...) to range from 60% - 180%.
+
+
+
+**Changelog 2.0 (20 Mar 2026)**
 
  - fix mph/kmh conversion (hopefully for the last time).
  - (fix) fallback should only be used (or grey sign/empty speed text) if no gps fix or speed limit was found. In 2 latest versions, fallback always ran (due to "race condition"). Also GPS fix time out was too short (when compared to Google Maps / Waze).
  - Add button in Debug screen to list all settings used in the program (in case of errors)
- - Add option for local speed limit databases. See [Local DataBases](./LocalDatabases.md). This works much faster and more reliable than an internet call, provided the road has speed tags.
- - Add option for local speed camera databases (note: speed cameras only work with local database). See [Local DataBases](./LocalDatabases.md).
+ - Add option for local speed limit databases. See [Local DataBases](./LocalDatabases.md). This works much faster and more reliable than an internet call, provided the road has speed tags. The databases themselves can be found under [this github release page](https://github.com/hvdwolf/SpeedAlert_Databases/tags).
+ - Add option for local speed camera databases (note: speed cameras only work with local database). See [Local DataBases](./LocalDatabases.md). The databases themselves can be found under [this github release page](https://github.com/hvdwolf/SpeedAlert_Databases/tags).
  - Replace mp3 sounds with coded sounds to prevent latency.
  - Add a setting to hide/display speaker mute button in overlay (the one that can be tapped to mute/unmute).
  - Make camera alert toast resizable like text in overlay.

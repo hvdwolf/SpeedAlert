@@ -12,7 +12,7 @@ android {
         minSdk = 29
         targetSdk = 33
         versionCode = 14
-        versionName = "2.0.1"
+        versionName = "2.1"
 
         // Only include the ABIs you want in the final APK
         ndk {
