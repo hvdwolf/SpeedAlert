@@ -272,5 +272,6 @@
     <string name="extraction_failed">Extragerea a eșuat</string>
     <string name="media_access_failed">Nu se poate accesa directorul media</string>
     <string name="database_installed">Baza de date instalată: %1$s</string>
+    <string name="download_install_database">Descărcați și instalați baza de date</string>
 
 </resources>

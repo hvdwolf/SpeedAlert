@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
+    <string name="app_name">SpeedAlert</string>
+
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">Avertissement</string>
+    <string name="disclaimer_body">
+        Je ne suis pas responsable d’un mauvais fonctionnement ou d’une mauvaise utilisation de cette application.
+        Cette application fournit des alertes de vitesse basées sur les données GPS. La précision peut varier selon l’appareil, l’environnement et la réception GPS.
+        Respectez toujours les limitations de vitesse (y compris temporaires) et conduisez de manière responsable.
+    </string>
+
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
+    <string name="speed_value_placeholder">Vitesse : --</string>
+    <string name="limit_value_placeholder">Limite : --</string>
+    <string name="status_value_placeholder">Statut : --</string>
+
+    <string name="speed_value">Vitesse : %1$d km/h</string>
+    <string name="limit_value">Limite : %1$d km/h</string>
+    <string name="status_value">Statut : %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
+    <string name="show_overlay">Afficher le compteur flottant</string>
+    <string name="enable_broadcast">Activer la diffusion multimédia</string>
+    <string name="switch_use_mph">Utiliser mph au lieu de km/h pour vitesse de GPS</string>
+
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Utiliser une tolérance en pourcentage</string>
+    <string name="overspeed_mode_fixed">Utiliser une tolérance fixe (km/h)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="start_service">Démarrer le service</string>
+    <string name="stop_service">Arrêter le service</string>
+    <string name="btn_check_overlay">Vérifier l’autorisation Overlay</string>
+    <string name="btn_debug_screen">Écran de débogage</string>
+    <string name="btn_diagnostics">Diagnostic</string>
+    <string name="btn_test_lookup">Tester la recherche de limite</string>
+
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
+    <string name="hint_latitude">Latitude</string>
+    <string name="hint_longitude">Longitude</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mph</string>
+    <string name="overlay_limit_prefix">Limite :</string>
+    <string name="overlay_no_gps">Pas de GPS</string>
+    <string name="overlay_no_limit">-</string>
+
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Moniteur de vitesse</string>
+    <string name="channel_description">Affiche votre vitesse actuelle et la limitation pendant la conduite</string>
+
+    <string name="notif_running_title">Moniteur de vitesse actif</string>
+    <string name="notif_running_text">Mise à jour de la limitation…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">Autorisation Overlay accordée</string>
+    <string name="overlay_permission_missing">Autorisation Overlay manquante</string>
+    <string name="overlay_permission_ok">Autorisation Overlay OK</string>
+
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Tolérance de dépassement : %1$d%%</string>
+    <string name="overspeed_saved_percent">Tolérance en pourcentage enregistrée : %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Dépassement : %1$d km/h</string>
+    <string name="overspeed_saved_fixed">Dépassement enregistré : %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">Entrez une latitude et une longitude valides</string>
+    <string name="test_lookup_result">Résultat du test : %1$s à %2$f,%3$f</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
+    <string name="gps_accuracy">Précision GPS : %1$d m</string>
+    <string name="gps_waiting">En attente du GPS…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">Autorisation Overlay requise</string>
+    <string name="dialog_overlay_message">SpeedAlert a besoin de l’autorisation pour afficher le compteur flottant.</string>
+    <string name="dialog_grant">Autoriser</string>
+    <string name="dialog_cancel">Annuler</string>
+
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">Autorisation Overlay (FYT)</string>
+    <string name="dialog_fyt_message"><![CDATA[
+    Votre unité FYT masque l’écran des autorisations Overlay.
+
+    Pour activer les overlays :
+    1. Accédez aux paramètres d’usine
+    2. Entrez le mot de passe "3368" ou "8888"
+    3. Recherchez "Autorisations d’applications" ou "Applications Overlay"
+    4. Activez l’overlay pour SpeedAlert
+
+    Si les overlays ne fonctionnent toujours pas, redémarrez l’unité.
+    ]]></string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
+    <string name="gps_permission_granted">Autorisation GPS accordée</string>
+    <string name="gps_permission_denied">Autorisation GPS refusée</string>
+
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
+    <string name="btn_copy_log">Copier le journal</string>
+    <string name="btn_share_log">Partager le journal</string>
+    <string name="btn_empty_log">Vider le journal</string>
+
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">Tester RAW Overpass</string>
+    <string name="diag_test_web_overpass">Tester WebView Overpass</string>
+    <string name="diag_test_raw_nominatim">Tester RAW Nominatim</string>
+    <string name="diag_test_web_nominatim">Tester WebView Nominatim</string>
+    <string name="diag_show_raw_overpass">Afficher la réponse RAW Overpass</string>
+    <string name="diag_show_last_location">Afficher la dernière position</string>
+    <string name="diag_show_network_type">Afficher le type de réseau</string>
+
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
+    <string name="logfile_not_exist">Le fichier journal n’existe pas encore</string>
+    <string name="logfile_copied">Copié vers /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copy_failed">Échec de la copie : %1$s</string>
+
+    <string name="share_logfile_title">Partager le fichier journal</string>
+    <string name="logfile_share_failed">Échec du partage : %1$s</string>
+
+    <string name="logfile_emptied">Fichier journal vidé</string>
+    <string name="logfile_empty_failed">Échec du vidage : %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">Service SpeedAlert</string>
+    <string name="notif_channel_description">Maintient SpeedAlert actif pendant la conduite</string>
+
+    <string name="notif_service_running_title">SpeedAlert en cours d’exécution</string>
+    <string name="notif_service_running_text">Surveillance de la vitesse et des limites…</string>
+
+
+    <!-- ========================================================= -->
+    <!-- Strings added after 1.0 -->
+    <!-- ========================================================= -->
+
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">Volume du bip : %1$d%%</string>
+    <string name="beep_volume_test">Tester</string>
+    <string name="beep_volume_prefix">Volume du bip :</string>
+
+    <string name="debug_log_title">Journal de débogage</string>
+    <string name="overlay_text_brightness">Luminosité du texte de l’overlay</string>
+
+    <string name="speedo_size_title">Taille du texte de l’overlay</string>
+    <string name="speedo_size_smallest">Le plus petit</string>
+    <string name="speedo_size_smaller">Plus petit</string>
+    <string name="speedo_size_default">Par défaut</string>
+    <string name="speedo_size_bigger">Plus grand</string>
+    <string name="speedo_size_even_bigger">Encore plus grand</string>
+    <string name="speedo_size_very_big">Très grand</string>
+    <string name="speedo_size_extremely_big">Extrêmement grand</string>
+
+    <string name="btn_settings">Paramètres</string>
+    <string name="settings_title">Paramètres</string>
+
+    <string name="switch_use_mph_readme">À lire !</string>
+
+    <string name="mph_info_title">À propos de km/h et mph</string>
+
+    <string name="mph_info_message">
+    SpeedAlert peut convertir à la fois la vitesse GPS et les limitations de vitesse.\n\n
+    • Si vous conduisez dans un pays en km/h mais préférez mph, les deux valeurs sont converties.\n
+    • Si vous conduisez dans un pays en mph mais préférez km/h, les deux valeurs sont converties.\n
+    • Si votre préférence correspond à l’unité du pays, aucune conversion n’est effectuée.\n\n
+    Cela garantit que l’affichage correspond toujours à l’unité que vous avez choisie.
+    </string>
+
+    <string name="btn_about">À propos</string>
+    <string name="about_title">À propos de SpeedAlert</string>
+    <string name="about_description">Cette application vous aide à respecter les limitations de vitesse grâce aux données GPS et routières.</string>
+
+    <string name="start_service_on_open">Démarrer le service à l’ouverture de SpeedAlert</string>
+
+    <string name="fetch_interval_label">Intervalle de récupération de la limitation de vitesse</string>
+    <string name="min_distance_label">Distance minimale avant une nouvelle requête</string>
+
+    <string name="fetch_interval_2s">2 secondes (4–8 Mo/heure)</string>
+    <string name="fetch_interval_4s">4 secondes (2–4 Mo/heure)</string>
+    <string name="fetch_interval_8s">8 secondes (1–2 Mo/heure)</string>
+
+    <string name="min_distance_0m">0 m (toujours interroger)</string>
+
+    <string name="minimize_on_start">Minimiser l’application</string>
+
+    <string name="update_available_title">Nouvelle version disponible</string>
+    <string name="update_available_message">Une version plus récente (%1$s) est disponible.\n\nOuvrir la page de téléchargement ?</string>
+    <string name="update_available_open">Ouvrir</string>
+    <string name="update_available_cancel">Annuler</string>
+
+    <string name="use_country_fallback">Utiliser la vitesse par défaut du pays lorsqu’aucune étiquette maxspeed n’est présente</string>
+
+    <string name="use_sign_overlay">Utiliser l’affichage de vitesse en style panneau routier</string>
+    <string name="use_text_overlay">Utiliser l’affichage de vitesse textuel</string>
+
+    <string name="hide_current_speed">Ne pas afficher la vitesse actuelle</string>
+
+    <string name="beep_muted">Bip désactivé</string>
+    <string name="beep_unmuted">Bip activé</string>
+
+    <string name="settings_transparency_label">Transparence de la superposition</string>
+    <string name="settings_preview_label">Aperçu</string>
+
+    <string name="camera_alert">Radar à %1$d mètres</string>
+
+    <string name="show_mute_button_title">Afficher le bouton haut‑parleur/muet dans la superposition</string>
+    <string name="show_mute_button_summary">Si désactivé, la superposition émettra toujours un bip et l’icône muet sera masquée</string>
+
+    <string name="header_overlay">Paramètres d’affichage</string>
+    <string name="header_speed_units">Vitesse &amp; Unités</string>
+    <string name="header_overspeed">Alerte de survitesse</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Récupération des limitations</string>
+    <string name="header_advanced">Avancé</string>
+
+    <string name="beep_once_title">Émettre un seul bip en cas de survitesse</string>
+
+    <string name="fetching_info">
+    Si vous utilisez une base de données locale, le réseau est très peu sollicité. Vous pouvez donc régler la récupération des limitations à 2 secondes et la distance minimale à 0 mètre.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Télécharger les bases de données</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Installer la base de données</a>]]></string>
+
+    <string name="select_7z_db">Veuillez sélectionner un fichier de base de données .7z</string>
+    <string name="extraction_failed">Échec de l’extraction</string>
+    <string name="media_access_failed">Impossible d’accéder au répertoire média</string>
+    <string name="database_installed">Base de données installée : %1$s</string>
+
+</resources>

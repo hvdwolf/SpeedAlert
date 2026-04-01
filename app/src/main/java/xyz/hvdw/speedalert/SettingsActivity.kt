@@ -2,6 +2,8 @@ package xyz.hvdw.speedalert
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.media.AudioTrack
@@ -54,8 +56,6 @@ class SettingsActivity : AppCompatActivity() {
     // Fetching
     private lateinit var spinnerFetchInterval: Spinner
     private lateinit var spinnerMinDistance: Spinner
-    private lateinit var tvDownloadDb: TextView
-    private lateinit var tvInstallDb: TextView
 
     // Advanced
     private lateinit var swBroadcast: Switch
@@ -68,13 +68,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private val prefsAuto by lazy {
         getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
-    }
-
-    // The database picker and then unzipper
-    private val pickDbLauncher = registerForActivityResult(
-        ActivityResultContracts.OpenDocument()
-    ) { uri ->
-        if (uri != null) installDatabase(uri)
     }
 
 
@@ -186,35 +179,9 @@ class SettingsActivity : AppCompatActivity() {
         spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)
         spinnerMinDistance = findViewById(R.id.spinnerMinDistance)
 
-        tvDownloadDb = findViewById(R.id.tvDownloadDb)
-        tvDownloadDb.text = Html.fromHtml(
-            getString(R.string.download_databases),
-            Html.FROM_HTML_MODE_LEGACY
-        )
-        tvDownloadDb.movementMethod = LinkMovementMethod.getInstance()
-
-        // --- Enable/disable Install Database depending on .7z files ---
-        tvInstallDb = findViewById(R.id.tvInstallDb)
-
-        tvInstallDb.isEnabled = true
-        tvInstallDb.alpha = 1f
-
-        tvInstallDb.text = Html.fromHtml(
-            getString(R.string.install_database),
-            Html.FROM_HTML_MODE_LEGACY
-        )
-        tvInstallDb.movementMethod = LinkMovementMethod.getInstance()
-
-        tvInstallDb.setOnClickListener {
-            pickDbLauncher.launch(
-                arrayOf(
-                    "application/octet-stream",
-                    "application/x-7z-compressed",
-                    "*/*"
-                )
-            )
+        findViewById<TextView>(R.id.tvDownloadInstallDb).setOnClickListener {
+            startActivity(Intent(this, DatabaseBrowserActivity::class.java))
         }
-
 
         swBroadcast = findViewById(R.id.swBroadcast)
         swAutoStart = findViewById(R.id.switchAutoStart)
@@ -596,86 +563,5 @@ class SettingsActivity : AppCompatActivity() {
         val uiMode = resources.configuration.uiMode
         return (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }
-
-
-    private fun getFileName(uri: Uri): String {
-        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            cursor.moveToFirst()
-            return cursor.getString(nameIndex)
-        }
-        return "unknown.7z"
-    }
-
-    private fun installDatabase(uri: Uri) {
-        val name = getFileName(uri)
-        if (!name.endsWith(".7z", ignoreCase = true)) {
-            ToastUtils.show(this@SettingsActivity, prefs, getString(R.string.select_7z_db))
-            return
-        }
-
-        // Copy to temp file
-        val temp7z = File(cacheDir, "import.7z")
-        contentResolver.openInputStream(uri)?.use { input ->
-            temp7z.outputStream().use { output -> input.copyTo(output) }
-        }
-
-        // Extract
-        val extractedFile = extract7zToTemp(temp7z)
-        if (extractedFile == null) {
-            ToastUtils.show(this@SettingsActivity, prefs, getString(R.string.extraction_failed))
-            return
-        }
-
-        // Target directory
-        val mediaDir = getExternalMediaDirs().firstOrNull()
-        if (mediaDir == null) {
-            ToastUtils.show(this, prefs, getString(R.string.media_access_failed))
-            return
-        }
-
-        val targetDir = mediaDir
-        targetDir.mkdirs()
-
-        val targetFile = File(targetDir, extractedFile.name)
-
-
-        // REAL move (copy + delete)
-        extractedFile.inputStream().use { input ->
-            targetFile.outputStream().use { output ->
-                input.copyTo(output)
-            }
-        }
-        extractedFile.delete()
-        temp7z.delete()
-
-        ToastUtils.show(this@SettingsActivity, prefs, getString(R.string.database_installed, targetFile.name))
-    }
-
-
-    private fun extract7zToTemp(archive: File): File? {
-        val sevenZ = SevenZFile(archive)
-        var entry = sevenZ.nextEntry
-
-        while (entry != null) {
-            if (!entry.isDirectory) {
-                val outFile = File(cacheDir, entry.name)
-                outFile.outputStream().use { out ->
-                    val buffer = ByteArray(8192)
-                    var read: Int
-                    while (sevenZ.read(buffer).also { read = it } > 0) {
-                        out.write(buffer, 0, read)
-                    }
-                }
-                sevenZ.close()
-                return outFile
-            }
-            entry = sevenZ.nextEntry
-        }
-
-        sevenZ.close()
-        return null
-    }
-
 
 }

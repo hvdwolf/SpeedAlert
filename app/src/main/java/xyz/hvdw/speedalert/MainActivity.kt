@@ -364,48 +364,6 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-/*    private fun checkForNewVersion() {
-        Thread {
-            try {
-                val url = URL("https://github.com/hvdwolf/SpeedAlert/releases/latest")
-                val conn = url.openConnection() as HttpURLConnection
-                conn.instanceFollowRedirects = false
-                conn.connectTimeout = 5000
-                conn.readTimeout = 5000
-                conn.setRequestProperty("User-Agent", "SpeedAlert")
-
-                val redirect = conn.getHeaderField("Location")
-
-                if (redirect == null) {
-                    Log.e("UpdateCheck", "No redirect received from GitHub")
-                    return@Thread
-                }
-
-                // Extract tag from redirect URL
-                val tag = redirect.substringAfterLast("/tag/").trim()
-                val latestClean = tag.removePrefix("v").removePrefix("V")
-
-                val currentVersion = BuildConfig.VERSION_NAME.trim()
-
-                Log.e("UpdateCheck", "Redirect URL = $redirect")
-                Log.e("UpdateCheck", "Latest version = '$latestClean'")
-                Log.e("UpdateCheck", "Current version = '${BuildConfig.VERSION_NAME}'")
-
-
-                if (isNewerVersion(latestClean, currentVersion)) {
-                    runOnUiThread {
-                        showUpdateDialog(latestClean)
-                    }
-                }
-                Log.e("UpdateCheck", "isNewerVersion = ${isNewerVersion(latestClean, currentVersion)}")
-
-            } catch (e: Exception) {
-                Log.e("UpdateCheck", "Failed to check update", e)
-            }
-        }.start()
-    }
-*/
-
 
     private fun isNewerVersion(latest: String, current: String): Boolean {
         val latestParts = latest.split(".")

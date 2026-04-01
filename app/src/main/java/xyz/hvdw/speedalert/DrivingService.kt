@@ -498,7 +498,7 @@ class DrivingService : Service() {
         }
 
 
-        val loc = lastLocation
+        //val loc = lastLocation
         val country = settings.getCountryCode()
 
         val roadLimitWithoutUnit = lastLimit.roadLimitWithoutUnit

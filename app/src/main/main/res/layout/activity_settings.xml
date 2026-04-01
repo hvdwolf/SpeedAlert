@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:theme="@style/SettingsTheme">
+
+    <LinearLayout
+        android:id="@+id/settingsRoot"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- ===================================================== -->
+        <!-- OVERLAY HEADER                                        -->
+        <!-- ===================================================== -->
+        <LinearLayout
+            android:id="@+id/headerOverlay"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/settingsHeaderText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@color/settingsHeaderBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_overlay"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/arrowOverlay"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/settingsHeaderText"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionOverlay"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <Switch
+                android:id="@+id/swShowOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_overlay"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:id="@+id/layoutSignOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <Switch
+                    android:id="@+id/switchSignOverlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/use_sign_overlay" />
+
+                <Switch
+                    android:id="@+id/switchHideCurrentSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hide_current_speed"
+                    android:layout_marginStart="30dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/transparencyLabel"
+                android:text="@string/settings_transparency_label"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <SeekBar
+                android:id="@+id/transparencySeekBar"
+                android:max="255"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/previewLabel"
+                android:text="@string/settings_preview_label"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@+id/overlayPreview"
+                android:layout_marginTop="8dp"
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:background="#AA000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/lblBrightness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overlay_text_brightness"
+                    android:layout_marginEnd="12dp" />
+
+                <SeekBar
+                    android:id="@+id/seekBrightness"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="100" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutSpeedoSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/txtSpeedoSizeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/speedo_size_title"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Container for label + SeekBar -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+            <!-- Floating percentage label ABOVE the SeekBar -->
+                    <TextView
+                        android:id="@+id/txtSpeedoSizeValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:textStyle="bold"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="0dp" />
+
+                    <SeekBar
+                        android:id="@+id/seekSpeedoSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:max="6" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ===================================================== -->
+        <!-- SPEED & UNITS                                         -->
+        <!-- ===================================================== -->
+        <LinearLayout
+            android:id="@+id/headerSpeedUnits"
+            android:textColor="@color/settingsHeaderText"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@color/settingsHeaderBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_speed_units"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/arrowSpeedUnits"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/settingsHeaderText"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionSpeedUnits"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <Switch
+                    android:id="@+id/swUseMph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/switch_use_mph" />
+
+                <Button
+                    android:id="@+id/btnMphInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/switch_use_mph_readme"
+                    android:layout_marginStart="12dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ===================================================== -->
+        <!-- OVERSPEED WARNING                                     -->
+        <!-- ===================================================== -->
+        <LinearLayout
+            android:id="@+id/headerOverspeed"
+            android:textColor="@color/settingsHeaderText"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@color/settingsHeaderBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_overspeed"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/arrowOverspeed"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/settingsHeaderText"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionOverspeed"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <Switch
+                    android:id="@+id/swOverspeedMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overspeed_mode_percentage"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:id="@+id/txtOverspeedLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overspeed_label_percent"
+                    android:layout_marginEnd="12dp" />
+
+                <SeekBar
+                    android:id="@+id/seekOverspeed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="30"
+                    android:progress="5" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/swUseCountryFallback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_country_fallback" />
+
+        </LinearLayout>
+
+        <!-- ===================================================== -->
+        <!-- AUDIO                                                  -->
+        <!-- ===================================================== -->
+        <LinearLayout
+            android:id="@+id/headerAudio"
+            android:textColor="@color/settingsHeaderText"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@color/settingsHeaderBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_audio"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/arrowAudio"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/settingsHeaderText"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionAudio"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:id="@+id/txtBeepVolumeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/beep_volume_label"
+                    android:layout_marginEnd="12dp" />
+
+                <SeekBar
+                    android:id="@+id/seekBeepVolume"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="100"
+                    android:layout_marginEnd="12dp" />
+
+                <Button
+                    android:id="@+id/btnTestBeep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/beep_volume_test" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/swShowMuteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_mute_button_title" />
+
+            <Switch
+                android:id="@+id/swBeepOnce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/beep_once_title"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+
+        <!-- ===================================================== -->
+        <!-- FETCHING                                               -->
+        <!-- ===================================================== -->
+        <LinearLayout
+            android:id="@+id/headerFetching"
+            android:textColor="@color/settingsHeaderText"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@color/settingsHeaderBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_fetching"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/arrowFetching"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/settingsHeaderText"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionFetching"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <TextView
+               android:id="@+id/txtFetchingInfo"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="@string/fetching_info"
+               android:layout_marginBottom="12dp"
+               android:textColor="@color/settingsHeaderText"
+               android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:id="@+id/txtFetchIntervalLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/fetch_interval_label"
+                    android:layout_marginEnd="12dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerFetchInterval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:padding="4dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/txtMinDistanceLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/min_distance_label"
+                    android:layout_marginEnd="12dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerMinDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:padding="4dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvDownloadDb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/download_databases"
+                android:linksClickable="true"
+                android:autoLink="none" />
+
+            <TextView
+                android:id="@+id/tvInstallDb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/install_database"
+                android:linksClickable="true"
+                android:focusable="true" />
+
+
+        </LinearLayout>
+
+        <!-- ===================================================== -->
+        <!-- ADVANCED                                               -->
+        <!-- ===================================================== -->
+        <LinearLayout
+            android:id="@+id/headerAdvanced"
+            android:textColor="@color/settingsHeaderText"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@color/settingsHeaderBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_advanced"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/arrowAdvanced"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/settingsHeaderText"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sectionAdvanced"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <Switch
+                android:id="@+id/swBroadcast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_broadcast"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <Switch
+                    android:id="@+id/switchAutoStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/start_service_on_open" />
+
+                <Switch
+                    android:id="@+id/switchMinimizeOnStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minimize_on_start"
+                    android:layout_marginStart="30dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

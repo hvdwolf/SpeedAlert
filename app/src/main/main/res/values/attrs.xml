@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Satisfy Material/Material3 merged resources -->
+    <attr name="colorBackground" format="color" />
+    <attr name="statusBarColor" format="color" />
+
+</resources>

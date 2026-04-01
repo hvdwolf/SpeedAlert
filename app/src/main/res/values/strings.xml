@@ -269,5 +269,6 @@
     <string name="extraction_failed">Extraction failed</string>
     <string name="media_access_failed">Cannot access media directory</string>
     <string name="database_installed">Database installed: %1$s</string>
+    <string name="download_install_database">Download and install database</string>
 
 </resources>

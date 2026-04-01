@@ -273,5 +273,6 @@
     <string name="extraction_failed">Échec de l’extraction</string>
     <string name="media_access_failed">Impossible d’accéder au répertoire média</string>
     <string name="database_installed">Base de données installée : %1$s</string>
+    <string name="download_install_database">Télécharger et installer la base de données</string>
 
 </resources>

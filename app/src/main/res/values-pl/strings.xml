@@ -272,5 +272,6 @@
     <string name="extraction_failed">Rozpakowywanie nie powiodło się</string>
     <string name="media_access_failed">Brak dostępu do katalogu multimediów</string>
     <string name="database_installed">Zainstalowano bazę danych: %1$s</string>
+    <string name="download_install_database">Pobierz i zainstaluj bazę danych</string>
 
 </resources>

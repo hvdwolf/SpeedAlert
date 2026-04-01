@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
+    <string name="app_name">SpeedAlert</string>
+
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">Відмова від відповідальності</string>
+    <string name="disclaimer_body">
+        Я не несу відповідальності за неправильну роботу або неправильне використання цього застосунку.
+        Цей застосунок надає попередження про швидкість на основі GPS‑даних. Точність може змінюватися залежно від пристрою, середовища та якості GPS‑сигналу.
+        Завжди дотримуйтесь встановлених (у тому числі тимчасових) обмежень швидкості та керуйте відповідально.
+    </string>
+
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
+    <string name="speed_value_placeholder">Швидкість: --</string>
+    <string name="limit_value_placeholder">Ліміт: --</string>
+    <string name="status_value_placeholder">Статус: --</string>
+
+    <string name="speed_value">Швидкість: %1$d км/год</string>
+    <string name="limit_value">Ліміт: %1$d км/год</string>
+    <string name="status_value">Статус: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
+    <string name="show_overlay">Показувати плаваючий спідометр</string>
+    <string name="enable_broadcast">Увімкнути медіатрансляцію</string>
+    <string name="switch_use_mph">Використовувати mph замість км/год for GPS speed</string>
+
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Використовувати перевищення у відсотках</string>
+    <string name="overspeed_mode_fixed">Використовувати фіксоване перевищення (км/год)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="start_service">Запустити сервіс</string>
+    <string name="stop_service">Зупинити сервіс</string>
+    <string name="btn_check_overlay">Перевірити дозвіл Overlay</string>
+    <string name="btn_debug_screen">Екран налагодження</string>
+    <string name="btn_diagnostics">Діагностика</string>
+    <string name="btn_test_lookup">Тестувати пошук ліміту</string>
+
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
+    <string name="hint_latitude">Широта</string>
+    <string name="hint_longitude">Довгота</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
+    <string name="unit_kmh">км/год</string>
+    <string name="unit_mph">mph</string>
+    <string name="overlay_limit_prefix">Ліміт:</string>
+    <string name="overlay_no_gps">Немає GPS</string>
+    <string name="overlay_no_limit">-</string>
+
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Монітор швидкості</string>
+    <string name="channel_description">Показує поточну швидкість і обмеження швидкості під час руху</string>
+
+    <string name="notif_running_title">Монітор швидкості активний</string>
+    <string name="notif_running_text">Оновлення обмеження швидкості…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">Дозвіл Overlay надано</string>
+    <string name="overlay_permission_missing">Дозвіл Overlay відсутній</string>
+    <string name="overlay_permission_ok">Дозвіл Overlay OK</string>
+
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Допуск перевищення: %1$d%%</string>
+    <string name="overspeed_saved_percent">Відсоткове перевищення збережено: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Перевищення: %1$d км/год</string>
+    <string name="overspeed_saved_fixed">Перевищення збережено: %1$d км/год</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">Введіть коректні широту та довготу</string>
+    <string name="test_lookup_result">Результат тесту: %1$s при %2$f,%3$f</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
+    <string name="gps_accuracy">Точність GPS: %1$d м</string>
+    <string name="gps_waiting">Очікування GPS…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">Потрібен дозвіл Overlay</string>
+    <string name="dialog_overlay_message">SpeedAlert потребує дозволу для відображення плаваючого спідометра.</string>
+    <string name="dialog_grant">Дозволити</string>
+    <string name="dialog_cancel">Скасувати</string>
+
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">Дозвіл Overlay (FYT)</string>
+    <string name="dialog_fyt_message"><![CDATA[
+    Ваш пристрій FYT приховує екран дозволів Overlay.
+
+    Щоб увімкнути накладення:
+    1. Перейдіть до заводських налаштувань
+    2. Введіть пароль "3368" або "8888"
+    3. Знайдіть "Дозволи застосунків" або "Overlay‑застосунки"
+    4. Увімкніть Overlay для SpeedAlert
+
+    Якщо накладення все ще не працюють, перезавантажте пристрій.
+    ]]></string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
+    <string name="gps_permission_granted">Дозвіл GPS надано</string>
+    <string name="gps_permission_denied">Дозвіл GPS відхилено</string>
+
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
+    <string name="btn_copy_log">Копіювати журнал</string>
+    <string name="btn_share_log">Поділитися журналом</string>
+    <string name="btn_empty_log">Очистити журнал</string>
+
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">Тест RAW Overpass</string>
+    <string name="diag_test_web_overpass">Тест WebView Overpass</string>
+    <string name="diag_test_raw_nominatim">Тест RAW Nominatim</string>
+    <string name="diag_test_web_nominatim">Тест WebView Nominatim</string>
+    <string name="diag_show_raw_overpass">Показати RAW‑відповідь Overpass</string>
+    <string name="diag_show_last_location">Показати останню локацію</string>
+    <string name="diag_show_network_type">Показати тип мережі</string>
+
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
+    <string name="logfile_not_exist">Файл журналу ще не існує</string>
+    <string name="logfile_copied">Скопійовано до /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copy_failed">Помилка копіювання: %1$s</string>
+
+    <string name="share_logfile_title">Поділитися файлом журналу</string>
+    <string name="logfile_share_failed">Помилка надсилання: %1$s</string>
+
+    <string name="logfile_emptied">Файл журналу очищено</string>
+    <string name="logfile_empty_failed">Помилка очищення: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">Сервіс SpeedAlert</string>
+    <string name="notif_channel_description">Підтримує роботу SpeedAlert під час руху</string>
+
+    <string name="notif_service_running_title">SpeedAlert працює</string>
+    <string name="notif_service_running_text">Моніторинг швидкості та обмежень…</string>
+
+
+    <!-- ========================================================= -->
+    <!-- Strings added after 1.0 -->
+    <!-- ========================================================= -->
+
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">Гучність сигналу: %1$d%%</string>
+    <string name="beep_volume_test">Тест</string>
+    <string name="beep_volume_prefix">Гучність сигналу:</string>
+
+    <string name="debug_log_title">Журнал налагодження</string>
+    <string name="overlay_text_brightness">Яскравість тексту накладки</string>
+
+    <string name="speedo_size_title">Розмір тексту накладки</string>
+    <string name="speedo_size_smallest">Найменший</string>
+    <string name="speedo_size_smaller">Менший</string>
+    <string name="speedo_size_default">Типовий</string>
+    <string name="speedo_size_bigger">Більший</string>
+    <string name="speedo_size_even_bigger">Ще більший</string>
+    <string name="speedo_size_very_big">Дуже великий</string>
+    <string name="speedo_size_extremely_big">Надзвичайно великий</string>
+
+    <string name="btn_settings">Налаштування</string>
+    <string name="settings_title">Налаштування</string>
+
+    <string name="switch_use_mph_readme">Прочитайте це!</string>
+
+    <string name="mph_info_title">Про км/год і миль/год</string>
+
+    <string name="mph_info_message">
+    SpeedAlert може конвертувати як швидкість GPS, так і обмеження швидкості.\n\n
+    • Якщо ви їдете в країні, де використовують км/год, але віддаєте перевагу миль/год, обидва значення буде перетворено.\n
+    • Якщо ви їдете в країні, де використовують миль/год, але віддаєте перевагу км/год, обидва значення буде перетворено.\n
+    • Якщо ваш вибір збігається з одиницею вимірювання країни, конвертація не виконується.\n\n
+    Це гарантує, що відображення завжди відповідає вибраній вами одиниці.
+    </string>
+
+    <string name="btn_about">Про програму</string>
+    <string name="about_title">Про SpeedAlert</string>
+    <string name="about_description">Цей застосунок допомагає дотримуватися обмежень швидкості, використовуючи дані GPS та дорожню інформацію.</string>
+
+    <string name="start_service_on_open">Запускати сервіс під час відкриття SpeedAlert</string>
+
+    <string name="minimize_on_start">Згорнути застосунок</string>
+
+    <string name="update_available_title">Доступна нова версія</string>
+    <string name="update_available_message">Доступна новіша версія (%1$s).\n\nВідкрити сторінку завантаження?</string>
+    <string name="update_available_open">Відкрити</string>
+    <string name="update_available_cancel">Скасувати</string>
+
+    <string name="use_country_fallback">Використовувати стандартну швидкість країни, якщо відсутній тег maxspeed</string>
+
+    <string name="use_sign_overlay">Використовувати відображення швидкості у стилі дорожнього знака</string>
+    <string name="use_text_overlay">Використовувати текстове відображення швидкості</string>
+
+    <string name="hide_current_speed">Не показувати поточну швидкість</string>
+
+    <string name="beep_muted">Сигнал вимкнено</string>
+    <string name="beep_unmuted">Сигнал увімкнено</string>
+
+    <string name="settings_transparency_label">Прозорість накладки</string>
+    <string name="settings_preview_label">Попередній перегляд</string>
+
+    <string name="camera_alert">Камера контролю швидкості через %1$d метрів</string>
+
+    <string name="show_mute_button_title">Показувати кнопку динамік/без звуку в оверлеї</string>
+    <string name="show_mute_button_summary">Якщо вимкнено, оверлей завжди подаватиме сигнал, а значок вимкнення звуку буде приховано</string>
+
+    <string name="header_overlay">Налаштування оверлею</string>
+    <string name="header_speed_units">Швидкість &amp; Одиниці</string>
+    <string name="header_overspeed">Попередження про перевищення швидкості</string>
+    <string name="header_audio">Аудіо</string>
+    <string name="header_fetching">Отримання обмеження швидкості</string>
+    <string name="header_advanced">Розширені</string>
+
+    <string name="beep_once_title">Подавати сигнал лише один раз при перевищенні швидкості</string>
+
+    <string name="fetching_info">
+    Якщо ви використовуєте локальну базу даних, мережа майже не використовується, тому можна встановити отримання обмежень швидкості на 2 секунди та мінімальну відстань на 0 метрів.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Завантажити бази даних</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Встановити базу даних</a>]]></string>
+    <string name="select_7z_db">Виберіть файл бази даних .7z</string>
+    <string name="extraction_failed">Помилка розпакування</string>
+    <string name="media_access_failed">Неможливо отримати доступ до каталогу медіа</string>
+    <string name="database_installed">Базу даних встановлено: %1$s</string>
+
+</resources>

@@ -267,5 +267,6 @@
     <string name="extraction_failed">추출 실패</string>
     <string name="media_access_failed">미디어 디렉터리에 접근할 수 없습니다</string>
     <string name="database_installed">데이터베이스 설치됨: %1$s</string>
+    <string name="download_install_database">데이터베이스 다운로드 및 설치</string>
 
 </resources>

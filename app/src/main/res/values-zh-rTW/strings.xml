@@ -262,5 +262,6 @@
     <string name="extraction_failed">解壓縮失敗</string>
     <string name="media_access_failed">無法存取媒體目錄</string>
     <string name="database_installed">資料庫已安裝：%1$s</string>
+    <string name="download_install_database">下載並安裝資料庫</string>
 
 </resources>

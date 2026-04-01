@@ -261,5 +261,6 @@
     <string name="extraction_failed">Extraktion fehlgeschlagen</string>
     <string name="media_access_failed">Zugriff auf Medienverzeichnis nicht möglich</string>
     <string name="database_installed">Datenbank installiert: %1$s</string>
+    <string name="download_install_database">Datenbank herunterladen und installieren</string>
 
 </resources>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
+    <string name="app_name">SpeedAlert</string>
+
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">Declinare de responsabilitate (atinge pentru a extinde)</string>
+    <string name="disclaimer_body">
+        Nu sunt responsabil pentru funcționarea incorectă sau utilizarea necorespunzătoare a acestei aplicații.
+        Această aplicație oferă alerte de viteză pe baza datelor GPS. Acuratețea poate varia în funcție de dispozitiv, mediu și recepția GPS.
+        Respectă întotdeauna limitele de viteză (inclusiv cele temporare) și condu responsabil.
+    </string>
+
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
+    <string name="speed_value_placeholder">Viteză: --</string>
+    <string name="limit_value_placeholder">Limită: --</string>
+    <string name="status_value_placeholder">Stare: --</string>
+
+    <string name="speed_value">Viteză: %1$d km/h</string>
+    <string name="limit_value">Limită: %1$d km/h</string>
+    <string name="status_value">Stare: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
+    <string name="show_overlay">Afișează vitezometrul plutitor</string>
+    <string name="enable_broadcast">Activează transmiterea media</string>
+    <string name="switch_use_mph">Folosește mph în loc de km/h for GPS speed</string>
+
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">Folosește toleranță procentuală</string>
+    <string name="overspeed_mode_fixed">Folosește toleranță fixă (km/h)</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="start_service">Pornește serviciul</string>
+    <string name="stop_service">Oprește serviciul</string>
+    <string name="btn_check_overlay">Verifică permisiunea Overlay</string>
+    <string name="btn_debug_screen">Ecran de depanare</string>
+    <string name="btn_diagnostics">Diagnostic</string>
+    <string name="btn_test_lookup">Testează căutarea limitei</string>
+
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
+    <string name="hint_latitude">Latitudine</string>
+    <string name="hint_longitude">Longitudine</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mph</string>
+    <string name="overlay_limit_prefix">Limită:</string>
+    <string name="overlay_no_gps">Fără GPS</string>
+    <string name="overlay_no_limit">-</string>
+
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">Monitor de viteză</string>
+    <string name="channel_description">Afișează viteza curentă și limita de viteză în timpul condusului</string>
+
+    <string name="notif_running_title">Monitor de viteză activ</string>
+    <string name="notif_running_text">Actualizare limită de viteză…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">Permisiune Overlay acordată</string>
+    <string name="overlay_permission_missing">Permisiune Overlay lipsă</string>
+    <string name="overlay_permission_ok">Permisiune Overlay OK</string>
+
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">Toleranță depășire: %1$d%%</string>
+    <string name="overspeed_saved_percent">Toleranță procentuală salvată: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">Depășire: %1$d km/h</string>
+    <string name="overspeed_saved_fixed">Depășire salvată: %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">Introduceți o latitudine și longitudine valide</string>
+    <string name="test_lookup_result">Rezultat test: %1$s la %2$f,%3$f</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
+    <string name="gps_accuracy">Acuratețe GPS: %1$d m</string>
+    <string name="gps_waiting">Aștept GPS…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">Permisiune Overlay necesară</string>
+    <string name="dialog_overlay_message">SpeedAlert are nevoie de permisiune pentru a afișa vitezometrul plutitor.</string>
+    <string name="dialog_grant">Permite</string>
+    <string name="dialog_cancel">Anulează</string>
+
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">Permisiune Overlay (FYT)</string>
+    <string name="dialog_fyt_message"><![CDATA[
+    Unitatea ta FYT ascunde ecranul pentru permisiunile Overlay.
+
+    Pentru a activa suprapunerile:
+    1. Accesează Setările din fabrică
+    2. Introdu parola "3368" sau "8888"
+    3. Caută "Permisiuni aplicații" sau "Aplicații Overlay"
+    4. Activează overlay pentru SpeedAlert
+
+    Dacă suprapunerile tot nu funcționează, repornește unitatea.
+    ]]></string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
+    <string name="gps_permission_granted">Permisiune GPS acordată</string>
+    <string name="gps_permission_denied">Permisiune GPS refuzată</string>
+
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
+    <string name="btn_copy_log">Copiază jurnalul</string>
+    <string name="btn_share_log">Partajează jurnalul</string>
+    <string name="btn_empty_log">Golește jurnalul</string>
+
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">Testează RAW Overpass</string>
+    <string name="diag_test_web_overpass">Testează WebView Overpass</string>
+    <string name="diag_test_raw_nominatim">Testează RAW Nominatim</string>
+    <string name="diag_test_web_nominatim">Testează WebView Nominatim</string>
+    <string name="diag_show_raw_overpass">Afișează răspunsul RAW Overpass</string>
+    <string name="diag_show_last_location">Afișează ultima locație</string>
+    <string name="diag_show_network_type">Afișează tipul rețelei</string>
+
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
+    <string name="logfile_not_exist">Fișierul jurnal nu există încă</string>
+    <string name="logfile_copied">Copiat în /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copy_failed">Copiere eșuată: %1$s</string>
+
+    <string name="share_logfile_title">Partajează fișierul jurnal</string>
+    <string name="logfile_share_failed">Partajare eșuată: %1$s</string>
+
+    <string name="logfile_emptied">Fișier jurnal golit</string>
+    <string name="logfile_empty_failed">Golire eșuată: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">Serviciu SpeedAlert</string>
+    <string name="notif_channel_description">Menține SpeedAlert activ în timpul condusului</string>
+
+    <string name="notif_service_running_title">SpeedAlert rulează</string>
+    <string name="notif_service_running_text">Monitorizare viteză și limite…</string>
+
+
+    <!-- ========================================================= -->
+    <!-- Strings added after 1.0 -->
+    <!-- ========================================================= -->
+
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">Volumul semnalului: %1$d%%</string>
+    <string name="beep_volume_test">Test</string>
+    <string name="beep_volume_prefix">Volumul semnalului:</string>
+
+    <string name="debug_log_title">Jurnal de depanare</string>
+    <string name="overlay_text_brightness">Luminozitatea textului suprapus</string>
+
+    <string name="speedo_size_title">Dimensiunea textului suprapus</string>
+    <string name="speedo_size_smallest">Cel mai mic</string>
+    <string name="speedo_size_smaller">Mai mic</string>
+    <string name="speedo_size_default">Implicit</string>
+    <string name="speedo_size_bigger">Mai mare</string>
+    <string name="speedo_size_even_bigger">Și mai mare</string>
+    <string name="speedo_size_very_big">Foarte mare</string>
+    <string name="speedo_size_extremely_big">Extrem de mare</string>
+
+    <string name="btn_settings">Setări</string>
+    <string name="settings_title">Setări</string>
+
+    <string name="switch_use_mph_readme">Citește asta!</string>
+
+    <string name="mph_info_title">Despre km/h și mph</string>
+
+    <string name="mph_info_message">
+    SpeedAlert poate converti atât viteza GPS, cât și limitele de viteză.\n\n
+    • Dacă conduci într-o țară care folosește km/h, dar preferi mph, ambele valori sunt convertite.\n
+    • Dacă conduci într-o țară care folosește mph, dar preferi km/h, ambele valori sunt convertite.\n
+    • Dacă preferința ta corespunde unității folosite în țară, nu se face nicio conversie.\n\n
+    Astfel, afișajul va corespunde întotdeauna unității alese de tine.
+    </string>
+
+    <string name="btn_about">Despre</string>
+    <string name="about_title">Despre SpeedAlert</string>
+    <string name="about_description">Această aplicație te ajută să respecți limitele de viteză folosind date GPS și informații rutiere.</string>
+
+    <string name="start_service_on_open">Pornește serviciul la deschiderea SpeedAlert</string>
+
+    <string name="fetch_interval_label">Interval de actualizare a limitei de viteză</string>
+    <string name="min_distance_label">Distanța minimă înainte de actualizare</string>
+
+    <string name="fetch_interval_2s">2 secunde (4–8 MB/oră)</string>
+    <string name="fetch_interval_4s">4 secunde (2–4 MB/oră)</string>
+    <string name="fetch_interval_8s">8 secunde (1–2 MB/oră)</string>
+
+    <string name="min_distance_0m">0 m (actualizează întotdeauna)</string>
+
+    <string name="minimize_on_start">Minimizează aplicația</string>
+
+    <string name="update_available_title">Versiune nouă disponibilă</string>
+    <string name="update_available_message">Este disponibilă o versiune mai nouă (%1$s).\n\nDeschide pagina de descărcare?</string>
+    <string name="update_available_open">Deschide</string>
+    <string name="update_available_cancel">Anulează</string>
+
+    <string name="use_country_fallback">Folosește viteza implicită a țării când lipsește eticheta maxspeed</string>
+
+    <string name="use_sign_overlay">Folosește afișarea vitezei în stil semn rutier</string>
+    <string name="use_text_overlay">Folosește afișarea vitezei în format text</string>
+
+    <string name="hide_current_speed">Nu afișa viteza curentă</string>
+
+    <string name="beep_muted">Bip dezactivat</string>
+    <string name="beep_unmuted">Bip activat</string>
+
+    <string name="settings_transparency_label">Transparența suprapunerii</string>
+    <string name="settings_preview_label">Previzualizare</string>
+
+    <string name="camera_alert">Radar la %1$d metri</string>
+
+    <string name="show_mute_button_title">Afișează butonul difuzor/mut în overlay</string>
+    <string name="show_mute_button_summary">Dacă este dezactivat, overlay‑ul va emite întotdeauna un bip, iar pictograma de mut va fi ascunsă</string>
+
+    <string name="header_overlay">Setări overlay</string>
+    <string name="header_speed_units">Viteză &amp; Unități</string>
+    <string name="header_overspeed">Avertizare depășire viteză</string>
+    <string name="header_audio">Audio</string>
+    <string name="header_fetching">Preluare limită de viteză</string>
+    <string name="header_advanced">Avansat</string>
+
+    <string name="beep_once_title">Emite un singur bip la depășirea vitezei</string>
+
+    <string name="fetching_info">
+    Dacă folosești o bază de date locală, aproape că nu utilizezi rețeaua, așa că poți seta preluarea limitelor de viteză la 2 secunde și distanța minimă la 0 metri.
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">Descărcați bazele de date</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">Instalați baza de date</a>]]></string>
+    <string name="select_7z_db">Selectați un fișier de bază de date .7z</string>
+    <string name="extraction_failed">Extragerea a eșuat</string>
+    <string name="media_access_failed">Nu se poate accesa directorul media</string>
+    <string name="database_installed">Baza de date instalată: %1$s</string>
+
+</resources>

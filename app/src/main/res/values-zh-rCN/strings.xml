@@ -268,5 +268,6 @@
     <string name="extraction_failed">解压失败</string>
     <string name="media_access_failed">无法访问媒体目录</string>
     <string name="database_installed">数据库已安装：%1$s</string>
+    <string name="download_install_database">下载并安装数据库</string>
 
 </resources>

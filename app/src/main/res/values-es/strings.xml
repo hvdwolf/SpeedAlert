@@ -272,5 +272,6 @@
     <string name="extraction_failed">La extracción falló</string>
     <string name="media_access_failed">No se puede acceder al directorio de medios</string>
     <string name="database_installed">Base de datos instalada: %1$s</string>
+    <string name="download_install_database">Descargar e instalar la base de datos</string>
 
 </resources>

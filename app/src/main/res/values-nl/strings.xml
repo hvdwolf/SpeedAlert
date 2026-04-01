@@ -272,5 +272,6 @@
     <string name="extraction_failed">Extractie mislukt</string>
     <string name="media_access_failed">Kan mediamap niet openen</string>
     <string name="database_installed">Database geïnstalleerd: %1$s</string>
+    <string name="download_install_database">Database downloaden en installeren</string>
 
 </resources>

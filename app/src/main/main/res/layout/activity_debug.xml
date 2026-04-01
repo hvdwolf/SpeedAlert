@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- CHECK OVERLAY PERMISSION -->
+<Button
+    android:id="@+id/btnCheckOverlay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/btn_check_overlay"
+    android:layout_marginBottom="12dp" />
+
+    <!-- LAT / LON / TEST LOOKUP -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:layout_marginBottom="12dp">
+
+        <EditText
+            android:id="@+id/edtLat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/hint_latitude"
+            android:inputType="numberDecimal|numberSigned" />
+
+        <EditText
+            android:id="@+id/edtLon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/hint_longitude"
+            android:inputType="numberDecimal|numberSigned"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/btnTestLookup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_test_lookup"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- DEBUG LOG (LIMITED HEIGHT) -->
+    <TextView
+        android:id="@+id/txtDebugTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/debug_log_title"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <ScrollView
+        android:id="@+id/scrollDebugFull"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#222222"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/txtDebugFull"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textIsSelectable="true" />
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="12dp">
+
+        <Button
+            android:id="@+id/btnCopyLogFull"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_copy_log" />
+
+        <Button
+            android:id="@+id/btnShareLogFull"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/btn_share_log" />
+
+        <Button
+            android:id="@+id/btnEmptyLogFull"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/btn_empty_log" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnShowSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show all settings"
+        android:layout_marginBottom="12dp" />
+
+
+</LinearLayout>

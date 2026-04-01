@@ -263,5 +263,6 @@
     <string name="extraction_failed">Помилка розпакування</string>
     <string name="media_access_failed">Неможливо отримати доступ до каталогу медіа</string>
     <string name="database_installed">Базу даних встановлено: %1$s</string>
+    <string name="download_install_database">Завантажити та встановити базу даних</string>
 
 </resources>

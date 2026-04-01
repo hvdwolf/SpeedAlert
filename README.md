@@ -11,7 +11,7 @@ Note that this app will only work if the GPS location is accurate and the road h
 **Since version 2.0** it also has an option for speed cameras. These only work with downloaded speed camera databases. **Note:** It is not allowed to use speed camera databases in several countries. Despite the fact that these databases might be downloadable, you are the only person responsible for installing them, or not.<br><br>
 This app is 70% made with AI (MS CoPilot) and 30% by "me, myself and I".<br><br>
 
-### Note: You use this app entirely at your own risk. I am not responsible for incorrect functioning or incorrect use of the app. All responsibility for use, or incorrect use, lies entirely with you! Always follow the specified (temporary) speed limits and drive responsibly. Only use speed camera daatabases in countries where it is allowed.
+### Note: You use this app entirely at your own risk. I am not responsible for incorrect functioning or incorrect use of the app. All responsibility for use, or incorrect use, lies entirely with you! Always follow the specified (temporary) speed limits and drive responsibly. Only use speed camera databases in countries where it is allowed.
 
 **This app does not collect, store or share any personal information. It is 100% privacy friendly.**
 

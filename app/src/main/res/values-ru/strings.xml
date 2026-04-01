@@ -272,5 +272,6 @@
     <string name="extraction_failed">Ошибка извлечения</string>
     <string name="media_access_failed">Нет доступа к каталогу медиа</string>
     <string name="database_installed">База данных установлена: %1$s</string>
+    <string name="download_install_database">Скачать и установить базу данных</string>
 
 </resources>
