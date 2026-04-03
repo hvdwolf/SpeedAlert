@@ -3,6 +3,7 @@ package xyz.hvdw.speedalert
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -24,6 +25,10 @@ class FloatingSpeedometer(
     private var lastSpeed = 0
     private var lastLimit = 0
     private var lastOverspeed = false
+
+    private var cameraStage: Int = 0
+    private var cameraIcon: Drawable? = null
+    private var imgCameraWarning: ImageView? = null
 
     private var windowManager: WindowManager? = null
     private var view: View? = null
@@ -70,6 +75,7 @@ class FloatingSpeedometer(
                 txtSpeedSign = v.findViewById(R.id.txtSpeedSign)
                 root = v.findViewById<LinearLayout>(R.id.speedometerSignRoot)
                 imgMuteState = v.findViewById(R.id.imgMuteState)
+                imgCameraWarning = view?.findViewById(R.id.imgCameraWarning)
             }
         } else {
             inflater.inflate(R.layout.overlay_speedometer, null).also { v ->
@@ -77,6 +83,7 @@ class FloatingSpeedometer(
                 txtLimit = v.findViewById(R.id.txtOverlayLimit)
                 root = v.findViewById<LinearLayout>(R.id.speedometerRoot)
                 imgMuteState = v.findViewById(R.id.imgMuteState)
+                imgCameraWarning = view?.findViewById(R.id.imgCameraWarning)
             }
         }
         // Hide or show mute icon based on settings
@@ -397,6 +404,25 @@ class FloatingSpeedometer(
         } else {
             imgMuteState?.setImageResource(R.drawable.ic_volume_on)
         }
+    }
+
+    fun updateCameraStage(stage: Int) {
+        cameraStage = stage
+
+        val iconRes = when (stage) {
+            1 -> R.drawable.ic_camera_yellow
+            2 -> R.drawable.ic_camera_orange
+            3 -> R.drawable.ic_camera_red
+            else -> null
+        }
+
+        if (iconRes == null) {
+            imgCameraWarning?.visibility = View.GONE
+            return
+        }
+
+        imgCameraWarning?.setImageResource(iconRes)
+        imgCameraWarning?.visibility = View.VISIBLE
     }
 
 }

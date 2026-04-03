@@ -33,4 +33,12 @@
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_volume_on"/>
 
+    <ImageView
+        android:id="@+id/imgCameraWarning"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="4dp"
+        android:layout_gravity="top|end"
+        android:visibility="gone" />
+
 </LinearLayout>

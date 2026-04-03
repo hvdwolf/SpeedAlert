@@ -767,24 +767,28 @@ class DrivingService : Service() {
 
         if (dist in 200.0..300.0 && lastCameraStage < 1) {
             triggerCameraAlert(nearest, dist)
+            speedometer?.updateCameraStage(1)
             lastCameraStage = 1
             return
         }
 
         if (dist in 135.0..165.0 && lastCameraStage < 2) {
             triggerCameraAlert(nearest, dist)
+            speedometer?.updateCameraStage(2)
             lastCameraStage = 2
             return
         }
 
         if (dist in 0.0..70.0 && lastCameraStage < 3) {
             triggerCameraAlert(nearest, dist)
+            speedometer?.updateCameraStage(3)
             lastCameraStage = 3
             return
         }
 
         if (dist > 300.0) {
             lastCameraStage = 0
+            speedometer?.updateCameraStage(0)
         }
     }
 
@@ -813,4 +817,5 @@ class DrivingService : Service() {
             ToastUtils.show(this, prefs, msg)
         }
     }
+
 }
