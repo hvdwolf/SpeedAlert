@@ -84,18 +84,22 @@ class SettingsActivity : AppCompatActivity() {
     } */
     private val sizeLabels by lazy {
         arrayOf(
-            "60%",
-            "80%",
+            "50%",
+            "75%",
             "100%",
-            "120%",
-            "140%",
-            "160%",
-            "180%",
+            "125%",
+            "150%",
+            "175%",
+            "200%",
+            "225%",
+            "250%",
+            "275%",
+            "300%",
         )
     }
 
 
-    private val sizeScales = floatArrayOf(0.60f, 0.80f, 1.00f, 1.20f, 1.40f, 1.60f, 1.80f)
+    private val sizeScales = floatArrayOf(0.50f, 0.75f, 1.00f, 1.25f, 1.50f, 1.75f, 2.00f, 2.25f, 2.50f, 2.75f, 3.00f)
 
     private var testTripleBeep: AudioTrack? = null
 
