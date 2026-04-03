@@ -160,6 +160,7 @@ class LocalSpeedDbManager(private val service: DrivingService) {
                 speed_index.maxLat,
                 speed_index.minLon,
                 speed_index.maxLon,
+                speed_index.polyline,
                 speed_data.speed
             FROM speed_index
             JOIN speed_data ON speed_index.id = speed_data.id
@@ -168,10 +169,13 @@ class LocalSpeedDbManager(private val service: DrivingService) {
         """
 
         return try {
-            db.rawQuery(sql, arrayOf(
-                lat.toString(), lat.toString(),
-                lon.toString(), lon.toString()
-            )).use { c ->
+            db.rawQuery(
+                sql,
+                arrayOf(
+                    lat.toString(), lat.toString(),
+                    lon.toString(), lon.toString()
+                )
+            ).use { c ->
 
                 if (!c.moveToFirst()) {
                     service.logExternal("Local DB: MISS at ($lat,$lon)")
@@ -186,18 +190,38 @@ class LocalSpeedDbManager(private val service: DrivingService) {
                     val maxLat = c.getDouble(2)
                     val minLon = c.getDouble(3)
                     val maxLon = c.getDouble(4)
-                    val speed = c.getInt(5)
+                    val polyline = c.getString(5)
+                    val speed = c.getInt(6)
 
-                    val centerLat = (minLat + maxLat) / 2
-                    val centerLon = (minLon + maxLon) / 2
+                    // Quick reject: if bounding box is huge or weird, you could skip here if needed
 
-                    val dLat = lat - centerLat
-                    val dLon = lon - centerLon
-                    val dist = dLat * dLat + dLon * dLon  // squared distance
+                    if (!polyline.isNullOrEmpty()) {
+                        val points = decodePolyline(polyline)
+                        if (points.size >= 2) {
+                            var localBest = Double.MAX_VALUE
+                            for (i in 0 until points.size - 1) {
+                                val (aLat, aLon) = points[i]
+                                val (bLat, bLon) = points[i + 1]
+                                val d = pointToSegmentDistSq(lat, lon, aLat, aLon, bLat, bLon)
+                                if (d < localBest) {
+                                    localBest = d
+                                }
+                            }
 
-                    if (dist < bestDist) {
-                        bestDist = dist
-                        bestSpeed = speed
+                            if (localBest < bestDist) {
+                                bestDist = localBest
+                                bestSpeed = speed
+                            }
+                        } else if (points.size == 1) {
+                            val (pLat, pLon) = points[0]
+                            val dLat = lat - pLat
+                            val dLon = lon - pLon
+                            val d = dLat * dLat + dLon * dLon
+                            if (d < bestDist) {
+                                bestDist = d
+                                bestSpeed = speed
+                            }
+                        }
                     }
 
                 } while (c.moveToNext())
@@ -215,6 +239,7 @@ class LocalSpeedDbManager(private val service: DrivingService) {
             null
         }
     }
+
 
     // ---------------------------------------------------------
     // CAMERA MANAGER ACCESS
@@ -244,6 +269,81 @@ class LocalSpeedDbManager(private val service: DrivingService) {
 
     fun getCameraDbName(): String? {
         return activeCameraDbFile?.name
+    }
+
+    // ---------------------------------------------------------
+    // AS OF 2.2: ADD GOOGLE POLYLINE FOR IMPROVED ACCURACY
+    // ---------------------------------------------------------
+    // Decode Google encoded polyline into a list of (lat, lon)
+    private fun decodePolyline(encoded: String): List<Pair<Double, Double>> {
+        val len = encoded.length
+        var index = 0
+        var lat = 0
+        var lon = 0
+        val path = ArrayList<Pair<Double, Double>>()
+
+        while (index < len) {
+            var result = 0
+            var shift = 0
+            var b: Int
+            do {
+                b = encoded[index++].code - 63
+                result = result or ((b and 0x1f) shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dLat = if ((result and 1) != 0) (result.inv() shr 1) else (result shr 1)
+            lat += dLat
+
+            result = 0
+            shift = 0
+            do {
+                b = encoded[index++].code - 63
+                result = result or ((b and 0x1f) shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dLon = if ((result and 1) != 0) (result.inv() shr 1) else (result shr 1)
+            lon += dLon
+
+            path.add(Pair(lat / 1e5, lon / 1e5))
+        }
+
+        return path
+    }
+
+    // Squared distance from point P to segment AB in lat/lon space
+    private fun pointToSegmentDistSq(
+        lat: Double,
+        lon: Double,
+        aLat: Double,
+        aLon: Double,
+        bLat: Double,
+        bLon: Double
+    ): Double {
+        val vx = bLat - aLat
+        val vy = bLon - aLon
+        val wx = lat - aLat
+        val wy = lon - aLon
+
+        val c1 = vx * wx + vy * wy
+        if (c1 <= 0.0) {
+            val dLat = lat - aLat
+            val dLon = lon - aLon
+            return dLat * dLat + dLon * dLon
+        }
+
+        val c2 = vx * vx + vy * vy
+        if (c2 <= c1) {
+            val dLat = lat - bLat
+            val dLon = lon - bLon
+            return dLat * dLat + dLon * dLon
+        }
+
+        val t = c1 / c2
+        val projLat = aLat + t * vx
+        val projLon = aLon + t * vy
+        val dLat = lat - projLat
+        val dLon = lon - projLon
+        return dLat * dLat + dLon * dLon
     }
 
 }
