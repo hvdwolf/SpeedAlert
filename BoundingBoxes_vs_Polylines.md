@@ -16,4 +16,5 @@ Both left and right represent the same situation. On the left you see the **Boun
 * At the same time, our GPS position is closer to the center of Box A, than it is to the center of box B.
 
 In this **Bounding Box only** example on the left, the app will select the road closest to the center of bounding box A, which is road A. This is the **wrong** road thereby displaying an incorrect speed limit of 50 kmh.<br><br>
-On the right you see a **Google encoded polyline** example. The bounding boxes are still there as a basic framework, but now also the nearest distance to a polyline (line based representation of a higway, here on top of the highway) is done. Now the **correct** road is selected, displaying the correct speed limit of 100 kmh.
+On the right you see a **Google encoded polyline** example. The bounding boxes are still there as a basic framework, but now also the nearest distance to a polyline (line based representation of a higway, here on top of the highway) is done. Now the **correct** road is selected, displaying the correct speed limit of 100 kmh.<br><br>
+As of version 2.2 the app uses databases including polylines. It means that going from a version older than 2.2, you **must** also update your databases.
