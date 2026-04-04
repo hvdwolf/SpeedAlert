@@ -9,6 +9,8 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 import java.net.URL
+import java.nio.file.Files
+import java.nio.channels.SeekableByteChannel
 import org.apache.commons.compress.archivers.sevenz.SevenZFile
 
 class DatabaseBrowserActivity : AppCompatActivity() {
@@ -132,26 +134,35 @@ class DatabaseBrowserActivity : AppCompatActivity() {
     }
 
     private fun extract7zToTemp(archive: File): File? {
-        val sevenZ = SevenZFile(archive)
+        val sevenZ = SevenZFile.Builder()
+            .setFile(archive)
+            .get()
+
         var entry = sevenZ.nextEntry
 
         while (entry != null) {
             if (!entry.isDirectory) {
                 val outFile = File(cacheDir, entry.name)
+
                 outFile.outputStream().use { out ->
                     val buffer = ByteArray(8192)
-                    var read: Int
-                    while (sevenZ.read(buffer).also { read = it } > 0) {
+
+                    while (true) {
+                        val read = sevenZ.read(buffer)
+                        if (read < 0) break
                         out.write(buffer, 0, read)
                     }
                 }
+
                 sevenZ.close()
                 return outFile
             }
+
             entry = sevenZ.nextEntry
         }
 
         sevenZ.close()
         return null
     }
+
 }

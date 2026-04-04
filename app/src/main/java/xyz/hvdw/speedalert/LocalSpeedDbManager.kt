@@ -186,10 +186,6 @@ class LocalSpeedDbManager(private val service: DrivingService) {
                 var bestDist = Double.MAX_VALUE
 
                 do {
-                    val minLat = c.getDouble(1)
-                    val maxLat = c.getDouble(2)
-                    val minLon = c.getDouble(3)
-                    val maxLon = c.getDouble(4)
                     val polyline = c.getString(5)
                     val speed = c.getInt(6)
 
