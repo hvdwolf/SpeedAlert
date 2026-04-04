@@ -186,13 +186,6 @@
     <string name="overlay_text_brightness">오버레이 텍스트 밝기</string>
 
     <string name="speedo_size_title">오버레이 텍스트 크기</string>
-    <string name="speedo_size_smallest">가장 작음</string>
-    <string name="speedo_size_smaller">더 작음</string>
-    <string name="speedo_size_default">기본값</string>
-    <string name="speedo_size_bigger">더 큼</string>
-    <string name="speedo_size_even_bigger">훨씬 더 큼</string>
-    <string name="speedo_size_very_big">매우 큼</string>
-    <string name="speedo_size_extremely_big">극도로 큼</string>
 
     <string name="btn_settings">설정</string>
     <string name="settings_title">설정</string>
@@ -235,7 +228,6 @@
     <string name="use_sign_overlay">도로 표지판 스타일 속도 표시 사용</string>
     <string name="use_text_overlay">텍스트 형식 속도 표시 사용</string>
 
-    <string name="hide_current_speed">현재 속도를 표시하지 않기</string>
 
     <string name="beep_muted">비프음 음소거됨</string>
     <string name="beep_unmuted">비프음 활성화됨</string>
@@ -268,5 +260,10 @@
     <string name="media_access_failed">미디어 디렉터리에 접근할 수 없습니다</string>
     <string name="database_installed">데이터베이스 설치됨: %1$s</string>
     <string name="download_install_database">데이터베이스 다운로드 및 설치</string>
+
+    <string name="disp_current_speed_label">현재 속도를 표시할까요?</string>
+    <string name="show_current_speed">현재 속도 표시</string>
+    <string name="show_current_speed_when_overspeeding">과속 시에만 표시</string>
+    <string name="hide_current_speed">현재 속도 표시 안 함</string>
 
 </resources>

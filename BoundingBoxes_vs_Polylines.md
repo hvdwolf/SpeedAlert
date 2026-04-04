@@ -1,4 +1,6 @@
 # Bounding boxes and Polylines
+
+**As of version 2.2 the app uses databases including polylines. It means that updating from version 2.1 or older, you must also update your databases.**<br><br>
 Almost everything works with "bounding boxes" in OSM. Roads are actually "polylines". So far, a road was chosen based on the gps position towards the center of the nearest bounding box, but:
 
 * Bounding boxes (can) overlap heavily.
@@ -17,4 +19,8 @@ Both left and right represent the same situation. On the left you see the **Boun
 
 In this **Bounding Box only** example on the left, the app will select the road closest to the center of bounding box A, which is road A. This is the **wrong** road thereby displaying an incorrect speed limit of 50 kmh.<br><br>
 On the right you see a **Google encoded polyline** example. The bounding boxes are still there as a basic framework, but now also the nearest distance to a polyline (line based representation of a higway, here on top of the highway) is done. Now the **correct** road is selected, displaying the correct speed limit of 100 kmh.<br><br>
-As of version 2.2 the app uses databases including polylines. It means that going from a version older than 2.2, you **must** also update your databases.
+
+Currently the combination of bounding boxes first and then polylines, is used. Why?<br>
+Using the GPS coordinates on the bounding boxes first is very fast ("cheap") in SQLite and reduces the combinations from up to **tens of thousands** to **5-20**.<br>The Polylines is slow ("expensive") and "heavy" on CPU.
+
+**As of version 2.2 the app uses databases including polylines. It means that updating from version 2.1 or older, you must also update your databases.**

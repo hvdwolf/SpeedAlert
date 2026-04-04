@@ -186,13 +186,6 @@
     <string name="overlay_text_brightness">悬浮文字亮度</string>
 
     <string name="speedo_size_title">悬浮文字大小</string>
-    <string name="speedo_size_smallest">最小</string>
-    <string name="speedo_size_smaller">较小</string>
-    <string name="speedo_size_default">默认</string>
-    <string name="speedo_size_bigger">更大</string>
-    <string name="speedo_size_even_bigger">更大一些</string>
-    <string name="speedo_size_very_big">非常大</string>
-    <string name="speedo_size_extremely_big">极大</string>
 
     <string name="btn_settings">设置</string>
     <string name="settings_title">设置</string>
@@ -235,7 +228,6 @@
     <string name="use_sign_overlay">使用道路标志样式的速度显示</string>
     <string name="use_text_overlay">使用文字形式的速度显示</string>
 
-    <string name="hide_current_speed">不显示当前速度</string>
 
     <string name="beep_muted">提示音已静音</string>
     <string name="beep_unmuted">提示音已开启</string>
@@ -269,5 +261,10 @@
     <string name="media_access_failed">无法访问媒体目录</string>
     <string name="database_installed">数据库已安装：%1$s</string>
     <string name="download_install_database">下载并安装数据库</string>
+
+    <string name="disp_current_speed_label">显示当前速度？</string>
+    <string name="show_current_speed">显示当前速度</string>
+    <string name="show_current_speed_when_overspeeding">仅在超速时显示</string>
+    <string name="hide_current_speed">不显示当前速度</string>
 
 </resources>

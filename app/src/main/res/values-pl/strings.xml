@@ -188,13 +188,6 @@
     <string name="overlay_text_brightness">Jasność tekstu nakładki</string>
 
     <string name="speedo_size_title">Rozmiar tekstu nakładki</string>
-    <string name="speedo_size_smallest">Najmniejszy</string>
-    <string name="speedo_size_smaller">Mniejszy</string>
-    <string name="speedo_size_default">Domyślny</string>
-    <string name="speedo_size_bigger">Większy</string>
-    <string name="speedo_size_even_bigger">Jeszcze większy</string>
-    <string name="speedo_size_very_big">Bardzo duży</string>
-    <string name="speedo_size_extremely_big">Ogromny</string>
 
     <string name="btn_settings">Ustawienia</string>
     <string name="settings_title">Ustawienia</string>
@@ -238,7 +231,6 @@
     <string name="use_sign_overlay">Użyj wyświetlania prędkości w stylu znaku drogowego</string>
     <string name="use_text_overlay">Użyj tekstowego wyświetlania prędkości</string>
 
-    <string name="hide_current_speed">Nie pokazuj aktualnej prędkości</string>
 
     <string name="beep_muted">Sygnał wyciszony</string>
     <string name="beep_unmuted">Sygnał włączony</string>
@@ -273,5 +265,10 @@
     <string name="media_access_failed">Brak dostępu do katalogu multimediów</string>
     <string name="database_installed">Zainstalowano bazę danych: %1$s</string>
     <string name="download_install_database">Pobierz i zainstaluj bazę danych</string>
+
+    <string name="disp_current_speed_label">Wyświetlać aktualną prędkość?</string>
+    <string name="show_current_speed">Wyświetlaj aktualną prędkość</string>
+    <string name="show_current_speed_when_overspeeding">Wyświetlaj tylko przy przekroczeniu prędkości</string>
+    <string name="hide_current_speed">Nie wyświetlaj aktualnej prędkości</string>
 
 </resources>

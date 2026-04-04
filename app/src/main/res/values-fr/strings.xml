@@ -188,13 +188,6 @@
     <string name="overlay_text_brightness">Luminosité du texte de l’overlay</string>
 
     <string name="speedo_size_title">Taille du texte de l’overlay</string>
-    <string name="speedo_size_smallest">Le plus petit</string>
-    <string name="speedo_size_smaller">Plus petit</string>
-    <string name="speedo_size_default">Par défaut</string>
-    <string name="speedo_size_bigger">Plus grand</string>
-    <string name="speedo_size_even_bigger">Encore plus grand</string>
-    <string name="speedo_size_very_big">Très grand</string>
-    <string name="speedo_size_extremely_big">Extrêmement grand</string>
 
     <string name="btn_settings">Paramètres</string>
     <string name="settings_title">Paramètres</string>
@@ -238,7 +231,6 @@
     <string name="use_sign_overlay">Utiliser l’affichage de vitesse en style panneau routier</string>
     <string name="use_text_overlay">Utiliser l’affichage de vitesse textuel</string>
 
-    <string name="hide_current_speed">Ne pas afficher la vitesse actuelle</string>
 
     <string name="beep_muted">Bip désactivé</string>
     <string name="beep_unmuted">Bip activé</string>
@@ -274,5 +266,10 @@
     <string name="media_access_failed">Impossible d’accéder au répertoire média</string>
     <string name="database_installed">Base de données installée : %1$s</string>
     <string name="download_install_database">Télécharger et installer la base de données</string>
+
+    <string name="disp_current_speed_label">Afficher la vitesse actuelle ?</string>
+    <string name="show_current_speed">Afficher la vitesse actuelle</string>
+    <string name="show_current_speed_when_overspeeding">Afficher seulement en cas d’excès de vitesse</string>
+    <string name="hide_current_speed">Ne pas afficher la vitesse actuelle</string>
 
 </resources>

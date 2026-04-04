@@ -188,13 +188,6 @@
     <string name="overlay_text_brightness">Яркость текста наложения</string>
 
     <string name="speedo_size_title">Размер текста наложения</string>
-    <string name="speedo_size_smallest">Самый маленький</string>
-    <string name="speedo_size_smaller">Меньше</string>
-    <string name="speedo_size_default">По умолчанию</string>
-    <string name="speedo_size_bigger">Больше</string>
-    <string name="speedo_size_even_bigger">Еще больше</string>
-    <string name="speedo_size_very_big">Очень большой</string>
-    <string name="speedo_size_extremely_big">Огромный</string>
 
     <string name="btn_settings">Настройки</string>
     <string name="settings_title">Настройки</string>
@@ -238,7 +231,6 @@
     <string name="use_sign_overlay">Использовать отображение скорости в виде дорожного знака</string>
     <string name="use_text_overlay">Использовать текстовое отображение скорости</string>
 
-    <string name="hide_current_speed">Не показывать текущую скорость</string>
 
     <string name="beep_muted">Сигнал отключён</string>
     <string name="beep_unmuted">Сигнал включён</string>
@@ -273,5 +265,10 @@
     <string name="media_access_failed">Нет доступа к каталогу медиа</string>
     <string name="database_installed">База данных установлена: %1$s</string>
     <string name="download_install_database">Скачать и установить базу данных</string>
+
+    <string name="disp_current_speed_label">Показывать текущую скорость?</string>
+    <string name="show_current_speed">Показывать текущую скорость</string>
+    <string name="show_current_speed_when_overspeeding">Показывать только при превышении</string>
+    <string name="hide_current_speed">Не показывать текущую скорость</string>
 
 </resources>

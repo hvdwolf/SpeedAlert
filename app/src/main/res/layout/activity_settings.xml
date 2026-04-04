@@ -54,27 +54,34 @@
                 android:text="@string/show_overlay"
                 android:layout_marginBottom="12dp" />
 
+            <Switch
+                android:id="@+id/switchSignOverlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_sign_overlay" />
+
             <LinearLayout
-                android:id="@+id/layoutSignOverlay"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="16dp">
 
-                <Switch
-                    android:id="@+id/switchSignOverlay"
+                <TextView
+                    android:id="@+id/spinnerCurrentSpeedLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/disp_current_speed_label"
+                    android:layout_marginEnd="12dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerCurrentSpeed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/use_sign_overlay" />
+                    android:spinnerMode="dropdown"
+                    android:padding="4dp" />
 
-                <Switch
-                    android:id="@+id/switchHideCurrentSpeed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hide_current_speed"
-                    android:layout_marginStart="30dp"
-                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView

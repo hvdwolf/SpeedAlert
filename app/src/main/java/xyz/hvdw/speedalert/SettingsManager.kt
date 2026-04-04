@@ -42,6 +42,14 @@ class SettingsManager(context: Context) {
         return prefs.getBoolean("minimize_on_start", false)
     }
 
+    fun getInt(key: String, default: Int): Int {
+        return prefs.getInt(key, default)
+    }
+
+    fun set(key: String, value: Int) {
+        prefs.edit().putInt(key, value).apply()
+    }
+
     // ---------------------------------------------------------
     // OVERSPEED MODE
     // ---------------------------------------------------------

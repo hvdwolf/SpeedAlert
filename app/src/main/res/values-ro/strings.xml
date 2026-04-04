@@ -188,13 +188,6 @@
     <string name="overlay_text_brightness">Luminozitatea textului suprapus</string>
 
     <string name="speedo_size_title">Dimensiunea textului suprapus</string>
-    <string name="speedo_size_smallest">Cel mai mic</string>
-    <string name="speedo_size_smaller">Mai mic</string>
-    <string name="speedo_size_default">Implicit</string>
-    <string name="speedo_size_bigger">Mai mare</string>
-    <string name="speedo_size_even_bigger">Și mai mare</string>
-    <string name="speedo_size_very_big">Foarte mare</string>
-    <string name="speedo_size_extremely_big">Extrem de mare</string>
 
     <string name="btn_settings">Setări</string>
     <string name="settings_title">Setări</string>
@@ -238,7 +231,6 @@
     <string name="use_sign_overlay">Folosește afișarea vitezei în stil semn rutier</string>
     <string name="use_text_overlay">Folosește afișarea vitezei în format text</string>
 
-    <string name="hide_current_speed">Nu afișa viteza curentă</string>
 
     <string name="beep_muted">Bip dezactivat</string>
     <string name="beep_unmuted">Bip activat</string>
@@ -273,5 +265,10 @@
     <string name="media_access_failed">Nu se poate accesa directorul media</string>
     <string name="database_installed">Baza de date instalată: %1$s</string>
     <string name="download_install_database">Descărcați și instalați baza de date</string>
+
+    <string name="disp_current_speed_label">Afișa viteza curentă?</string>
+    <string name="show_current_speed">Afișează viteza curentă</string>
+    <string name="show_current_speed_when_overspeeding">Afișează doar la depășirea vitezei</string>
+    <string name="hide_current_speed">Nu afișa viteza curentă</string>
 
 </resources>

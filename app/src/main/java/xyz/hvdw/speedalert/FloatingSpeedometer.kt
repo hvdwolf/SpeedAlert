@@ -17,6 +17,9 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlin.math.max
 
+private const val KEY_CURRENT_SPEED_MODE = "current_speed_display_mode"
+
+
 class FloatingSpeedometer(
     private val context: Context,
     private val settings: SettingsManager
@@ -227,6 +230,30 @@ class FloatingSpeedometer(
         val brightness = prefs.getInt("speedo_brightness", 100)
         val finalColor = applyBrightness(baseColor, brightness)
 
+        // Show or hide current speed
+        val mode = settings.getInt(KEY_CURRENT_SPEED_MODE, 0)
+
+        // Determine visibility based on mode + overspeed
+        when (mode) {
+            0 -> { // Always show
+                txtSpeed?.visibility = View.VISIBLE
+                txtSpeedSign?.text = "$displaySpeed $unit"
+            }
+
+            1 -> { // Only show when overspeeding
+                if (overspeed) {
+                    txtSpeed?.visibility = View.VISIBLE
+                    txtSpeedSign?.text = "$displaySpeed $unit"
+                } else {
+                    txtSpeed?.visibility = View.GONE
+                }
+            }
+
+            2 -> { // Never show
+                txtSpeed?.visibility = View.GONE
+            }
+        }
+
         if (overspeed) {
             txtSpeed?.setTextColor(0xFFFF4444.toInt())
             txtLimit?.setTextColor(0xFFFF4444.toInt())
@@ -234,6 +261,7 @@ class FloatingSpeedometer(
             txtSpeed?.setTextColor(finalColor)
             txtLimit?.setTextColor(finalColor)
         }
+
 
         updateMuteIcon()
         applyOverlayBackgroundAlpha()
@@ -249,17 +277,7 @@ class FloatingSpeedometer(
 
         val unit = settings.displayUnit()
         val displaySpeed = settings.convertSpeed(speed)
-        /*if (settings.hideCurrentSpeed()) {
-            root?.setBackgroundColor(Color.TRANSPARENT)
-            root?.setPadding(0, 0, 0, 0)
-            txtSpeedSign?.visibility = View.GONE
-        } else {
-            root?.setBackgroundResource(R.drawable.speedometer_bg)
-            val pad = (8 * context.resources.displayMetrics.density).roundToInt()
-            root?.setPadding(pad, pad, pad, pad)
-            txtSpeedSign?.visibility = View.VISIBLE
-            txtSpeedSign?.text = "$displaySpeed $unit"
-        }*/
+
         // Always use the same background
         root?.setBackgroundResource(R.drawable.speedometer_bg)
 
@@ -267,14 +285,32 @@ class FloatingSpeedometer(
         val pad = (8 * context.resources.displayMetrics.density).toInt()
         root?.setPadding(pad, pad, pad, pad)
 
+
         // Show or hide current speed
-        if (settings.hideCurrentSpeed()) {
-            txtSpeedSign?.visibility = View.GONE
-        } else {
-            txtSpeedSign?.visibility = View.VISIBLE
-            txtSpeedSign?.text = "$displaySpeed $unit"
+        val mode = settings.getInt(KEY_CURRENT_SPEED_MODE, 0)
+
+        // Determine visibility based on mode + overspeed
+        when (mode) {
+            0 -> { // Always show
+                txtSpeed?.visibility = View.VISIBLE
+                txtSpeedSign?.text = "$displaySpeed $unit"
+            }
+
+            1 -> { // Only show when overspeeding
+                if (overspeed) {
+                    txtSpeed?.visibility = View.VISIBLE
+                    txtSpeedSign?.text = "$displaySpeed $unit"
+                } else {
+                    txtSpeed?.visibility = View.GONE
+                }
+            }
+
+            2 -> { // Never show
+                txtSpeed?.visibility = View.GONE
+            }
         }
 
+        
         val displayLimit = settings.convertSpeed(limit)
 
         if (limit > 0) {

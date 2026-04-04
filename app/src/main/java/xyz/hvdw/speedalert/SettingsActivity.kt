@@ -24,13 +24,17 @@ import androidx.appcompat.app.AppCompatActivity
 import org.apache.commons.compress.archivers.sevenz.SevenZFile
 import java.io.File
 
+private const val KEY_CURRENT_SPEED_MODE = "current_speed_display_mode"
+
 
 class SettingsActivity : AppCompatActivity() {
 
     // Overlay
     private lateinit var swShowOverlay: Switch
     private lateinit var switchSign: Switch
-    private lateinit var switchHideCurrentSpeed: Switch
+    //private lateinit var switchHideCurrentSpeed: Switch
+    private lateinit var spinnerCurrentSpeedLabel: TextView
+    private lateinit var spinnerCurrentSpeed: Spinner
     private lateinit var seekBrightness: SeekBar
     private lateinit var seekSpeedoSize: SeekBar
     private lateinit var txtSpeedoSizeValue: TextView
@@ -71,17 +75,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    /*private val sizeLabels by lazy {
-        arrayOf(
-            getString(R.string.speedo_size_smallest),
-            getString(R.string.speedo_size_smaller),
-            getString(R.string.speedo_size_default),
-            getString(R.string.speedo_size_bigger),
-            getString(R.string.speedo_size_even_bigger),
-            getString(R.string.speedo_size_very_big),
-            getString(R.string.speedo_size_extremely_big),
-        )
-    } */
     private val sizeLabels by lazy {
         arrayOf(
             "50%",
@@ -155,7 +148,9 @@ class SettingsActivity : AppCompatActivity() {
         // ---------------------------------------------------------
         swShowOverlay = findViewById(R.id.swShowOverlay)
         switchSign = findViewById(R.id.switchSignOverlay)
-        switchHideCurrentSpeed = findViewById(R.id.switchHideCurrentSpeed)
+        //switchHideCurrentSpeed = findViewById(R.id.switchHideCurrentSpeed)
+        spinnerCurrentSpeedLabel = findViewById(R.id.spinnerCurrentSpeedLabel)
+        spinnerCurrentSpeed = findViewById(R.id.spinnerCurrentSpeed)
         seekBrightness = findViewById(R.id.seekBrightness)
         seekSpeedoSize = findViewById(R.id.seekSpeedoSize)
         txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
@@ -200,17 +195,42 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         switchSign.isChecked = settings.useSignOverlay()
-        switchHideCurrentSpeed.visibility =
-            if (settings.useSignOverlay()) View.VISIBLE else View.GONE
-
         switchSign.setOnCheckedChangeListener { _, checked ->
             settings.setUseSignOverlay(checked)
-            switchHideCurrentSpeed.visibility = if (checked) View.VISIBLE else View.GONE
         }
 
-        switchHideCurrentSpeed.isChecked = settings.hideCurrentSpeed()
+        /*switchHideCurrentSpeed.isChecked = settings.hideCurrentSpeed()
         switchHideCurrentSpeed.setOnCheckedChangeListener { _, checked ->
             settings.setHideCurrentSpeed(checked)
+        }*/
+
+        val currentSpeedLabels = arrayOf(
+                getString(R.string.show_current_speed),
+                getString(R.string.show_current_speed_when_overspeeding),
+                getString(R.string.hide_current_speed),
+        )
+        val currentSpeedAdapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_item, currentSpeedLabels
+        )
+        currentSpeedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCurrentSpeed.adapter = currentSpeedAdapter
+
+        // Load saved value using settings helper
+        val savedMode = settings.getInt(KEY_CURRENT_SPEED_MODE, 0)
+        spinnerCurrentSpeed.setSelection(savedMode)
+
+        // Save when changed
+        spinnerCurrentSpeed.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                settings.set(KEY_CURRENT_SPEED_MODE, position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
         // Transparency

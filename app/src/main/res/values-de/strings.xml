@@ -188,13 +188,6 @@
     <string name="overlay_text_brightness">Overlay text brightness</string>
 
     <string name="speedo_size_title">Overlay text size</string>
-    <string name="speedo_size_smallest">Kleinste</string>
-    <string name="speedo_size_smaller">Kleiner</string>
-    <string name="speedo_size_default">Standard</string>
-    <string name="speedo_size_bigger">Größer</string>
-    <string name="speedo_size_even_bigger">Noch größer</string>
-    <string name="speedo_size_very_big">Sehr groß</string>
-    <string name="speedo_size_extremely_big">Extrem groß</string>
 
 
     <string name="btn_settings">Settings</string>
@@ -227,7 +220,6 @@
     <string name="use_sign_overlay">Straßenschild‑Stil für Geschwindigkeitsanzeige verwenden</string>
     <string name="use_text_overlay">Textuelle Geschwindigkeitsanzeige verwenden</string>
     
-    <string name="hide_current_speed">Aktuelle Geschwindigkeit nicht anzeigen</string>
 
     <string name="beep_muted">Signalton stummgeschaltet</string>
     <string name="beep_unmuted">Signalton aktiviert</string>
@@ -262,5 +254,10 @@
     <string name="media_access_failed">Zugriff auf Medienverzeichnis nicht möglich</string>
     <string name="database_installed">Datenbank installiert: %1$s</string>
     <string name="download_install_database">Datenbank herunterladen und installieren</string>
+
+    <string name="disp_current_speed_label">Aktuelle Geschwindigkeit anzeigen?</string>
+    <string name="show_current_speed">Aktuelle Geschwindigkeit anzeigen</string>
+    <string name="show_current_speed_when_overspeeding">Nur bei Überschreitung anzeigen</string>
+    <string name="hide_current_speed">Aktuelle Geschwindigkeit nicht anzeigen</string>
 
 </resources>

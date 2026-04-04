@@ -188,13 +188,6 @@
     <string name="overlay_text_brightness">Яскравість тексту накладки</string>
 
     <string name="speedo_size_title">Розмір тексту накладки</string>
-    <string name="speedo_size_smallest">Найменший</string>
-    <string name="speedo_size_smaller">Менший</string>
-    <string name="speedo_size_default">Типовий</string>
-    <string name="speedo_size_bigger">Більший</string>
-    <string name="speedo_size_even_bigger">Ще більший</string>
-    <string name="speedo_size_very_big">Дуже великий</string>
-    <string name="speedo_size_extremely_big">Надзвичайно великий</string>
 
     <string name="btn_settings">Налаштування</string>
     <string name="settings_title">Налаштування</string>
@@ -229,7 +222,6 @@
     <string name="use_sign_overlay">Використовувати відображення швидкості у стилі дорожнього знака</string>
     <string name="use_text_overlay">Використовувати текстове відображення швидкості</string>
 
-    <string name="hide_current_speed">Не показувати поточну швидкість</string>
 
     <string name="beep_muted">Сигнал вимкнено</string>
     <string name="beep_unmuted">Сигнал увімкнено</string>
@@ -264,5 +256,10 @@
     <string name="media_access_failed">Неможливо отримати доступ до каталогу медіа</string>
     <string name="database_installed">Базу даних встановлено: %1$s</string>
     <string name="download_install_database">Завантажити та встановити базу даних</string>
+
+    <string name="disp_current_speed_label">Показувати поточну швидкість?</string>
+    <string name="show_current_speed">Показувати поточну швидкість</string>
+    <string name="show_current_speed_when_overspeeding">Показувати лише при перевищенні</string>
+    <string name="hide_current_speed">Не показувати поточну швидкість</string>
 
 </resources>
