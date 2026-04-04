@@ -261,5 +261,6 @@
     <string name="show_current_speed">Показувати поточну швидкість</string>
     <string name="show_current_speed_when_overspeeding">Показувати лише при перевищенні</string>
     <string name="hide_current_speed">Не показувати поточну швидкість</string>
+    <string name="switch_show_units">Показувати одиниці під час відображення поточної швидкості (км/год або миль/год)</string>
 
 </resources>

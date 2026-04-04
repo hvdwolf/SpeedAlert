@@ -270,5 +270,6 @@
     <string name="show_current_speed">Wyświetlaj aktualną prędkość</string>
     <string name="show_current_speed_when_overspeeding">Wyświetlaj tylko przy przekroczeniu prędkości</string>
     <string name="hide_current_speed">Nie wyświetlaj aktualnej prędkości</string>
+    <string name="switch_show_units">Wyświetlać jednostki przy aktualnej prędkości (km/h lub mph)</string>
 
 </resources>

@@ -266,5 +266,6 @@
     <string name="show_current_speed">Show current speed</string>
     <string name="show_current_speed_when_overspeeding">Only show when overspeeding</string>
     <string name="hide_current_speed">Don’t show current speed</string>
+    <string name="switch_show_units">Show units when displaying current speed (kmh or mph)</string>
 
 </resources>

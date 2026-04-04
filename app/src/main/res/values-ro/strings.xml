@@ -270,5 +270,6 @@
     <string name="show_current_speed">Afișează viteza curentă</string>
     <string name="show_current_speed_when_overspeeding">Afișează doar la depășirea vitezei</string>
     <string name="hide_current_speed">Nu afișa viteza curentă</string>
+    <string name="switch_show_units">Afișează unitățile când se arată viteza curentă (km/h sau mph)</string>
 
 </resources>

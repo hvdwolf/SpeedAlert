@@ -32,9 +32,9 @@ class SettingsActivity : AppCompatActivity() {
     // Overlay
     private lateinit var swShowOverlay: Switch
     private lateinit var switchSign: Switch
-    //private lateinit var switchHideCurrentSpeed: Switch
     private lateinit var spinnerCurrentSpeedLabel: TextView
     private lateinit var spinnerCurrentSpeed: Spinner
+    private lateinit var swShowUnits: Switch
     private lateinit var seekBrightness: SeekBar
     private lateinit var seekSpeedoSize: SeekBar
     private lateinit var txtSpeedoSizeValue: TextView
@@ -151,6 +151,7 @@ class SettingsActivity : AppCompatActivity() {
         //switchHideCurrentSpeed = findViewById(R.id.switchHideCurrentSpeed)
         spinnerCurrentSpeedLabel = findViewById(R.id.spinnerCurrentSpeedLabel)
         spinnerCurrentSpeed = findViewById(R.id.spinnerCurrentSpeed)
+        swShowUnits = findViewById(R.id.swShowUnits)
         seekBrightness = findViewById(R.id.seekBrightness)
         seekSpeedoSize = findViewById(R.id.seekSpeedoSize)
         txtSpeedoSizeValue = findViewById(R.id.txtSpeedoSizeValue)
@@ -199,11 +200,6 @@ class SettingsActivity : AppCompatActivity() {
             settings.setUseSignOverlay(checked)
         }
 
-        /*switchHideCurrentSpeed.isChecked = settings.hideCurrentSpeed()
-        switchHideCurrentSpeed.setOnCheckedChangeListener { _, checked ->
-            settings.setHideCurrentSpeed(checked)
-        }*/
-
         val currentSpeedLabels = arrayOf(
                 getString(R.string.show_current_speed),
                 getString(R.string.show_current_speed_when_overspeeding),
@@ -232,6 +228,11 @@ class SettingsActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
+        swShowUnits.isChecked = settings.showUnits()
+            swShowUnits.setOnCheckedChangeListener { _, checked ->
+                settings.setShowUnits(checked)
+            }
 
         // Transparency
         val alpha = prefs.getInt("overlay_alpha", 200)

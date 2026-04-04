@@ -260,5 +260,6 @@
     <string name="show_current_speed">顯示目前速度</string>
     <string name="show_current_speed_when_overspeeding">僅在超速時顯示</string>
     <string name="hide_current_speed">不顯示目前速度</string>
+    <string name="switch_show_units">顯示目前速度時顯示單位（km/h 或 mph）</string>
 
 </resources>

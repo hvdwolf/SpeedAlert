@@ -50,6 +50,13 @@ class SettingsManager(context: Context) {
         prefs.edit().putInt(key, value).apply()
     }
 
+    fun showUnits(): Boolean =
+        prefs.getBoolean("show_units", false)
+
+    fun setShowUnits(value: Boolean) {
+        prefs.edit().putBoolean("show_units", value).apply()
+    }
+
     // ---------------------------------------------------------
     // OVERSPEED MODE
     // ---------------------------------------------------------

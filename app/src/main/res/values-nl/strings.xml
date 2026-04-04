@@ -270,5 +270,6 @@
     <string name="show_current_speed">Huidige snelheid tonen</string>
     <string name="show_current_speed_when_overspeeding">Alleen tonen bij overschrijding</string>
     <string name="hide_current_speed">Huidige snelheid niet tonen</string>
+    <string name="switch_show_units">Eenheden tonen bij de huidige snelheid (km/u of mph)</string>
 
 </resources>

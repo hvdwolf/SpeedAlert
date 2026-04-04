@@ -81,8 +81,13 @@
                     android:layout_height="wrap_content"
                     android:spinnerMode="dropdown"
                     android:padding="4dp" />
-
             </LinearLayout>
+
+            <Switch
+                android:id="@+id/swShowUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_show_units" />
 
             <TextView
                 android:id="@+id/transparencyLabel"

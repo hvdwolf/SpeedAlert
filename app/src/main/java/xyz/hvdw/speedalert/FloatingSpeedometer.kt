@@ -211,48 +211,49 @@ class FloatingSpeedometer(
         lastOverspeed = overspeed
 
         val unit = settings.displayUnit()
+        val displaySpeed = settings.convertSpeed(speed)
+        val displayLimit = settings.convertSpeed(limit)
+
+        // Speed text
+        if (settings.showUnits()) {
+            txtSpeed?.text = "$displaySpeed $unit"
+        } else {
+            txtSpeed?.text = "$displaySpeed"
+        }
+
+        // Limit text
         val limitPrefix = context.getString(R.string.overlay_limit_prefix)
         val noLimit = context.getString(R.string.overlay_no_limit)
-
-        val displaySpeed = settings.convertSpeed(speed)
-        txtSpeed?.text = "$displaySpeed $unit"
-
-        val displayLimit = settings.convertSpeed(limit)
-        txtLimit?.text = if (limit > 0)
-            "$limitPrefix $displayLimit $unit"
-        else
+        txtLimit?.text = if (limit > 0) {
+            if (settings.showUnits()) {
+                "$limitPrefix $displayLimit $unit"
+            } else {
+                "$limitPrefix $displayLimit"
+            }
+        } else {
             noLimit
+        }
 
+        // -----------------------------
+        // CURRENT SPEED VISIBILITY LOGIC
+        // -----------------------------
+        val mode = settings.getInt(KEY_CURRENT_SPEED_MODE, 0)
+
+        when (mode) {
+            0 -> txtSpeed?.visibility = View.VISIBLE
+            1 -> txtSpeed?.visibility = if (overspeed) View.VISIBLE else View.GONE
+            2 -> txtSpeed?.visibility = View.GONE
+        }
+
+        // -----------------------------
+        // COLOR LOGIC
+        // -----------------------------
         val normalColor = context.getColor(R.color.speed_text_day)
         val nightColor = context.getColor(R.color.speed_text_night)
         val baseColor = if (isNightMode()) nightColor else normalColor
 
         val brightness = prefs.getInt("speedo_brightness", 100)
         val finalColor = applyBrightness(baseColor, brightness)
-
-        // Show or hide current speed
-        val mode = settings.getInt(KEY_CURRENT_SPEED_MODE, 0)
-
-        // Determine visibility based on mode + overspeed
-        when (mode) {
-            0 -> { // Always show
-                txtSpeed?.visibility = View.VISIBLE
-                txtSpeedSign?.text = "$displaySpeed $unit"
-            }
-
-            1 -> { // Only show when overspeeding
-                if (overspeed) {
-                    txtSpeed?.visibility = View.VISIBLE
-                    txtSpeedSign?.text = "$displaySpeed $unit"
-                } else {
-                    txtSpeed?.visibility = View.GONE
-                }
-            }
-
-            2 -> { // Never show
-                txtSpeed?.visibility = View.GONE
-            }
-        }
 
         if (overspeed) {
             txtSpeed?.setTextColor(0xFFFF4444.toInt())
@@ -262,10 +263,10 @@ class FloatingSpeedometer(
             txtLimit?.setTextColor(finalColor)
         }
 
-
         updateMuteIcon()
         applyOverlayBackgroundAlpha()
     }
+
 
     // ---------------------------------------------------------
     // SIGN MODE
@@ -274,45 +275,48 @@ class FloatingSpeedometer(
         lastSpeed = speed
         lastLimit = limit
         lastOverspeed = overspeed
+        var speedText = ""
 
         val unit = settings.displayUnit()
         val displaySpeed = settings.convertSpeed(speed)
+        val displayLimit = settings.convertSpeed(limit)
 
-        // Always use the same background
+        // Background + padding
         root?.setBackgroundResource(R.drawable.speedometer_bg)
-
-        // Set Padding
         val pad = (8 * context.resources.displayMetrics.density).toInt()
         root?.setPadding(pad, pad, pad, pad)
 
-
-        // Show or hide current speed
-        val mode = settings.getInt(KEY_CURRENT_SPEED_MODE, 0)
-
-        // Determine visibility based on mode + overspeed
-        when (mode) {
-            0 -> { // Always show
-                txtSpeed?.visibility = View.VISIBLE
-                txtSpeedSign?.text = "$displaySpeed $unit"
-            }
-
-            1 -> { // Only show when overspeeding
-                if (overspeed) {
-                    txtSpeed?.visibility = View.VISIBLE
-                    txtSpeedSign?.text = "$displaySpeed $unit"
-                } else {
-                    txtSpeed?.visibility = View.GONE
-                }
-            }
-
-            2 -> { // Never show
-                txtSpeed?.visibility = View.GONE
-            }
+        // Speed text
+        if (settings.showUnits()) {
+            speedText = "$displaySpeed $unit"
+        } else {
+            speedText = "$displaySpeed"
         }
 
-        
-        val displayLimit = settings.convertSpeed(limit)
+        // -----------------------------
+        // CURRENT SPEED VISIBILITY LOGIC
+        // -----------------------------
+        val mode = settings.getInt(KEY_CURRENT_SPEED_MODE, 0)
 
+        when (mode) {
+            0 -> {
+                txtSpeedSign?.visibility = View.VISIBLE
+                txtSpeedSign?.text = speedText
+            }
+            1 -> {
+                if (overspeed) {
+                    txtSpeedSign?.visibility = View.VISIBLE
+                    txtSpeedSign?.text = speedText
+                } else {
+                    txtSpeedSign?.visibility = View.GONE
+                }
+            }
+            2 -> txtSpeedSign?.visibility = View.GONE
+        }
+
+        // -----------------------------
+        // LIMIT SIGN
+        // -----------------------------
         if (limit > 0) {
             imgLimitSign?.setImageResource(R.drawable.speed_sign_background)
             txtLimitSign?.text = displayLimit.toString()
@@ -321,6 +325,9 @@ class FloatingSpeedometer(
             txtLimitSign?.text = ""
         }
 
+        // -----------------------------
+        // COLOR LOGIC
+        // -----------------------------
         val normalColor = context.getColor(R.color.speed_text_day)
         val nightColor = context.getColor(R.color.speed_text_night)
         val baseColor = if (isNightMode()) nightColor else normalColor
@@ -339,6 +346,7 @@ class FloatingSpeedometer(
         updateMuteIcon()
         applyOverlayBackgroundAlpha()
     }
+
 
     fun showNoGps() {
         val unit = settings.displayUnit()
