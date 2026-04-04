@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="SettingsTheme" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:textColor">#FFAAAAAA</item>
-    </style>
-
-
-</resources>
