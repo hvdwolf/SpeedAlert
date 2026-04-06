@@ -209,7 +209,8 @@ class MainActivity : AppCompatActivity() {
             else "--"
 
             txtStatus.text = if (acc >= 0)
-                getString(R.string.gps_accuracy, acc.roundToInt())
+                //getString(R.string.gps_accuracy, acc.roundToInt())
+                getString(R.string.gps_accuracy, acc)
             else getString(R.string.gps_waiting)
 
             if (overspeed) {

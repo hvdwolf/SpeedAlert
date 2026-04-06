@@ -100,7 +100,7 @@
     <!-- ========================================================= -->
     <!-- GPS status -->
     <!-- ========================================================= -->
-    <string name="gps_accuracy">GPS‑nauwkeurigheid: %1$d m</string>
+    <string name="gps_accuracy">GPS‑nauwkeurigheid: %.1f m</string>
     <string name="gps_waiting">Wachten op GPS…</string>
 
     <!-- ========================================================= -->

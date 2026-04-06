@@ -100,7 +100,7 @@
     <!-- ========================================================= -->
     <!-- GPS status -->
     <!-- ========================================================= -->
-    <string name="gps_accuracy">GPS-Genauigkeit: %1$d m</string>
+    <string name="gps_accuracy">GPS-Genauigkeit: %.1f m</string>
     <string name="gps_waiting">Warte auf GPS…</string>
 
     <!-- ========================================================= -->
