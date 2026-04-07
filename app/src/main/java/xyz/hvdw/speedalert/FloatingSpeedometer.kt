@@ -32,6 +32,9 @@ class FloatingSpeedometer(
     private var cameraStage: Int = 0
     private var cameraIcon: Drawable? = null
     private var imgCameraWarning: ImageView? = null
+    private var lastCameraStage = 0
+    private var lastCameraDistance = Double.MAX_VALUE
+
 
     private var windowManager: WindowManager? = null
     private var view: View? = null
@@ -78,7 +81,7 @@ class FloatingSpeedometer(
                 txtSpeedSign = v.findViewById(R.id.txtSpeedSign)
                 root = v.findViewById<LinearLayout>(R.id.speedometerSignRoot)
                 imgMuteState = v.findViewById(R.id.imgMuteState)
-                imgCameraWarning = view?.findViewById(R.id.imgCameraWarning)
+                imgCameraWarning = v?.findViewById(R.id.imgCameraWarning)
             }
         } else {
             inflater.inflate(R.layout.overlay_speedometer, null).also { v ->
@@ -86,7 +89,7 @@ class FloatingSpeedometer(
                 txtLimit = v.findViewById(R.id.txtOverlayLimit)
                 root = v.findViewById<LinearLayout>(R.id.speedometerRoot)
                 imgMuteState = v.findViewById(R.id.imgMuteState)
-                imgCameraWarning = view?.findViewById(R.id.imgCameraWarning)
+                imgCameraWarning = v?.findViewById(R.id.imgCameraWarning)
             }
         }
         // Hide or show mute icon based on settings
@@ -119,7 +122,7 @@ class FloatingSpeedometer(
         }
 
 
-        applyTextScaling()
+        applyTextGraphicsScaling()
         applyOverlayBackgroundAlpha()
 
         // Apply initial mute icon state
@@ -142,6 +145,7 @@ class FloatingSpeedometer(
 
         addDragSupport(view!!)
         windowManager?.addView(view, params)
+
     }
 
     fun hide() {
@@ -347,6 +351,28 @@ class FloatingSpeedometer(
         applyOverlayBackgroundAlpha()
     }
 
+    fun updateCameraStage(stage: Int) {
+        cameraStage = stage
+        //service.logExternal("updateCameraStage CALLED with stage=$stage")
+
+        val iconRes = when (stage) {
+            1 -> R.drawable.ic_camera_yellow
+            2 -> R.drawable.ic_camera_orange
+            3 -> R.drawable.ic_camera_red
+            else -> null
+        }
+
+        if (iconRes == null) {
+            imgCameraWarning?.visibility = View.GONE
+        } else {
+            imgCameraWarning?.setImageResource(iconRes)
+            imgCameraWarning?.visibility = View.VISIBLE
+        }
+
+        imgCameraWarning?.requestLayout()
+        root?.requestLayout()
+    }
+
 
     fun showNoGps() {
         val unit = settings.displayUnit()
@@ -409,15 +435,16 @@ class FloatingSpeedometer(
 
 
     // Scales text and road sign
-    private fun applyTextScaling() {
-        val scale = prefs.getFloat("overlay_text_scale", 1.0f).toFloat()
+    private fun applyTextGraphicsScaling() {
+        val scale = prefs.getFloat("overlay_text_scale", 1.0f)
 
         val baseSpeed = 28f
         val baseLimit = 18f
 
-
+        // -----------------------------
+        // SCALE SIGN CONTAINER (sign mode)
+        // -----------------------------
         if (settings.useSignOverlay()) {
-            // Base size of the sign in dp
             val baseSignSizeDp = 48f
             val scaledSizePx = (baseSignSizeDp * scale * context.resources.displayMetrics.density).toInt()
             signContainer?.layoutParams?.width = scaledSizePx
@@ -425,15 +452,36 @@ class FloatingSpeedometer(
             signContainer?.requestLayout()
         }
 
+        // -----------------------------
+        // SCALE CAMERA ICON
+        // -----------------------------
+        imgCameraWarning?.let { img ->
+            val density = context.resources.displayMetrics.density
+            val baseCameraDp = 24f   // vector default size
 
+            // Dampened scaling curve
+            //val effectiveScale = 0.8f + scale * 0.4f
+            //val scaledCameraPx = (baseCameraDp * effectiveScale * density).toInt()
+            val scaledCameraPx = (baseCameraDp * scale * density).toInt()
+
+            img.layoutParams.width = scaledCameraPx
+            img.layoutParams.height = scaledCameraPx
+            img.requestLayout()
+        }
+
+
+        // -----------------------------
+        // SCALE TEXT
+        // -----------------------------
         if (!settings.hideCurrentSpeed()) {
             txtSpeedSign?.textSize = baseSpeed * scale
         }
-        txtLimit?.textSize = baseLimit * scale
 
+        txtLimit?.textSize = baseLimit * scale
         txtSpeedSign?.textSize = baseSpeed * scale
         txtLimitSign?.textSize = baseLimit * scale
     }
+
 
     private fun updateMuteIcon() {
         if (!settings.showSpeakerMuteButton()) {
@@ -448,25 +496,6 @@ class FloatingSpeedometer(
         } else {
             imgMuteState?.setImageResource(R.drawable.ic_volume_on)
         }
-    }
-
-    fun updateCameraStage(stage: Int) {
-        cameraStage = stage
-
-        val iconRes = when (stage) {
-            1 -> R.drawable.ic_camera_yellow
-            2 -> R.drawable.ic_camera_orange
-            3 -> R.drawable.ic_camera_red
-            else -> null
-        }
-
-        if (iconRes == null) {
-            imgCameraWarning?.visibility = View.GONE
-            return
-        }
-
-        imgCameraWarning?.setImageResource(iconRes)
-        imgCameraWarning?.visibility = View.VISIBLE
     }
 
 }

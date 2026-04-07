@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textSize="28sp"
-        android:textStyle="bold"
         android:textColor="#FFFFFF" />
 
     <TextView
@@ -39,6 +38,7 @@
         android:layout_height="32dp"
         android:layout_margin="4dp"
         android:layout_gravity="top|end"
+        android:elevation="20dp"
         android:visibility="gone" />
 
 </LinearLayout>

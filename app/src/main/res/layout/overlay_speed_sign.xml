@@ -26,8 +26,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
     </FrameLayout>
 
     <ImageView
@@ -44,8 +43,7 @@
         android:layout_height="wrap_content"
         android:textSize="32sp"
         android:textColor="#FFFFFF"
-        android:paddingStart="12dp"
-        android:textStyle="bold" />
+        android:paddingStart="12dp" />
 
     <ImageView
         android:id="@+id/imgCameraWarning"
@@ -53,6 +51,7 @@
         android:layout_height="32dp"
         android:layout_margin="4dp"
         android:layout_gravity="top|end"
+        android:elevation="20dp"
         android:visibility="gone" />
 
 </LinearLayout>

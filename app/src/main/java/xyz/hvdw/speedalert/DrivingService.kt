@@ -49,6 +49,8 @@ class DrivingService : Service() {
     private var lastLimit = SpeedLimitResult(-1, -1, "none")
     private var lastBeepTime = 0L
     private var lastCameraStage = 0 // 0 = none, 1 = 200m, 2 = 150m, 3 = 50m
+    private var currentCameraStage = 0
+    private var lastCameraDistance = Double.MAX_VALUE
     private var lastCountryUpdateTime = 0L
 
     private var running = true
@@ -81,6 +83,8 @@ class DrivingService : Service() {
         repo = SpeedLimitRepository(this)
         notifier = ServiceNotification(this)
         notifier.createChannel()
+
+        //speedometer = FloatingSpeedometer(this, settings)
 
         localDb = LocalSpeedDbManager(this)
         localDb.initialize()
@@ -478,6 +482,10 @@ class DrivingService : Service() {
         if (speedometer == null) {
             speedometer = FloatingSpeedometer(this, settings)
             speedometer?.show()
+
+            // Restore camera stage immediately
+            speedometer?.updateCameraStage(currentCameraStage)
+
             log("Service: overlay shown")
         }
 
@@ -757,16 +765,63 @@ class DrivingService : Service() {
         val lon = loc.longitude
 
         val cams = camMgr.findNearbyCameras(lat, lon, heading, 300.0)
+        //val cams = camMgr.findNearbyCameras(lat, lon, null, 300.0)
         if (cams.isEmpty()) {
-            lastCameraStage = 0
+            resetCameraWarning()
             return
         }
 
-        val nearest = cams.first()   // <-- This is a CameraHit
+        val nearest = cams.first()
         val dist = nearest.distanceMeters
+        log("checkCameras: dist=${nearest.distanceMeters}")
 
+        // ---------------------------------------------------------
+        // 1. Compute bearing to camera (robust wrap-around)
+        // ---------------------------------------------------------
+        val camLoc = android.location.Location("").apply {
+            latitude = nearest.lat
+            longitude = nearest.lon
+        }
+
+        val bearingToCamera = loc.bearingTo(camLoc)
+
+        // Normalize both to 0..360
+        val h = (heading + 360) % 360
+        val b = (bearingToCamera + 360) % 360
+
+        // Compute smallest angle difference
+        val diff = Math.abs(h - b)
+        val angleDiff = if (diff > 180) 360 - diff else diff
+
+        val isAhead = angleDiff < 60 
+
+        if (!isAhead) {
+            resetCameraWarning()
+            return
+        }
+
+        // ---------------------------------------------------------
+        // 2. Reset only if CLEARLY moving away (50m threshold)
+        // ---------------------------------------------------------
+        if (dist > lastCameraDistance + 50) {
+            resetCameraWarning()
+            currentCameraStage = 0
+            lastCameraStage = 0
+            speedometer?.updateCameraStage(0)
+
+            lastCameraDistance = dist
+
+            return
+        }
+
+        lastCameraDistance = dist
+
+        // ---------------------------------------------------------
+        // 3. Approaching stages
+        // ---------------------------------------------------------
         if (dist in 200.0..300.0 && lastCameraStage < 1) {
             triggerCameraAlert(nearest, dist)
+            currentCameraStage = 1
             speedometer?.updateCameraStage(1)
             lastCameraStage = 1
             return
@@ -774,6 +829,7 @@ class DrivingService : Service() {
 
         if (dist in 135.0..165.0 && lastCameraStage < 2) {
             triggerCameraAlert(nearest, dist)
+            currentCameraStage = 2
             speedometer?.updateCameraStage(2)
             lastCameraStage = 2
             return
@@ -781,15 +837,18 @@ class DrivingService : Service() {
 
         if (dist in 0.0..70.0 && lastCameraStage < 3) {
             triggerCameraAlert(nearest, dist)
+            currentCameraStage = 3
             speedometer?.updateCameraStage(3)
             lastCameraStage = 3
             return
         }
 
-        if (dist > 300.0) {
+        /*if (dist > 300.0) {
+            currentCameraStage = 0
             lastCameraStage = 0
             speedometer?.updateCameraStage(0)
-        }
+        }*/
+
     }
 
 
@@ -816,6 +875,13 @@ class DrivingService : Service() {
             //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             ToastUtils.show(this, prefs, msg)
         }
+    }
+
+    private fun resetCameraWarning() {
+        lastCameraStage = 0
+        currentCameraStage = 0
+        lastCameraDistance = Double.MAX_VALUE
+        speedometer?.updateCameraStage(0)
     }
 
 }
