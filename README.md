@@ -1,7 +1,7 @@
 # Speed Alert
 ![logo](./images/logo.png)<br>
 
-A tool that shows an overlay with your current speed and the speed limit for that road (when a limit is available for that road). The overlay text switches to red when overspeeding and plays an alarm sound if you exceed the speed tolerance you defined. The overlay can be dragged anywhere on screen. Next to that: if you lose GPS, it will tell you "no GPS".<br><br>
+A tool that shows an overlay with your current speed and the speed limit for that road (when a limit is available for that road). The overlay text switches to red when overspeeding and plays an alarm sound if you exceed the speed tolerance you defined. The overlay can be dragged anywhere on screen. Next to that: if you lose GPS, it will tell you "no GPS".<br>It can also show a toast when you are approaching a speed camera.<br><br>
 This app uses your GPS to get exact location and speed and can:
 
 * use the [Overpass Api](https://wiki.openstreetmap.org/wiki/Overpass_API) from the [OpenStreetMap](https://openstreetmap.org) database to get speed limits for the relevant part of the road you are driving on.
