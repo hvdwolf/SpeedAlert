@@ -11,8 +11,8 @@ android {
         applicationId = "xyz.hvdw.speedalert"
         minSdk = 29
         targetSdk = 33
-        versionCode = 14
-        versionName = "2.1"
+        versionCode = 15
+        versionName = "2.2"
 
         // Only include the ABIs you want in the final APK
         ndk {
@@ -75,6 +75,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.json:json:20231013")
 
-    implementation("org.apache.commons:commons-compress:1.26.0")
+    implementation("org.apache.commons:commons-compress:1.27.1")
     implementation("org.tukaani:xz:1.9")
 }

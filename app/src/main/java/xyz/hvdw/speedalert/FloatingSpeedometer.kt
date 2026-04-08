@@ -374,13 +374,6 @@ class FloatingSpeedometer(
         root?.requestLayout()
     }
 
-    /* // Now show the toast from FloatingSpeedometer
-    fun showCameraToast(msg: String) {
-        val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-        //Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-        ToastUtils.show(context, prefs, msg)
-    }*/
-
 
     fun showNoGps() {
         val unit = settings.displayUnit()

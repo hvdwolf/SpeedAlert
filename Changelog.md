@@ -1,3 +1,15 @@
+**Changelog 2.2 (08 Apr 2026)**
+
+**When you use databases and update to 2.2, you MUST update the databases to the April version(s)**
+
+ - **Databases changed and improved.** Add "Google encoded polylines". The app not only checks on the "bounding box", but also if the GPS coordinates are on or near the closest polyline (see explained in [Bounding boxes and Polylines](https://github.com/hvdwolf/SpeedAlert/blob/main/BoundingBoxes_vs_Polylines.md)). This to prevent errors with parallel roads. Also change the kotlin code. **This means that if you upgrade to 2.2 or higher, you must also update your databases**.
+ - Overlay (text) scale sizes were from 60% to 180%. They are now from 50% to 300%.
+ - Add speed camera "toast" again. It was called from main program but that doesn't function when in the background. It is now a temporary overlay as "toast", warning you. Text goes to red within 100 meters of camera. Text follows "scaling" options.
+ - \[Settings\] Change "Don't show current speed" switch to a dropdown-spinner allowing to select "Show current speed", "Only show when overspeeding" and "Don’t show current speed".
+ - \[Settings\] New switch: "Show units when displaying current speed (kmh or mph)". If you prefer to see the current speed, you can chose to append the units or only see the digits.
+ - Add Australia-Oceania countries to list of downloadable databases. They were completely forgotten at first March creation/release.
+ - Set typeface in overlay from bold to normal to make it look "sharper". Set normal speed text from "white" to green as "white" is hardly readable on a transparent background ranging from approx. 25-70%.
+
 **Changelog 2.1 (01 Apr 2026)**
 
  - Due to a growing number of settings, the Settings screen has become pretty long and requires scrolling. Changed to CardView and grouped settings.

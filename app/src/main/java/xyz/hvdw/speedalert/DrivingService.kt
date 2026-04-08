@@ -855,14 +855,12 @@ class DrivingService : Service() {
 
 
     private fun triggerCameraAlert(cam: CameraHit, dist: Double) {
-        //val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val vol = settings.getBeepVolume()
-        val muted = if (settings.showSpeakerMuteButton()) {
+        /*val muted = if (settings.showSpeakerMuteButton()) {
             settings.isMuted()
         } else {
             false   // mute button hidden → always unmuted
-        }
+        }*/
         if (!settings.isMuted()) {
             twoToneTrack?.setVolume(vol)
             playTwoToneBeep()
