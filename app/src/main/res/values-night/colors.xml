@@ -24,8 +24,11 @@
     <color name="overspeed_bg">#AAAA3333</color>
 
     <!-- Existing speed text overrides -->
-    <color name="speed_text_day">#FFFFFFFF</color>
-    <color name="speed_text_night">#FFAAAAAA</color>
+<!--    <color name="speed_text_day">#FFFFFFFF</color>
+    <color name="speed_text_night">#FFAAAAAA</color> -->
+    <color name="speed_text_day">#FF00FF00</color>
+    <color name="speed_text_night">#FF00AA00</color>
+
 
     <color name="separator_day">#33000000</color> 
     <color name="separator_night">#33CCCCCC</color>

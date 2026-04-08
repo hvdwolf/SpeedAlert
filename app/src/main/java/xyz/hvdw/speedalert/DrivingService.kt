@@ -44,6 +44,7 @@ class DrivingService : Service() {
     private lateinit var locationRequest: LocationRequest
 
     private var speedometer: FloatingSpeedometer? = null
+    private var toastOverlay: FloatingToastOverlay? = null
 
     private var lastLimitFetchTime = 0L
     private var lastLimit = SpeedLimitResult(-1, -1, "none")
@@ -85,6 +86,7 @@ class DrivingService : Service() {
         notifier.createChannel()
 
         //speedometer = FloatingSpeedometer(this, settings)
+        toastOverlay = FloatingToastOverlay(this)
 
         localDb = LocalSpeedDbManager(this)
         localDb.initialize()
@@ -822,7 +824,7 @@ class DrivingService : Service() {
         if (dist in 200.0..300.0 && lastCameraStage < 1) {
             triggerCameraAlert(nearest, dist)
             currentCameraStage = 1
-            speedometer?.updateCameraStage(1)
+            //speedometer?.updateCameraStage(1)
             lastCameraStage = 1
             return
         }
@@ -830,7 +832,7 @@ class DrivingService : Service() {
         if (dist in 135.0..165.0 && lastCameraStage < 2) {
             triggerCameraAlert(nearest, dist)
             currentCameraStage = 2
-            speedometer?.updateCameraStage(2)
+            //speedometer?.updateCameraStage(2)
             lastCameraStage = 2
             return
         }
@@ -838,16 +840,16 @@ class DrivingService : Service() {
         if (dist in 0.0..70.0 && lastCameraStage < 3) {
             triggerCameraAlert(nearest, dist)
             currentCameraStage = 3
-            speedometer?.updateCameraStage(3)
+            //speedometer?.updateCameraStage(3)
             lastCameraStage = 3
             return
         }
 
-        /*if (dist > 300.0) {
+        if (dist > 300.0) {
             currentCameraStage = 0
             lastCameraStage = 0
-            speedometer?.updateCameraStage(0)
-        }*/
+            //speedometer?.updateCameraStage(0)
+        }
 
     }
 
@@ -872,16 +874,16 @@ class DrivingService : Service() {
         log("Camera alert: ${cam.type} at ${meters}m")
 
         Handler(Looper.getMainLooper()).post {
-            //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-            ToastUtils.show(this, prefs, msg)
+            toastOverlay?.show(msg, meters)
         }
+
     }
 
     private fun resetCameraWarning() {
         lastCameraStage = 0
         currentCameraStage = 0
         lastCameraDistance = Double.MAX_VALUE
-        speedometer?.updateCameraStage(0)
+        //speedometer?.updateCameraStage(0)
     }
 
 }

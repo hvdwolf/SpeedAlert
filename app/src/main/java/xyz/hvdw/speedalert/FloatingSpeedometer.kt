@@ -2,6 +2,7 @@ package xyz.hvdw.speedalert
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.PixelFormat
@@ -372,6 +373,13 @@ class FloatingSpeedometer(
         imgCameraWarning?.requestLayout()
         root?.requestLayout()
     }
+
+    /* // Now show the toast from FloatingSpeedometer
+    fun showCameraToast(msg: String) {
+        val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        //Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        ToastUtils.show(context, prefs, msg)
+    }*/
 
 
     fun showNoGps() {
