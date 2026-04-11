@@ -212,8 +212,8 @@ class SettingsManager(context: Context) {
                 .build()
 
             "navigation" -> AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                 .build()
 
             else -> AudioAttributes.Builder()
@@ -221,6 +221,14 @@ class SettingsManager(context: Context) {
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
         }
+    }
+
+    fun setSpeakTtsSpeedcamWarning(enabled: Boolean) {
+        prefs.edit().putBoolean("speak_tts_speedcam_warning", enabled).apply()
+    }
+
+    fun getSpeakTtsSpeedcamWarning(): Boolean {
+        return prefs.getBoolean("speak_tts_speedcam_warning", true)
     }
 
 

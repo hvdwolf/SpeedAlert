@@ -273,5 +273,7 @@
     <string name="switch_show_units">Mostrar unidades al mostrar la velocidad actual (km/h o mph)</string>
 
     <string name="select_audio_output_channel">Seleccionar canal de salida de audio</string>
+    <string name="pref_speak_tts_speedcam_warning">Hablar advertencia de radar con TTS</string>
+    <string name="pref_test_tts">Probar salida TTS</string>
 
 </resources>

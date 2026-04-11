@@ -56,6 +56,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var btnTestBeep: Button
     private lateinit var swShowMuteButton: Switch
     private lateinit var swBeepOnce: Switch
+    private lateinit var ttsManager: TTSManager
 
     // Fetching
     private lateinit var spinnerFetchInterval: Spinner
@@ -171,6 +172,8 @@ class SettingsActivity : AppCompatActivity() {
         swShowMuteButton = findViewById(R.id.swShowMuteButton)
         swBeepOnce = findViewById(R.id.swBeepOnce)
         swBeepOnce.isChecked = settings.beepOnce()
+
+        ttsManager = TTSManager(this, settings)
 
         swBeepOnce.setOnCheckedChangeListener { _, checked ->
             settings.setBeepOnce(checked)
@@ -415,6 +418,23 @@ class SettingsActivity : AppCompatActivity() {
         swShowMuteButton.setOnCheckedChangeListener { _, checked ->
             settings.setShowSpeakerMuteButton(checked)
             if (!checked) settings.setMuted(false)
+        }
+
+        // TTS switch
+        val switch = findViewById<Switch>(R.id.speak_tts_speedcam_warning)
+        switch.isChecked = settings.getSpeakTtsSpeedcamWarning()
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            settings.setSpeakTtsSpeedcamWarning(isChecked)
+        }
+
+        val testButton = findViewById<Button>(R.id.test_tts_speedcam_warning)
+        // TTS  testbutton
+        testButton.setOnClickListener {
+            if (settings.getSpeakTtsSpeedcamWarning()) {
+                ttsManager.testSpeedcamWarning()
+            } else {
+                Toast.makeText(this, "TTS warning is disabled", Toast.LENGTH_SHORT).show()
+            }
         }
 
         val spinner = findViewById<Spinner>(R.id.spinnerAudioOutput)

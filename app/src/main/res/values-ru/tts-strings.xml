@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tts_speedcam_warning">Внимание. Вы приближаетесь к камере контроля скорости или камере на светофоре.</string>
+</resources>

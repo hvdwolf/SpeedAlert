@@ -75,6 +75,7 @@ class DrivingService : Service() {
     // For speed camera
     private var cameraManager: CameraManager? = null
     private var lastCameraBeepTime = 0L
+    private lateinit var ttsManager: TTSManager
 
 
     override fun onCreate() {
@@ -92,6 +93,7 @@ class DrivingService : Service() {
         localDb.initialize()
 
         cameraManager = localDb.getCameraManager()
+        ttsManager = TTSManager(this, settings)
 
         // -----------------------------
         // AUDIOTRACK INITIALIZATION
@@ -177,6 +179,7 @@ class DrivingService : Service() {
         tripleBeepTrack = null
         twoToneTrack?.release()
         twoToneTrack = null
+        ttsManager.shutdown()
 
         localDb.close()
 
@@ -827,6 +830,11 @@ class DrivingService : Service() {
         // ---------------------------------------------------------
         if (dist in 200.0..300.0 && lastCameraStage < 1) {
             triggerCameraAlert(nearest, dist)
+            //TTS message
+            if (settings.getSpeakTtsSpeedcamWarning()) {
+                ttsManager.speak(R.string.tts_speedcam_warning)
+            }
+            //ttsManager.speak(R.string.tts_speedcam_warning)
             currentCameraStage = 1
             //speedometer?.updateCameraStage(1)
             lastCameraStage = 1

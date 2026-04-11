@@ -268,5 +268,7 @@
     <string name="switch_show_units">현재 속도를 표시할 때 단위를 함께 표시 (km/h 또는 mph)</string>
 
     <string name="select_audio_output_channel">오디오 출력 채널 선택</string>
+    <string name="pref_speak_tts_speedcam_warning">TTS로 속도 카메라 경고 말하기</string>
+    <string name="pref_test_tts">TTS 출력 테스트</string>
 
 </resources>
