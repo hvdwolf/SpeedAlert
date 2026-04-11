@@ -272,4 +272,6 @@
     <string name="hide_current_speed">Nu afișa viteza curentă</string>
     <string name="switch_show_units">Afișează unitățile când se arată viteza curentă (km/h sau mph)</string>
 
+    <string name="select_audio_output_channel">Selectează canalul de ieșire audio</string>
+
 </resources>

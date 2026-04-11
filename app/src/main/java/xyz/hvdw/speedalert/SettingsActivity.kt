@@ -398,9 +398,10 @@ class SettingsActivity : AppCompatActivity() {
         btnTestBeep.setOnClickListener {
             if (testTripleBeep == null) {
                 val gen = ToneGenerator()
+                val attrs = settings.getAudioAttributes()
                 val tone = gen.generateTone(1870.0, 160)
                 val gap = gen.generateSilence(25)
-                testTripleBeep = gen.buildTrack(tone, gap, tone, gap, tone)
+                testTripleBeep = gen.buildTrack(attrs, tone, gap, tone, gap, tone)
             }
 
             val vol = settings.getBeepVolume()
@@ -415,6 +416,38 @@ class SettingsActivity : AppCompatActivity() {
             settings.setShowSpeakerMuteButton(checked)
             if (!checked) settings.setMuted(false)
         }
+
+        val spinner = findViewById<Spinner>(R.id.spinnerAudioOutput)
+
+        val current = settings.getAudioStream()
+        val audioIndex = when (current) {
+            "media" -> 0
+            "notification" -> 1
+            "alarm" -> 2
+            "ring" -> 3
+            "system" -> 4
+            "navigation" -> 5
+            else -> 0
+        }
+        spinner.setSelection(audioIndex)
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                val value = when (pos) {
+                    0 -> "media"
+                    1 -> "notification"
+                    2 -> "alarm"
+                    3 -> "ring"
+                    4 -> "system"
+                    5 -> "navigation"
+                    else -> "media"
+                }
+                settings.setAudioStream(value)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
 
         // ---------------------------------------------------------
         // FETCHING

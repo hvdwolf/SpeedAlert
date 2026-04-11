@@ -273,4 +273,6 @@
     <string name="hide_current_speed">Ne pas afficher la vitesse actuelle</string>
     <string name="switch_show_units">Afficher les unités lors de l’affichage de la vitesse actuelle (km/h ou mph)</string>
 
+    <string name="select_audio_output_channel">Sélectionner le canal de sortie audio</string>
+
 </resources>

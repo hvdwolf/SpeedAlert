@@ -263,4 +263,6 @@
     <string name="hide_current_speed">Не показувати поточну швидкість</string>
     <string name="switch_show_units">Показувати одиниці під час відображення поточної швидкості (км/год або миль/год)</string>
 
+    <string name="select_audio_output_channel">Виберіть канал виводу аудіо</string>
+
 </resources>

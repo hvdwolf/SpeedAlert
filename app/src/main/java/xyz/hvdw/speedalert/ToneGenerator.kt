@@ -29,7 +29,7 @@ class ToneGenerator(
         return ShortArray(samples) { 0 }
     }
 
-    fun buildTrack(vararg chunks: ShortArray): AudioTrack {
+    fun buildTrack(attributes: AudioAttributes, vararg chunks: ShortArray): AudioTrack {
         val totalSamples = chunks.sumOf { it.size }
         val buffer = ShortArray(totalSamples)
 
@@ -38,11 +38,6 @@ class ToneGenerator(
             System.arraycopy(chunk, 0, buffer, index, chunk.size)
             index += chunk.size
         }
-
-        val attributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
 
         val format = AudioFormat.Builder()
             .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
@@ -61,4 +56,5 @@ class ToneGenerator(
         track.write(buffer, 0, buffer.size)
         return track
     }
+
 }

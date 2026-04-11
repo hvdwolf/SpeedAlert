@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="audio_output_channels">
+        <item>Media</item>
+        <item>Notificare</item>
+        <item>Alarmă</item>
+        <item>Ton apel</item>
+        <item>Sistem</item>
+        <item>Navigație</item>
+    </string-array>
+</resources>

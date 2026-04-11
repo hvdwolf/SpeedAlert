@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="audio_output_channels">
+        <item>Medien</item>
+        <item>Benachrichtigung</item>
+        <item>Alarm</item>
+        <item>Klingelton</item>
+        <item>System</item>
+        <item>Navigation</item>
+    </string-array>
+</resources>

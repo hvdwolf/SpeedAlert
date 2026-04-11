@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="audio_output_channels">
+        <item>미디어</item>
+        <item>알림</item>
+        <item>알람</item>
+        <item>벨소리</item>
+        <item>시스템</item>
+        <item>내비게이션</item>
+    </string-array>
+</resources>

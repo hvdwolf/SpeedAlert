@@ -716,12 +716,14 @@ class DrivingService : Service() {
     // Below for speed camera
     private fun initTwoToneBeep() {
         val gen = ToneGenerator()
+        val attrs = settings.getAudioAttributes()
 
         val tone1 = gen.generateTone(freqHz = 1000.0, durationMs = 70)
         val gap   = gen.generateSilence(durationMs = 15)
         val tone2 = gen.generateTone(freqHz = 1400.0, durationMs = 70)
 
         twoToneTrack = gen.buildTrack(
+            attrs,
             tone1,
             gap,
             tone2
@@ -739,11 +741,13 @@ class DrivingService : Service() {
     // Initialize triple beep for speed limit
     private fun initTripleBeep() {
         val gen = ToneGenerator()
+        val attrs = settings.getAudioAttributes()
 
         val tone = gen.generateTone(freqHz = 1870.0, durationMs = 160)
         val gap = gen.generateSilence(durationMs = 25)
 
         tripleBeepTrack = gen.buildTrack(
+            attrs,
             tone, gap,
             tone, gap,
             tone

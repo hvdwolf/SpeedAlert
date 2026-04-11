@@ -1,6 +1,7 @@
 package xyz.hvdw.speedalert
 
 import android.content.Context
+import android.media.AudioAttributes
 import android.net.Uri
 import kotlin.math.roundToInt
 
@@ -170,6 +171,58 @@ class SettingsManager(context: Context) {
     fun setCustomSound(uri: Uri?) {
         prefs.edit().putString("custom_sound", uri?.toString()).apply()
     }
+
+    // ---------------------------------------------------------
+    // AUDIO OUTPUT STREAM
+    // ---------------------------------------------------------
+    fun setAudioStream(value: String) {
+        prefs.edit().putString("audio_stream", value).apply()
+    }
+
+    fun getAudioStream(): String {
+        return prefs.getString("audio_stream", "media") ?: "media"
+    }
+
+    fun getAudioAttributes(): AudioAttributes {
+        return when (getAudioStream()) {
+
+            "media" -> AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+
+            "notification" -> AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+            "alarm" -> AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+            "ring" -> AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+            "system" -> AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+            "navigation" -> AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+            else -> AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+        }
+    }
+
 
     // ---------------------------------------------------------
     // OVERLAY POSITION

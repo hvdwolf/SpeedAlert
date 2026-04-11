@@ -262,4 +262,6 @@
     <string name="hide_current_speed">不顯示目前速度</string>
     <string name="switch_show_units">顯示目前速度時顯示單位（km/h 或 mph）</string>
 
+    <string name="select_audio_output_channel">選擇音訊輸出通道</string>
+
 </resources>
