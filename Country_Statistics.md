@@ -1,7 +1,7 @@
 # Country Statistics
 
 ## When the app doesn't show speed limits.
-Some countries only have a limited number of roads tagged with speed limits in OpenStreetMap. org, whereas other countries have a big percentage of their roads covered. If the roads have no speed limit tags, the app can't show them. OpenStreetMap is based on the contribution of volunteers, the governments of some countries and a number of organizations. In some countries this is very well organized, in other countries less or hardly at all.<br> When speaking of volunteers: you can also [contribute](https://wiki.openstreetmap.org/wiki/How_to_contribute)!<br><br>
+Some countries only have a limited number of roads tagged with speed limits in [OpenStreetMap.org](https://www.openttreetmap.org), whereas other countries have a big percentage of their roads covered. If the roads have no speed limit tags, the app can't show them. OpenStreetMap is based on the contribution of volunteers, the governments of some countries and a number of organizations. In some countries this is very well organized, in other countries less or hardly at all.<br> When speaking of volunteers: you can also [contribute](https://wiki.openstreetmap.org/wiki/How_to_contribute)!<br><br>
 
 
 ## Country Statistics
@@ -143,6 +143,30 @@ You can identify the countries by their name and their "ISO-3166-1 alpha-2" coun
 | uruguay | UY | 96,851 | 16,851 | 17.40% |
 | venezuela | VE | 429,678 | 36,364 | 8.46% |
 
+### Australia and Oceania
+| Country   | ISO Code | Total Highway Ways | Total Maxspeed Ways | Percentage with Maxspeed Tags |
+|----------------------|----------|--------------------|---------------------|----------------------|
+| american-oceania |   | 21,142 | 134   | 0.63%   |
+| australia   | AU | 1,979,115 | 593,629 | 29.99%   |
+| cook-islands   | CK | 1,165  | 186  | 15.97%   |
+| fiji  | FJ | 21,942 | 736  | 3.35% |
+| ile-de-clipperton | | 0   | 0    | 0.00% |
+| kiribati | KI | 722 | 43   | 5.96% |
+| marshall-islands  | MH | 1,072  | 17   | 1.59% |
+| micronesia  | FM | 1,286  | 1    | 0.08% |
+| nauru | NR | 420 | 184  | 43.81%   |
+| new-caledonia  | NC | 26,927 | 10,623  | 39.45%   |
+| new-zealand | NZ | 426,792   | 121,431 | 28.45%   |
+| niue  | NU | 223 | 65   | 29.15%   |
+| palau | PW | 851 | 0    | 0.00% |
+| papua-new-guinea  | PG | 48,211 | 302  | 0.63% |
+| pitcairn-islands  | PN | 52  | 0    | 0.00% |
+| samoa | WS | 3,538  | 17   | 0.48% |
+| solomon-islands   | SB | 2,758  | 3    | 0.11% |
+| tokelau  | TK | 51  | 0    | 0.00% |
+| tonga | TO | 4,050  | 36   | 0.89% |
+| tuvalu   | TV | 279 | 5    | 1.79% |
+| vanuatu  | VU | 4,110  | 20   | 0.49% |
 ### Africa
 
 | Country | ISO | Total highway ways | Total maxspeed ways | Percentage with maxspeed tags |

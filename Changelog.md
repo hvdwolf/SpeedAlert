@@ -1,3 +1,13 @@
+**Changelog 2.3 (13 Apr 2026)**
+
+**When you use databases and update to 2.2 or now to 2.3, you MUST update the databases to the April version(s) released with version 2.2**
+
+* two new audio Settings: 
+   1. Add option to speak a TTS voice message when approaching a speed camera or traffic light camera (*"Watch out. Speed or traffic light camera ahead."*, currently 14 languages supported). When you select this option, you wwill no longer hear the double speed-camera beep.
+   2. Add Setting to select the output channel (media, navigation, ring, etcetera)
+   * ![](./images/NewAudioSettings.png)<br><br>
+
+
 **Changelog 2.2 (08 Apr 2026)**
 
 **When you use databases and update to 2.2, you MUST update the databases to the April version(s)**

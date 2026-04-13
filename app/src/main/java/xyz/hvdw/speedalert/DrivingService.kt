@@ -829,12 +829,12 @@ class DrivingService : Service() {
         // 3. Approaching stages
         // ---------------------------------------------------------
         if (dist in 200.0..300.0 && lastCameraStage < 1) {
-            triggerCameraAlert(nearest, dist)
             //TTS message
             if (settings.getSpeakTtsSpeedcamWarning()) {
                 ttsManager.speak(R.string.tts_speedcam_warning)
+            } else {
+                triggerCameraAlert(nearest, dist)
             }
-            //ttsManager.speak(R.string.tts_speedcam_warning)
             currentCameraStage = 1
             //speedometer?.updateCameraStage(1)
             lastCameraStage = 1
@@ -842,7 +842,9 @@ class DrivingService : Service() {
         }
 
         if (dist in 135.0..165.0 && lastCameraStage < 2) {
-            triggerCameraAlert(nearest, dist)
+            if (!settings.getSpeakTtsSpeedcamWarning()) {
+                triggerCameraAlert(nearest, dist)
+            }
             currentCameraStage = 2
             //speedometer?.updateCameraStage(2)
             lastCameraStage = 2
@@ -850,7 +852,9 @@ class DrivingService : Service() {
         }
 
         if (dist in 0.0..70.0 && lastCameraStage < 3) {
-            triggerCameraAlert(nearest, dist)
+            if (!settings.getSpeakTtsSpeedcamWarning()) {
+                triggerCameraAlert(nearest, dist)
+            }
             currentCameraStage = 3
             //speedometer?.updateCameraStage(3)
             lastCameraStage = 3

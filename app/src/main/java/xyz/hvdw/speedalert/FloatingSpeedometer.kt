@@ -446,7 +446,7 @@ class FloatingSpeedometer(
         // SCALE SIGN CONTAINER (sign mode)
         // -----------------------------
         if (settings.useSignOverlay()) {
-            val baseSignSizeDp = 48f
+            val baseSignSizeDp = 46f
             val scaledSizePx = (baseSignSizeDp * scale * context.resources.displayMetrics.density).toInt()
             signContainer?.layoutParams?.width = scaledSizePx
             signContainer?.layoutParams?.height = scaledSizePx
