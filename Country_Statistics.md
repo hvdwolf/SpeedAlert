@@ -1,5 +1,11 @@
-## Country statistics
+# Country Statistics
 
+## When the app doesn't show speed limits.
+Some countries only have a limited number of roads tagged with speed limits in OpenStreetMap. org, whereas other countries have a big percentage of their roads covered. If the roads have no speed limit tags, the app can't show them. OpenStreetMap is based on the contribution of volunteers, the governments of some countries and a number of organizations. In some countries this is very well organized, in other countries less or hardly at all.<br> When speaking of volunteers: you can also [contribute](https://wiki.openstreetmap.org/wiki/How_to_contribute)!<br><br>
+
+
+## Country Statistics
+Take a look at the Country Statistics below with regard to number of highways and highways tagged with "max speed limit" tags.<br>
 The "Total Higway Ways" is actually a list of all "[highways](https://wiki.openstreetmap.org/wiki/Key:highway)" that cars can use.<br>
 In this list we have: motorway, motorway_link, trunk, trunk_link, primary, primary_link, secondary, secondary_link, tertiary, tertiary_link, unclassified, residential, living_street, service.<br>
 So not cyclepaths, footpaths,bridleways, busways, etcetera.

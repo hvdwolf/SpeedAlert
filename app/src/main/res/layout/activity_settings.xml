@@ -543,6 +543,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/download_install_database"
                 android:textColor="@color/link_color"
+                android:textSize="16sp" 
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingTop="8dp" />
