@@ -398,8 +398,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp">
+                android:gravity="center_vertical">
 
                 <Switch
                     android:id="@+id/speak_tts_speedcam_warning"
