@@ -65,7 +65,12 @@ class MainActivity : AppCompatActivity() {
         // BUTTONS
         // ---------------------------------------------------------
         btnStart.setOnClickListener {
-            startService(Intent(this, DrivingService::class.java))
+            //startService(Intent(this, DrivingService::class.java))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(Intent(this, DrivingService::class.java))
+            } else {
+                startService(Intent(this, DrivingService::class.java))
+            }
         }
 
         btnStop.setOnClickListener {
@@ -152,7 +157,12 @@ class MainActivity : AppCompatActivity() {
 
 
         // Start the service
-        startService(Intent(this, DrivingService::class.java))
+        //startService(Intent(this, DrivingService::class.java))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(Intent(this, DrivingService::class.java))
+        } else {
+            startService(Intent(this, DrivingService::class.java))
+        }
 
         // Minimize if user enabled it
         if (minimize) {
