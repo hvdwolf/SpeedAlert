@@ -139,6 +139,12 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         setupExpandableSection(
+            header = findViewById(R.id.headerFetchingDB),
+            section = findViewById(R.id.sectionFetchingDB),
+            arrow = findViewById(R.id.arrowFetchingDB)
+        )
+
+        setupExpandableSection(
             header = findViewById(R.id.headerAdvanced),
             section = findViewById(R.id.sectionAdvanced),
             arrow = findViewById(R.id.arrowAdvanced)

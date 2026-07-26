@@ -248,6 +248,7 @@
     <string name="header_overspeed">Avviso di velocità eccessiva</string>
     <string name="header_audio">Audio</string>
     <string name="header_fetching">Recupero limite di velocità</string>
+    <string name="header_fetchingDB">Scarica i database dei limiti di velocità</string>
     <string name="header_advanced">Avanzate</string>
 
     <string name="beep_once_title">Emetti un solo beep in caso di eccesso di velocità</string>

@@ -266,4 +266,6 @@
     <string name="pref_speak_tts_speedcam_warning">透過 TTS 播報測速照相警告</string>
     <string name="pref_test_tts">測試 TTS 輸出</string>
 
+    <string name="header_fetchingDB">下載速限資料庫</string>
+
 </resources>

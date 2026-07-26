@@ -475,12 +475,21 @@ class FloatingSpeedometer(
         // SCALE TEXT
         // -----------------------------
         if (!settings.hideCurrentSpeed()) {
-            txtSpeedSign?.textSize = baseSpeed * scale
+            txtSpeedSign?.textSize = scaledTextSize(baseSpeed, scale, lastSpeed)
         }
 
-        txtLimit?.textSize = baseLimit * scale
-        txtSpeedSign?.textSize = baseSpeed * scale
-        txtLimitSign?.textSize = baseLimit * scale
+        txtLimit?.textSize = scaledTextSize(baseLimit, scale, lastLimit)
+        txtSpeedSign?.textSize = scaledTextSize(baseSpeed, scale, lastSpeed)
+        txtLimitSign?.textSize = scaledTextSize(baseLimit, scale, lastLimit)
+    }
+
+    // Helper to scale text not based on setting, but on speed. Make smaller at > 100 kmh or mph
+    private fun scaledTextSize(base: Float, scale: Float, value: Int): Float {
+        return if (value >= 100) {
+            base * scale * 0.80f   // shrink 3‑digit numbers
+        } else {
+            base * scale
+        }
     }
 
 

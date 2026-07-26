@@ -245,6 +245,7 @@
     <string name="header_overspeed">超速警告</string>
     <string name="header_audio">音频</string>
     <string name="header_fetching">获取限速信息</string>
+    <string name="header_fetchingDB">下载限速数据库</string>
     <string name="header_advanced">高级设置</string>
 
     <string name="beep_once_title">超速时仅提示一次</string>

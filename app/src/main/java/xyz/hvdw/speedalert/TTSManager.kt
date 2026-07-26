@@ -14,6 +14,7 @@ class TTSManager(
     private val appContext = context.applicationContext
     private var tts: TextToSpeech? = null
     private var ready = false
+    private var pendingText: String? = null
 
     init {
         tts = TextToSpeech(appContext, this)
@@ -28,33 +29,24 @@ class TTSManager(
             ready = result != TextToSpeech.LANG_MISSING_DATA &&
                     result != TextToSpeech.LANG_NOT_SUPPORTED
 
-            Log.d("TTSManager", "TTS initialized with locale: $systemLocale (ready=$ready)")
-
-            // -----------------------------
-            // FALLBACK NAAR EN-US
-            // -----------------------------
             if (!ready) {
-                Log.w("TTSManager", "System locale not supported, falling back to en-US")
-
-                val fallbackResult = tts?.setLanguage(Locale("en", "US"))
-
+                val fallbackResult = tts?.setLanguage(Locale.US)
                 ready = fallbackResult != TextToSpeech.LANG_MISSING_DATA &&
                         fallbackResult != TextToSpeech.LANG_NOT_SUPPORTED
             }
 
-        } else {
-            Log.e("TTSManager", "TTS initialization failed")
+            pendingText?.let { speak(it) }
+            pendingText = null
         }
     }
 
     fun speak(text: String) {
         if (!ready) {
-            Log.w("TTSManager", "TTS not ready, ignoring speak()")
+            pendingText = text
             return
         }
 
-        val attrs: AudioAttributes = settings.getAudioAttributes()
-
+        val attrs = settings.getAudioAttributes()
         tts?.setAudioAttributes(attrs)
 
         tts?.speak(

@@ -237,6 +237,7 @@
     <string name="header_overspeed">Geschwindigkeitswarnung</string>
     <string name="header_audio">Audio</string>
     <string name="header_fetching">Geschwindigkeitslimit-Abruf</string>
+    <string name="header_fetchingDB">Geschwindigkeitsdatenbanken herunterladen</string>
     <string name="header_advanced">Erweitert</string>
 
     <string name="beep_once_title">Nur einmal bei Überschreitung der Geschwindigkeit piepen</string>

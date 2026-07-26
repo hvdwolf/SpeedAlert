@@ -248,6 +248,7 @@
     <string name="header_overspeed">Предупреждение о превышении скорости</string>
     <string name="header_audio">Аудио</string>
     <string name="header_fetching">Получение ограничения скорости</string>
+    <string name="header_fetchingDB">Скачать базы данных ограничений скорости</string>
     <string name="header_advanced">Дополнительно</string>
 
     <string name="beep_once_title">Подавать сигнал только один раз при превышении скорости</string>
