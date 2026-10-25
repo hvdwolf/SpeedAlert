@@ -272,5 +272,6 @@
     <string name="select_audio_output_channel">选择音频输出通道</string>
     <string name="pref_speak_tts_speedcam_warning">通过 TTS 播报测速摄像头警告</string>
     <string name="pref_test_tts">测试 TTS 输出</string>
+    <string name="speak_once_title">接近测速摄像头时仅语音提醒一次</string>
 
 </resources>

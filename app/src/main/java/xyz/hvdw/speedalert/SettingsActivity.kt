@@ -57,6 +57,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var swShowMuteButton: Switch
     private lateinit var swBeepOnce: Switch
     private lateinit var ttsManager: TTSManager
+    private lateinit var swSpeakOnce: Switch
 
     // Fetching
     private lateinit var spinnerFetchInterval: Spinner
@@ -180,9 +181,14 @@ class SettingsActivity : AppCompatActivity() {
         swBeepOnce.isChecked = settings.beepOnce()
 
         ttsManager = TTSManager(this, settings)
+        swSpeakOnce = findViewById(R.id.swSpeakOnce)
+        swSpeakOnce.isChecked = settings.speakOnce()
 
         swBeepOnce.setOnCheckedChangeListener { _, checked ->
             settings.setBeepOnce(checked)
+        }
+        swSpeakOnce.setOnCheckedChangeListener { _, checked ->
+            settings.setSpeakOnce(checked)
         }
 
         spinnerFetchInterval = findViewById(R.id.spinnerFetchInterval)

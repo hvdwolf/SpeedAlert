@@ -267,5 +267,6 @@
     <string name="pref_test_tts">測試 TTS 輸出</string>
 
     <string name="header_fetchingDB">下載速限資料庫</string>
+    <string name="speak_once_title">Озвучувати попередження лише один раз під час наближення до камери контролю швидкості</string>
 
 </resources>

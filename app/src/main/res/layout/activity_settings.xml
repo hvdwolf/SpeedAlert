@@ -416,6 +416,14 @@
 
             </LinearLayout>
 
+            <Switch
+                android:id="@+id/swSpeakOnce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speak_once_title"
+                android:layout_marginTop="12dp" />
+
+
             <!-- Audio Output Channel -->
             <LinearLayout
                 android:id="@+id/layoutAudioOutputChannel"

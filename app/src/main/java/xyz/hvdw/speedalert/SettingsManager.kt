@@ -160,6 +160,14 @@ class SettingsManager(context: Context) {
         return prefs.getBoolean("beep_once", false)
     }
 
+    fun setSpeakOnce(value: Boolean) {
+        prefs.edit().putBoolean("speak_once", value).apply()
+    }
+
+    fun speakOnce(): Boolean {
+        return prefs.getBoolean("speak_once", false)
+    }
+
     // ---------------------------------------------------------
     // CUSTOM SOUND
     // ---------------------------------------------------------

@@ -842,7 +842,7 @@ class DrivingService : Service() {
         }
 
         if (dist in 135.0..165.0 && lastCameraStage < 2) {
-            if (!settings.getSpeakTtsSpeedcamWarning()) {
+            if (!settings.getSpeakTtsSpeedcamWarning() || !settings.speakOnce()) {
                 triggerCameraAlert(nearest, dist)
             }
             currentCameraStage = 2
@@ -852,7 +852,7 @@ class DrivingService : Service() {
         }
 
         if (dist in 0.0..70.0 && lastCameraStage < 3) {
-            if (!settings.getSpeakTtsSpeedcamWarning()) {
+            if (!settings.getSpeakTtsSpeedcamWarning() || !settings.speakOnce()) {
                 triggerCameraAlert(nearest, dist)
             }
             currentCameraStage = 3
