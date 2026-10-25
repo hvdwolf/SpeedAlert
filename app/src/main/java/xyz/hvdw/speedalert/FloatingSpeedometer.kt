@@ -65,7 +65,7 @@ class FloatingSpeedometer(
     private var initialTouchX = 0f
     private var initialTouchY = 0f
 
-    
+
 
     fun show() {
         if (view != null) return
@@ -215,6 +215,9 @@ class FloatingSpeedometer(
         lastLimit = limit
         lastOverspeed = overspeed
 
+        // Recalculate text size whenever the speed changes.
+        applyTextGraphicsScaling()
+
         val unit = settings.displayUnit()
         val displaySpeed = settings.convertSpeed(speed)
         val displayLimit = settings.convertSpeed(limit)
@@ -280,6 +283,10 @@ class FloatingSpeedometer(
         lastSpeed = speed
         lastLimit = limit
         lastOverspeed = overspeed
+
+        // Recalculate text size whenever the speed changes.
+        applyTextGraphicsScaling()
+
         var speedText = ""
 
         val unit = settings.displayUnit()
@@ -474,19 +481,25 @@ class FloatingSpeedometer(
         // -----------------------------
         // SCALE TEXT
         // -----------------------------
+        val displaySpeed = settings.convertSpeed(lastSpeed)
+        val displayLimit = settings.convertSpeed(lastLimit)
+
         if (!settings.hideCurrentSpeed()) {
-            txtSpeedSign?.textSize = scaledTextSize(baseSpeed, scale, lastSpeed)
+            val speedTextSize = scaledTextSize(baseSpeed, scale, displaySpeed)
+            txtSpeed?.textSize = speedTextSize
+            txtSpeedSign?.textSize = speedTextSize
         }
 
-        txtLimit?.textSize = scaledTextSize(baseLimit, scale, lastLimit)
-        txtSpeedSign?.textSize = scaledTextSize(baseSpeed, scale, lastSpeed)
-        txtLimitSign?.textSize = scaledTextSize(baseLimit, scale, lastLimit)
+        val limitTextSize = scaledTextSize(baseLimit, scale, displayLimit)
+        txtLimit?.textSize = limitTextSize
+        txtLimitSign?.textSize = limitTextSize
     }
 
-    // Helper to scale text not based on setting, but on speed. Make smaller at > 100 kmh or mph
+    // Make the text smaller at 100 or higher in the displayed speed unit.
+    // displaySpeed/displayLimit have already been converted by settings.convertSpeed().
     private fun scaledTextSize(base: Float, scale: Float, value: Int): Float {
         return if (value >= 100) {
-            base * scale * 0.70f   // shrink 3‑digit numbers
+            base * scale * 0.8f
         } else {
             base * scale
         }
