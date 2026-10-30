@@ -273,4 +273,12 @@
     <string name="pref_test_tts">TTS 출력 테스트</string>
     <string name="speak_once_title">과속 단속 카메라에 접근할 때 한 번만 음성 안내</string>
 
+    <string name="start_gps_recording">GPS 기록 시작</string>
+    <string name="stop_gps_recording">GPS 기록 중지</string>
+    <string name="gps_recording_active">GPS 기록 중</string>
+    <string name="gps_recording_stopped">GPS 기록 중지됨</string>
+    <string name="start_gps_tracking_on_service_start">SpeedAlert 서비스 시작 시 GPS 기록 자동 시작</string>
+    <string name="gps_recording_points">GPS 지점: %1$d</string>
+    <string name="gps_recording_points_saved">저장된 GPS 지점: %1$d</string>
+    <string name="gps_recording_points_initial">GPS 지점: 0</string>
 </resources>

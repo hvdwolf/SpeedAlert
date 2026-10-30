@@ -81,6 +81,55 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="8dp" />
 
+
+            <!-- GPS TRACK RECORDING -->
+            <TextView
+                android:id="@+id/txtGpsRecordingStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gps_recording_stopped"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/txtGpsRecordingPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gps_recording_points_initial"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnStartGpsRecording"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/start_gps_recording" />
+
+                <Button
+                    android:id="@+id/btnStopGpsRecording"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/stop_gps_recording" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#888888"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp" />
+
             <!-- SETTINGS + DEBUG BUTTONS -->
             <LinearLayout
                 android:orientation="horizontal"

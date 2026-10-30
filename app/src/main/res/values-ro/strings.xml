@@ -278,4 +278,12 @@
     <string name="pref_test_tts">Testare ieșire TTS</string>
     <string name="speak_once_title">Rostește avertizarea o singură dată la apropierea de un radar</string>
 
+    <string name="start_gps_recording">Pornește înregistrarea GPS</string>
+    <string name="stop_gps_recording">Oprește înregistrarea GPS</string>
+    <string name="gps_recording_active">Înregistrare GPS activă</string>
+    <string name="gps_recording_stopped">Înregistrare GPS oprită</string>
+    <string name="start_gps_tracking_on_service_start">Pornește automat înregistrarea GPS la pornirea serviciului SpeedAlert</string>
+    <string name="gps_recording_points">Puncte GPS: %1$d</string>
+    <string name="gps_recording_points_saved">Puncte GPS salvate: %1$d</string>
+    <string name="gps_recording_points_initial">Puncte GPS: 0</string>
 </resources>

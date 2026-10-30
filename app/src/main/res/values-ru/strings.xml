@@ -278,4 +278,12 @@
     <string name="pref_test_tts">Тест вывода TTS</string>
     <string name="speak_once_title">Озвучивать предупреждение только один раз при приближении к камере контроля скорости</string>
 
+    <string name="start_gps_recording">Начать запись GPS</string>
+    <string name="stop_gps_recording">Остановить запись GPS</string>
+    <string name="gps_recording_active">Запись GPS активна</string>
+    <string name="gps_recording_stopped">Запись GPS остановлена</string>
+    <string name="start_gps_tracking_on_service_start">Автоматически начинать запись GPS при запуске службы SpeedAlert</string>
+    <string name="gps_recording_points">Точки GPS: %1$d</string>
+    <string name="gps_recording_points_saved">Сохранено точек GPS: %1$d</string>
+    <string name="gps_recording_points_initial">Точки GPS: 0</string>
 </resources>

@@ -278,4 +278,12 @@
     <string name="pref_test_tts">Testuj wyjście TTS</string>
     <string name="speak_once_title">Odtwarzać komunikat głosowy tylko raz podczas zbliżania się do fotoradaru</string>
 
+    <string name="start_gps_recording">Rozpocznij rejestrowanie GPS</string>
+    <string name="stop_gps_recording">Zatrzymaj rejestrowanie GPS</string>
+    <string name="gps_recording_active">Rejestrowanie GPS aktywne</string>
+    <string name="gps_recording_stopped">Rejestrowanie GPS zatrzymane</string>
+    <string name="start_gps_tracking_on_service_start">Automatycznie rozpocznij rejestrowanie GPS po uruchomieniu usługi SpeedAlert</string>
+    <string name="gps_recording_points">Punkty GPS: %1$d</string>
+    <string name="gps_recording_points_saved">Zapisane punkty GPS: %1$d</string>
+    <string name="gps_recording_points_initial">Punkty GPS: 0</string>
 </resources>

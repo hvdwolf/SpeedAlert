@@ -98,6 +98,8 @@ class SettingsActivity : AppCompatActivity() {
 
     private var testTripleBeep: AudioTrack? = null
 
+    private lateinit var swAutoStartGpsRecording: Switch
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -553,6 +555,12 @@ class SettingsActivity : AppCompatActivity() {
 
         swMinimizeOnStart.setOnCheckedChangeListener { _, checked ->
             settings.setMinimizeOnStart(checked)
+        }
+
+        swAutoStartGpsRecording = findViewById(R.id.swAutoStartGpsRecording)
+        swAutoStartGpsRecording.isChecked = settings.getAutoStartGpsRecording()
+        swAutoStartGpsRecording.setOnCheckedChangeListener { _, checked ->
+            settings.setAutoStartGpsRecording(checked)
         }
     }
 

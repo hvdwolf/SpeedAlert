@@ -350,4 +350,14 @@ class SettingsManager(context: Context) {
         prefs.edit().putFloat("overlay_text_scale", value).apply()
     }
 
+    // ---------------------------------------------------------
+    // Get/set settings for Autostarting the GPS recording
+    // ---------------------------------------------------------
+    fun getAutoStartGpsRecording(): Boolean =
+    prefs.getBoolean("auto_start_gps_recording", false)
+
+    fun setAutoStartGpsRecording(enabled: Boolean) {
+        prefs.edit().putBoolean("auto_start_gps_recording", enabled).apply()
+    }
+
 }

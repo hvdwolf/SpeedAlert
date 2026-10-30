@@ -269,4 +269,12 @@
     <string name="header_fetchingDB">下載速限資料庫</string>
     <string name="speak_once_title">Озвучувати попередження лише один раз під час наближення до камери контролю швидкості</string>
 
+    <string name="start_gps_recording">開始 GPS 記錄</string>
+    <string name="stop_gps_recording">停止 GPS 記錄</string>
+    <string name="gps_recording_active">GPS 正在記錄</string>
+    <string name="gps_recording_stopped">GPS 記錄已停止</string>
+    <string name="start_gps_tracking_on_service_start">SpeedAlert 服務啟動時自動開始 GPS 記錄</string>
+    <string name="gps_recording_points">GPS 點數：%1$d</string>
+    <string name="gps_recording_points_saved">已儲存的 GPS 點數：%1$d</string>
+    <string name="gps_recording_points_initial">GPS 點數：0</string>
 </resources>

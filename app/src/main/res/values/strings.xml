@@ -274,4 +274,13 @@
     <string name="pref_test_tts">Test TTS output</string>
     <string name="speak_once_title">Only speak once when approaching speed camera</string>
 
+    <string name="start_gps_recording">Start GPS recording</string>
+    <string name="stop_gps_recording">Stop GPS recording</string>
+    <string name="gps_recording_active">GPS recording active</string>
+    <string name="gps_recording_stopped">GPS recording stopped</string>
+    <string name="start_gps_tracking_on_service_start">Autostart GPS recording when SpeedAlert service starts</string>
+    <string name="gps_recording_points">GPS points: %1$d</string>
+    <string name="gps_recording_points_saved">GPS points saved: %1$d</string>
+    <string name="gps_recording_points_initial">GPS points: 0</string>
+
 </resources>

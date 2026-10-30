@@ -1,7 +1,8 @@
 **Changelog 2.4 (25-10-2026)**
 
  - Resize text size when km/h or mph is 100 or above.
- - Option added to "Only speak once when approaching speed camera".
+ - Option added to "Only speak once when approaching speed camera". (Settings -> Audio)
+ - Fix no longer working "Info" (About) button.
 
 
 **Changelog 2.3 (13 Apr 2026)**

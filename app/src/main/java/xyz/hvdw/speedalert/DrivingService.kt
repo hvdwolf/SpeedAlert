@@ -28,6 +28,21 @@ import kotlin.math.roundToInt
 
 class DrivingService : Service() {
 
+    companion object {
+        const val ACTION_START_GPS_RECORDING =
+        "xyz.hvdw.speedalert.action.START_GPS_RECORDING"
+
+        const val ACTION_STOP_GPS_RECORDING =
+        "xyz.hvdw.speedalert.action.STOP_GPS_RECORDING"
+
+        const val ACTION_GPS_RECORDING_STATUS =
+        "xyz.hvdw.speedalert.GPS_RECORDING_STATUS"
+
+        const val EXTRA_GPS_RECORDING = "gps_recording"
+        const val EXTRA_GPS_RECORDING_FILE = "gps_recording_file"
+        const val EXTRA_GPS_RECORDING_POINTS = "gps_recording_points"
+    }
+
     private val scope = CoroutineScope(Dispatchers.Default + Job())
     private val mainHandler = Handler(Looper.getMainLooper())
 
@@ -77,11 +92,27 @@ class DrivingService : Service() {
     private var lastCameraBeepTime = 0L
     private lateinit var ttsManager: TTSManager
 
+    // GPS recording
+    private lateinit var gpsTrackRecorder: GpsTrackRecorder
+    private var lastGpsRecordingPointCount = 0
+
 
     override fun onCreate() {
         super.onCreate()
 
         settings = SettingsManager(this)
+
+        val mediaDir = getExternalMediaDirs()
+        .firstOrNull { it != null }
+
+        if (mediaDir != null) {
+            gpsTrackRecorder = GpsTrackRecorder(mediaDir)
+            log("GPS recording directory: ${mediaDir.absolutePath}")
+        } else {
+            gpsTrackRecorder = GpsTrackRecorder(filesDir)
+            log("External media directory unavailable; using internal storage")
+        }
+
         repo = SpeedLimitRepository(this)
         notifier = ServiceNotification(this)
         notifier.createChannel()
@@ -157,13 +188,30 @@ class DrivingService : Service() {
 
         startForeground(1, notifier.createNotification())
 
+        if (settings.getAutoStartGpsRecording()) {
+            log("Automatic GPS recording is enabled")
+            startGpsRecording()
+        } else {
+            log("Automatic GPS recording is disabled")
+        }
+
         scope.launch {
             mainLoop()
         }
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            ACTION_START_GPS_RECORDING -> startGpsRecording()
+            ACTION_STOP_GPS_RECORDING -> stopGpsRecording()
+        }
+        return START_STICKY
+    }
+
     override fun onDestroy() {
         running = false
+
+        if (::gpsTrackRecorder.isInitialized) stopGpsRecording()
 
         try {
             locationManager.removeUpdates(gpsListener)
@@ -247,9 +295,22 @@ class DrivingService : Service() {
         lastLocation = loc
         lastGpsFixTime = System.currentTimeMillis()
         lastAccuracy = loc.accuracy
-        log("GPS fix: lat=${loc.latitude}, lon=${loc.longitude}, acc=${loc.accuracy}m")
 
         updateCountryCodeIfNeeded(loc.latitude, loc.longitude)
+
+        if (::gpsTrackRecorder.isInitialized && gpsTrackRecorder.isRecording()) {
+            try {
+                gpsTrackRecorder.addLocation(loc)
+
+                sendGpsRecordingStatus(
+                    true,
+                    gpsTrackRecorder.currentFile()?.name
+                )
+            } catch (e: Exception) {
+                log("GPS recording error: ${e.message}")
+                stopGpsRecording()
+            }
+        }
     }
 
     private fun updateLocationAndSpeed() {
@@ -260,7 +321,7 @@ class DrivingService : Service() {
 
         val filtered = kalman.update(speedKmh.toDouble()).roundToInt()
 
-        lastSpeed = filtered   // ALWAYS store km/h internally
+        lastSpeed = filtered
         sendSpeedBroadcast(filtered, lastLimit.roadLimitWithoutUnit)
     }
 
@@ -898,6 +959,69 @@ class DrivingService : Service() {
         currentCameraStage = 0
         lastCameraDistance = Double.MAX_VALUE
         //speedometer?.updateCameraStage(0)
+    }
+
+
+    //------- GPS recording fun's --------//
+    private fun startGpsRecording() {
+        try {
+            val file = gpsTrackRecorder.start()
+
+            lastGpsRecordingPointCount = 0
+
+            log("GPS track recording started: ${file.absolutePath}")
+            sendGpsRecordingStatus(true, file.name)
+
+        } catch (e: Exception) {
+            log("Could not start GPS track recording: ${e.message}")
+            sendGpsRecordingStatus(false, null)
+        }
+    }
+
+    private fun stopGpsRecording() {
+        try {
+            // Bewaar het aantal punten voordat stop() de teller reset.
+            lastGpsRecordingPointCount = gpsTrackRecorder.getPointCount()
+
+            val file = gpsTrackRecorder.stop()
+
+            if (file != null) {
+                log(
+                    "GPS track recording saved: ${file.absolutePath}, " +
+                    "points: $lastGpsRecordingPointCount"
+                )
+            }
+
+        } catch (e: Exception) {
+            log("Could not close GPS track: ${e.message}")
+
+        } finally {
+            sendGpsRecordingStatus(false, null)
+        }
+    }
+
+    private fun sendGpsRecordingStatus(recording: Boolean, fileName: String?) {
+        val points = if (recording) {
+            gpsTrackRecorder.getPointCount()
+        } else {
+            lastGpsRecordingPointCount
+        }
+
+        // Bewaar de actuele status voor MainActivity.
+        getSharedPreferences("gps_recording_state", MODE_PRIVATE)
+        .edit()
+        .putBoolean("recording", recording)
+        .putInt("points", points)
+        .putString("file_name", fileName)
+        .apply()
+
+        // Verstuur ook een broadcast voor directe UI-updates.
+        sendBroadcast(Intent(ACTION_GPS_RECORDING_STATUS).apply {
+            setPackage(packageName)
+            putExtra(EXTRA_GPS_RECORDING, recording)
+            putExtra(EXTRA_GPS_RECORDING_FILE, fileName)
+            putExtra(EXTRA_GPS_RECORDING_POINTS, points)
+        })
     }
 
 }

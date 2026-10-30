@@ -269,4 +269,12 @@
     <string name="pref_test_tts">Тест виходу TTS</string>
     <string name="speak_once_title">Озвучувати попередження лише один раз під час наближення до камери контролю швидкості</string>
 
+    <string name="start_gps_recording">Почати запис GPS</string>
+    <string name="stop_gps_recording">Зупинити запис GPS</string>
+    <string name="gps_recording_active">Запис GPS активний</string>
+    <string name="gps_recording_stopped">Запис GPS зупинено</string>
+    <string name="start_gps_tracking_on_service_start">Автоматично починати запис GPS під час запуску служби SpeedAlert</string>
+    <string name="gps_recording_points">Точки GPS: %1$d</string>
+    <string name="gps_recording_points_saved">Збережено точок GPS: %1$d</string>
+    <string name="gps_recording_points_initial">Точки GPS: 0</string>
 </resources>

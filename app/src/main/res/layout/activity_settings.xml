@@ -659,6 +659,13 @@
                     android:visibility="gone" />
             </LinearLayout>
 
+            <Switch
+                android:id="@+id/swAutoStartGpsRecording"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_gps_tracking_on_service_start"
+                android:layout_marginTop="8dp" />
+
         </LinearLayout>
 
     </LinearLayout>

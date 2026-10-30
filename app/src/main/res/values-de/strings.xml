@@ -267,4 +267,12 @@
     <string name="pref_test_tts">TTS-Ausgabe testen</string>
     <string name="speak_once_title">Bei Annäherung an einen Blitzer nur einmal sprechen</string>
 
+    <string name="start_gps_recording">GPS-Aufzeichnung starten</string>
+    <string name="stop_gps_recording">GPS-Aufzeichnung stoppen</string>
+    <string name="gps_recording_active">GPS-Aufzeichnung aktiv</string>
+    <string name="gps_recording_stopped">GPS-Aufzeichnung beendet</string>
+    <string name="start_gps_tracking_on_service_start">GPS-Aufzeichnung automatisch starten, wenn der SpeedAlert-Dienst gestartet wird</string>
+    <string name="gps_recording_points">GPS-Punkte: %1$d</string>
+    <string name="gps_recording_points_saved">Gespeicherte GPS-Punkte: %1$d</string>
+    <string name="gps_recording_points_initial">GPS-Punkte: 0</string>
 </resources>

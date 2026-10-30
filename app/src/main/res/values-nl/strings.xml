@@ -278,4 +278,12 @@
     <string name="pref_test_tts">Test TTS-uitvoer</string>
     <string name="speak_once_title">Slechts één keer spreken bij nadering van een flitspaal</string>
 
+    <string name="start_gps_recording">GPS-opname starten</string>
+    <string name="stop_gps_recording">GPS-opname stoppen</string>
+    <string name="gps_recording_active">GPS-opname actief</string>
+    <string name="gps_recording_stopped">GPS-opname gestopt</string>
+    <string name="start_gps_tracking_on_service_start">GPS-opname automatisch starten wanneer de SpeedAlert-service start</string>
+    <string name="gps_recording_points">GPS-punten: %1$d</string>
+    <string name="gps_recording_points_saved">Opgeslagen GPS-punten: %1$d</string>
+    <string name="gps_recording_points_initial">GPS-punten: 0</string>
 </resources>

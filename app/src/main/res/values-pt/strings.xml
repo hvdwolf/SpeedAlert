@@ -272,4 +272,12 @@
     <string name="pref_test_tts">Testar saída TTS</string>
     <string name="speak_once_title">Reproduzir o aviso de voz apenas uma vez ao aproximar-se de um radar</string>
 
+    <string name="start_gps_recording">Iniciar gravação GPS</string>
+    <string name="stop_gps_recording">Parar gravação GPS</string>
+    <string name="gps_recording_active">Gravação GPS ativa</string>
+    <string name="gps_recording_stopped">Gravação GPS parada</string>
+    <string name="start_gps_tracking_on_service_start">Iniciar automaticamente a gravação GPS quando o serviço SpeedAlert for iniciado</string>
+    <string name="gps_recording_points">Pontos GPS: %1$d</string>
+    <string name="gps_recording_points_saved">Pontos GPS guardados: %1$d</string>
+    <string name="gps_recording_points_initial">Pontos GPS: 0</string>
 </resources>

@@ -278,4 +278,12 @@
     <string name="pref_test_tts">Test output TTS</string>
     <string name="speak_once_title">Pronunciare l’avviso una sola volta quando ci si avvicina a un autovelox</string>
 
+    <string name="start_gps_recording">Avvia registrazione GPS</string>
+    <string name="stop_gps_recording">Interrompi registrazione GPS</string>
+    <string name="gps_recording_active">Registrazione GPS attiva</string>
+    <string name="gps_recording_stopped">Registrazione GPS interrotta</string>
+    <string name="start_gps_tracking_on_service_start">Avvia automaticamente la registrazione GPS all’avvio del servizio SpeedAlert</string>
+    <string name="gps_recording_points">Punti GPS: %1$d</string>
+    <string name="gps_recording_points_saved">Punti GPS salvati: %1$d</string>
+    <string name="gps_recording_points_initial">Punti GPS: 0</string>
 </resources>

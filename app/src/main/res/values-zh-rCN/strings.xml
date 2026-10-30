@@ -274,4 +274,12 @@
     <string name="pref_test_tts">测试 TTS 输出</string>
     <string name="speak_once_title">接近测速摄像头时仅语音提醒一次</string>
 
+    <string name="start_gps_recording">开始 GPS 记录</string>
+    <string name="stop_gps_recording">停止 GPS 记录</string>
+    <string name="gps_recording_active">GPS 正在记录</string>
+    <string name="gps_recording_stopped">GPS 记录已停止</string>
+    <string name="start_gps_tracking_on_service_start">SpeedAlert 服务启动时自动开始 GPS 记录</string>
+    <string name="gps_recording_points">GPS 点数：%1$d</string>
+    <string name="gps_recording_points_saved">已保存的 GPS 点数：%1$d</string>
+    <string name="gps_recording_points_initial">GPS 点数：0</string>
 </resources>

@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import java.net.URL
 import java.net.HttpURLConnection
 import org.json.JSONObject
@@ -30,6 +31,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txtStatus: TextView
     private lateinit var btnStart: Button
     private lateinit var btnStop: Button
+    private lateinit var btnStartGpsRecording: Button
+    private lateinit var btnStopGpsRecording: Button
+    private lateinit var txtGpsRecordingStatus: TextView
+    private lateinit var txtGpsRecordingPoints: TextView
     private lateinit var btnSettings: Button
     private lateinit var btnDebug: Button
     private lateinit var btnAbout: Button
@@ -40,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     private val LOCATION_REQUEST = 1001
     private val BACKGROUND_LOCATION_REQUEST = 1002
     private val NOTIFICATION_REQUEST = 2001
+
+    private var gpsRecordingReceiverRegistered = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +66,10 @@ class MainActivity : AppCompatActivity() {
         btnDebug = findViewById(R.id.btnDebugScreen)
         btnAbout = findViewById(R.id.btnAbout)
         btnAbout.bringToFront()
+        btnStartGpsRecording = findViewById(R.id.btnStartGpsRecording)
+        btnStopGpsRecording = findViewById(R.id.btnStopGpsRecording)
+        txtGpsRecordingStatus = findViewById(R.id.txtGpsRecordingStatus)
+        txtGpsRecordingPoints = findViewById(R.id.txtGpsRecordingPoints)
 
 
         defaultTextColor = txtSpeed.currentTextColor
@@ -87,6 +98,26 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, DebugActivity::class.java))
         }
 
+        btnStartGpsRecording.setOnClickListener {
+            val intent = Intent(this, DrivingService::class.java).apply {
+                action = DrivingService.ACTION_START_GPS_RECORDING
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                startForegroundService(intent)
+            } else {
+                startService(intent)
+            }
+            //txtGpsRecordingStatus.setText(R.string.gps_recording_active)
+        }
+
+        btnStopGpsRecording.setOnClickListener {
+            val intent = Intent(this, DrivingService::class.java).apply {
+                action = DrivingService.ACTION_STOP_GPS_RECORDING
+            }
+            //txtGpsRecordingStatus.setText(R.string.gps_recording_stopped)
+            startService(intent)
+        }
+
         btnAbout.setOnClickListener {
             Log.e("ABOUT", "CLICKED")
             Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
@@ -102,6 +133,19 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(speedReceiver, IntentFilter("xyz.hvdw.speedalert.SPEED_UPDATE"))
 
+        val gpsRecordingFilter = IntentFilter(
+            DrivingService.ACTION_GPS_RECORDING_STATUS
+        )
+
+        ContextCompat.registerReceiver(
+            this,
+            gpsRecordingReceiver,
+            gpsRecordingFilter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+
+        gpsRecordingReceiverRegistered = true
+
         // Check for new version
         checkForNewVersion()
 
@@ -111,6 +155,54 @@ class MainActivity : AppCompatActivity() {
         maybeAutoStartService()
     }
 
+    private val gpsRecordingReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action != DrivingService.ACTION_GPS_RECORDING_STATUS) return
+
+                val recording = intent.getBooleanExtra(
+                    DrivingService.EXTRA_GPS_RECORDING, false
+                )
+
+                val fileName = intent.getStringExtra(
+                    DrivingService.EXTRA_GPS_RECORDING_FILE
+                )
+
+                val points = intent.getIntExtra(
+                    DrivingService.EXTRA_GPS_RECORDING_POINTS, 0
+                )
+
+                runOnUiThread {
+                    updateGpsRecordingUi(recording, fileName, points)
+                }
+        }
+    }
+
+    private fun updateGpsRecordingUi(
+        recording: Boolean,
+        fileName: String? = null,
+        points: Int = 0
+    ) {
+        btnStartGpsRecording.isEnabled = !recording
+        btnStopGpsRecording.isEnabled = recording
+
+        txtGpsRecordingStatus.text = if (recording) {
+            if (fileName != null) {
+                "${getString(R.string.gps_recording_active)}: $fileName"
+            } else {
+                getString(R.string.gps_recording_active)
+            }
+        } else {
+            getString(R.string.gps_recording_stopped)
+        }
+
+        txtGpsRecordingPoints.text = if (recording) {
+            getString(R.string.gps_recording_points, points)
+        } else {
+            getString(R.string.gps_recording_points_saved, points)
+        }
+    }
+
+
     override fun onResume() {
         super.onResume()
 
@@ -119,10 +211,16 @@ class MainActivity : AppCompatActivity() {
             txtStatus.text = getString(R.string.overlay_permission_missing)
             requestOverlayPermission()
         }
+
+        restoreGpsRecordingStatus()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        if (gpsRecordingReceiverRegistered) {
+            unregisterReceiver(gpsRecordingReceiver)
+            gpsRecordingReceiverRegistered = false
+        }
         unregisterReceiver(speedReceiver)
     }
 
@@ -132,6 +230,7 @@ class MainActivity : AppCompatActivity() {
     private fun maybeAutoStartService() {
         val prefs = getSharedPreferences("speedalert_prefs", MODE_PRIVATE)
         val autoStart = prefs.getBoolean("auto_start_service", false)
+
         val minimize = settings.getMinimizeOnStart()
 
         if (!autoStart) return
@@ -418,6 +517,20 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton(getString(R.string.update_available_cancel), null)
             .show()
+    }
+
+
+    private fun restoreGpsRecordingStatus() {
+        val prefs = getSharedPreferences(
+            "gps_recording_state",
+            Context.MODE_PRIVATE
+        )
+
+        val recording = prefs.getBoolean("recording", false)
+        val points = prefs.getInt("points", 0)
+        val fileName = prefs.getString("file_name", null)
+
+        updateGpsRecordingUi(recording, fileName, points)
     }
 
 
