@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="audio_output_channels">
+        <item>メディア</item>
+        <item>通知</item>
+        <item>アラート</item>
+        <item>着信音</item>
+        <item>システム</item>
+        <item>ナビゲーション</item>
+    </string-array>
+</resources>
