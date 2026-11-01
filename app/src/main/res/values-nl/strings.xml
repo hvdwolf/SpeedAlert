@@ -286,4 +286,6 @@
     <string name="gps_recording_points">GPS-punten: %1$d</string>
     <string name="gps_recording_points_saved">Opgeslagen GPS-punten: %1$d</string>
     <string name="gps_recording_points_initial">GPS-punten: 0</string>
+    <string name="btn_share_gpx_file">GPX-bestand(en) delen</string>
+    <string name="tracks_folder_not_found">Tracksmap niet gevonden</string>
 </resources>

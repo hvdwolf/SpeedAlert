@@ -277,4 +277,6 @@
     <string name="gps_recording_points">GPS 點數：%1$d</string>
     <string name="gps_recording_points_saved">已儲存的 GPS 點數：%1$d</string>
     <string name="gps_recording_points_initial">GPS 點數：0</string>
+    <string name="btn_share_gpx_file">分享 GPX 檔案</string>
+    <string name="tracks_folder_not_found">找不到軌跡資料夾</string>
 </resources>

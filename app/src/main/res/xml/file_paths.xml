@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <files-path name="logs" path="." />
+
+    <!-- Existing log files -->
+    <files-path
+        name="logs"
+        path="." />
+
+    <!-- GPX files -->
+    <external-path
+        name="tracks"
+        path="Android/media/xyz.hvdw.speedalert/tracks/" />
+
 </paths>

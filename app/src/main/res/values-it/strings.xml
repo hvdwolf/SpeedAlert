@@ -286,4 +286,6 @@
     <string name="gps_recording_points">Punti GPS: %1$d</string>
     <string name="gps_recording_points_saved">Punti GPS salvati: %1$d</string>
     <string name="gps_recording_points_initial">Punti GPS: 0</string>
+    <string name="btn_share_gpx_file">Condividi file GPX</string>
+    <string name="tracks_folder_not_found">Cartella delle tracce non trovata</string>
 </resources>

@@ -121,7 +121,13 @@
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="@string/stop_gps_recording" />
-            </LinearLayout>
+                </LinearLayout>
+            <Button
+                android:id="@+id/btnShareGpx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/btn_share_gpx_file" />
 
             <View
                 android:layout_width="match_parent"

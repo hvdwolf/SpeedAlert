@@ -277,4 +277,6 @@
     <string name="gps_recording_points">Точки GPS: %1$d</string>
     <string name="gps_recording_points_saved">Збережено точок GPS: %1$d</string>
     <string name="gps_recording_points_initial">Точки GPS: 0</string>
+    <string name="btn_share_gpx_file">Поділитися файлом(ами) GPX</string>
+    <string name="tracks_folder_not_found">Папку з треками не знайдено</string>
 </resources>

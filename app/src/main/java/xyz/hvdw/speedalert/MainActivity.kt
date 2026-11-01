@@ -17,6 +17,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import java.io.File
 import java.net.URL
 import java.net.HttpURLConnection
 import org.json.JSONObject
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSettings: Button
     private lateinit var btnDebug: Button
     private lateinit var btnAbout: Button
+    private lateinit var btnShareGpx: Button
 
     private lateinit var settings: SettingsManager
     private var defaultTextColor: Int = 0
@@ -70,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         btnStopGpsRecording = findViewById(R.id.btnStopGpsRecording)
         txtGpsRecordingStatus = findViewById(R.id.txtGpsRecordingStatus)
         txtGpsRecordingPoints = findViewById(R.id.txtGpsRecordingPoints)
+        btnShareGpx = findViewById(R.id.btnShareGpx)
 
 
         defaultTextColor = txtSpeed.currentTextColor
@@ -118,10 +122,15 @@ class MainActivity : AppCompatActivity() {
             startService(intent)
         }
 
+        btnShareGpx.setOnClickListener {
+            shareGpxFiles()
+        }
+
         btnAbout.setOnClickListener {
             Log.e("ABOUT", "CLICKED")
             Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
             showAboutDialog() }
+
 
         // ---------------------------------------------------------
         // PERMISSIONS
@@ -533,5 +542,65 @@ class MainActivity : AppCompatActivity() {
         updateGpsRecordingUi(recording, fileName, points)
     }
 
+    private fun shareGpxFiles() {
+        val tracksDir = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert/tracks")
+
+        if (!tracksDir.exists() || !tracksDir.isDirectory) {
+            Toast.makeText(
+                this,
+                getString(R.string.tracks_folder_not_found),
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        val gpxFiles = tracksDir.listFiles { file ->
+            file.isFile && file.extension.equals("gpx", ignoreCase = true)
+        }?.sortedBy { it.name }
+
+        if (gpxFiles.isNullOrEmpty()) {
+            Toast.makeText(
+                this,
+                "No GPX files found",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        try {
+            val uris = ArrayList<Uri>()
+
+            for (file in gpxFiles) {
+                val uri = FileProvider.getUriForFile(
+                    this,
+                    "xyz.hvdw.speedalert.fileprovider",
+                    file
+                )
+                uris.add(uri)
+            }
+
+            val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+                type = "application/gpx+xml"
+                putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
+            startActivity(
+                Intent.createChooser(
+                    shareIntent,
+                    getString(R.string.btn_share_gpx_file)
+                )
+            )
+
+        } catch (e: Exception) {
+            Log.e("ShareGPX", "Failed to share GPX files", e)
+
+            Toast.makeText(
+                this,
+                "Could not share GPX files",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
 }

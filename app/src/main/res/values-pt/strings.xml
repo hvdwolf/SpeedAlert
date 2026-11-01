@@ -280,4 +280,6 @@
     <string name="gps_recording_points">Pontos GPS: %1$d</string>
     <string name="gps_recording_points_saved">Pontos GPS guardados: %1$d</string>
     <string name="gps_recording_points_initial">Pontos GPS: 0</string>
+    <string name="btn_share_gpx_file">Partilhar ficheiro(s) GPX</string>
+    <string name="tracks_folder_not_found">Pasta de percursos não encontrada</string>
 </resources>
