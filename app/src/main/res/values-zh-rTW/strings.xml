@@ -286,4 +286,6 @@
     <string name="gps_recording_points_initial">GPS 點數：0</string>
     <string name="btn_share_gpx_file">分享 GPX 檔案</string>
     <string name="tracks_folder_not_found">找不到軌跡資料夾</string>
+    <string name="gps_seconds_interval">記錄間隔（秒）</string>
+    <string name="gps_seconds_text">以每小時 100 公里的速度，1 秒鐘大約行駛 28 公尺。</string>
 </resources>

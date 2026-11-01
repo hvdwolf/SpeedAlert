@@ -965,6 +965,8 @@ class DrivingService : Service() {
     //------- GPS recording fun's --------//
     private fun startGpsRecording() {
         try {
+            gpsTrackRecorder.setRecordingInterval(settings.getGPSIntervalMs())
+
             val file = gpsTrackRecorder.start()
 
             lastGpsRecordingPointCount = 0

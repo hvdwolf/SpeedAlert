@@ -360,4 +360,12 @@ class SettingsManager(context: Context) {
         prefs.edit().putBoolean("auto_start_gps_recording", enabled).apply()
     }
 
+    fun getGPSIntervalMs(): Long {
+        return prefs.getLong("gps_interval", 2000L)
+    }
+
+    fun setGPSIntervalMs(value: Long) {
+        prefs.edit().putLong("gps_interval", value).apply()
+    }
+
 }

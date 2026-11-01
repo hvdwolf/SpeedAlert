@@ -68,6 +68,10 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var swAutoStart: Switch
     private lateinit var swMinimizeOnStart: Switch
 
+    // GPS / GPx
+    private lateinit var swAutoStartGpsRecording: Switch
+    private lateinit var spinnerGPSInterval: Spinner
+
     // Settings
     private lateinit var prefs: SharedPreferences
     private lateinit var settings: SettingsManager
@@ -97,8 +101,6 @@ class SettingsActivity : AppCompatActivity() {
     private val sizeScales = floatArrayOf(0.50f, 0.75f, 1.00f, 1.25f, 1.50f, 1.75f, 2.00f, 2.25f, 2.50f, 2.75f, 3.00f)
 
     private var testTripleBeep: AudioTrack? = null
-
-    private lateinit var swAutoStartGpsRecording: Switch
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -563,11 +565,56 @@ class SettingsActivity : AppCompatActivity() {
             settings.setMinimizeOnStart(checked)
         }
 
+
+        // ---------------------------------------------------------
+        // GPS / GPx
+        // ---------------------------------------------------------
         swAutoStartGpsRecording = findViewById(R.id.swAutoStartGpsRecording)
         swAutoStartGpsRecording.isChecked = settings.getAutoStartGpsRecording()
         swAutoStartGpsRecording.setOnCheckedChangeListener { _, checked ->
             settings.setAutoStartGpsRecording(checked)
         }
+        spinnerGPSInterval = findViewById(R.id.spinnerGPSInterval)
+
+        val gpsIntervalLabels = arrayOf(
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+        )
+        val gpsIntervalValues = longArrayOf(1000L, 2000L, 3000L, 4000L, 5000L)
+
+        val gpsIntervalAdapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_item, gpsIntervalLabels
+        )
+        gpsIntervalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerGPSInterval.adapter = gpsIntervalAdapter
+
+        val savedGPSInterval = settings.getGPSIntervalMs()
+
+        val gpsIntervalIndex = gpsIntervalValues.indexOf(savedGPSInterval)
+        .let { if (it == -1) 1 else it }
+
+        spinnerGPSInterval.setSelection(gpsIntervalIndex)
+
+        spinnerGPSInterval.onItemSelectedListener =
+        object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                pos: Int,
+                id: Long
+            ) {
+                settings.setGPSIntervalMs(gpsIntervalValues[pos])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+
+
     }
 
     override fun onDestroy() {

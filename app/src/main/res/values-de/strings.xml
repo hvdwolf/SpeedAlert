@@ -278,4 +278,6 @@
     <string name="gps_recording_points_initial">GPS-Punkte: 0</string>
     <string name="btn_share_gpx_file">GPX-Datei(en) teilen</string>
     <string name="tracks_folder_not_found">Tracks-Ordner nicht gefunden</string>
+    <string name="gps_seconds_interval">Aufzeichnungsintervall (Sekunden)</string>
+    <string name="gps_seconds_text">In 1 Sekunde legst du bei 100 km/h etwa 28 Meter zurück.</string>
 </resources>

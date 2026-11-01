@@ -289,4 +289,6 @@
     <string name="gps_recording_points_initial">Punti GPS: 0</string>
     <string name="btn_share_gpx_file">Condividi file GPX</string>
     <string name="tracks_folder_not_found">Cartella delle tracce non trovata</string>
+    <string name="gps_seconds_interval">Intervallo di registrazione (secondi)</string>
+    <string name="gps_seconds_text">In 1 secondo, a 100 km/h, percorri circa 28 metri.</string>
 </resources>

@@ -280,4 +280,6 @@
     <string name="gps_recording_points_initial">GPSポイント数: 0</string>
     <string name="btn_share_gpx_file">GPXファイルを共有</string>
     <string name="tracks_folder_not_found">トラックフォルダが見つかりません</string>
+    <string name="gps_seconds_interval">記録間隔（秒）</string>
+    <string name="gps_seconds_text">時速100 kmで1秒間に約28 m進みます。</string>
 </resources>

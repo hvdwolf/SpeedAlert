@@ -289,4 +289,6 @@
     <string name="gps_recording_points_initial">Puncte GPS: 0</string>
     <string name="btn_share_gpx_file">Partajați fișierul(ele) GPX</string>
     <string name="tracks_folder_not_found">Dosarul cu trasee nu a fost găsit</string>
+    <string name="gps_seconds_interval">Interval de înregistrare (secunde)</string>
+    <string name="gps_seconds_text">La 100 km/h, parcurgi aproximativ 28 de metri într-o secundă.</string>
 </resources>

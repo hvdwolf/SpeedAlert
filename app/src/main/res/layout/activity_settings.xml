@@ -637,6 +637,35 @@
                     android:text="@string/start_gps_tracking_on_service_start"
                     android:layout_marginTop="8dp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:id="@+id/txtGpsSecondsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gps_seconds_interval"
+                        android:layout_marginEnd="12dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerGPSInterval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+                        android:padding="4dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/txtGpsIntervalTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gps_seconds_text"
+                    android:layout_marginEnd="12dp" />
+
+
             </LinearLayout>
 
 

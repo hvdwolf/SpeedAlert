@@ -289,4 +289,6 @@
     <string name="gps_recording_points_initial">Punkty GPS: 0</string>
     <string name="btn_share_gpx_file">Udostępnij plik(i) GPX</string>
     <string name="tracks_folder_not_found">Nie znaleziono folderu ze śladami</string>
+    <string name="gps_seconds_interval">Interwał rejestrowania (sekundy)</string>
+    <string name="gps_seconds_text">Przy 100 km/h w ciągu 1 sekundy pokonujesz około 28 metrów.</string>
 </resources>
