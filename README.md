@@ -21,13 +21,13 @@ Speed cameras absolutely need you to download the speed-camera database.<br>
 Both types of databases can be downloaded from within the app.
 
 
-
+The app does:
 * use the [Overpass Api](https://wiki.openstreetmap.org/wiki/Overpass_API) from the [OpenStreetMap](https://openstreetmap.org) database to get speed limits for the relevant part of the road you are driving on.
-* use a speed limit database that you can download for much faster and more reliable results.
+* use a speed limit database and/or speed camaera database that you can download for much faster and more reliable results.
 
 Note that this app will only work if the GPS location is accurate and the road has assigned speed limits in the [OpenStreetMap](https://openstreetmap.org) database, but it will work world-wide as long as the street has an assigned speed limit.<br><br>
 **Since version 2.0** it also has an option for speed cameras. These only work with downloaded speed camera databases. **Note:** It is not allowed to use speed camera databases in several countries. Despite the fact that these databases might be downloadable, you are the only person responsible for installing them, or not.<br><br>
-This app is 70% made with AI (MS CoPilot) and 30% by "me, myself and I".<br><br>
+You are not allowed to used speed camera warnings and data in the following countries: Germany, Switserland, Liechtenstein, Turkey, Cyprus, Macedonia, Bosnia-Herzegovina, Ireland and slovakia. Note also that some countries have "limitations" where and how you are allowed to use them.
 
 ### Note: You use this app entirely at your own risk. I am not responsible for incorrect functioning or incorrect use of the app. All responsibility for use, or incorrect use, lies entirely with you! Always follow the specified (temporary) speed limits and drive responsibly. Only use speed camera databases in countries where it is allowed.
 
@@ -71,7 +71,7 @@ The app should run on Android 10 to 16, but I only tested on my DuDu7 running An
 *(Technically it should also run on mtcd/mtce type units, all fyt units, all QCM6125/QCM6490 (Joying) units and TS10/TS18 units, and actually any Android device as of Android 10+)*
 
 ## Translations
-I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, de, es, fr, it, kr, nl, pl, pt, ru, uk, zh-rCN and zh-rTW.<br>
+I used MS CoPilot to do an automatic translation of the strings. The default language is (US) English. Other abbreviated languages are (so far): us, de, es, fr, it, ko, nl, pl, pt, ru, uk, zh-rCN and zh-rTW.<br>
 If you want to have it in your own language, you need to download the [strings.xml](https://github.com/hvdwolf/SpeedAlert/blob/branch/main/app/src/main/res/values/strings.xml), and translate it (note the multi-line disclaimer and the dialog_fyt_message) and send it back to me. A good advice might be to select and copy the entire text and tell chatgpt, ms copilot, gemini or whatever AI tool to "translate the following strings.xml to *my language*"  and then copy the text behind it. It saves you a lot of typing. Only some correcting if necessary.<br>
 If you think your language is badly translated, download the strings.xml from your country folder [values-xx](https://github.com/hvdwolf/SpeedAlert/src/branch/main/app/src/main/res) and improve the translation, and in case of unclear translations, also download the US English version to compare. _(I think it did a pretty nice job for my own Dutch language. I only needed to change 1 string)_
 
