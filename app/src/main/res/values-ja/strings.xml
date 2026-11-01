@@ -241,6 +241,7 @@
     <string name="header_fetching">制限速度の取得</string>
     <string name="header_fetchingDB">制限速度データベースをダウンロード</string>
     <string name="header_advanced">詳細設定</string>
+    <string name="header_gps">GPSロガー</string>
 
     <string name="beep_once_title">速度超過時に1回だけ警告音を鳴らす</string>
 
@@ -267,5 +268,16 @@
     <string name="select_audio_output_channel">音声出力チャンネルを選択</string>
     <string name="pref_speak_tts_speedcam_warning">TTSで速度取締カメラの警告を読み上げる</string>
     <string name="pref_test_tts">TTS出力をテスト</string>
+    <string name="speak_once_title">スピードカメラに接近した際、警告音声を1回だけ再生する</string>
 
+    <string name="start_gps_recording">GPS記録を開始</string>
+    <string name="stop_gps_recording">GPS記録を停止</string>
+    <string name="gps_recording_active">GPS記録中</string>
+    <string name="gps_recording_stopped">GPS記録停止中</string>
+    <string name="start_gps_tracking_on_service_start">SpeedAlertサービスの起動時にGPS記録を自動開始する</string>
+    <string name="gps_recording_points">GPSポイント数: %1$d</string>
+    <string name="gps_recording_points_saved">保存されたGPSポイント数: %1$d</string>
+    <string name="gps_recording_points_initial">GPSポイント数: 0</string>
+    <string name="btn_share_gpx_file">GPXファイルを共有</string>
+    <string name="tracks_folder_not_found">トラックフォルダが見つかりません</string>
 </resources>

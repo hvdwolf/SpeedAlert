@@ -250,6 +250,7 @@
     <string name="header_fetching">Snelheidslimiet ophalen</string>
     <string name="header_fetchingDB">Snelheidslimietdatabases downloaden</string>
     <string name="header_advanced">Geavanceerd</string>
+    <string name="header_gps">GPS-recorder</string>
 
     <string name="beep_once_title">Bij overschrijding slechts één keer piepen</string>
 

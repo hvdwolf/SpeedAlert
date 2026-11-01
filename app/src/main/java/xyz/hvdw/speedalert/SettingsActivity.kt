@@ -153,6 +153,12 @@ class SettingsActivity : AppCompatActivity() {
             arrow = findViewById(R.id.arrowAdvanced)
         )
 
+        setupExpandableSection(
+            header = findViewById(R.id.headerGPS),
+            section = findViewById(R.id.sectionGPS),
+            arrow = findViewById(R.id.arrowGPS)
+        )
+
         // ---------------------------------------------------------
         // FIND VIEWS
         // ---------------------------------------------------------

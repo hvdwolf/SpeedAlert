@@ -595,6 +595,52 @@
         </LinearLayout>
 
         <!-- ===================================================== -->
+        <!-- GPS logger                                              -->
+        <!-- ===================================================== -->
+        <LinearLayout
+            android:id="@+id/headerGPS"
+            android:textColor="@color/settingsHeaderText"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@color/settingsHeaderBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/header_gps"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/arrowGPS"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:tint="@color/settingsHeaderText"
+                android:src="@drawable/ic_arrow_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sectionGPS"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:visibility="gone">
+
+                <Switch
+                    android:id="@+id/swAutoStartGpsRecording"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/start_gps_tracking_on_service_start"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+
+
+        <!-- ===================================================== -->
         <!-- ADVANCED                                               -->
         <!-- ===================================================== -->
         <LinearLayout
@@ -658,13 +704,6 @@
                     android:layout_marginStart="30dp"
                     android:visibility="gone" />
             </LinearLayout>
-
-            <Switch
-                android:id="@+id/swAutoStartGpsRecording"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/start_gps_tracking_on_service_start"
-                android:layout_marginTop="8dp" />
 
         </LinearLayout>
 

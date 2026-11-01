@@ -250,6 +250,7 @@
     <string name="header_fetching">Récupération des limitations</string>
     <string name="header_fetchingDB">Télécharger les bases de données des limitations de vitesse</string>
     <string name="header_advanced">Avancé</string>
+    <string name="header_gps">Enregistreur GPS</string>
 
     <string name="beep_once_title">Émettre un seul bip en cas de survitesse</string>
 

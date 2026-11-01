@@ -250,6 +250,7 @@
     <string name="header_fetching">Получение ограничения скорости</string>
     <string name="header_fetchingDB">Скачать базы данных ограничений скорости</string>
     <string name="header_advanced">Дополнительно</string>
+    <string name="header_gps">GPS-регистратор</string>
 
     <string name="beep_once_title">Подавать сигнал только один раз при превышении скорости</string>
 
