@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ========================================================= -->
+    <!-- App -->
+    <!-- ========================================================= -->
+    <string name="app_name">SpeedAlert</string>
+
+    <!-- ========================================================= -->
+    <!-- Disclaimer -->
+    <!-- ========================================================= -->
+    <string name="disclaimer_header">免責事項</string>
+    <string name="disclaimer_body">
+        このアプリケーションの誤動作または誤使用について、私は一切の責任を負いません。
+        このアプリケーションはGPSデータに基づいて速度警告を提供します。精度は、端末、環境、GPS信号の品質によって変化する場合があります。
+        常に設定された速度制限（臨時の速度制限を含む）を守り、責任を持って運転してください。
+    </string>
+
+    <!-- ========================================================= -->
+    <!-- Main UI Labels -->
+    <!-- ========================================================= -->
+    <string name="speed_value_placeholder">速度: --</string>
+    <string name="limit_value_placeholder">制限速度: --</string>
+    <string name="status_value_placeholder">状態: --</string>
+
+    <string name="speed_value">速度: %1$d km/h</string>
+    <string name="limit_value">制限速度: %1$d km/h</string>
+    <string name="status_value">状態: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Switches -->
+    <!-- ========================================================= -->
+    <string name="show_overlay">フローティング速度計を表示</string>
+    <string name="enable_broadcast">メディアブロードキャストを有効にする</string>
+    <string name="switch_use_mph">GPS速度にmphを使用する</string>
+
+    <!-- Overspeed mode -->
+    <string name="overspeed_mode_percentage">超過速度をパーセントで設定する</string>
+    <string name="overspeed_mode_fixed">超過速度を固定値（km/h）で設定する</string>
+
+    <!-- ========================================================= -->
+    <!-- Buttons -->
+    <!-- ========================================================= -->
+    <string name="start_service">サービスを開始</string>
+    <string name="stop_service">サービスを停止</string>
+    <string name="btn_check_overlay">オーバーレイ権限を確認</string>
+    <string name="btn_debug_screen">デバッグ画面</string>
+    <string name="btn_diagnostics">診断</string>
+    <string name="btn_test_lookup">制限速度検索をテスト</string>
+
+    <!-- ========================================================= -->
+    <!-- EditText hints -->
+    <!-- ========================================================= -->
+    <string name="hint_latitude">緯度</string>
+    <string name="hint_longitude">経度</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay -->
+    <!-- ========================================================= -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_mph">mph</string>
+    <string name="overlay_limit_prefix">制限速度:</string>
+    <string name="overlay_no_gps">GPSなし</string>
+    <string name="overlay_no_limit">-</string>
+
+    <!-- ========================================================= -->
+    <!-- Notifications -->
+    <!-- ========================================================= -->
+    <string name="channel_name">速度モニター</string>
+    <string name="channel_description">走行中の現在速度と制限速度を表示します</string>
+
+    <string name="notif_running_title">速度モニターが有効です</string>
+    <string name="notif_running_text">制限速度を更新しています…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission -->
+    <!-- ========================================================= -->
+    <string name="overlay_permission_granted">オーバーレイ権限が許可されています</string>
+    <string name="overlay_permission_missing">オーバーレイ権限がありません</string>
+    <string name="overlay_permission_ok">オーバーレイ権限OK</string>
+
+    <!-- ========================================================= -->
+    <!-- Overspeed settings -->
+    <!-- ========================================================= -->
+
+    <!-- Percentage mode -->
+    <string name="overspeed_label_percent">超過許容値: %1$d%%</string>
+    <string name="overspeed_saved_percent">パーセント超過値を保存しました: %1$d%%</string>
+
+    <!-- Fixed km/h mode -->
+    <string name="overspeed_label_fixed">超過速度: %1$d km/h</string>
+    <string name="overspeed_saved_fixed">超過速度を保存しました: %1$d km/h</string>
+
+    <!-- ========================================================= -->
+    <!-- Test lookup -->
+    <!-- ========================================================= -->
+    <string name="enter_valid_latlon">正しい緯度と経度を入力してください</string>
+    <string name="test_lookup_result">テスト結果: %1$s（%2$f,%3$f）</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS status -->
+    <!-- ========================================================= -->
+    <string name="gps_accuracy">GPS精度: %.1f m</string>
+    <string name="gps_waiting">GPSを待機しています…</string>
+
+    <!-- ========================================================= -->
+    <!-- Overlay permission dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_overlay_title">オーバーレイ権限が必要です</string>
+    <string name="dialog_overlay_message">SpeedAlertではフローティング速度計を表示するためにオーバーレイ権限が必要です。</string>
+    <string name="dialog_grant">許可</string>
+    <string name="dialog_cancel">キャンセル</string>
+
+    <!-- ========================================================= -->
+    <!-- FYT help dialog -->
+    <!-- ========================================================= -->
+    <string name="dialog_fyt_title">オーバーレイ権限（FYT）</string>
+    <string name="dialog_fyt_message"><![CDATA[
+    お使いのFYT端末では、オーバーレイ権限の設定画面が非表示になっています。
+
+    オーバーレイを有効にするには:
+    1. 工場設定を開きます
+    2. パスワード「3368」または「8888」を入力します
+    3. 「アプリの権限」または「オーバーレイアプリ」を探します
+    4. SpeedAlertのオーバーレイを有効にします
+
+    それでもオーバーレイが機能しない場合は、端末を再起動してください。
+    ]]></string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- ========================================================= -->
+    <!-- GPS permission -->
+    <!-- ========================================================= -->
+    <string name="gps_permission_granted">GPS権限が許可されています</string>
+    <string name="gps_permission_denied">GPS権限が拒否されました</string>
+
+    <!-- ========================================================= -->
+    <!-- Debug Screen -->
+    <!-- ========================================================= -->
+    <string name="btn_copy_log">ログをコピー</string>
+    <string name="btn_share_log">ログを共有</string>
+    <string name="btn_empty_log">ログを消去</string>
+
+    <!-- ========================================================= -->
+    <!-- Diagnostics screen -->
+    <!-- ========================================================= -->
+    <string name="diag_test_raw_overpass">RAW Overpassをテスト</string>
+    <string name="diag_test_web_overpass">WebView Overpassをテスト</string>
+    <string name="diag_test_raw_nominatim">RAW Nominatimをテスト</string>
+    <string name="diag_test_web_nominatim">WebView Nominatimをテスト</string>
+    <string name="diag_show_raw_overpass">OverpassのRAWレスポンスを表示</string>
+    <string name="diag_show_last_location">最後の位置情報を表示</string>
+    <string name="diag_show_network_type">ネットワークの種類を表示</string>
+
+    <!-- ========================================================= -->
+    <!-- Logfile operations -->
+    <!-- ========================================================= -->
+    <string name="logfile_not_exist">ログファイルはまだ存在しません</string>
+    <string name="logfile_copied">/sdcard/SpeedAlert/speedalert.log にコピーしました</string>
+    <string name="logfile_copy_failed">コピーに失敗しました: %1$s</string>
+
+    <string name="share_logfile_title">ログファイルを共有</string>
+    <string name="logfile_share_failed">送信に失敗しました: %1$s</string>
+
+    <string name="logfile_emptied">ログファイルを消去しました</string>
+    <string name="logfile_empty_failed">消去に失敗しました: %1$s</string>
+
+    <!-- ========================================================= -->
+    <!-- Service Notification -->
+    <!-- ========================================================= -->
+    <string name="notif_channel_name">SpeedAlertサービス</string>
+    <string name="notif_channel_description">走行中もSpeedAlertを動作させます</string>
+
+    <string name="notif_service_running_title">SpeedAlertが動作中</string>
+    <string name="notif_service_running_text">速度と制限速度を監視しています…</string>
+
+
+    <!-- ========================================================= -->
+    <!-- Strings added after 1.0 -->
+    <!-- ========================================================= -->
+
+    <!-- Beep volume label, slider and test button -->
+    <string name="beep_volume_label">警告音量: %1$d%%</string>
+    <string name="beep_volume_test">テスト</string>
+    <string name="beep_volume_prefix">警告音量:</string>
+
+    <string name="debug_log_title">デバッグログ</string>
+    <string name="overlay_text_brightness">オーバーレイ文字の明るさ</string>
+
+    <string name="speedo_size_title">オーバーレイ文字サイズ</string>
+
+    <string name="btn_settings">設定</string>
+    <string name="settings_title">設定</string>
+
+    <string name="switch_use_mph_readme">必ずお読みください！</string>
+
+    <string name="mph_info_title">km/hとmphについて</string>
+
+    <string name="mph_info_message">
+    SpeedAlertでは、GPS速度と制限速度の両方を変換できます。\n\n
+    • km/hを使用する国で走行していてmphを選択した場合、両方の値が変換されます。\n
+    • mphを使用する国で走行していてkm/hを選択した場合、両方の値が変換されます。\n
+    • 選択した単位がその国で使用されている単位と一致する場合、変換は行われません。\n\n
+    これにより、表示は常に選択した単位に合わせられます。
+    </string>
+
+    <string name="btn_about">このアプリについて</string>
+    <string name="about_title">SpeedAlertについて</string>
+    <string name="about_description">このアプリは、GPSデータと道路情報を使用して速度制限を守るためのサポートを行います。</string>
+
+    <string name="start_service_on_open">SpeedAlert起動時にサービスを開始</string>
+
+    <string name="minimize_on_start">アプリを最小化</string>
+
+    <string name="update_available_title">新しいバージョンがあります</string>
+    <string name="update_available_message">新しいバージョン（%1$s）が利用可能です。\n\nダウンロードページを開きますか？</string>
+    <string name="update_available_open">開く</string>
+    <string name="update_available_cancel">キャンセル</string>
+
+    <string name="use_country_fallback">maxspeedタグがない場合、国の標準速度を使用する</string>
+
+    <string name="use_sign_overlay">道路標識スタイルで速度を表示する</string>
+    <string name="use_text_overlay">テキスト形式で速度を表示する</string>
+
+
+    <string name="beep_muted">警告音をオフにしました</string>
+    <string name="beep_unmuted">警告音をオンにしました</string>
+
+    <string name="settings_transparency_label">オーバーレイの透明度</string>
+    <string name="settings_preview_label">プレビュー</string>
+
+    <string name="camera_alert">速度取締カメラまであと%1$dメートル</string>
+
+    <string name="show_mute_button_title">オーバーレイにスピーカー／ミュートボタンを表示</string>
+    <string name="show_mute_button_summary">無効にすると、オーバーレイは常に警告音を鳴らし、ミュートアイコンは非表示になります</string>
+
+    <string name="header_overlay">オーバーレイ設定</string>
+    <string name="header_speed_units">速度と単位</string>
+    <string name="header_overspeed">速度超過警告</string>
+    <string name="header_audio">オーディオ</string>
+    <string name="header_fetching">制限速度の取得</string>
+    <string name="header_fetchingDB">制限速度データベースをダウンロード</string>
+    <string name="header_advanced">詳細設定</string>
+
+    <string name="beep_once_title">速度超過時に1回だけ警告音を鳴らす</string>
+
+    <string name="fetching_info">
+    ローカルデータベースを使用する場合、ネットワークの使用量はほとんどありません。そのため、制限速度の取得間隔を2秒、最小距離を0メートルに設定できます。
+    </string>
+
+    <string name="download_databases"><![CDATA[
+    <a href="https://github.com/hvdwolf/SpeedAlert_Databases/tags">データベースをダウンロード</a>
+]]></string>
+    <string name="install_database"><![CDATA[<a href="#">データベースをインストール</a>]]></string>
+    <string name="select_7z_db">.7zデータベースファイルを選択してください</string>
+    <string name="extraction_failed">解凍に失敗しました</string>
+    <string name="media_access_failed">メディアディレクトリにアクセスできません</string>
+    <string name="database_installed">データベースをインストールしました: %1$s</string>
+    <string name="download_install_database">データベースをダウンロードしてインストール</string>
+
+    <string name="disp_current_speed_label">現在の速度を表示しますか？</string>
+    <string name="show_current_speed">現在の速度を表示</string>
+    <string name="show_current_speed_when_overspeeding">速度超過時のみ表示</string>
+    <string name="hide_current_speed">現在の速度を表示しない</string>
+    <string name="switch_show_units">現在の速度を表示するときに単位（km/hまたはmph）を表示</string>
+
+    <string name="select_audio_output_channel">音声出力チャンネルを選択</string>
+    <string name="pref_speak_tts_speedcam_warning">TTSで速度取締カメラの警告を読み上げる</string>
+    <string name="pref_test_tts">TTS出力をテスト</string>
+
+</resources>
