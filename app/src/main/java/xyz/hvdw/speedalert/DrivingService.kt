@@ -1,8 +1,10 @@
 package xyz.hvdw.speedalert
 
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -22,6 +24,7 @@ import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import android.util.Log
 import kotlinx.coroutines.*
 import kotlin.math.roundToInt
 
@@ -198,6 +201,18 @@ class DrivingService : Service() {
         scope.launch {
             mainLoop()
         }
+
+        //----- Register receiver for the ACCOFF broadcast
+        val filter = IntentFilter().apply {
+            addAction("com.fyt.boot.ACCOFF")
+            addAction("com.fyt.boot.ACCON")
+        }
+
+        registerReceiver(
+            accReceiver,
+            filter,
+            Context.RECEIVER_EXPORTED
+        )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -233,6 +248,12 @@ class DrivingService : Service() {
 
         stopForeground(STOP_FOREGROUND_REMOVE)
         scope.cancel()
+
+        try {
+            unregisterReceiver(accReceiver)
+        } catch (e: IllegalArgumentException) {
+            Log.w("SpeedAlert", "ACC receiver was not registered", e)
+        }
 
         log("Service: destroyed")
         super.onDestroy()
@@ -980,8 +1001,16 @@ class DrivingService : Service() {
         }
     }
 
+
     private fun stopGpsRecording() {
         try {
+
+            // Voorkom dubbel afsluiten
+            if (!gpsTrackRecorder.isRecording()) {
+                log("GPS track recording already stopped")
+                return
+            }
+
             // Bewaar het aantal punten voordat stop() de teller reset.
             lastGpsRecordingPointCount = gpsTrackRecorder.getPointCount()
 
@@ -1026,4 +1055,39 @@ class DrivingService : Service() {
         })
     }
 
+    //------- Listen to ACCOFF broadcast to nicely close GPX logger
+    private val accReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+
+            when (intent.action) {
+
+                "com.fyt.boot.ACCOFF" -> {
+                    Log.i(
+                        "SpeedAlert",
+                        "FYT ACCOFF ontvangen: contact uit"
+                    )
+
+                    // GPX-logger netjes afsluiten
+                    if (::gpsTrackRecorder.isInitialized &&
+                        gpsTrackRecorder.isRecording()) {
+
+                        log("FYT ACCOFF: stopping GPS recording")
+
+                        stopGpsRecording()
+
+                        } else {
+                            log("FYT ACCOFF: GPS recording was not active")
+                        }
+                }
+
+                "com.fyt.boot.ACCON" -> {
+                    Log.i(
+                        "SpeedAlert",
+                        "FYT ACCON ontvangen: contact aan"
+                    )
+                }
+            }
+        }
+    }
 }
