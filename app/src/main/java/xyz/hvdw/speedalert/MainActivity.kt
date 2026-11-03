@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
         btnAbout.setOnClickListener {
             Log.e("ABOUT", "CLICKED")
-            Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
             showAboutDialog() }
 
 
