@@ -280,4 +280,5 @@
     <string name="tracks_folder_not_found">Tracks-Ordner nicht gefunden</string>
     <string name="gps_seconds_interval">Aufzeichnungsintervall (Sekunden)</string>
     <string name="gps_seconds_text">In 1 Sekunde legst du bei 100 km/h etwa 28 Meter zurück.</string>
+    <string name="btn_delete_gpx_files">GPX-Datei(en) löschen</string>
 </resources>

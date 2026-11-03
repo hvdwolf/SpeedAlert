@@ -287,4 +287,5 @@
     <string name="tracks_folder_not_found">未找到轨迹文件夹</string>
     <string name="gps_seconds_interval">记录间隔（秒）</string>
     <string name="gps_seconds_text">以每小时 100 公里的速度，1 秒钟大约行驶 28 米。</string>
+    <string name="btn_delete_gpx_files">删除 GPX 文件</string>
 </resources>

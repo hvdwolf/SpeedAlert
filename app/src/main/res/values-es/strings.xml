@@ -291,4 +291,5 @@
     <string name="tracks_folder_not_found">No se encontró la carpeta de tracks</string>
     <string name="gps_seconds_interval">Intervalo de grabación (segundos)</string>
     <string name="gps_seconds_text">En 1 segundo, a 100 km/h, recorres aproximadamente 28 metros.</string>
+    <string name="btn_delete_gpx_files">Eliminar archivo(s) GPX</string>
 </resources>

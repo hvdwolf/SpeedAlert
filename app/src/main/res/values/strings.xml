@@ -287,4 +287,5 @@
     <string name="tracks_folder_not_found">Tracks folder not found</string>
     <string name="gps_seconds_interval">Recording interval (seconds)</string>
     <string name="gps_seconds_text">in 1 second at 100 kmh (~ 62 mph), you travel approximately 28 m</string>
+    <string name="btn_delete_gpx_files">Delete GPX file(s)</string>
 </resources>

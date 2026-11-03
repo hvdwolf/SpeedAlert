@@ -291,4 +291,5 @@
     <string name="tracks_folder_not_found">Папка с треками не найдена</string>
     <string name="gps_seconds_interval">Интервал записи (секунды)</string>
     <string name="gps_seconds_text">При скорости 100 км/ч за 1 секунду вы проезжаете около 28 метров.</string>
+    <string name="btn_delete_gpx_files">Удалить файл(ы) GPX</string>
 </resources>

@@ -121,13 +121,31 @@
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="@string/stop_gps_recording" />
-                </LinearLayout>
-            <Button
-                android:id="@+id/btnShareGpx"
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@string/btn_share_gpx_file" />
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnShareGpx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/btn_share_gpx_file" />
+
+                <Button
+                    android:id="@+id/btnDeleteGpx"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/btn_delete_gpx_files" />
+
+                </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

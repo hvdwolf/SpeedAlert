@@ -285,4 +285,5 @@
     <string name="tracks_folder_not_found">Pasta de percursos não encontrada</string>
     <string name="gps_seconds_interval">Intervalo de gravação (segundos)</string>
     <string name="gps_seconds_text">A 100 km/h, percorres cerca de 28 metros em 1 segundo.</string>
+    <string name="btn_delete_gpx_files">Eliminar ficheiro(s) GPX</string>
 </resources>

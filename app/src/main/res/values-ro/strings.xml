@@ -291,4 +291,5 @@
     <string name="tracks_folder_not_found">Dosarul cu trasee nu a fost găsit</string>
     <string name="gps_seconds_interval">Interval de înregistrare (secunde)</string>
     <string name="gps_seconds_text">La 100 km/h, parcurgi aproximativ 28 de metri într-o secundă.</string>
+    <string name="btn_delete_gpx_files">Șterge fișierul/fișierele GPX</string>
 </resources>

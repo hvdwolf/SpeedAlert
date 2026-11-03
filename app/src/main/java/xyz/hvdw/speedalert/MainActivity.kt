@@ -10,10 +10,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.provider.DocumentsContract
 import android.provider.Settings
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -24,6 +26,7 @@ import java.net.HttpURLConnection
 import org.json.JSONObject
 import android.util.Log
 import kotlin.math.roundToInt
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnDebug: Button
     private lateinit var btnAbout: Button
     private lateinit var btnShareGpx: Button
+    private lateinit var btnDeleteGpx: Button
 
     private lateinit var settings: SettingsManager
     private var defaultTextColor: Int = 0
@@ -74,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         txtGpsRecordingStatus = findViewById(R.id.txtGpsRecordingStatus)
         txtGpsRecordingPoints = findViewById(R.id.txtGpsRecordingPoints)
         btnShareGpx = findViewById(R.id.btnShareGpx)
+        btnDeleteGpx = findViewById(R.id.btnDeleteGpx)
 
 
         defaultTextColor = txtSpeed.currentTextColor
@@ -162,8 +167,23 @@ class MainActivity : AppCompatActivity() {
         // AUTO-START + MINIMIZE
         // ---------------------------------------------------------
         maybeAutoStartService()
+
+
+        btnDeleteGpx.setOnClickListener {
+            val initialUri = DocumentsContract.buildDocumentUri(
+                "com.android.externalstorage.documents",
+                "primary:Android/media/xyz.hvdwolf.speedalert/tracks"
+            )
+
+            selectGpxFolder.launch(initialUri)
+        }
+
+    // End of onCreate()
     }
 
+    // ---------------------------------------------------------
+    // GPX functionality
+    // ---------------------------------------------------------
     private val gpsRecordingReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action != DrivingService.ACTION_GPS_RECORDING_STATUS) return
@@ -602,5 +622,109 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
     }
+
+    private fun deleteGpxFiles(treeUri: Uri) {
+        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
+            treeUri,
+            DocumentsContract.getTreeDocumentId(treeUri)
+        )
+
+        val gpxFiles = mutableListOf<Pair<String, Uri>>()
+
+        contentResolver.query(
+            childrenUri,
+            arrayOf(
+                DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                DocumentsContract.Document.COLUMN_DISPLAY_NAME
+            ),
+            null,
+            null,
+            null
+        )?.use { cursor ->
+
+            while (cursor.moveToNext()) {
+                val id = cursor.getString(0)
+                val name = cursor.getString(1)
+
+                if (name.endsWith(".gpx", ignoreCase = true)) {
+                    val fileUri =
+                    DocumentsContract.buildDocumentUriUsingTree(
+                        treeUri,
+                        id
+                    )
+
+                    gpxFiles.add(name to fileUri)
+                }
+            }
+        }
+
+        if (gpxFiles.isEmpty()) {
+            Toast.makeText(
+                this,
+                "No GPX files found",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            return
+        }
+
+        AlertDialog.Builder(this)
+        .setTitle("Delete GPX files")
+        .setMessage("Delete all ${gpxFiles.size} GPX files?")
+        .setNegativeButton(android.R.string.cancel, null)
+        .setPositiveButton("Delete") { _, _ ->
+
+            var deleted = 0
+
+            for ((_, uri) in gpxFiles) {
+                try {
+                    if (DocumentsContract.deleteDocument(
+                        contentResolver,
+                        uri
+                    )
+                    ) {
+                        deleted++
+                    }
+                } catch (e: Exception) {
+                    Log.e("DeleteGPX", "Failed to delete $uri", e)
+                }
+            }
+
+            Toast.makeText(
+                this,
+                "$deleted GPX files deleted",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        .show()
+    }
+
+    private val selectGpxFolder =
+    registerForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri ->
+        if (uri != null) {
+            try {
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+
+                deleteGpxFiles(uri)
+
+            } catch (e: Exception) {
+                Log.e("DeleteGPX", "Failed to access GPX folder", e)
+
+                Toast.makeText(
+                    this,
+                    "Could not access GPX folder",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+
 
 }

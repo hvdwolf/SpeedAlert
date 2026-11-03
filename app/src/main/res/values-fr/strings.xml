@@ -292,4 +292,5 @@
     <string name="tracks_folder_not_found">Dossier des traces introuvable</string>
     <string name="gps_seconds_interval">Intervalle d’enregistrement (secondes)</string>
     <string name="gps_seconds_text">En 1 seconde, à 100 km/h, vous parcourez environ 28 mètres.</string>
+    <string name="btn_delete_gpx_files">Supprimer le(s) fichier(s) GPX</string>
 </resources>

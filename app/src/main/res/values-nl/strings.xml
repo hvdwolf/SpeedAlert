@@ -291,4 +291,5 @@
     <string name="tracks_folder_not_found">Tracksmap niet gevonden</string>
     <string name="gps_seconds_interval">Registratie-interval (seconden)</string>
     <string name="gps_seconds_text">Bij 100 km/u leg je in 1 seconde ongeveer 28 meter af.</string>
+    <string name="btn_delete_gpx_files">GPX-bestand(en) verwijderen</string>
 </resources>
