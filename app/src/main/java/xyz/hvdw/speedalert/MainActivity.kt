@@ -20,11 +20,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import java.io.File
 import java.net.URL
 import java.net.HttpURLConnection
 import org.json.JSONObject
 import android.util.Log
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
@@ -87,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         // BUTTONS
         // ---------------------------------------------------------
         btnStart.setOnClickListener {
-            //startService(Intent(this, DrivingService::class.java))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(Intent(this, DrivingService::class.java))
             } else {
@@ -116,14 +117,12 @@ class MainActivity : AppCompatActivity() {
             } else {
                 startService(intent)
             }
-            //txtGpsRecordingStatus.setText(R.string.gps_recording_active)
         }
 
         btnStopGpsRecording.setOnClickListener {
             val intent = Intent(this, DrivingService::class.java).apply {
                 action = DrivingService.ACTION_STOP_GPS_RECORDING
             }
-            //txtGpsRecordingStatus.setText(R.string.gps_recording_stopped)
             startService(intent)
         }
 
@@ -160,8 +159,11 @@ class MainActivity : AppCompatActivity() {
 
         gpsRecordingReceiverRegistered = true
 
-        // Check for new version
+        // Check for new app version
         checkForNewVersion()
+
+        // Check for new database versions
+        checkForDatabaseUpdates()
 
         // ---------------------------------------------------------
         // AUTO-START + MINIMIZE
@@ -290,7 +292,6 @@ class MainActivity : AppCompatActivity() {
 
 
         // Start the service
-        //startService(Intent(this, DrivingService::class.java))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(Intent(this, DrivingService::class.java))
         } else {
@@ -313,15 +314,6 @@ class MainActivity : AppCompatActivity() {
         val disclaimer_header = getString(R.string.disclaimer_header)
         val disclaimer = getString(R.string.disclaimer_body)
 
-/*        val message = """
-            SpeedAlert v$version
-            $author
-
-            $description
-
-            $disclaimer_header
-            $disclaimer
-        """.trimIndent() */
         val message =
             "SpeedAlert v$version\n" +
             "$author\n\n" +
@@ -532,6 +524,58 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+    private fun checkForDatabaseUpdates() {
+        lifecycleScope.launch {
+            val databases = mutableListOf<CountryDatabase>()
+
+            // Speed-limit databases
+            for (iso in eu_iso_codes +
+                asia_iso_codes +
+                americas_iso_codes +
+                africa_iso_codes +
+                australia_oceania_iso_codes) {
+
+                val file = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert/$iso.sqlite")
+
+                if (file.exists()) {
+                    databases.add(CountryDatabase(iso, file))
+                }
+                }
+
+                // Camera databases
+                for (iso in eu_iso_codes +
+                    asia_iso_codes +
+                    americas_iso_codes +
+                    africa_iso_codes +
+                    australia_oceania_iso_codes) {
+
+                    val file = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert/$iso-camera.sqlite")
+
+                    if (file.exists()) {
+                        databases.add(CountryDatabase(iso, file))
+                    }
+                    }
+
+                    val result = checkDatabaseUpdates(databases)
+
+                    if (result.updates.isNotEmpty()) {
+                        val countries = result.updates
+                        .map { it.isoCode.uppercase() }
+                        .distinct()
+                        .sorted()
+                        .joinToString(", ")
+
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(
+                                R.string.database_updates_available,
+                                countries
+                            ),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+        }
+    }
 
     private fun showUpdateDialog(latest: String) {
         AlertDialog.Builder(this)
@@ -581,7 +625,7 @@ class MainActivity : AppCompatActivity() {
         if (gpxFiles.isNullOrEmpty()) {
             Toast.makeText(
                 this,
-                "No GPX files found",
+                getString(R.string.no_gpx_files_found),
                 Toast.LENGTH_SHORT
             ).show()
             return
@@ -617,7 +661,7 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this,
-                "Could not share GPX files",
+                getString(R.string.gpx_sharing_impossible),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -661,7 +705,7 @@ class MainActivity : AppCompatActivity() {
         if (gpxFiles.isEmpty()) {
             Toast.makeText(
                 this,
-                "No GPX files found",
+                getString(R.string.no_gpx_files_found),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -669,10 +713,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         AlertDialog.Builder(this)
-        .setTitle("Delete GPX files")
-        .setMessage("Delete all ${gpxFiles.size} GPX files?")
+        .setTitle(getString(R.string.gpx_dialog_title))
+        .setMessage(getString(R.string.gpx_dialog_msg))
         .setNegativeButton(android.R.string.cancel, null)
-        .setPositiveButton("Delete") { _, _ ->
+        .setPositiveButton(getString(R.string.gpx_dialog_btn)) { _, _ ->
 
             var deleted = 0
 
@@ -692,7 +736,7 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(
                 this,
-                "$deleted GPX files deleted",
+                getString(R.string.gpx_files_deleted),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -718,7 +762,7 @@ class MainActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Could not access GPX folder",
+                    getString(R.string.no_access_to_gpx_folder),
                     Toast.LENGTH_LONG
                 ).show()
             }

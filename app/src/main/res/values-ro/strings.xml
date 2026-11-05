@@ -292,4 +292,12 @@
     <string name="gps_seconds_interval">Interval de înregistrare (secunde)</string>
     <string name="gps_seconds_text">La 100 km/h, parcurgi aproximativ 28 de metri într-o secundă.</string>
     <string name="btn_delete_gpx_files">Șterge fișierul/fișierele GPX</string>
+    <string name="gpx_sharing_impossible">Nu s-au putut partaja fișierele GPX</string>
+    <string name="no_gpx_files_found">Nu au fost găsite fișiere GPX</string>
+    <string name="gpx_dialog_title">Șterge fișierele GPX</string>
+    <string name="gpx_dialog_msg">Ștergeți toate cele %1$d fișiere GPX?</string>
+    <string name="gpx_dialog_btn">Șterge</string>
+    <string name="gpx_files_deleted">%1$d fișiere GPX șterse</string>
+    <string name="no_access_to_gpx_folder">Nu s-a putut accesa folderul GPX</string>
+    <string name="database_updates_available">Sunt disponibile actualizări ale bazelor de date pentru: %1$s</string>
 </resources>

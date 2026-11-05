@@ -292,4 +292,12 @@
     <string name="gps_seconds_interval">Интервал записи (секунды)</string>
     <string name="gps_seconds_text">При скорости 100 км/ч за 1 секунду вы проезжаете около 28 метров.</string>
     <string name="btn_delete_gpx_files">Удалить файл(ы) GPX</string>
+    <string name="gpx_sharing_impossible">Не удалось поделиться файлами GPX</string>
+    <string name="no_gpx_files_found">Файлы GPX не найдены</string>
+    <string name="gpx_dialog_title">Удаление файлов GPX</string>
+    <string name="gpx_dialog_msg">Удалить все файлы GPX (%1$d)?</string>
+    <string name="gpx_dialog_btn">Удалить</string>
+    <string name="gpx_files_deleted">Удалено файлов GPX: %1$d</string>
+    <string name="no_access_to_gpx_folder">Не удалось получить доступ к папке GPX</string>
+    <string name="database_updates_available">Доступны обновления баз данных для: %1$s</string>
 </resources>

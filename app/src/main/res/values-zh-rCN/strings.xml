@@ -288,4 +288,12 @@
     <string name="gps_seconds_interval">记录间隔（秒）</string>
     <string name="gps_seconds_text">以每小时 100 公里的速度，1 秒钟大约行驶 28 米。</string>
     <string name="btn_delete_gpx_files">删除 GPX 文件</string>
+    <string name="gpx_sharing_impossible">无法分享 GPX 文件</string>
+    <string name="no_gpx_files_found">未找到 GPX 文件</string>
+    <string name="gpx_dialog_title">删除 GPX 文件</string>
+    <string name="gpx_dialog_msg">确定要删除全部 %1$d 个 GPX 文件吗？</string>
+    <string name="gpx_dialog_btn">删除</string>
+    <string name="gpx_files_deleted">已删除 %1$d 个 GPX 文件</string>
+    <string name="no_access_to_gpx_folder">无法访问 GPX 文件夹</string>
+    <string name="database_updates_available">以下国家/地区有数据库更新：%1$s</string>
 </resources>

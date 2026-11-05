@@ -283,4 +283,12 @@
     <string name="gps_seconds_interval">記録間隔（秒）</string>
     <string name="gps_seconds_text">時速100 kmで1秒間に約28 m進みます。</string>
     <string name="btn_delete_gpx_files">GPXファイルを削除</string>
+    <string name="gpx_sharing_impossible">GPXファイルを共有できませんでした</string>
+    <string name="no_gpx_files_found">GPXファイルが見つかりません</string>
+    <string name="gpx_dialog_title">GPXファイルを削除</string>
+    <string name="gpx_dialog_msg">%1$d個のGPXファイルをすべて削除しますか？</string>
+    <string name="gpx_dialog_btn">削除</string>
+    <string name="gpx_files_deleted">%1$d個のGPXファイルを削除しました</string>
+    <string name="no_access_to_gpx_folder">GPXフォルダーにアクセスできませんでした</string>
+    <string name="database_updates_available">次のデータベースの更新が利用可能です: %1$s</string>
 </resources>

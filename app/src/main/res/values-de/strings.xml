@@ -281,4 +281,12 @@
     <string name="gps_seconds_interval">Aufzeichnungsintervall (Sekunden)</string>
     <string name="gps_seconds_text">In 1 Sekunde legst du bei 100 km/h etwa 28 Meter zurück.</string>
     <string name="btn_delete_gpx_files">GPX-Datei(en) löschen</string>
+    <string name="gpx_sharing_impossible">GPX-Dateien konnten nicht geteilt werden</string>
+    <string name="no_gpx_files_found">Keine GPX-Dateien gefunden</string>
+    <string name="gpx_dialog_title">GPX-Dateien löschen</string>
+    <string name="gpx_dialog_msg">Alle %1$d GPX-Dateien löschen?</string>
+    <string name="gpx_dialog_btn">Löschen</string>
+    <string name="gpx_files_deleted">%1$d GPX-Dateien gelöscht</string>
+    <string name="no_access_to_gpx_folder">Kein Zugriff auf den GPX-Ordner möglich</string>
+    <string name="database_updates_available">Datenbank-Updates verfügbar für: %1$s</string>
 </resources>

@@ -292,4 +292,12 @@
     <string name="gps_seconds_interval">Registratie-interval (seconden)</string>
     <string name="gps_seconds_text">Bij 100 km/u leg je in 1 seconde ongeveer 28 meter af.</string>
     <string name="btn_delete_gpx_files">GPX-bestand(en) verwijderen</string>
+    <string name="gpx_sharing_impossible">Kan GPX-bestanden niet delen</string>
+    <string name="no_gpx_files_found">Geen GPX-bestanden gevonden</string>
+    <string name="gpx_dialog_title">GPX-bestanden verwijderen</string>
+    <string name="gpx_dialog_msg">Alle %1$d GPX-bestanden verwijderen?</string>
+    <string name="gpx_dialog_btn">Verwijderen</string>
+    <string name="gpx_files_deleted">%1$d GPX-bestanden verwijderd</string>
+    <string name="no_access_to_gpx_folder">Geen toegang tot de GPX-map</string>
+    <string name="database_updates_available">Database-updates beschikbaar voor: %1$s</string>
 </resources>

@@ -293,4 +293,12 @@
     <string name="gps_seconds_interval">Intervalle d’enregistrement (secondes)</string>
     <string name="gps_seconds_text">En 1 seconde, à 100 km/h, vous parcourez environ 28 mètres.</string>
     <string name="btn_delete_gpx_files">Supprimer le(s) fichier(s) GPX</string>
+    <string name="gpx_sharing_impossible">Impossible de partager les fichiers GPX</string>
+    <string name="no_gpx_files_found">Aucun fichier GPX trouvé</string>
+    <string name="gpx_dialog_title">Supprimer les fichiers GPX</string>
+    <string name="gpx_dialog_msg">Supprimer les %1$d fichiers GPX ?</string>
+    <string name="gpx_dialog_btn">Supprimer</string>
+    <string name="gpx_files_deleted">%1$d fichiers GPX supprimés</string>
+    <string name="no_access_to_gpx_folder">Impossible d\'accéder au dossier GPX</string>
+    <string name="database_updates_available">Mises à jour des bases de données disponibles pour : %1$s</string>
 </resources>
