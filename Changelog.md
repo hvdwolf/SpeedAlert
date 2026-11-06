@@ -1,3 +1,20 @@
+
+**Changelog 2.5 (06-11-2026)**
+
+ - **GPS Logger**: As GPS-position, time, speed, elevation are needed for the app and therefore readily available, it was very logical to implement a GPS Logger with a new Settings section.
+      ![](https://github.com/hvdwolf/SpeedAlert/blob/main/images/Settings_gpx.png)
+ - Added new buttons on the main screen to start/stop gps logging, and share and delete the recorded GPX files.
+      ![](https://github.com/hvdwolf/SpeedAlert/blob/main/images/main_screen_2.5.png)
+ - Correct Korean language ISO-identifier
+ - Added Japanese language (**Big thanks to chihilock**)
+ - Added mechanism that warns when a database update is available for countries installed on your device. It will show a non-blocking toast.
+ - New database files created on 31 October (Europe) and 3 November (other regions)
+
+**Note:** You can share the GPX files from the app, but if you want to be in control yourself, you can use a file manager. Everything is stored in the media folder accessible for everyone. The databases are installed on internal memory inside "Android/media/xyz.hvdw.speedalert"  ("/storage/emulated/0/Android/media/xyz.hvdw.speedalert").
+The gpx files are in sub-folder "tracks".
+![](https://github.com/hvdwolf/SpeedAlert/blob/main/images/speedalert_folder.jpg)
+
+
 **Changelog 2.4 (25-10-2026)**
 
  - Resize text size when km/h or mph is 100 or above.
