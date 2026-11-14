@@ -299,5 +299,11 @@
     <string name="gpx_dialog_btn">Удалить</string>
     <string name="gpx_files_deleted">Удалено файлов GPX: %1$d</string>
     <string name="no_access_to_gpx_folder">Не удалось получить доступ к папке GPX</string>
+
     <string name="database_updates_available">Доступны обновления баз данных для: %1$s</string>
+    <string name="btn_check_updates">Проверить обновления</string>
+    <string name="checking_for_updates">Проверка обновлений…</string>
+    <string name="app_up_to_date">Приложение обновлено</string>
+    <string name="databases_up_to_date">Базы данных обновлены</string>
+    <string name="update_check_failed">Не удалось проверить обновления. Проверьте подключение к интернету.</string>
 </resources>

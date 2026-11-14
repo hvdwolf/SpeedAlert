@@ -288,5 +288,11 @@
     <string name="gpx_dialog_btn">Löschen</string>
     <string name="gpx_files_deleted">%1$d GPX-Dateien gelöscht</string>
     <string name="no_access_to_gpx_folder">Kein Zugriff auf den GPX-Ordner möglich</string>
+
     <string name="database_updates_available">Datenbank-Updates verfügbar für: %1$s</string>
+    <string name="btn_check_updates">Auf Updates prüfen</string>
+    <string name="checking_for_updates">Suche nach Updates…</string>
+    <string name="app_up_to_date">Die App ist auf dem neuesten Stand</string>
+    <string name="databases_up_to_date">Die Datenbanken sind auf dem neuesten Stand</string>
+    <string name="update_check_failed">Update-Prüfung fehlgeschlagen. Überprüfe deine Internetverbindung.</string>
 </resources>

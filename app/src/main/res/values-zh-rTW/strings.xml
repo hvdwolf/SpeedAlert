@@ -296,5 +296,11 @@
     <string name="gpx_dialog_btn">刪除</string>
     <string name="gpx_files_deleted">已刪除 %1$d 個 GPX 檔案</string>
     <string name="no_access_to_gpx_folder">無法存取 GPX 資料夾</string>
+
     <string name="database_updates_available">以下國家／地區有資料庫更新：%1$s</string>
+    <string name="btn_check_updates">檢查更新</string>
+    <string name="checking_for_updates">正在檢查更新…</string>
+    <string name="app_up_to_date">應用程式已是最新版本</string>
+    <string name="databases_up_to_date">資料庫已是最新</string>
+    <string name="update_check_failed">檢查更新失敗。請檢查網路連線。</string>
 </resources>

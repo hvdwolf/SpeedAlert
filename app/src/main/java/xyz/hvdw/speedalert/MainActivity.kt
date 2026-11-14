@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnAbout: Button
     private lateinit var btnShareGpx: Button
     private lateinit var btnDeleteGpx: Button
+    private lateinit var btnCheckUpdates: Button
 
     private lateinit var settings: SettingsManager
     private var defaultTextColor: Int = 0
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         txtGpsRecordingPoints = findViewById(R.id.txtGpsRecordingPoints)
         btnShareGpx = findViewById(R.id.btnShareGpx)
         btnDeleteGpx = findViewById(R.id.btnDeleteGpx)
+        btnCheckUpdates = findViewById(R.id.btnCheckUpdates)
 
 
         defaultTextColor = txtSpeed.currentTextColor
@@ -106,6 +108,12 @@ class MainActivity : AppCompatActivity() {
 
         btnDebug.setOnClickListener {
             startActivity(Intent(this, DebugActivity::class.java))
+        }
+
+        btnCheckUpdates.setOnClickListener {
+            Toast.makeText(this, getString(R.string.checking_for_updates), Toast.LENGTH_SHORT).show()
+            checkForNewVersion(manual = true)
+            checkForDatabaseUpdates(manual = true)
         }
 
         btnStartGpsRecording.setOnClickListener {
@@ -473,7 +481,7 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-   private fun checkForNewVersion() {
+    private fun checkForNewVersion(manual: Boolean = false) {
         Thread {
             try {
                 val url = URL("https://api.github.com/repos/hvdwolf/SpeedAlert/releases/latest")
@@ -496,13 +504,20 @@ class MainActivity : AppCompatActivity() {
                 val currentVersion = BuildConfig.VERSION_NAME.trim()
 
                 if (isNewerVersion(latestClean, currentVersion)) {
+                    runOnUiThread { showUpdateDialog(latestClean) }
+                } else if (manual) {
                     runOnUiThread {
-                        showUpdateDialog(latestClean)
+                        Toast.makeText(this, getString(R.string.app_up_to_date), Toast.LENGTH_SHORT).show()
                     }
                 }
 
             } catch (e: Exception) {
                 Log.e("UpdateCheck", "Failed to check update", e)
+                if (manual) {
+                    runOnUiThread {
+                        Toast.makeText(this, getString(R.string.update_check_failed), Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }.start()
     }
@@ -524,56 +539,53 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    private fun checkForDatabaseUpdates() {
+    private fun checkForDatabaseUpdates(manual: Boolean = false) {
         lifecycleScope.launch {
             val databases = mutableListOf<CountryDatabase>()
 
+            val allIsoCodes = eu_iso_codes +
+            asia_iso_codes +
+            americas_iso_codes +
+            africa_iso_codes +
+            australia_oceania_iso_codes
+
             // Speed-limit databases
-            for (iso in eu_iso_codes +
-                asia_iso_codes +
-                americas_iso_codes +
-                africa_iso_codes +
-                australia_oceania_iso_codes) {
-
+            for (iso in allIsoCodes) {
                 val file = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert/$iso.sqlite")
-
                 if (file.exists()) {
                     databases.add(CountryDatabase(iso, file))
                 }
+            }
+
+            // Camera databases
+            for (iso in allIsoCodes) {
+                val file = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert/$iso-camera.sqlite")
+                if (file.exists()) {
+                    databases.add(CountryDatabase(iso, file))
                 }
+            }
 
-                // Camera databases
-                for (iso in eu_iso_codes +
-                    asia_iso_codes +
-                    americas_iso_codes +
-                    africa_iso_codes +
-                    australia_oceania_iso_codes) {
+            val result = checkDatabaseUpdates(databases)
 
-                    val file = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert/$iso-camera.sqlite")
+            if (result.updates.isNotEmpty()) {
+                val countries = result.updates
+                .map { it.isoCode.uppercase() }
+                .distinct()
+                .sorted()
+                .joinToString(", ")
 
-                    if (file.exists()) {
-                        databases.add(CountryDatabase(iso, file))
-                    }
-                    }
-
-                    val result = checkDatabaseUpdates(databases)
-
-                    if (result.updates.isNotEmpty()) {
-                        val countries = result.updates
-                        .map { it.isoCode.uppercase() }
-                        .distinct()
-                        .sorted()
-                        .joinToString(", ")
-
-                        Toast.makeText(
-                            this@MainActivity,
-                            getString(
-                                R.string.database_updates_available,
-                                countries
-                            ),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.database_updates_available, countries),
+                               Toast.LENGTH_LONG
+                ).show()
+            } else if (manual) {
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.databases_up_to_date),
+                               Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

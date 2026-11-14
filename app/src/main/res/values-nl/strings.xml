@@ -299,5 +299,11 @@
     <string name="gpx_dialog_btn">Verwijderen</string>
     <string name="gpx_files_deleted">%1$d GPX-bestanden verwijderd</string>
     <string name="no_access_to_gpx_folder">Geen toegang tot de GPX-map</string>
+
     <string name="database_updates_available">Database-updates beschikbaar voor: %1$s</string>
+    <string name="btn_check_updates">Check op updates</string>
+    <string name="checking_for_updates">Controleren op updates…</string>
+    <string name="app_up_to_date">De app is up-to-date</string>
+    <string name="databases_up_to_date">Databases zijn up-to-date</string>
+    <string name="update_check_failed">Updatecontrole mislukt. Controleer je internetverbinding.</string>
 </resources>

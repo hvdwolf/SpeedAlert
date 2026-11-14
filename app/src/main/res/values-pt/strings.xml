@@ -293,5 +293,11 @@
     <string name="gpx_dialog_btn">Eliminar</string>
     <string name="gpx_files_deleted">%1$d ficheiros GPX eliminados</string>
     <string name="no_access_to_gpx_folder">Não foi possível aceder à pasta GPX</string>
+
     <string name="database_updates_available">Atualizações das bases de dados disponíveis para: %1$s</string>
+    <string name="btn_check_updates">Verificar atualizações</string>
+    <string name="checking_for_updates">A verificar atualizações…</string>
+    <string name="app_up_to_date">A aplicação está atualizada</string>
+    <string name="databases_up_to_date">As bases de dados estão atualizadas</string>
+    <string name="update_check_failed">Falha ao verificar atualizações. Verifique a sua ligação à Internet.</string>
 </resources>

@@ -299,5 +299,11 @@
     <string name="gpx_dialog_btn">Șterge</string>
     <string name="gpx_files_deleted">%1$d fișiere GPX șterse</string>
     <string name="no_access_to_gpx_folder">Nu s-a putut accesa folderul GPX</string>
+
     <string name="database_updates_available">Sunt disponibile actualizări ale bazelor de date pentru: %1$s</string>
+    <string name="btn_check_updates">Verifică actualizările</string>
+    <string name="checking_for_updates">Se verifică actualizările…</string>
+    <string name="app_up_to_date">Aplicația este la zi</string>
+    <string name="databases_up_to_date">Bazele de date sunt la zi</string>
+    <string name="update_check_failed">Verificarea actualizărilor a eșuat. Verifică conexiunea la internet.</string>
 </resources>
