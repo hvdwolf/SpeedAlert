@@ -301,4 +301,10 @@
     <string name="app_up_to_date">앱이 최신 버전입니다</string>
     <string name="databases_up_to_date">데이터베이스가 최신 상태입니다</string>
     <string name="update_check_failed">업데이트 확인에 실패했습니다. 인터넷 연결을 확인하세요.</string>
+
+    <string name="btn_more">더보기</string>
+    <string name="menu_settings">설정</string>
+    <string name="menu_debug">디버그 화면</string>
+    <string name="menu_check_updates">업데이트 확인</string>
+    <string name="menu_about">정보</string>
 </resources>

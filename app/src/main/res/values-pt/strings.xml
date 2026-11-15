@@ -300,4 +300,10 @@
     <string name="app_up_to_date">A aplicação está atualizada</string>
     <string name="databases_up_to_date">As bases de dados estão atualizadas</string>
     <string name="update_check_failed">Falha ao verificar atualizações. Verifique a sua ligação à Internet.</string>
+
+    <string name="btn_more">Mais</string>
+    <string name="menu_settings">Definições</string>
+    <string name="menu_debug">Ecrã de depuração</string>
+    <string name="menu_check_updates">Procurar atualizações</string>
+    <string name="menu_about">Acerca de</string>
 </resources>

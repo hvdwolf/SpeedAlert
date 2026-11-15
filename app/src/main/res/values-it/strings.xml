@@ -306,4 +306,10 @@
     <string name="app_up_to_date">L\'app è aggiornata</string>
     <string name="databases_up_to_date">I database sono aggiornati</string>
     <string name="update_check_failed">Controllo degli aggiornamenti non riuscito. Verifica la connessione a Internet.</string>
+
+    <string name="btn_more">Altro</string>
+    <string name="menu_settings">Impostazioni</string>
+    <string name="menu_debug">Schermata di debug</string>
+    <string name="menu_check_updates">Cerca aggiornamenti</string>
+    <string name="menu_about">Informazioni</string>
 </resources>

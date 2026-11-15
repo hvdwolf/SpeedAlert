@@ -306,4 +306,10 @@
     <string name="app_up_to_date">Aplikacja jest aktualna</string>
     <string name="databases_up_to_date">Bazy danych są aktualne</string>
     <string name="update_check_failed">Nie udało się sprawdzić aktualizacji. Sprawdź połączenie z internetem.</string>
+
+    <string name="btn_more">Więcej</string>
+    <string name="menu_settings">Ustawienia</string>
+    <string name="menu_debug">Ekran debugowania</string>
+    <string name="menu_check_updates">Sprawdź aktualizacje</string>
+    <string name="menu_about">O aplikacji</string>
 </resources>

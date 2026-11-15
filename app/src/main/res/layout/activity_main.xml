@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ABOUT BUTTON (top-right) -->
-    <Button
-        android:id="@+id/btnAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_about"
-        android:layout_margin="12dp"
-        android:layout_gravity="top|end" />
+    <!-- MORE MENU BUTTON (top-right) -->
+    <ImageButton
+        android:id="@+id/btnMore"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_more_vert"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/btn_more"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        app:tint="?attr/colorControlNormal" />
 
     <!-- MAIN CONTENT -->
     <ScrollView
@@ -147,14 +153,17 @@
 
                 </LinearLayout>
 
+            <!--
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#888888"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="8dp" />
+            -->
 
             <!-- SETTINGS + DEBUG BUTTONS -->
+            <!--
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -178,14 +187,17 @@
                     android:text="@string/btn_debug_screen"
                     android:layout_marginStart="8dp" />
             </LinearLayout>
+            -->
 
             <!-- CHECK ON UPDATES -->
+            <!--
             <Button
                 android:id="@+id/btnCheckUpdates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/btn_check_updates" />
+            -->
         </LinearLayout>
     </ScrollView>
 

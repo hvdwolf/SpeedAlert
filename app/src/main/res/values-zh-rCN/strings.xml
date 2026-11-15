@@ -302,4 +302,10 @@
     <string name="app_up_to_date">应用已是最新版本</string>
     <string name="databases_up_to_date">数据库已是最新</string>
     <string name="update_check_failed">检查更新失败。请检查网络连接。</string>
+
+    <string name="btn_more">更多</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_debug">调试界面</string>
+    <string name="menu_check_updates">检查更新</string>
+    <string name="menu_about">关于</string>
     </resources>

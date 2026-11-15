@@ -297,4 +297,10 @@
     <string name="app_up_to_date">Застосунок оновлено</string>
     <string name="databases_up_to_date">Бази даних оновлено</string>
     <string name="update_check_failed">Не вдалося перевірити оновлення. Перевірте підключення до інтернету.</string>
+
+    <string name="btn_more">Ще</string>
+    <string name="menu_settings">Налаштування</string>
+    <string name="menu_debug">Екран налагодження</string>
+    <string name="menu_check_updates">Перевірити оновлення</string>
+    <string name="menu_about">Про застосунок</string>
 </resources>

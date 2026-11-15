@@ -13,11 +13,13 @@ import android.os.PowerManager
 import android.provider.DocumentsContract
 import android.provider.Settings
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
@@ -42,12 +44,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnStopGpsRecording: Button
     private lateinit var txtGpsRecordingStatus: TextView
     private lateinit var txtGpsRecordingPoints: TextView
-    private lateinit var btnSettings: Button
-    private lateinit var btnDebug: Button
-    private lateinit var btnAbout: Button
+    //private lateinit var btnSettings: Button
+    //private lateinit var btnDebug: Button
+    //private lateinit var btnAbout: Button
     private lateinit var btnShareGpx: Button
     private lateinit var btnDeleteGpx: Button
-    private lateinit var btnCheckUpdates: Button
+    //private lateinit var btnCheckUpdates: Button
+    private lateinit var btnMore: ImageButton
+
 
     private lateinit var settings: SettingsManager
     private var defaultTextColor: Int = 0
@@ -72,17 +76,19 @@ class MainActivity : AppCompatActivity() {
         txtStatus = findViewById(R.id.txtStatus)
         btnStart = findViewById(R.id.btnStart)
         btnStop = findViewById(R.id.btnStop)
-        btnSettings = findViewById(R.id.btnSettings)
-        btnDebug = findViewById(R.id.btnDebugScreen)
-        btnAbout = findViewById(R.id.btnAbout)
-        btnAbout.bringToFront()
+        //btnSettings = findViewById(R.id.btnSettings)
+        //btnDebug = findViewById(R.id.btnDebugScreen)
+        //btnAbout = findViewById(R.id.btnAbout)
+        //btnAbout.bringToFront()
         btnStartGpsRecording = findViewById(R.id.btnStartGpsRecording)
         btnStopGpsRecording = findViewById(R.id.btnStopGpsRecording)
         txtGpsRecordingStatus = findViewById(R.id.txtGpsRecordingStatus)
         txtGpsRecordingPoints = findViewById(R.id.txtGpsRecordingPoints)
         btnShareGpx = findViewById(R.id.btnShareGpx)
         btnDeleteGpx = findViewById(R.id.btnDeleteGpx)
-        btnCheckUpdates = findViewById(R.id.btnCheckUpdates)
+        //btnCheckUpdates = findViewById(R.id.btnCheckUpdates)
+        btnMore = findViewById(R.id.btnMore)
+        btnMore.bringToFront()
 
 
         defaultTextColor = txtSpeed.currentTextColor
@@ -102,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             stopService(Intent(this, DrivingService::class.java))
         }
 
+        /*
         btnSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
@@ -115,6 +122,7 @@ class MainActivity : AppCompatActivity() {
             checkForNewVersion(manual = true)
             checkForDatabaseUpdates(manual = true)
         }
+        */
 
         btnStartGpsRecording.setOnClickListener {
             val intent = Intent(this, DrivingService::class.java).apply {
@@ -138,10 +146,46 @@ class MainActivity : AppCompatActivity() {
             shareGpxFiles()
         }
 
+        /*
         btnAbout.setOnClickListener {
             Log.e("ABOUT", "CLICKED")
             //Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
             showAboutDialog() }
+        */
+
+        btnMore.setOnClickListener { anchor ->
+            PopupMenu(this, anchor).apply {
+                menuInflater.inflate(R.menu.menu_more, menu)
+                setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.menu_settings -> {
+                            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                            true
+                        }
+                        R.id.menu_debug -> {
+                            startActivity(Intent(this@MainActivity, DebugActivity::class.java))
+                            true
+                        }
+                        R.id.menu_check_updates -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.checking_for_updates),
+                                           Toast.LENGTH_SHORT
+                            ).show()
+                            checkForNewVersion(manual = true)
+                            checkForDatabaseUpdates(manual = true)
+                            true
+                        }
+                        R.id.menu_about -> {
+                            showAboutDialog()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                show()
+            }
+        }
 
 
         // ---------------------------------------------------------

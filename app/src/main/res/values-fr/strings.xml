@@ -307,4 +307,10 @@
     <string name="app_up_to_date">L\'application est à jour</string>
     <string name="databases_up_to_date">Les bases de données sont à jour</string>
     <string name="update_check_failed">Échec de la recherche de mises à jour. Vérifiez votre connexion Internet.</string>
+
+    <string name="btn_more">Plus</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_debug">Écran de débogage</string>
+    <string name="menu_check_updates">Rechercher des mises à jour</string>
+    <string name="menu_about">À propos</string>
 </resources>

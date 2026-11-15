@@ -306,4 +306,10 @@
     <string name="app_up_to_date">Aplicația este la zi</string>
     <string name="databases_up_to_date">Bazele de date sunt la zi</string>
     <string name="update_check_failed">Verificarea actualizărilor a eșuat. Verifică conexiunea la internet.</string>
+
+    <string name="btn_more">Mai multe</string>
+    <string name="menu_settings">Setări</string>
+    <string name="menu_debug">Ecran de depanare</string>
+    <string name="menu_check_updates">Caută actualizări</string>
+    <string name="menu_about">Despre</string>
 </resources>

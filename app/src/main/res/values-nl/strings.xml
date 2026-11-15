@@ -306,4 +306,10 @@
     <string name="app_up_to_date">De app is up-to-date</string>
     <string name="databases_up_to_date">Databases zijn up-to-date</string>
     <string name="update_check_failed">Updatecontrole mislukt. Controleer je internetverbinding.</string>
+
+    <string name="btn_more">Meer</string>
+    <string name="menu_settings">Instellingen</string>
+    <string name="menu_debug">Debugscherm</string>
+    <string name="menu_check_updates">Controleren op updates</string>
+    <string name="menu_about">Info</string>
 </resources>

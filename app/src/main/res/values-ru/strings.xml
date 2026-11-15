@@ -306,4 +306,10 @@
     <string name="app_up_to_date">Приложение обновлено</string>
     <string name="databases_up_to_date">Базы данных обновлены</string>
     <string name="update_check_failed">Не удалось проверить обновления. Проверьте подключение к интернету.</string>
+
+    <string name="btn_more">Ещё</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_debug">Экран отладки</string>
+    <string name="menu_check_updates">Проверить обновления</string>
+    <string name="menu_about">О приложении</string>
 </resources>

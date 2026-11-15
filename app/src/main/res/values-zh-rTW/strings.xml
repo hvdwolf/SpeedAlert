@@ -303,4 +303,10 @@
     <string name="app_up_to_date">應用程式已是最新版本</string>
     <string name="databases_up_to_date">資料庫已是最新</string>
     <string name="update_check_failed">檢查更新失敗。請檢查網路連線。</string>
+
+    <string name="btn_more">更多</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_debug">偵錯畫面</string>
+    <string name="menu_check_updates">檢查更新</string>
+    <string name="menu_about">關於</string>
 </resources>
