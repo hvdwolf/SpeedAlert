@@ -100,7 +100,7 @@ private val continentIsoCodes by lazy {
           "asia" to asia_iso_codes.toList(),
           "americas" to americas_iso_codes.toList(),
           "africa" to africa_iso_codes.toList(),
-          "australia-oceania" to australia_oceania_iso_codes.toList()
+          "australia_oceania" to australia_oceania_iso_codes.toList()
     )
 }
 
@@ -186,16 +186,13 @@ private fun getLocalVersion(file: File): String? {
                 SQLiteDatabase.OPEN_READONLY
             ).use { db ->
 
+
                 val tableExists = db.rawQuery(
                     """
-                    SELECT name
-                    FROM sqlite_master
-                    WHERE type = 'table'
-                AND name = 'version'
-                """.trimIndent(),
-                                              null
+                    SELECT EXISTS (SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'version' )
+                """.trimIndent(), null
                 ).use { cursor ->
-                    cursor.moveToFirst()
+                    cursor.moveToFirst() && cursor.getInt(0) == 1
                 }
 
                 if (!tableExists) {
@@ -276,7 +273,7 @@ private fun getLatestVersions(): Map<String, String> {
                         val tag = release.optString("tag_name")
 
                         val match = Regex(
-                            "^(europe|asia|americas|africa|australia-oceania)-(\\d{6})$"
+                            "^(europe|asia|americas|africa|australia_oceania)-(\\d{6})$"
                         ).matchEntire(tag) ?: continue
 
                         val continent = match.groupValues[1]

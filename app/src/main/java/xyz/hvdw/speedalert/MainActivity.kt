@@ -567,6 +567,17 @@ class MainActivity : AppCompatActivity() {
 
             val result = checkDatabaseUpdates(databases)
 
+            if (result.errors.isNotEmpty()) {
+                Log.e("DbUpdate", result.errors.joinToString("\n"))
+                if (manual) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        result.errors.joinToString("\n"),
+                                   Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
             if (result.updates.isNotEmpty()) {
                 val countries = result.updates
                 .map { it.isoCode.uppercase() }
