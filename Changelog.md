@@ -1,7 +1,7 @@
 
 **Changelog 2.5.1 (15-11-2026)**
 
- - Add button to do an update check on both app and databases. If the app is set to autostart AND minimize, the timing is sometimes such that the update warning for a possible database update is not displayed.
+ - Add option to do a manual update check on both app and databases. If the app is set to autostart AND minimize, the timing is sometimes such that the update warning for a possible database update is not displayed.
  - Remove "About", "Settings", "Debug screen" buttons from main screen. Replace with a top-right "More" menu vertical 3-dot image button. Behind this "More" menu you will now find "Settings", "Debug screen", "Check on Updates" (bullet 1) and "About".
  - Fix: Database updates for australia and oceania checked on "australia-oceania" instead of "australia_oceania".
  - Fix: Slow loading debug screen. For 2 hours driving time per day, it can grow from ~20MB to ~65MB in a month. I did read the entire logfile, which makes it slow above ~2-3MB, and very slow above ~10MB. Now the entire logfile is saved, but only up to 64Kb of the last lines is read. When the logfile exceeds 5MB, it will be emptied on next debug screen start (which will automatically fix it for users with huge log files).
