@@ -312,4 +312,7 @@
     <string name="menu_debug">Экран отладки</string>
     <string name="menu_check_updates">Проверить обновления</string>
     <string name="menu_about">О приложении</string>
+
+    <string name="log_trimmed_auto">Файл журнала достиг %1$d МБ и был автоматически очищен</string>
+    <string name="log_trim_failed">Не удалось очистить журнал: %1$s</string>
 </resources>

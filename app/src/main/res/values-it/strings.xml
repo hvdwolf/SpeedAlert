@@ -312,4 +312,7 @@
     <string name="menu_debug">Schermata di debug</string>
     <string name="menu_check_updates">Cerca aggiornamenti</string>
     <string name="menu_about">Informazioni</string>
+
+    <string name="log_trimmed_auto">Il file di log era di %1$d MB ed è stato svuotato automaticamente</string>
+    <string name="log_trim_failed">Impossibile svuotare il log: %1$s</string>
 </resources>

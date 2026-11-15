@@ -312,4 +312,7 @@
     <string name="menu_debug">Ecran de depanare</string>
     <string name="menu_check_updates">Caută actualizări</string>
     <string name="menu_about">Despre</string>
+
+    <string name="log_trimmed_auto">Fișierul jurnal avea %1$d MB și a fost golit automat</string>
+    <string name="log_trim_failed">Golirea jurnalului a eșuat: %1$s</string>
 </resources>

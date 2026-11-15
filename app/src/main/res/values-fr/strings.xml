@@ -313,4 +313,7 @@
     <string name="menu_debug">Écran de débogage</string>
     <string name="menu_check_updates">Rechercher des mises à jour</string>
     <string name="menu_about">À propos</string>
+
+    <string name="log_trimmed_auto">Le fichier journal faisait %1$d Mo et a été vidé automatiquement</string>
+    <string name="log_trim_failed">Échec du vidage du journal : %1$s</string>
 </resources>

@@ -312,4 +312,7 @@
     <string name="menu_debug">Ekran debugowania</string>
     <string name="menu_check_updates">Sprawdź aktualizacje</string>
     <string name="menu_about">O aplikacji</string>
+
+    <string name="log_trimmed_auto">Plik dziennika miał %1$d MB i został automatycznie wyczyszczony</string>
+    <string name="log_trim_failed">Nie udało się wyczyścić dziennika: %1$s</string>
 </resources>

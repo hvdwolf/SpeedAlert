@@ -312,4 +312,7 @@
     <string name="menu_debug">Pantalla de depuración</string>
     <string name="menu_check_updates">Buscar actualizaciones</string>
     <string name="menu_about">Acerca de</string>
+
+    <string name="log_trimmed_auto">El archivo de registro tenía %1$d MB y se ha vaciado automáticamente</string>
+    <string name="log_trim_failed">No se pudo vaciar el registro: %1$s</string>
 </resources>

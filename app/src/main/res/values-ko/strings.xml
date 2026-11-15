@@ -307,4 +307,7 @@
     <string name="menu_debug">디버그 화면</string>
     <string name="menu_check_updates">업데이트 확인</string>
     <string name="menu_about">정보</string>
+
+    <string name="log_trimmed_auto">로그 파일이 %1$d MB여서 자동으로 비워졌습니다</string>
+    <string name="log_trim_failed">로그를 비우지 못했습니다: %1$s</string>
 </resources>

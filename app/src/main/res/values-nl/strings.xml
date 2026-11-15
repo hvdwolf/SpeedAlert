@@ -312,4 +312,7 @@
     <string name="menu_debug">Debugscherm</string>
     <string name="menu_check_updates">Controleren op updates</string>
     <string name="menu_about">Info</string>
+
+    <string name="log_trimmed_auto">Logbestand was %1$d MB en is automatisch geleegd</string>
+    <string name="log_trim_failed">Log legen mislukt: %1$s</string>
 </resources>

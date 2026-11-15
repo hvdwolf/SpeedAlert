@@ -301,4 +301,7 @@
     <string name="menu_debug">Debug-Bildschirm</string>
     <string name="menu_check_updates">Nach Updates suchen</string>
     <string name="menu_about">Info</string>
+
+    <string name="log_trimmed_auto">Die Logdatei war %1$d MB groß und wurde automatisch geleert</string>
+    <string name="log_trim_failed">Log konnte nicht geleert werden: %1$s</string>
 </resources>

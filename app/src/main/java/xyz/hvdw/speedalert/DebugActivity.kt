@@ -24,6 +24,7 @@ class DebugActivity : AppCompatActivity() {
 
     private val logBuffer = StringBuilder()
     private var lastUiUpdate = 0L
+    private val MAX_LOG_BYTES = 5L * 1024 * 1024  // 5 MB
 
     private val debugReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -46,12 +47,13 @@ class DebugActivity : AppCompatActivity() {
 
         // Load logfile
         val file = File(filesDir, "speedalert.log")
-        if (file.exists()) {
+        /*if (file.exists()) {
             txtDebugFull.text = file.readText()
             scrollToBottom()
         } else {
             txtDebugFull.text = "Logfile does not exist yet."
-        }
+        }*/
+        loadLogTail()
 
         findViewById<Button>(R.id.btnCheckOverlay).setOnClickListener {
             if (Settings.canDrawOverlays(this)) {
@@ -236,6 +238,57 @@ class DebugActivity : AppCompatActivity() {
 
         out("=== SETTINGS DUMP END ===")
         append("", forceFlush = true)
+    }
+
+    private fun trimLogIfTooBig(): Boolean {
+        val file = File(filesDir, "speedalert.log")
+        if (!file.exists() || file.length() < MAX_LOG_BYTES) return false
+
+            val sizeMb = file.length() / (1024 * 1024)
+            return try {
+                file.writeText("")   // maakt het bestand leeg
+                logBuffer.setLength(0)
+                Toast.makeText(
+                    this,
+                    getString(R.string.log_trimmed_auto, sizeMb),
+                               Toast.LENGTH_LONG
+                ).show()
+                true
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.log_trim_failed, e.message ?: ""),
+                               Toast.LENGTH_LONG
+                ).show()
+                false
+            }
+    }
+
+    private fun loadLogTail(maxBytes: Long = 64 * 1024) {
+        txtDebugFull.text = "Loading log…"
+        Thread {
+            val file = File(filesDir, "speedalert.log")
+            val text = if (!file.exists()) {
+                "Logfile does not exist yet."
+            } else {
+                java.io.RandomAccessFile(file, "r").use { raf ->
+                    val start = (raf.length() - maxBytes).coerceAtLeast(0)
+                    raf.seek(start)
+                    val bytes = ByteArray((raf.length() - start).toInt())
+                    raf.readFully(bytes)
+                    val s = String(bytes, Charsets.UTF_8)
+                    // eerste (waarschijnlijk afgekapte) regel weggooien
+                    if (start > 0) s.substringAfter('\n', s) else s
+                }
+            }
+            runOnUiThread {
+                if (isDestroyed) return@runOnUiThread
+                    logBuffer.setLength(0)
+                    logBuffer.append(text)
+                    txtDebugFull.text = text
+                    scrollToBottom()
+            }
+        }.start()
     }
 
 }

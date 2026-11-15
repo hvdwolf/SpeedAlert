@@ -309,4 +309,7 @@
     <string name="menu_debug">偵錯畫面</string>
     <string name="menu_check_updates">檢查更新</string>
     <string name="menu_about">關於</string>
+
+    <string name="log_trimmed_auto">記錄檔大小為 %1$d MB，已自動清空</string>
+    <string name="log_trim_failed">清空記錄檔失敗：%1$s</string>
 </resources>

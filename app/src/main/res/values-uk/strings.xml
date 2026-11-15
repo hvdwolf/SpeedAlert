@@ -303,4 +303,7 @@
     <string name="menu_debug">Екран налагодження</string>
     <string name="menu_check_updates">Перевірити оновлення</string>
     <string name="menu_about">Про застосунок</string>
+
+    <string name="log_trimmed_auto">Файл журналу мав %1$d МБ і був автоматично очищений</string>
+    <string name="log_trim_failed">Не вдалося очистити журнал: %1$s</string>
 </resources>

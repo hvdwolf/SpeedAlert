@@ -303,4 +303,7 @@
     <string name="menu_debug">デバッグ画面</string>
     <string name="menu_check_updates">アップデートを確認</string>
     <string name="menu_about">アプリについて</string>
+
+    <string name="log_trimmed_auto">ログファイルが %1$d MB に達したため、自動的にクリアしました</string>
+    <string name="log_trim_failed">ログを消去できませんでした: %1$s</string>
 </resources>
