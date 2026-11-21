@@ -307,6 +307,13 @@
     <string name="app_up_to_date">Aplicația este la zi</string>
     <string name="databases_up_to_date">Bazele de date sunt la zi</string>
     <string name="update_check_failed">Verificarea actualizărilor a eșuat. Verifică conexiunea la internet.</string>
+    <string name="database_update_dialog_title">Sunt disponibile actualizări pentru bazele de date</string>
+    <string name="database_update_dialog_message">%1$s\n\nDorești să descarci și să instalezi aceste actualizări acum?</string>
+    <string name="database_update_install">Descarcă și instalează</string>
+    <string name="database_update_cancel">Nu acum</string>
+    <string name="database_update_downloading">Se descarcă și se instalează bazele de date…</string>
+    <string name="database_update_installed">Actualizări ale bazelor de date instalate: %1$d</string>
+    <string name="database_update_install_failed">S-au instalat %1$d actualizări ale bazelor de date, dar nu au putut fi instalate toate:\n%2$s</string>
 
     <string name="btn_more">Mai multe</string>
     <string name="menu_settings">Setări</string>

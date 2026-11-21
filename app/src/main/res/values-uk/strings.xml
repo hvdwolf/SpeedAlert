@@ -298,6 +298,13 @@
     <string name="app_up_to_date">Застосунок оновлено</string>
     <string name="databases_up_to_date">Бази даних оновлено</string>
     <string name="update_check_failed">Не вдалося перевірити оновлення. Перевірте підключення до інтернету.</string>
+    <string name="database_update_dialog_title">Доступні оновлення баз даних</string>
+    <string name="database_update_dialog_message">%1$s\n\nЗавантажити та встановити ці оновлення зараз?</string>
+    <string name="database_update_install">Завантажити та встановити</string>
+    <string name="database_update_cancel">Не зараз</string>
+    <string name="database_update_downloading">Завантаження та встановлення баз даних…</string>
+    <string name="database_update_installed">Встановлено оновлень баз даних: %1$d</string>
+    <string name="database_update_install_failed">Встановлено оновлень баз даних: %1$d. Не вдалося встановити всі оновлення:\n%2$s</string>
 
     <string name="btn_more">Ще</string>
     <string name="menu_settings">Налаштування</string>

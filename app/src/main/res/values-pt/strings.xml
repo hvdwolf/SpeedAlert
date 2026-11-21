@@ -301,6 +301,13 @@
     <string name="app_up_to_date">A aplicação está atualizada</string>
     <string name="databases_up_to_date">As bases de dados estão atualizadas</string>
     <string name="update_check_failed">Falha ao verificar atualizações. Verifique a sua ligação à Internet.</string>
+    <string name="database_update_dialog_title">Atualizações das bases de dados disponíveis</string>
+    <string name="database_update_dialog_message">%1$s\n\nPretende transferir e instalar estas atualizações agora?</string>
+    <string name="database_update_install">Transferir e instalar</string>
+    <string name="database_update_cancel">Agora não</string>
+    <string name="database_update_downloading">A transferir e instalar as bases de dados…</string>
+    <string name="database_update_installed">Atualizações das bases de dados instaladas: %1$d</string>
+    <string name="database_update_install_failed">Foram instaladas %1$d atualizações das bases de dados, mas não foi possível instalar todas:\n%2$s</string>
 
     <string name="btn_more">Mais</string>
     <string name="menu_settings">Definições</string>

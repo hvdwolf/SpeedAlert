@@ -296,6 +296,13 @@
     <string name="app_up_to_date">Die App ist auf dem neuesten Stand</string>
     <string name="databases_up_to_date">Die Datenbanken sind auf dem neuesten Stand</string>
     <string name="update_check_failed">Update-Prüfung fehlgeschlagen. Überprüfe deine Internetverbindung.</string>
+    <string name="database_update_dialog_title">Datenbank-Updates verfügbar</string>
+    <string name="database_update_dialog_message">%1$s\n\nMöchtest du diese Updates jetzt herunterladen und installieren?</string>
+    <string name="database_update_install">Herunterladen und installieren</string>
+    <string name="database_update_cancel">Nicht jetzt</string>
+    <string name="database_update_downloading">Datenbanken werden heruntergeladen und installiert…</string>
+    <string name="database_update_installed">%1$d Datenbank-Update(s) installiert</string>
+    <string name="database_update_install_failed">%1$d Datenbank-Update(s) installiert, aber nicht alle Updates konnten installiert werden:\n%2$s</string>
 
     <string name="btn_more">Mehr</string>
     <string name="menu_settings">Einstellungen</string>

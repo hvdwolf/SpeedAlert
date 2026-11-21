@@ -303,6 +303,13 @@
     <string name="app_up_to_date">应用已是最新版本</string>
     <string name="databases_up_to_date">数据库已是最新</string>
     <string name="update_check_failed">检查更新失败。请检查网络连接。</string>
+    <string name="database_update_dialog_title">有可用的数据库更新</string>
+    <string name="database_update_dialog_message">%1$s\n\n现在下载并安装这些更新吗？</string>
+    <string name="database_update_install">下载并安装</string>
+    <string name="database_update_cancel">暂不</string>
+    <string name="database_update_downloading">正在下载并安装数据库…</string>
+    <string name="database_update_installed">已安装 %1$d 个数据库更新</string>
+    <string name="database_update_install_failed">已安装 %1$d 个数据库更新，但未能安装所有更新：\n%2$s</string>
 
     <string name="btn_more">更多</string>
     <string name="menu_settings">设置</string>

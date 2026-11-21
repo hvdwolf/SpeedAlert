@@ -307,6 +307,13 @@
     <string name="app_up_to_date">Приложение обновлено</string>
     <string name="databases_up_to_date">Базы данных обновлены</string>
     <string name="update_check_failed">Не удалось проверить обновления. Проверьте подключение к интернету.</string>
+    <string name="database_update_dialog_title">Доступны обновления баз данных</string>
+    <string name="database_update_dialog_message">%1$s\n\nСкачать и установить эти обновления сейчас?</string>
+    <string name="database_update_install">Скачать и установить</string>
+    <string name="database_update_cancel">Не сейчас</string>
+    <string name="database_update_downloading">Загрузка и установка баз данных…</string>
+    <string name="database_update_installed">Установлено обновлений баз данных: %1$d</string>
+    <string name="database_update_install_failed">Установлено обновлений баз данных: %1$d. Не удалось установить все обновления:\n%2$s</string>
 
     <string name="btn_more">Ещё</string>
     <string name="menu_settings">Настройки</string>

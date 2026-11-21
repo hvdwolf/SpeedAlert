@@ -307,6 +307,13 @@
     <string name="app_up_to_date">L\'app è aggiornata</string>
     <string name="databases_up_to_date">I database sono aggiornati</string>
     <string name="update_check_failed">Controllo degli aggiornamenti non riuscito. Verifica la connessione a Internet.</string>
+    <string name="database_update_dialog_title">Aggiornamenti dei database disponibili</string>
+    <string name="database_update_dialog_message">%1$s\n\nVuoi scaricare e installare questi aggiornamenti adesso?</string>
+    <string name="database_update_install">Scarica e installa</string>
+    <string name="database_update_cancel">Non ora</string>
+    <string name="database_update_downloading">Download e installazione dei database in corso…</string>
+    <string name="database_update_installed">Aggiornamenti dei database installati: %1$d</string>
+    <string name="database_update_install_failed">Installati %1$d aggiornamenti dei database, ma non è stato possibile installarli tutti:\n%2$s</string>
 
     <string name="btn_more">Altro</string>
     <string name="menu_settings">Impostazioni</string>

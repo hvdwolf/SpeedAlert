@@ -304,6 +304,13 @@
     <string name="app_up_to_date">應用程式已是最新版本</string>
     <string name="databases_up_to_date">資料庫已是最新</string>
     <string name="update_check_failed">檢查更新失敗。請檢查網路連線。</string>
+    <string name="database_update_dialog_title">有可用的資料庫更新</string>
+    <string name="database_update_dialog_message">%1$s\n\n現在下載並安裝這些更新嗎？</string>
+    <string name="database_update_install">下載並安裝</string>
+    <string name="database_update_cancel">暫不</string>
+    <string name="database_update_downloading">正在下載並安裝資料庫…</string>
+    <string name="database_update_installed">已安裝 %1$d 個資料庫更新</string>
+    <string name="database_update_install_failed">已安裝 %1$d 個資料庫更新，但未能安裝所有更新：\n%2$s</string>
 
     <string name="btn_more">更多</string>
     <string name="menu_settings">設定</string>
