@@ -156,7 +156,7 @@
     <!-- Logfile operations -->
     <!-- ========================================================= -->
     <string name="logfile_not_exist">ログファイルはまだ存在しません</string>
-    <string name="logfile_copied">/sdcard/SpeedAlert/speedalert.log にコピーしました</string>
+    <string name="logfile_copied">/storage/emulated/0/Android/media/xyz.hvdw.speedalert/speedalert.log にコピーしました</string>
     <string name="logfile_copy_failed">コピーに失敗しました: %1$s</string>
 
     <string name="share_logfile_title">ログファイルを共有</string>

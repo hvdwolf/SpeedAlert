@@ -156,7 +156,7 @@
     <!-- Logfile operations -->
     <!-- ========================================================= -->
     <string name="logfile_not_exist">Файл журналу ще не існує</string>
-    <string name="logfile_copied">Скопійовано до /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copied">Скопійовано до /storage/emulated/0/Android/media/xyz.hvdw.speedalert/speedalert.log</string>
     <string name="logfile_copy_failed">Помилка копіювання: %1$s</string>
 
     <string name="share_logfile_title">Поділитися файлом журналу</string>

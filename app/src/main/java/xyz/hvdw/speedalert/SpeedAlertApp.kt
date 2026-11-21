@@ -6,8 +6,6 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 class SpeedAlertApp : Application() {
 
@@ -19,16 +17,13 @@ class SpeedAlertApp : Application() {
                 return
             }
 
-            val destDir = File("/sdcard/SpeedAlert")
-            if (!destDir.exists()) destDir.mkdirs()
+            val destDir = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert")
+            if (!destDir.exists() && !destDir.mkdirs()) {
+                throw IllegalStateException("Failed to create directory: ${destDir.absolutePath}")
+            }
 
             val dest = File(destDir, "speedalert.log")
-
-            FileInputStream(src).use { input ->
-                FileOutputStream(dest).use { output ->
-                    input.copyTo(output)
-                }
-            }
+            src.copyTo(dest, overwrite = true)
 
             Toast.makeText(context, context.getString(R.string.logfile_copied), Toast.LENGTH_LONG).show()
 

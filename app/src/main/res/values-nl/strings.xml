@@ -156,7 +156,7 @@
     <!-- Logfile operations -->
     <!-- ========================================================= -->
     <string name="logfile_not_exist">Logbestand bestaat nog niet</string>
-    <string name="logfile_copied">Gekopieerd naar /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copied">Gekopieerd naar /storage/emulated/0/Android/media/xyz.hvdw.speedalert/speedalert.log</string>
     <string name="logfile_copy_failed">Kopiëren mislukt: %1$s</string>
 
     <string name="share_logfile_title">Logbestand delen</string>

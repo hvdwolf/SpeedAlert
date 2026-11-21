@@ -156,7 +156,7 @@
     <!-- Logfile operations -->
     <!-- ========================================================= -->
     <string name="logfile_not_exist">Le fichier journal n’existe pas encore</string>
-    <string name="logfile_copied">Copié vers /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copied">Copié vers /storage/emulated/0/Android/media/xyz.hvdw.speedalert/speedalert.log</string>
     <string name="logfile_copy_failed">Échec de la copie : %1$s</string>
 
     <string name="share_logfile_title">Partager le fichier journal</string>

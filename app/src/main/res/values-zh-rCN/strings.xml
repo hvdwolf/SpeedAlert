@@ -155,7 +155,7 @@
     <!-- Logfile operations -->
     <!-- ========================================================= -->
     <string name="logfile_not_exist">日志文件尚不存在</string>
-    <string name="logfile_copied">已复制到 /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copied">已复制到 /storage/emulated/0/Android/media/xyz.hvdw.speedalert/speedalert.log</string>
     <string name="logfile_copy_failed">复制失败: %1$s</string>
 
     <string name="share_logfile_title">分享日志文件</string>

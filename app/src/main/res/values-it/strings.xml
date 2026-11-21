@@ -156,7 +156,7 @@
     <!-- Logfile operations -->
     <!-- ========================================================= -->
     <string name="logfile_not_exist">Il file di registro non esiste ancora</string>
-    <string name="logfile_copied">Copiato in /sdcard/SpeedAlert/speedalert.log</string>
+    <string name="logfile_copied">Copiato in /storage/emulated/0/Android/media/xyz.hvdw.speedalert/speedalert.log</string>
     <string name="logfile_copy_failed">Copia non riuscita: %1$s</string>
 
     <string name="share_logfile_title">Condividi file di registro</string>
