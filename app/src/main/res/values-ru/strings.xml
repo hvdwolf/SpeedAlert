@@ -140,6 +140,7 @@
     <string name="btn_copy_log">Копировать лог</string>
     <string name="btn_share_log">Поделиться логом</string>
     <string name="btn_empty_log">Очистить лог</string>
+    <string name="btn_show_all_settings">Показать все настройки</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

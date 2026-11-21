@@ -140,6 +140,7 @@
     <string name="btn_copy_log">ログをコピー</string>
     <string name="btn_share_log">ログを共有</string>
     <string name="btn_empty_log">ログを消去</string>
+    <string name="btn_show_all_settings">すべての設定を表示</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

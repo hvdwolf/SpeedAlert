@@ -2,11 +2,17 @@ package xyz.hvdw.speedalert
 
 import android.database.sqlite.SQLiteDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
+import org.apache.commons.compress.archivers.sevenz.SevenZFile
 import java.io.File
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.nio.file.AtomicMoveNotSupportedException
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 
 // data classes
 data class CountryDatabase(
@@ -17,11 +23,17 @@ data class CountryDatabase(
 data class DatabaseUpdate(
     val isoCode: String,
     val localVersion: String?,
-    val remoteVersion: String
+    val remoteVersion: String,
+    val databaseFile: File
 )
 
 data class DatabaseUpdateResult(
     val updates: List<DatabaseUpdate>,
+    val errors: List<String>
+)
+
+data class DatabaseInstallResult(
+    val installed: List<String>,
     val errors: List<String>
 )
 
@@ -91,6 +103,9 @@ private val australia_oceania by lazy {
 private const val GITHUB_API =
 "https://api.github.com/repos/hvdwolf/SpeedAlert_Databases/releases"
 
+private const val GITHUB_DOWNLOAD =
+    "https://github.com/hvdwolf/SpeedAlert_Databases/releases/download"
+
 private const val GITHUB_USER_AGENT = "SpeedAlert"
 
 
@@ -131,9 +146,7 @@ suspend fun checkDatabaseUpdates(
 
         val isoCode = database.isoCode.lowercase()
 
-        val continent = continentIsoCodes.entries
-        .firstOrNull { isoCode in it.value }
-        ?.key
+        val continent = continentForIsoCode(isoCode)
 
         if (continent == null) {
             errors.add("Onbekende ISO-code: $isoCode")
@@ -155,7 +168,8 @@ suspend fun checkDatabaseUpdates(
                 DatabaseUpdate(
                     isoCode = isoCode,
                     localVersion = localVersion,
-                    remoteVersion = remoteVersion
+                    remoteVersion = remoteVersion,
+                    databaseFile = database.file
                 )
             )
         }
@@ -166,6 +180,116 @@ suspend fun checkDatabaseUpdates(
         errors = errors
     )
 }
+
+/**
+ * Downloads and installs the selected database updates.
+ *
+ * This function should be called from a coroutine.
+ */
+suspend fun downloadAndInstallDatabaseUpdates(
+    updates: List<DatabaseUpdate>,
+    cacheDir: File
+): DatabaseInstallResult = withContext(Dispatchers.IO) {
+    val installed = mutableListOf<String>()
+    val errors = mutableListOf<String>()
+
+    for (update in updates) {
+        val target = update.databaseFile
+        val continent = continentForIsoCode(update.isoCode)
+        val parent = target.parentFile
+
+        if (continent == null || parent == null) {
+            errors.add("${target.name}: invalid database destination")
+            continue
+        }
+
+        val archive = File(cacheDir, "${target.name}.download.7z")
+        val extracted = File(parent, ".${target.name}.download")
+
+        try {
+            val tag = "$continent-${update.remoteVersion}"
+            val url = URL("$GITHUB_DOWNLOAD/$tag/${target.name}.7z")
+            val connection = url.openConnection() as HttpURLConnection
+
+            try {
+                connection.requestMethod = "GET"
+                connection.setRequestProperty("User-Agent", GITHUB_USER_AGENT)
+                connection.connectTimeout = 15000
+                connection.readTimeout = 30000
+
+                if (connection.responseCode != HttpURLConnection.HTTP_OK) {
+                    throw IOException("HTTP ${connection.responseCode}")
+                }
+
+                connection.inputStream.use { input ->
+                    archive.outputStream().use { output -> input.copyTo(output) }
+                }
+            } finally {
+                connection.disconnect()
+            }
+
+            extractDatabase(archive, extracted, target.name)
+
+            if (getLocalVersion(extracted) != update.remoteVersion) {
+                throw IOException("Downloaded database version does not match ${update.remoteVersion}")
+            }
+
+            try {
+                Files.move(
+                    extracted.toPath(),
+                    target.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING,
+                    StandardCopyOption.ATOMIC_MOVE
+                )
+            } catch (e: AtomicMoveNotSupportedException) {
+                Files.move(
+                    extracted.toPath(),
+                    target.toPath(),
+                    StandardCopyOption.REPLACE_EXISTING
+                )
+            }
+
+            installed.add(target.name)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            errors.add("${target.name}: ${e.message ?: "download or installation failed"}")
+        } finally {
+            archive.delete()
+            extracted.delete()
+        }
+    }
+
+    DatabaseInstallResult(installed = installed, errors = errors)
+}
+
+private fun extractDatabase(archive: File, outputFile: File, expectedName: String) {
+    SevenZFile.Builder().setFile(archive).get().use { sevenZ ->
+        var entry = sevenZ.nextEntry
+
+        while (entry != null) {
+            val entryName = entry.name.substringAfterLast('/').substringAfterLast('\\')
+            if (!entry.isDirectory && entryName == expectedName) {
+                outputFile.outputStream().use { output ->
+                    val buffer = ByteArray(8192)
+                    while (true) {
+                        val read = sevenZ.read(buffer)
+                        if (read < 0) break
+                        output.write(buffer, 0, read)
+                    }
+                }
+                return
+            }
+
+            entry = sevenZ.nextEntry
+        }
+    }
+
+    throw IOException("Archive does not contain $expectedName")
+}
+
+private fun continentForIsoCode(isoCode: String): String? =
+    continentIsoCodes.entries.firstOrNull { isoCode in it.value }?.key
 
 
 /**

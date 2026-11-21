@@ -139,6 +139,7 @@
     <string name="btn_copy_log">로그 복사</string>
     <string name="btn_share_log">로그 공유</string>
     <string name="btn_empty_log">로그 비우기</string>
+    <string name="btn_show_all_settings">모든 설정 표시</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

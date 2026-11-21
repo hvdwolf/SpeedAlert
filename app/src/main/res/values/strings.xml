@@ -139,6 +139,7 @@
     <string name="btn_copy_log">Copy Log</string>
     <string name="btn_share_log">Share Log</string>
     <string name="btn_empty_log">Empty Log</string>
+    <string name="btn_show_all_settings">Show all settings</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->
@@ -302,6 +303,13 @@
     <string name="app_up_to_date">The app is up to date</string>
     <string name="databases_up_to_date">Databases are up to date</string>
     <string name="update_check_failed">Update check failed. Check your internet connection.</string>
+    <string name="database_update_dialog_title">Database updates available</string>
+    <string name="database_update_dialog_message">%1$s\n\nDownload and install these updates now?</string>
+    <string name="database_update_install">Download and install</string>
+    <string name="database_update_cancel">Not now</string>
+    <string name="database_update_downloading">Downloading and installing databases…</string>
+    <string name="database_update_installed">Installed %1$d database update(s)</string>
+    <string name="database_update_install_failed">Installed %1$d database update(s), but could not install all updates:\n%2$s</string>
 
     <string name="btn_more">More</string>
     <string name="menu_settings">Settings</string>

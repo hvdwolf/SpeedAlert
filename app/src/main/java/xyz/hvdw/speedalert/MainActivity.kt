@@ -14,6 +14,7 @@ import android.provider.DocumentsContract
 import android.provider.Settings
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -623,22 +624,61 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (result.updates.isNotEmpty()) {
-                val countries = result.updates
-                .map { it.isoCode.uppercase() }
-                .distinct()
-                .sorted()
-                .joinToString(", ")
-
-                Toast.makeText(
-                    this@MainActivity,
-                    getString(R.string.database_updates_available, countries),
-                               Toast.LENGTH_LONG
-                ).show()
+                showDatabaseUpdatesDialog(result.updates)
             } else if (manual) {
                 Toast.makeText(
                     this@MainActivity,
                     getString(R.string.databases_up_to_date),
                                Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun showDatabaseUpdatesDialog(updates: List<DatabaseUpdate>) {
+        val databases = updates
+            .map { it.databaseFile.name.removeSuffix(".sqlite").uppercase() }
+            .distinct()
+            .sorted()
+            .joinToString(", ")
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.database_update_dialog_title))
+            .setMessage(getString(R.string.database_update_dialog_message, databases))
+            .setPositiveButton(getString(R.string.database_update_install)) { _, _ ->
+                installDatabaseUpdates(updates)
+            }
+            .setNegativeButton(getString(R.string.database_update_cancel), null)
+            .show()
+    }
+
+    private fun installDatabaseUpdates(updates: List<DatabaseUpdate>) {
+        val progressDialog = AlertDialog.Builder(this)
+            .setTitle(getString(R.string.database_update_downloading))
+            .setView(ProgressBar(this).apply { isIndeterminate = true })
+            .setCancelable(false)
+            .show()
+
+        lifecycleScope.launch {
+            val result = downloadAndInstallDatabaseUpdates(updates, cacheDir)
+            progressDialog.dismiss()
+
+            if (result.errors.isNotEmpty()) {
+                Log.e("DbUpdate", result.errors.joinToString("\n"))
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(
+                        R.string.database_update_install_failed,
+                        result.installed.size,
+                        result.errors.joinToString("\n")
+                    ),
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.database_update_installed, result.installed.size),
+                    Toast.LENGTH_LONG
                 ).show()
             }
         }

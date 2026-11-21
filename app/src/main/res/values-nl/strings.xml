@@ -140,6 +140,7 @@
     <string name="btn_copy_log">Log kopiëren</string>
     <string name="btn_share_log">Log delen</string>
     <string name="btn_empty_log">Log leegmaken</string>
+    <string name="btn_show_all_settings">Alle instellingen tonen</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->
@@ -306,6 +307,13 @@
     <string name="app_up_to_date">De app is up-to-date</string>
     <string name="databases_up_to_date">Databases zijn up-to-date</string>
     <string name="update_check_failed">Updatecontrole mislukt. Controleer je internetverbinding.</string>
+    <string name="database_update_dialog_title">Database-updates beschikbaar</string>
+    <string name="database_update_dialog_message">%1$s\n\nWil je deze updates nu downloaden en installeren?</string>
+    <string name="database_update_install">Downloaden en installeren</string>
+    <string name="database_update_cancel">Niet nu</string>
+    <string name="database_update_downloading">Databases downloaden en installeren…</string>
+    <string name="database_update_installed">%1$d database-update(s) geïnstalleerd</string>
+    <string name="database_update_install_failed">%1$d database-update(s) geïnstalleerd, maar niet alle updates konden worden geïnstalleerd:\n%2$s</string>
 
     <string name="btn_more">Meer</string>
     <string name="menu_settings">Instellingen</string>

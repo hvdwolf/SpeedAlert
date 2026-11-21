@@ -140,6 +140,7 @@
     <string name="btn_copy_log">Copier le journal</string>
     <string name="btn_share_log">Partager le journal</string>
     <string name="btn_empty_log">Vider le journal</string>
+    <string name="btn_show_all_settings">Afficher tous les paramètres</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

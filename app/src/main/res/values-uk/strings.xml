@@ -140,6 +140,7 @@
     <string name="btn_copy_log">Копіювати журнал</string>
     <string name="btn_share_log">Поділитися журналом</string>
     <string name="btn_empty_log">Очистити журнал</string>
+    <string name="btn_show_all_settings">Показати всі налаштування</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

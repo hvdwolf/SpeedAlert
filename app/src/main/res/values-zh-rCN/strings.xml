@@ -139,6 +139,7 @@
     <string name="btn_copy_log">复制日志</string>
     <string name="btn_share_log">分享日志</string>
     <string name="btn_empty_log">清空日志</string>
+    <string name="btn_show_all_settings">显示所有设置</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

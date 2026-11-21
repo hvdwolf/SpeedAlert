@@ -140,6 +140,7 @@
     <string name="btn_copy_log">Copiar registro</string>
     <string name="btn_share_log">Compartir registro</string>
     <string name="btn_empty_log">Vaciar registro</string>
+    <string name="btn_show_all_settings">Mostrar todos los ajustes</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

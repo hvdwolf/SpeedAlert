@@ -137,6 +137,7 @@
     <string name="btn_copy_log">Copiar log</string>
     <string name="btn_share_log">Partilhar log</string>
     <string name="btn_empty_log">Esvaziar log</string>
+    <string name="btn_show_all_settings">Mostrar todas as definições</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

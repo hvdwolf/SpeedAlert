@@ -140,6 +140,7 @@
     <string name="btn_copy_log">Copiază jurnalul</string>
     <string name="btn_share_log">Partajează jurnalul</string>
     <string name="btn_empty_log">Golește jurnalul</string>
+    <string name="btn_show_all_settings">Afișează toate setările</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->

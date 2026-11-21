@@ -140,6 +140,7 @@
     <string name="btn_copy_log">Kopiuj log</string>
     <string name="btn_share_log">Udostępnij log</string>
     <string name="btn_empty_log">Wyczyść log</string>
+    <string name="btn_show_all_settings">Pokaż wszystkie ustawienia</string>
 
     <!-- ========================================================= -->
     <!-- Diagnostics screen -->
