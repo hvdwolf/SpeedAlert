@@ -109,21 +109,6 @@ class MainActivity : AppCompatActivity() {
             stopService(Intent(this, DrivingService::class.java))
         }
 
-        /*
-        btnSettings.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
-
-        btnDebug.setOnClickListener {
-            startActivity(Intent(this, DebugActivity::class.java))
-        }
-
-        btnCheckUpdates.setOnClickListener {
-            Toast.makeText(this, getString(R.string.checking_for_updates), Toast.LENGTH_SHORT).show()
-            checkForNewVersion(manual = true)
-            checkForDatabaseUpdates(manual = true)
-        }
-        */
 
         btnStartGpsRecording.setOnClickListener {
             val intent = Intent(this, DrivingService::class.java).apply {
@@ -147,12 +132,6 @@ class MainActivity : AppCompatActivity() {
             shareGpxFiles()
         }
 
-        /*
-        btnAbout.setOnClickListener {
-            Log.e("ABOUT", "CLICKED")
-            //Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
-            showAboutDialog() }
-        */
 
         btnMore.setOnClickListener { anchor ->
             PopupMenu(this, anchor).apply {

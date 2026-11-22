@@ -151,10 +151,6 @@ class DebugActivity : AppCompatActivity() {
         // your existing logic
     }
 
-    //private fun testSpeedLimitLookup(lat: Double?, lon: Double?) {
-        // your existing logic
-    //}
-
     private fun scrollToBottom() {
         scrollDebugFull.post {
             scrollDebugFull.fullScroll(ScrollView.FOCUS_DOWN)
