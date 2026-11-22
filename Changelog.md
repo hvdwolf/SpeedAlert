@@ -1,3 +1,9 @@
+**Changelog 2.6.0 (22-11-2026)**
+
+ - When new databases are discovered online, you now get a popup for those DBs with the options to: "Download and Install" and "Not now".
+ - Fix: Copy of log file (Debug screen) failed after changing file paths in other code parts. Log file is now copied to (/storage/emulated/0/)Android/media/xyz.hvdw.speedalert/.
+ - Fix: "Show all settings" was still a hard coded string.
+
 
 **Changelog 2.5.1 (15-11-2026)**
 
