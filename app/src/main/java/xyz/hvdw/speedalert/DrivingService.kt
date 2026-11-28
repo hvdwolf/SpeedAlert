@@ -105,16 +105,9 @@ class DrivingService : Service() {
 
         settings = SettingsManager(this)
 
-        val mediaDir = getExternalMediaDirs()
-        .firstOrNull { it != null }
-
-        if (mediaDir != null) {
-            gpsTrackRecorder = GpsTrackRecorder(mediaDir)
-            log("GPS recording directory: ${mediaDir.absolutePath}")
-        } else {
-            gpsTrackRecorder = GpsTrackRecorder(filesDir)
-            log("External media directory unavailable; using internal storage")
-        }
+        val tracksDirectory = GpsTrackRecorder.tracksDirectory(this)
+        gpsTrackRecorder = GpsTrackRecorder(tracksDirectory)
+        log("GPS recording directory: ${tracksDirectory.absolutePath}")
 
         repo = SpeedLimitRepository(this)
         notifier = ServiceNotification(this)

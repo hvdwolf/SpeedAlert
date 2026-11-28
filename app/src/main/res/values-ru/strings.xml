@@ -288,11 +288,10 @@
     <string name="gps_recording_points">Точки GPS: %1$d</string>
     <string name="gps_recording_points_saved">Сохранено точек GPS: %1$d</string>
     <string name="gps_recording_points_initial">Точки GPS: 0</string>
-    <string name="btn_share_gpx_file">Поделиться файлом(ами) GPX</string>
+    <string name="btn_manage_gpx_files">Поделиться файлами GPX или удалить их</string>
     <string name="tracks_folder_not_found">Папка с треками не найдена</string>
     <string name="gps_seconds_interval">Интервал записи (секунды)</string>
     <string name="gps_seconds_text">При скорости 100 км/ч за 1 секунду вы проезжаете около 28 метров.</string>
-    <string name="btn_delete_gpx_files">Удалить файл(ы) GPX</string>
     <string name="gpx_sharing_impossible">Не удалось поделиться файлами GPX</string>
     <string name="no_gpx_files_found">Файлы GPX не найдены</string>
     <string name="gpx_dialog_title">Удаление файлов GPX</string>
@@ -300,6 +299,11 @@
     <string name="gpx_dialog_btn">Удалить</string>
     <string name="gpx_files_deleted">Удалено файлов GPX: %1$d</string>
     <string name="no_access_to_gpx_folder">Не удалось получить доступ к папке GPX</string>
+    <string name="gpx_file_selection">Выбор файлов GPX</string>
+    <string name="gpx_select_all">Выбрать все</string>
+    <string name="gpx_share_selected">Поделиться выбранным</string>
+    <string name="gpx_delete_confirmation">Удалить выбранные файлы GPX (%1$d)?</string>
+    <string name="gpx_delete_result">Удалено файлов GPX: %1$d; не удалось удалить: %2$d</string>
 
     <string name="database_updates_available">Доступны обновления баз данных для: %1$s</string>
     <string name="btn_check_updates">Проверить обновления</string>

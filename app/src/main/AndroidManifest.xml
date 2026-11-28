@@ -68,6 +68,9 @@
         <activity android:name=".DatabaseBrowserActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".GpxFilesActivity"
+            android:exported="false" />
 
         <!-- FileProvider for sharing logs -->
         <provider

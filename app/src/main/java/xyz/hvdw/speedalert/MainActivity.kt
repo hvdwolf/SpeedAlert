@@ -10,19 +10,16 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
-import android.provider.DocumentsContract
 import android.provider.Settings
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import java.io.File
 import java.net.URL
@@ -48,8 +45,7 @@ class MainActivity : AppCompatActivity() {
     //private lateinit var btnSettings: Button
     //private lateinit var btnDebug: Button
     //private lateinit var btnAbout: Button
-    private lateinit var btnShareGpx: Button
-    private lateinit var btnDeleteGpx: Button
+    private lateinit var btnManageGpx: Button
     //private lateinit var btnCheckUpdates: Button
     private lateinit var btnMore: ImageButton
 
@@ -85,8 +81,7 @@ class MainActivity : AppCompatActivity() {
         btnStopGpsRecording = findViewById(R.id.btnStopGpsRecording)
         txtGpsRecordingStatus = findViewById(R.id.txtGpsRecordingStatus)
         txtGpsRecordingPoints = findViewById(R.id.txtGpsRecordingPoints)
-        btnShareGpx = findViewById(R.id.btnShareGpx)
-        btnDeleteGpx = findViewById(R.id.btnDeleteGpx)
+        btnManageGpx = findViewById(R.id.btnManageGpx)
         //btnCheckUpdates = findViewById(R.id.btnCheckUpdates)
         btnMore = findViewById(R.id.btnMore)
         btnMore.bringToFront()
@@ -128,8 +123,8 @@ class MainActivity : AppCompatActivity() {
             startService(intent)
         }
 
-        btnShareGpx.setOnClickListener {
-            shareGpxFiles()
+        btnManageGpx.setOnClickListener {
+            openGpxFiles()
         }
 
 
@@ -201,17 +196,6 @@ class MainActivity : AppCompatActivity() {
         // AUTO-START + MINIMIZE
         // ---------------------------------------------------------
         maybeAutoStartService()
-
-
-        btnDeleteGpx.setOnClickListener {
-            val initialUri = DocumentsContract.buildDocumentUri(
-                "com.android.externalstorage.documents",
-                "primary:Android/media/xyz.hvdwolf.speedalert/tracks"
-            )
-
-            selectGpxFolder.launch(initialUri)
-        }
-
     // End of onCreate()
     }
 
@@ -692,169 +676,7 @@ class MainActivity : AppCompatActivity() {
         updateGpsRecordingUi(recording, fileName, points)
     }
 
-    private fun shareGpxFiles() {
-        val tracksDir = File("/storage/emulated/0/Android/media/xyz.hvdw.speedalert/tracks")
-
-        if (!tracksDir.exists() || !tracksDir.isDirectory) {
-            Toast.makeText(
-                this,
-                getString(R.string.tracks_folder_not_found),
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        val gpxFiles = tracksDir.listFiles { file ->
-            file.isFile && file.extension.equals("gpx", ignoreCase = true)
-        }?.sortedBy { it.name }
-
-        if (gpxFiles.isNullOrEmpty()) {
-            Toast.makeText(
-                this,
-                getString(R.string.no_gpx_files_found),
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        try {
-            val uris = ArrayList<Uri>()
-
-            for (file in gpxFiles) {
-                val uri = FileProvider.getUriForFile(
-                    this,
-                    "xyz.hvdw.speedalert.fileprovider",
-                    file
-                )
-                uris.add(uri)
-            }
-
-            val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-                type = "application/gpx+xml"
-                putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-
-            startActivity(
-                Intent.createChooser(
-                    shareIntent,
-                    getString(R.string.btn_share_gpx_file)
-                )
-            )
-
-        } catch (e: Exception) {
-            Log.e("ShareGPX", "Failed to share GPX files", e)
-
-            Toast.makeText(
-                this,
-                getString(R.string.gpx_sharing_impossible),
-                Toast.LENGTH_LONG
-            ).show()
-        }
+    private fun openGpxFiles() {
+        startActivity(Intent(this, GpxFilesActivity::class.java))
     }
-
-    private fun deleteGpxFiles(treeUri: Uri) {
-        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
-            treeUri,
-            DocumentsContract.getTreeDocumentId(treeUri)
-        )
-
-        val gpxFiles = mutableListOf<Pair<String, Uri>>()
-
-        contentResolver.query(
-            childrenUri,
-            arrayOf(
-                DocumentsContract.Document.COLUMN_DOCUMENT_ID,
-                DocumentsContract.Document.COLUMN_DISPLAY_NAME
-            ),
-            null,
-            null,
-            null
-        )?.use { cursor ->
-
-            while (cursor.moveToNext()) {
-                val id = cursor.getString(0)
-                val name = cursor.getString(1)
-
-                if (name.endsWith(".gpx", ignoreCase = true)) {
-                    val fileUri =
-                    DocumentsContract.buildDocumentUriUsingTree(
-                        treeUri,
-                        id
-                    )
-
-                    gpxFiles.add(name to fileUri)
-                }
-            }
-        }
-
-        if (gpxFiles.isEmpty()) {
-            Toast.makeText(
-                this,
-                getString(R.string.no_gpx_files_found),
-                Toast.LENGTH_SHORT
-            ).show()
-
-            return
-        }
-
-        AlertDialog.Builder(this)
-        .setTitle(getString(R.string.gpx_dialog_title))
-        .setMessage(getString(R.string.gpx_dialog_msg))
-        .setNegativeButton(android.R.string.cancel, null)
-        .setPositiveButton(getString(R.string.gpx_dialog_btn)) { _, _ ->
-
-            var deleted = 0
-
-            for ((_, uri) in gpxFiles) {
-                try {
-                    if (DocumentsContract.deleteDocument(
-                        contentResolver,
-                        uri
-                    )
-                    ) {
-                        deleted++
-                    }
-                } catch (e: Exception) {
-                    Log.e("DeleteGPX", "Failed to delete $uri", e)
-                }
-            }
-
-            Toast.makeText(
-                this,
-                getString(R.string.gpx_files_deleted),
-                Toast.LENGTH_LONG
-            ).show()
-        }
-        .show()
-    }
-
-    private val selectGpxFolder =
-    registerForActivityResult(
-        ActivityResultContracts.OpenDocumentTree()
-    ) { uri ->
-        if (uri != null) {
-            try {
-                contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                )
-
-                deleteGpxFiles(uri)
-
-            } catch (e: Exception) {
-                Log.e("DeleteGPX", "Failed to access GPX folder", e)
-
-                Toast.makeText(
-                    this,
-                    getString(R.string.no_access_to_gpx_folder),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
-
-
 }

@@ -1,6 +1,7 @@
 package xyz.hvdw.speedalert
 
 import android.location.Location
+import android.content.Context
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -11,13 +12,18 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 /**
- * Writes a GPX 1.1 track in the app-private files/tracks directory.
+ * Writes a GPX 1.1 track in the app-specific external media directory.
  * All public methods are synchronized because service actions and location
  * callbacks can arrive on different threads.
  */
-class GpsTrackRecorder(private val filesDir: File) {
+class GpsTrackRecorder(private val tracksDirectory: File) {
 
     companion object {
+        fun tracksDirectory(context: Context): File {
+            val mediaDirectory = context.getExternalMediaDirs().firstOrNull { it != null }
+            return File(mediaDirectory ?: context.filesDir, "tracks")
+        }
+
         private val FILE_TIME_FORMAT =
         DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
         .withZone(ZoneId.systemDefault())
@@ -46,7 +52,7 @@ class GpsTrackRecorder(private val filesDir: File) {
     fun start(): File {
         if (writer != null) return currentFile!!
 
-        val directory = File(filesDir, "tracks")
+        val directory = tracksDirectory
         if (!directory.exists() && !directory.mkdirs()) {
             throw IOException("Could not create track directory: ${directory.absolutePath}")
         }

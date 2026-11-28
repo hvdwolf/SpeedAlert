@@ -284,11 +284,10 @@
     <string name="gps_recording_points">GPS points: %1$d</string>
     <string name="gps_recording_points_saved">GPS points saved: %1$d</string>
     <string name="gps_recording_points_initial">GPS points: 0</string>
-    <string name="btn_share_gpx_file">Share GPX file(s)</string>
+    <string name="btn_manage_gpx_files">Share or delete GPX file(s)</string>
     <string name="tracks_folder_not_found">Tracks folder not found</string>
     <string name="gps_seconds_interval">Recording interval (seconds)</string>
     <string name="gps_seconds_text">in 1 second at 100 kmh (~ 62 mph), you travel approximately 28 m</string>
-    <string name="btn_delete_gpx_files">Delete GPX file(s)</string>
     <string name="gpx_sharing_impossible">Could not share GPX files</string>
     <string name="no_gpx_files_found">No GPX files found</string>
     <string name="gpx_dialog_title">Delete GPX files</string>
@@ -296,6 +295,11 @@
     <string name="gpx_dialog_btn">Delete</string>
     <string name="gpx_files_deleted">%1$d GPX files deleted</string>
     <string name="no_access_to_gpx_folder">Could not access GPX folder</string>
+    <string name="gpx_file_selection">Select GPX files</string>
+    <string name="gpx_select_all">Select all</string>
+    <string name="gpx_share_selected">Share selected</string>
+    <string name="gpx_delete_confirmation">Delete the %1$d selected GPX files?</string>
+    <string name="gpx_delete_result">%1$d GPX files deleted, %2$d could not be deleted</string>
 
     <string name="database_updates_available">Database updates available for: %1$s</string>
     <string name="btn_check_updates">Check on updates</string>

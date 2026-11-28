@@ -136,20 +136,10 @@
                 android:layout_marginBottom="16dp">
 
                 <Button
-                    android:id="@+id/btnShareGpx"
-                    android:layout_width="0dp"
+                    android:id="@+id/btnManageGpx"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/btn_share_gpx_file" />
-
-                <Button
-                    android:id="@+id/btnDeleteGpx"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/btn_delete_gpx_files" />
+                    android:text="@string/btn_manage_gpx_files" />
 
                 </LinearLayout>
 

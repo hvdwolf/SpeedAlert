@@ -289,11 +289,10 @@
     <string name="gps_recording_points">Points GPS : %1$d</string>
     <string name="gps_recording_points_saved">Points GPS enregistrés : %1$d</string>
     <string name="gps_recording_points_initial">Points GPS : 0</string>
-    <string name="btn_share_gpx_file">Partager le(s) fichier(s) GPX</string>
+    <string name="btn_manage_gpx_files">Partager ou supprimer le(s) fichier(s) GPX</string>
     <string name="tracks_folder_not_found">Dossier des traces introuvable</string>
     <string name="gps_seconds_interval">Intervalle d’enregistrement (secondes)</string>
     <string name="gps_seconds_text">En 1 seconde, à 100 km/h, vous parcourez environ 28 mètres.</string>
-    <string name="btn_delete_gpx_files">Supprimer le(s) fichier(s) GPX</string>
     <string name="gpx_sharing_impossible">Impossible de partager les fichiers GPX</string>
     <string name="no_gpx_files_found">Aucun fichier GPX trouvé</string>
     <string name="gpx_dialog_title">Supprimer les fichiers GPX</string>
@@ -301,6 +300,11 @@
     <string name="gpx_dialog_btn">Supprimer</string>
     <string name="gpx_files_deleted">%1$d fichiers GPX supprimés</string>
     <string name="no_access_to_gpx_folder">Impossible d\'accéder au dossier GPX</string>
+    <string name="gpx_file_selection">Sélectionner des fichiers GPX</string>
+    <string name="gpx_select_all">Tout sélectionner</string>
+    <string name="gpx_share_selected">Partager la sélection</string>
+    <string name="gpx_delete_confirmation">Supprimer les %1$d fichiers GPX sélectionnés ?</string>
+    <string name="gpx_delete_result">%1$d fichiers GPX supprimés, %2$d n’ont pas pu être supprimés</string>
 
     <string name="database_updates_available">Mises à jour des bases de données disponibles pour : %1$s</string>
     <string name="btn_check_updates">Rechercher des mises à jour</string>

@@ -6,9 +6,14 @@
         name="logs"
         path="." />
 
-    <!-- GPX files -->
-    <external-path
-        name="tracks"
-        path="Android/media/xyz.hvdw.speedalert/tracks/" />
+    <!-- GPX track files in app-specific external media storage -->
+    <external-media-path
+        name="external_tracks"
+        path="tracks/" />
+
+    <!-- Fallback GPX track files in internal storage -->
+    <files-path
+        name="internal_tracks"
+        path="tracks/" />
 
 </paths>
